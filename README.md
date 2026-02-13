@@ -1,175 +1,137 @@
 # AI Development Workflow Framework
 
-> **A complete system for building software with AI coding assistants.**
+> **90 Skills** | **56 Docs** | **18 Workflows** | **9 Blueprint Categories** | **Zero Fluff**
 
-Stop prompting from scratch every session. This framework gives you **22 reusable skills** and **9 documentation templates** that work with any AI coding tool (Claude, Cursor, Copilot, etc.).
+A battle-tested toolkit for AI-assisted development. Drop the `.agent` folder into any project and supercharge your workflow.
 
 ---
 
-## 🚀 Quick Start
-
-1. **Clone/Download** this repo
-2. **Copy** the `.agent` folder to your project root
-3. **Start using skills** - just reference them in your AI prompts
+## ⚡ Quick Start
 
 ```bash
-# Example: Use the /1-brainstorm command
-"/1-brainstorm: I want to build a user authentication system..."
+# Clone and copy to your project
+git clone https://github.com/YOUR_USERNAME/ai-dev-workflow-framework.git
+cp -r ai-dev-workflow-framework/.agent ./your-project/
 ```
 
-👉 **[Read the full Getting Started guide](.agent/GETTING_STARTED.md)**
-👉 **[View the Client Project Lifecycle Guide](CLIENT_LIFECYCLE_GUIDE.md)** - *Perfect for end-to-end client work*
+Your AI assistant will automatically detect and use these skills.
+
+📖 **New here?** Start with [GETTING_STARTED.md](./GETTING_STARTED.md)
 
 ---
 
-## 📦 What's Included
+## 📚 What's Included
 
-### 11 Core Commands (Agentic Workflow)
-
-These commands orchestrate the AI through a complete project lifecycle.
-
-| Command | Description | Underlying Skills |
-|---------|-------------|-------------------|
-| `/0-context`| Start/Resume a session | project_context |
-| `/1-brainstorm` | Planning a feature from vision doc | atomic_reverse_architecture, feature_braindump |
-| `/2-design` | Architectural planning | atomic_reverse_architecture |
-| `/3-build` | Implementing a planned feature | feature_architecture, code_changelog |
-| `/4-secure` | Security or quality review | security_audit |
-| `/5-ship` | Preparing for deployment | security_audit, website_launch |
-| `/6-handoff` | Client Handoff (Exit Package) | gemini_handoff |
-| `/7-maintenance` | Long-term maintenance | dependency_audit |
-| `/debug` | Fixing bugs or issues | toolkit/debug.md |
-| `/new-project` | Starting a brand new project | toolkit/new-project.md |
-| `/post-task` | After completing ANY work | toolkit/post-task.md |
-
-### 22 Skills (Reusable Workflows)
+### Skills (90)
 
 | Category | Skills |
 |----------|--------|
-| **Development** | `feature_braindump`, `feature_architecture`, `feature_walkthrough`, `bug_troubleshoot`, `claude_verification`, `gemini_handoff`, `new_project`, `project_context` |
-| **Documentation** | `documentation_framework`, `sop_standards`, `wi_standards`, `schema_standards`, `ssot_structure`, `ssot_update` |
-| **Security** | `security_audit` (OWASP, auth, AI risks, e-commerce, booking) |
-| **Content** | `content_creation`, `video_research`, `content_cascade` |
-| **Client Work** | `website_build`, `website_launch`, `client_discovery`, `proposal_generator` |
+| **Context (4)** | `new_project` `project_context` `documentation_framework` `ssot_structure` |
+| **Brainstorm (10)** | `client_discovery` `feature_braindump` `gemini_handoff` `idea_to_spec` `proposal_generator` `smb_launchpad` `prioritization_frameworks` `user_story_standards` `competitive_analysis` `product_metrics` |
+| **Design (4)** | `atomic_reverse_architecture` `feature_architecture` `deployment_modes` `schema_standards` |
+| **Build (23)** | `spec_build` `bug_troubleshoot` `claude_verification` `website_build` `observability` `code_review` `ui_polish` `code_changelog` `sprint_planning` `stakeholder_communication` `retrospective` `cost_estimation` + 11 domain-specific |
+| **Secure (9)** | `security_audit` `e2e_testing` `ip_protection` `unit_testing` `integration_testing` `accessibility_testing` `performance_testing` + 2 domain |
+| **Ship (10)** | `infrastructure_as_code` `db_migrations` `website_launch` `ci_cd_pipeline` `legal_compliance` `seed_data` + 4 domain |
+| **Alpha Ops (5)** | `error_tracking` `health_checks` `env_validation` `qa_playbook` `backup_strategy` |
+| **Beta Ops (6)** | `product_analytics` `feedback_system` `email_templates` `error_boundaries` `rate_limiting` `feature_flags` |
+| **Handoff (6)** | `api_reference` `feature_walkthrough` `doc_reorganize` `user_documentation` `disaster_recovery` `community_management` |
+| **Maintenance (5)** | `ssot_update` `documentation_standards` `sop_standards` `wi_standards` `dependency_management` |
+| **Toolkit (6)** | `video_research` `content_creation` `content_waterfall` `personal_brand` `ceo_brain` `ai_tool_orchestration` |
 
-### 9 Documentation Templates
+→ Full reference: [docs/skills-index.md](./docs/skills-index.md)
 
-- Development workflow guides
-- Project checklists
-- Client proposal template
-- Client discovery template
-- AI context template
-- Website build checklist
-- And more...
+### Guides (19)
+
+| Guide | What You Get |
+|-------|--------------|
+| [**Prompt Library**](./docs/prompt-library.md) | 50+ ready-to-use prompts |
+| [**Code Snippets**](./docs/code-snippets.md) | Copy-paste solutions |
+| [**Skill Combos**](./docs/skill-combos.md) | Power workflows |
+| [**Common Mistakes**](./docs/common-mistakes.md) | Avoid pitfalls |
+| [**Project Templates**](./docs/project-templates.md) | Starter structures |
+| [**Tech Stack Guide**](./docs/tech-stack-guide.md) | Decision framework |
+| [**Development Workflow**](./docs/development-workflow.md) | Complete process map |
+| [**Glossary**](./docs/glossary.md) | Quick term reference |
+
+Plus: onboarding templates, compliance guides, proposal templates, and more.
 
 ---
 
-## 🎯 Why This Framework?
+## 🚀 Example Usage
 
-### The Problem
+```
+You: /brain-dump I need a user dashboard with analytics
 
-Every time you start an AI coding session, you:
+AI: [Creates structured spec with user stories, tech requirements, and implementation plan]
 
-- Re-explain your project structure
-- Repeat the same instructions
-- Get inconsistent results
-- Lose context between sessions
+You: /architecture dashboard
 
-### The Solution
+AI: [Generates comprehensive architecture doc with data flow, APIs, and component design]
 
-This framework gives you **standardized skills** that:
+You: Build it
 
-- ✅ Work the same way every time
-- ✅ Follow proven workflows
-- ✅ Include checklists so nothing gets missed
-- ✅ Build documentation as you code
+AI: [Implements the feature following the spec]
+
+You: /walkthrough dashboard
+
+AI: [Creates documentation explaining how it works]
+```
+
+---
+
+## 🧩 Skill Format
+
+```markdown
+---
+name: Skill Name
+description: What this skill does
+---
+
+# Skill Name
+
+## 🎯 TRIGGER COMMANDS
+[Commands to activate]
+
+## When to Use
+[Situations where this applies]
+
+## The Process
+[Step-by-step instructions]
+
+## ✅ Checklist
+[Completion criteria]
+```
 
 ---
 
 ## 📁 Structure
 
 ```
-your-project/
-├── .agent/
-│   ├── README.md
-│   ├── GETTING_STARTED.md
-│   ├── skills-index.md
-│   ├── skills/
-│   │   ├── feature_braindump/SKILL.md
-│   │   ├── security_audit/SKILL.md
-│   │   └── ... (22 skills)
-│   └── docs/
-│       ├── development-workflow.md
-│       ├── proposal-template.md
-│       └── ... (9 docs)
-└── [your project files]
+.agent/
+├── README.md              # You are here
+├── GETTING_STARTED.md     # 5-minute setup guide
+├── skills/                # 90 skill folders (organized by phase)
+│   ├── bug_troubleshoot/
+│   ├── feature_braindump/
+│   └── ...
+├── workflows/             # 18 workflow definitions
+└── docs/                  # 56 reference guides + templates
+    ├── prompt-library.md
+    ├── code-snippets.md
+    └── ...
 ```
-
----
-
-## 💡 Example Workflows
-
-### Building a New Feature
-
-```text
-1. "Using feature_braindump: I want to add a booking system..."
-   → AI creates structured spec
-
-2. Build the feature with your AI assistant
-
-3. "Using feature_architecture: Document what we just built"
-   → AI creates architecture doc
-
-4. "Using security_audit: Check this feature"
-   → AI runs security checklist
-```
-
-### Fixing a Bug
-
-```text
-1. "Using bug_troubleshoot: The login form isn't submitting..."
-   → AI asks structured questions
-
-2. Fix the bug together
-
-3. "Using project_context: Update with what we fixed"
-   → Context stays current for next session
-```
-
----
-
-## 🎬 Learn More
-
-**Watch the tutorials**: [Link to your YouTube channel]
-
-This framework was created during live coding sessions where I build real projects from scratch. Watch the process, follow along, and use this framework to build your own.
 
 ---
 
 ## 🤝 Contributing
 
-Found a bug? Want to add a skill? PRs welcome!
-
 1. Fork the repo
-2. Create your feature branch
-3. Submit a pull request
+2. Create a skill folder: `.agent/skills/[skill-name]/SKILL.md`
+3. Follow the skill format above
+4. Submit a PR
 
 ---
 
-## 📄 License
+## 📜 License
 
-MIT License - Use freely in your projects. See [LICENSE](LICENSE) for details.
-
----
-
-## ⭐ Support
-
-If this framework helped you, consider:
-
-- ⭐ Starring this repo
-- 🎥 Subscribing to the [YouTube channel]
-- 📣 Sharing with other developers
-
----
-
-*Built with AI, for builders who use AI.*
+MIT License - Use freely.
