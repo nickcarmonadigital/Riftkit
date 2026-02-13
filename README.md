@@ -13,15 +13,34 @@ Stop prompting from scratch every session. This framework gives you **22 reusabl
 3. **Start using skills** - just reference them in your AI prompts
 
 ```bash
-# Example: Use the feature_braindump skill
-"Using the feature_braindump skill, I want to build a user authentication system..."
+# Example: Use the /1-brainstorm command
+"/1-brainstorm: I want to build a user authentication system..."
 ```
 
 👉 **[Read the full Getting Started guide](.agent/GETTING_STARTED.md)**
+👉 **[View the Client Project Lifecycle Guide](CLIENT_LIFECYCLE_GUIDE.md)** - *Perfect for end-to-end client work*
 
 ---
 
 ## 📦 What's Included
+
+### 11 Core Commands (Agentic Workflow)
+
+These commands orchestrate the AI through a complete project lifecycle.
+
+| Command | Description | Underlying Skills |
+|---------|-------------|-------------------|
+| `/0-context`| Start/Resume a session | project_context |
+| `/1-brainstorm` | Planning a feature from vision doc | atomic_reverse_architecture, feature_braindump |
+| `/2-design` | Architectural planning | atomic_reverse_architecture |
+| `/3-build` | Implementing a planned feature | feature_architecture, code_changelog |
+| `/4-secure` | Security or quality review | security_audit |
+| `/5-ship` | Preparing for deployment | security_audit, website_launch |
+| `/6-handoff` | Client Handoff (Exit Package) | gemini_handoff |
+| `/7-maintenance` | Long-term maintenance | dependency_audit |
+| `/debug` | Fixing bugs or issues | toolkit/debug.md |
+| `/new-project` | Starting a brand new project | toolkit/new-project.md |
+| `/post-task` | After completing ANY work | toolkit/post-task.md |
 
 ### 22 Skills (Reusable Workflows)
 
