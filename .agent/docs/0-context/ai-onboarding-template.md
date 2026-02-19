@@ -142,7 +142,7 @@ npm run build
 
 The following `.agent/skills/` are available:
 
-- `feature_braindump` - Convert ideas to specs
+- `idea_to_spec` - Convert ideas to specs
 - `bug_troubleshoot` - Structured debugging
 - `security_audit` - Security checklist
 - `project_context` - Update this file

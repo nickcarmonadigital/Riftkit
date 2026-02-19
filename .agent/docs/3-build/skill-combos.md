@@ -9,12 +9,12 @@
 ### Full Feature Lifecycle
 
 ```
-feature_braindump → BUILD → feature_architecture → security_audit → feature_walkthrough
+idea_to_spec → BUILD → feature_architecture → security_audit → feature_walkthrough
 ```
 
 | Step | Skill | Output |
 |------|-------|--------|
-| 1. Spec it | `feature_braindump` | Structured requirements |
+| 1. Spec it | `idea_to_spec` | Structured requirements |
 | 2. Build it | (coding) | Working feature |
 | 3. Document it | `feature_architecture` | Architecture doc |
 | 4. Secure it | `security_audit` | Security verification |
@@ -27,13 +27,13 @@ feature_braindump → BUILD → feature_architecture → security_audit → feat
 ### Systematic Bug Hunt
 
 ```
-bug_troubleshoot → claude_verification → security_audit
+bug_troubleshoot → code_review → security_audit
 ```
 
 | Step | Skill | Purpose |
 |------|-------|---------|
 | 1. Report | `bug_troubleshoot` | Structure the problem |
-| 2. Review fix | `claude_verification` | Verify the solution |
+| 2. Review fix | `code_review` | Verify the solution |
 | 3. Check security | `security_audit` | Ensure fix didn't break anything |
 
 ---
@@ -95,13 +95,13 @@ video_research → content_creation → (record) → content_cascade
 ### Context Continuity
 
 ```
-project_context (start) → gemini_handoff → project_context (end)
+project_context (start) → ai_tool_orchestration → project_context (end)
 ```
 
 | When | Skill | Purpose |
 |------|-------|---------|
 | Session start | `project_context` | Load current state |
-| Switch AI | `gemini_handoff` | Transfer context cleanly |
+| Switch AI | `ai_tool_orchestration` | Transfer context cleanly |
 | Session end | `project_context` | Save progress |
 
 ---
@@ -111,14 +111,14 @@ project_context (start) → gemini_handoff → project_context (end)
 ### Project Bootstrap
 
 ```
-new_project → project_context → feature_braindump → security_audit
+new_project → project_context → idea_to_spec → security_audit
 ```
 
 | Step | Skill | Sets Up |
 |------|-------|---------|
 | 1. Init | `new_project` | Project structure |
 | 2. Context | `project_context` | Living context doc |
-| 3. First feature | `feature_braindump` | Initial feature spec |
+| 3. First feature | `idea_to_spec` | Initial feature spec |
 | 4. Baseline | `security_audit` | Security foundation |
 
 ---
@@ -131,7 +131,7 @@ Before any production deployment:
 
 ```
 1. security_audit (full checklist)
-2. claude_verification (code review)  
+2. code_review (code review)
 3. feature_walkthrough (document what's shipping)
 4. project_context (update deployment state)
 ```
@@ -144,7 +144,7 @@ When joining/resuming a project:
 1. Read project_context
 2. Read relevant feature_architecture docs
 3. Read security_audit reports
-4. Start with feature_braindump for new work
+4. Start with idea_to_spec for new work
 ```
 
 ### The "Handoff Perfect" Combo
@@ -164,8 +164,8 @@ When handing off to client/team:
 
 | I want to... | Use these skills |
 |--------------|------------------|
-| Start a new feature | `feature_braindump` → build → `feature_architecture` |
-| Fix a complex bug | `bug_troubleshoot` → fix → `claude_verification` |
+| Start a new feature | `idea_to_spec` → build → `feature_architecture` |
+| Fix a complex bug | `bug_troubleshoot` → fix → `code_review` |
 | New client project | `client_discovery` → `proposal_generator` → `website_build` |
 | Ship to production | `security_audit` → `feature_walkthrough` → `project_context` |
 | Create content | `video_research` → `content_creation` → `content_cascade` |

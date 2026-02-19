@@ -19,7 +19,7 @@ description: Plan a feature from vision docs using first principles decompositio
 
 ```bash
 view_file .agent/skills/atomic_reverse_architecture/SKILL.md
-view_file .agent/skills/feature_braindump/SKILL.md
+view_file .agent/skills/idea_to_spec/SKILL.md
 ```
 
 ---
@@ -66,7 +66,7 @@ For every major decision (Database choice, Framework, Auth provider):
 
 ---
 
-## Step 5: Feature Braindump (if unstructured input)
+## Step 5: Idea to Spec (if unstructured input)
 
 If starting from unstructured ideas:
 

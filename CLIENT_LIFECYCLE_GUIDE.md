@@ -12,9 +12,9 @@ This guide maps the 6 core stages of software delivery to the specific AI workfl
 
 * **Step 1: `/1-brainstorm`**
   * *Usage:* "Run /1-brainstorm to get my ideas for [Project X] on paper."
-  * *Output:* A raw `feature_braindump.md` file with all your scattered thoughts organized.
+  * *Output:* A structured spec from `idea_to_spec` with all your scattered thoughts organized.
 * **Step 2: `/2-design`**
-  * *Usage:* "Run /2-design to turn the braindump into a technical architecture."
+  * *Usage:* "Run /2-design to turn the spec into a technical architecture."
   * *Output:* `implementation_plan.md` and `atomic_reverse_architecture.md`.
 * **Step 3: `/toolkit/design-review`**
   * *Usage:* "Run /toolkit/design-review on these mockups [upload images] or this description."

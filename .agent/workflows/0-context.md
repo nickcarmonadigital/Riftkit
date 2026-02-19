@@ -86,7 +86,7 @@ Once confirmed, transition to the appropriate workflow:
 
 - Feature work → Use `/plan` or `/build`
 - Bug fix → Use `/debug`
-- New idea → Use `/braindump`
+- New idea → Use `/idea-to-spec`
 
 ---
 
@@ -99,7 +99,7 @@ Once confirmed, transition to the appropriate workflow:
 // turbo
 
 ```bash
-view_file .agent/skills/gemini_handoff/SKILL.md
+view_file .agent/skills/idea_to_spec/SKILL.md
 view_file .agent/skills/project_context/SKILL.md
 ```
 
@@ -191,23 +191,14 @@ Can the next agent answer:
 
 ---
 
-## For Gemini Handoff Specifically
+## For Multi-AI Handoff
 
-If handing to Gemini for architecture/planning:
+If handing to another AI for architecture/planning/review:
 
-1. Copy Part 1 + Part 2 from `ai-onboarding-starter.md`
+1. Copy relevant parts from `ai-onboarding-starter.md`
 2. Add specific question or task
 3. Format as structured prompt
-
----
-
-## For Claude Handoff Specifically
-
-If handing to Claude for code review:
-
-1. Copy Part 1 + Part 3 from `ai-onboarding-starter.md`
-2. Include specific files to review
-3. Ask targeted questions
+4. Reference `ai_tool_orchestration` skill for tool selection
 
 ---
 
@@ -217,8 +208,7 @@ If handing to Claude for code review:
 |------|---------|
 | New session, continue work | `/handoff` → Choose Resume |
 | End session, save context | `/handoff` → Choose Handoff |
-| Switch to Gemini | `/handoff` → Handoff + Gemini section |
-| Switch to Claude | `/handoff` → Handoff + Claude section |
+| Switch to another AI | `/handoff` → Handoff + relevant context |
 
 ---
 

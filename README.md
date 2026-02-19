@@ -1,6 +1,6 @@
 # AI Development Workflow Framework
 
-> **90 Skills** | **56 Docs** | **18 Workflows** | **9 Blueprint Categories** | **Zero Fluff**
+> **100 Skills** | **67 Docs** | **18 Workflows** | **9 Blueprint Categories** | **Zero Fluff**
 
 A battle-tested toolkit for AI-assisted development. Drop the `.agent` folder into any project and supercharge your workflow.
 
@@ -40,9 +40,9 @@ graph TD
 
     subgraph "PHASE 1: BRAINSTORM"
         P1["/1-brainstorm<br/>Raw Ideas → Structured Docs"]
-        P1 --> P1a["feature_braindump<br/>WHAT/WHY/WHO/WHERE"]
+        P1 --> P1a["idea_to_spec<br/>Brain dump → Full spec"]
         P1 --> P1b["client_discovery<br/>+ proposal_generator"]
-        P1a --> P1c["idea_to_spec<br/>Full spec document"]
+        P1a --> P1c["Multi-AI review<br/>Cross-validate spec"]
         P1b --> P1c
     end
 
@@ -198,10 +198,9 @@ graph TD
 
 | Step | Skill/Workflow | Status |
 |------|---------------|--------|
-| Structure raw ideas | `feature_braindump` | 🟢 Exists |
+| Brain dump → full spec | `idea_to_spec` | 🟢 Exists |
 | Client intake (if client project) | `client_discovery` → `proposal_generator` | 🟢 Exists |
-| Create full spec | `idea_to_spec` | 🟢 Exists |
-| Cross-AI validation | `gemini_handoff` | 🟢 Exists |
+| Cross-AI validation | `idea_to_spec` Part 3 + `ai_tool_orchestration` | 🟢 Exists |
 | **Prioritize features** | `prioritization_frameworks` | 🟢 PM Skill |
 | **User stories** | `user_story_standards` | 🟢 PM Skill |
 | **Metrics planning** | `product_metrics` | 🟢 PM Skill |
@@ -314,14 +313,14 @@ graph TD
 
 ## 📚 What's Included
 
-### Skills (90)
+### Skills (100)
 
 | Category | Skills |
 |----------|--------|
-| **Context (4)** | `new_project` `project_context` `documentation_framework` `ssot_structure` |
-| **Brainstorm (10)** | `client_discovery` `feature_braindump` `gemini_handoff` `idea_to_spec` `proposal_generator` `smb_launchpad` `prioritization_frameworks` `user_story_standards` `competitive_analysis` `product_metrics` |
+| **Context (5)** | `new_project` `project_context` `documentation_framework` `ssot_structure` `codebase_navigation` |
+| **Brainstorm (9)** | `client_discovery` `idea_to_spec` `proposal_generator` `smb_launchpad` `prioritization_frameworks` `user_story_standards` `competitive_analysis` `product_metrics` `user_research` |
 | **Design (4)** | `atomic_reverse_architecture` `feature_architecture` `deployment_modes` `schema_standards` |
-| **Build (23)** | `spec_build` `bug_troubleshoot` `claude_verification` `website_build` `observability` `code_review` `ui_polish` `code_changelog` `sprint_planning` `stakeholder_communication` `retrospective` `cost_estimation` + 11 domain-specific |
+| **Build (32)** | `spec_build` `bug_troubleshoot` `website_build` `observability` `code_review` `ui_polish` `code_changelog` `git_workflow` `api_design` `error_handling` `auth_implementation` `docker_development` `environment_setup` `refactoring` `code_review_response` `database_optimization` `notification_systems` `sprint_planning` `stakeholder_communication` `retrospective` `cost_estimation` + 11 domain-specific |
 | **Secure (9)** | `security_audit` `e2e_testing` `ip_protection` `unit_testing` `integration_testing` `accessibility_testing` `performance_testing` + 2 domain |
 | **Ship (10)** | `infrastructure_as_code` `db_migrations` `website_launch` `ci_cd_pipeline` `legal_compliance` `seed_data` + 4 domain |
 | **Alpha Ops (5)** | `error_tracking` `health_checks` `env_validation` `qa_playbook` `backup_strategy` |
@@ -350,7 +349,7 @@ graph TD
 ## 🚀 Example Usage
 
 ```
-You: /brain-dump I need a user dashboard with analytics
+You: /idea-to-spec I need a user dashboard with analytics
 
 AI: [Creates structured spec with user stories, tech requirements, and implementation plan]
 
@@ -403,12 +402,12 @@ description: What this skill does
 ├── CLIENT_LIFECYCLE_GUIDE.md
 └── .agent/
     ├── GETTING_STARTED.md     # 5-minute setup guide
-    ├── skills/                # 90 skill folders (organized by phase)
+    ├── skills/                # 100 skill folders (organized by phase)
     │   ├── bug_troubleshoot/
-    │   ├── feature_braindump/
+    │   ├── idea_to_spec/
     │   └── ...
     ├── workflows/             # 18 workflow definitions
-    └── docs/                  # 56 reference guides + templates
+    └── docs/                  # 67 reference guides + templates
         ├── prompt-library.md
         ├── code-snippets.md
         └── ...

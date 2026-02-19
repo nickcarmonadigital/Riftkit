@@ -10,12 +10,10 @@
 
 | File | Purpose |
 |------|---------|
-| File | Purpose |
-|------|---------|
 | `0-context/ai-onboarding-starter-template.md` | Single source of truth - onboards any AI to your project |
 | `0-context/master-workflow-guide.md` | This file - explains how everything works |
 
-### 11 Workflows (NEW!)
+### 18 Workflows
 
 | Workflow | Purpose |
 |----------|---------|
@@ -32,17 +30,21 @@
 
 See `.agent/workflows/README.md` for details.
 
-### 26 Skills
+### 100 Skills
 
 | Category | Skills |
 |----------|--------|
-| **Core Development** | `new_project`, `feature_braindump`, `feature_architecture`, `bug_troubleshoot` |
-| **Documentation** | `project_context`, `feature_walkthrough`, `code_changelog`, `documentation_framework` |
-| **Quality** | `security_audit`, `claude_verification`, `schema_standards` |
-| **Planning** | `atomic_reverse_architecture`, `gemini_handoff` |
-| **Operations** | `sop_standards`, `wi_standards`, `ssot_structure`, `ssot_update` |
-| **Specialized** | `website_build`, `website_launch`, `content_creation`, `video_research`, `ip_protection` |
-| **Business** | `client_discovery`, `proposal_generator`, `doc_reorganize`, `content_cascade` |
+| **Context (5)** | `new_project`, `project_context`, `documentation_framework`, `ssot_structure`, `codebase_navigation` |
+| **Brainstorm (9)** | `client_discovery`, `idea_to_spec`, `proposal_generator`, `smb_launchpad`, `prioritization_frameworks`, `user_story_standards`, `competitive_analysis`, `product_metrics`, `user_research` |
+| **Design (4)** | `atomic_reverse_architecture`, `feature_architecture`, `deployment_modes`, `schema_standards` |
+| **Build (34)** | `spec_build`, `bug_troubleshoot`, `website_build`, `observability`, `code_review`, `ui_polish`, `code_changelog`, `sprint_planning`, `stakeholder_communication`, `retrospective`, `cost_estimation`, `git_workflow`, `api_design`, `error_handling`, `auth_implementation`, `docker_development`, `environment_setup`, `refactoring`, `code_review_response`, `database_optimization`, `notification_systems` + 13 domain-specific |
+| **Secure (9)** | `security_audit`, `e2e_testing`, `ip_protection`, `unit_testing`, `integration_testing`, `accessibility_testing`, `performance_testing` + 2 domain |
+| **Ship (10)** | `infrastructure_as_code`, `db_migrations`, `website_launch`, `ci_cd_pipeline`, `legal_compliance`, `seed_data` + 4 domain |
+| **Alpha Ops (5)** | `error_tracking`, `health_checks`, `env_validation`, `qa_playbook`, `backup_strategy` |
+| **Beta Ops (6)** | `product_analytics`, `feedback_system`, `email_templates`, `error_boundaries`, `rate_limiting`, `feature_flags` |
+| **Handoff (6)** | `api_reference`, `feature_walkthrough`, `doc_reorganize`, `user_documentation`, `disaster_recovery`, `community_management` |
+| **Maintenance (5)** | `ssot_update`, `documentation_standards`, `sop_standards`, `wi_standards`, `dependency_management` |
+| **Toolkit (6)** | `video_research`, `content_creation`, `content_waterfall`, `personal_brand`, `ceo_brain`, `ai_tool_orchestration` |
 
 See `.agent/skills-index.md` for full skill descriptions.
 
@@ -55,11 +57,23 @@ Your Builder AI automatically detects which skill to use based on **keywords** i
 | Your Message Contains | Skill Used |
 |----------------------|------------|
 | "bug", "broken", "error", "not working", "fix" | `bug_troubleshoot` |
-| "new feature", "add", "want to build", "brain dump" | `feature_braindump` |
-| "from Gemini", "structured spec", "here's the PRD" | `gemini_handoff` |
-| "review", "check this code", "security" | `claude_verification` |
+| "new feature", "add", "want to build", "brain dump" | `idea_to_spec` |
+| "API", "endpoint", "REST", "route" | `api_design` |
+| "auth", "login", "JWT", "OAuth", "permissions" | `auth_implementation` |
+| "branch", "commit", "PR", "merge", "rebase" | `git_workflow` |
+| "Docker", "container", "compose", "deploy" | `docker_development` or `infrastructure_as_code` |
+| "migration", "schema change", "add column" | `db_migrations` |
+| "slow query", "index", "N+1", "optimize" | `database_optimization` |
+| "test", "Playwright", "e2e", "coverage" | `e2e_testing` or `unit_testing` |
+| "review", "check this code", "security" | `code_review` or `security_audit` |
+| "refactor", "clean up", "tech debt" | `refactoring` |
+| "setup", "environment", "ESLint", "config" | `environment_setup` |
 | "new project", "starting fresh", "create new app" | `new_project` |
 | "update context", "document what we did" | `project_context` |
+| "navigate codebase", "understand this project" | `codebase_navigation` |
+| "error handling", "exception", "error response" | `error_handling` |
+| "monitoring", "logging", "metrics", "alerts" | `observability` |
+| "Swagger", "API docs", "OpenAPI" | `api_reference` |
 
 **Pro tip**: To ensure a specific skill is used, reference it directly:
 > "Using bug_troubleshoot skill: the login button is broken..."
@@ -284,23 +298,23 @@ your-project/
 │                                                                          │
 │   📄 ai-onboarding-starter-template.md (Single Source of Truth)          │
 │         │                                                                │
-│         ├──→ Start new Gemini chat (Product Architect)                   │
+│         ├──→ Start new Review AI chat (Product Architect)                 │
 │         ├──→ Start new Claude chat (Code Reviewer)                       │
 │         └──→ Start new Builder chat (Cursor/Antigravity/etc)            │
 │                                                                          │
 │   ┌─────────────────────────────────────────────────────────────────┐   │
 │   │                    THE BUILD LOOP                                │   │
 │   │                                                                  │   │
-│   │   You (Brain Dump)                                               │   │
+│   │   You (Brain Dump / Idea)                                        │   │
 │   │      │                                                           │   │
 │   │      ▼                                                           │   │
-│   │   Gemini (Structures using gemini_handoff)                       │   │
+│   │   Spec (Structured using idea_to_spec)                           │   │
 │   │      │                                                           │   │
 │   │      ▼                                                           │   │
-│   │   Builder AI (Builds using feature_braindump)                    │   │
+│   │   Builder AI (Builds using spec_build / api_design)              │   │
 │   │      │                                                           │   │
 │   │      ▼                                                           │   │
-│   │   Claude (Reviews using claude_verification)                     │   │
+│   │   Review (code_review / security_audit / e2e_testing)            │   │
 │   │      │                                                           │   │
 │   │      ▼                                                           │   │
 │   │   Builder AI (Fixes issues if any)                               │   │
@@ -325,13 +339,13 @@ your-project/
 
 **Steps**:
 
-1. Brain dump your idea into Gemini
-2. Gemini outputs PRD + Tech Spec
+1. Brain dump your idea using `idea_to_spec`
+2. AI outputs PRD + Tech Spec
 3. Use `new_project` skill to set up repository
 4. Fill in `ai-onboarding-starter-template.md` with project context
 5. Start building features
 
-**Skills Used**: `new_project`, `gemini_handoff`
+**Skills Used**: `new_project`, `idea_to_spec`, `environment_setup`
 
 ---
 
@@ -341,15 +355,15 @@ your-project/
 
 **Steps**:
 
-1. Brain dump feature idea to Gemini (or directly to builder AI)
-2. If Gemini: Use `gemini_handoff` format
-3. If direct: Use `feature_braindump` format
-4. Builder AI builds it
-5. Claude reviews code (`claude_verification`)
+1. Brain dump feature idea using `idea_to_spec`
+2. Design architecture with `feature_architecture`
+3. Builder AI builds it using `spec_build` or `api_design`
+4. Review code (`code_review`, `security_audit`)
+5. Write tests (`unit_testing`, `e2e_testing`)
 6. Fix any issues
 7. Update your onboarding doc with new feature
 
-**Skills Used**: `feature_braindump`, `gemini_handoff`, `claude_verification`, `project_context`
+**Skills Used**: `idea_to_spec`, `feature_architecture`, `spec_build`, `code_review`, `project_context`
 
 ---
 
@@ -382,11 +396,11 @@ your-project/
 1. Make list of all bugs found during testing
 2. For each bug, use `bug_troubleshoot` format
 3. Builder AI fixes each bug
-4. Claude reviews fixes (`claude_verification`)
+4. Review fixes (`code_review`)
 5. Verify fixes work
 6. Update onboarding doc status
 
-**Skills Used**: `bug_troubleshoot`, `claude_verification`, `project_context`
+**Skills Used**: `bug_troubleshoot`, `code_review`, `project_context`
 
 ---
 
@@ -409,11 +423,11 @@ your-project/
    ```
 
 3. Builder AI creates minimal fix (hotfix first, cleanup later)
-4. Quick Claude review for security
+4. Quick review for security (`security_audit`)
 5. Deploy hotfix immediately
 6. Document incident
 
-**Skills Used**: `bug_troubleshoot`, `claude_verification`, `project_context`
+**Skills Used**: `bug_troubleshoot`, `security_audit`, `project_context`
 
 ---
 
@@ -424,12 +438,13 @@ your-project/
 **Steps**:
 
 1. Identify what needs refactoring
-2. Tell Builder AI: "Refactor [X] to [goal]"
-3. Claude reviews refactored code
-4. Verify nothing broke
-5. Update context if structure changed
+2. Use `refactoring` skill to plan the change
+3. Builder AI refactors with tests as safety net
+4. Review refactored code (`code_review`)
+5. Verify nothing broke
+6. Update context if structure changed
 
-**Skills Used**: `claude_verification`, `project_context`
+**Skills Used**: `refactoring`, `code_review`, `project_context`
 
 ---
 
@@ -439,17 +454,18 @@ your-project/
 
 **Steps**:
 
-1. Ask Claude to review:
-   - Auth implementation
+1. Use `security_audit` skill to review:
+   - Auth implementation (`auth_implementation`)
    - Database security policies
    - Input validation
    - API permissions
 2. Create list of findings
 3. Builder AI fixes issues
-4. Claude re-reviews
-5. Document in context
+4. Re-review with `code_review`
+5. Run `e2e_testing` to verify fixes
+6. Document in context
 
-**Skills Used**: `claude_verification`, `documentation_framework`
+**Skills Used**: `security_audit`, `code_review`, `e2e_testing`, `documentation_framework`
 
 ---
 
@@ -457,12 +473,26 @@ your-project/
 
 | I want to... | Use this skill... |
 |--------------|-------------------|
-| Start new project | `new_project` |
-| Add a feature | `feature_braindump` or `gemini_handoff` |
+| Start new project | `new_project` + `environment_setup` |
+| Navigate a new codebase | `codebase_navigation` |
+| Add a feature | `idea_to_spec` → `feature_architecture` → `spec_build` |
+| Design an API | `api_design` |
+| Implement auth | `auth_implementation` |
 | Fix a bug | `bug_troubleshoot` |
-| Review code | `claude_verification` |
+| Handle errors properly | `error_handling` |
+| Review code | `code_review` |
+| Respond to a code review | `code_review_response` |
+| Write tests | `unit_testing`, `e2e_testing`, `integration_testing` |
+| Set up Docker | `docker_development` |
+| Run a database migration | `db_migrations` |
+| Optimize queries | `database_optimization` |
+| Refactor code | `refactoring` |
+| Set up monitoring | `observability` |
+| Work with Git / PRs | `git_workflow` |
+| Security review | `security_audit` |
+| Deploy to production | `infrastructure_as_code` + `ci_cd_pipeline` |
+| Document an API | `api_reference` |
 | Update docs after changes | `project_context` |
-| Find doc templates | `documentation_framework` |
 | Start new AI session | Copy from your onboarding doc |
 
 ---

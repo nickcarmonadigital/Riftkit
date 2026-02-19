@@ -84,7 +84,7 @@ These numbered workflows represent the standard sequence of a project.
 
 ### [1-brainstorm.md](./1-brainstorm.md) (Requirements Engineering)
 
-**Slash Command:** `/1-brainstorm` or `/braindump`
+**Slash Command:** `/1-brainstorm` or `/idea-to-spec`
 **Purpose:** The creative entry point. Turn raw ideas into structured PRDs, SOPs, and Implementation Plans. "Raw ideas go in, structured docs come out."
 
 ### [2-design.md](./2-design.md) (Architecture & Planning)

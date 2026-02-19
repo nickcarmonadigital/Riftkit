@@ -31,28 +31,31 @@ your-project/
 
 ## Step 2: Understand the Structure
 
-### Skills (Reusable Workflows)
+### Skills (100 Reusable Workflows)
 
 Each skill is a step-by-step instruction set:
 
 ```
 .agent/skills/
-├── feature_braindump/SKILL.md    ← Convert ideas to specs
+├── idea_to_spec/SKILL.md         ← Convert ideas to specs
 ├── bug_troubleshoot/SKILL.md     ← Structured debugging
 ├── security_audit/SKILL.md       ← Security checklist
-└── ... (22 total)
+├── git_workflow/SKILL.md         ← Branch, commit, PR workflow
+├── auth_implementation/SKILL.md  ← JWT, RBAC, OAuth patterns
+└── ... (100 total)
 ```
 
-### Docs (Templates & References)
+### Docs (67 Templates & References)
 
-Ready-to-use templates:
+Ready-to-use templates and reference guides:
 
 ```
 .agent/docs/
-├── proposal-template.md          ← Client proposals
-├── client-discovery-template.md  ← Intake questions
-├── development-workflow.md       ← Dev process guide
-└── ... (9 total)
+├── 0-context/full-stack-developer-foundation.md  ← WHY everything matters
+├── 0-context/enterprise-development-guide.md     ← Enterprise patterns
+├── proposal-template.md                          ← Client proposals
+├── development-workflow.md                       ← Dev process guide
+└── ... (67 total)
 ```
 
 ---
@@ -62,13 +65,13 @@ Ready-to-use templates:
 ### Option A: Reference in Prompt
 
 ```
-"I want to build a notification system. Use the feature_braindump skill 
+"I want to build a notification system. Use the idea_to_spec skill
 to help me structure this idea."
 ```
 
 ### Option B: Read the Skill First
 
-1. Open `.agent/skills/feature_braindump/SKILL.md`
+1. Open `.agent/skills/idea_to_spec/SKILL.md`
 2. Read the trigger commands and process
 3. Follow the steps with your AI
 
@@ -78,9 +81,10 @@ Each skill has trigger commands. Examples:
 
 | Skill | Trigger |
 |-------|---------|
-| `feature_braindump` | "I have an idea for..." |
+| `idea_to_spec` | "I have an idea for..." |
 | `bug_troubleshoot` | "I have a bug where..." |
 | `security_audit` | "Security audit for [feature]" |
+| `git_workflow` | "Create a PR for..." |
 | `project_context` | "Update the project context" |
 
 ---
@@ -105,11 +109,26 @@ Use the project_context skill pattern to help me continue."
 
 ## Most Used Skills
 
+### For Professional Developers
+
+| When... | Use... |
+|---------|--------|
+| First day on a codebase | `codebase_navigation` |
+| Starting a feature | `idea_to_spec` → `feature_architecture` |
+| Writing code | `api_design`, `auth_implementation`, `error_handling` |
+| Debugging | `bug_troubleshoot` |
+| Committing / PRs | `git_workflow`, `code_review_response` |
+| Before shipping | `security_audit`, `e2e_testing` |
+| Setting up environments | `environment_setup`, `docker_development` |
+| Database changes | `db_migrations`, `database_optimization` |
+| After building | `feature_walkthrough`, `api_reference` |
+| Improving code | `refactoring`, `observability` |
+
 ### For Solo Developers
 
 | When... | Use... |
 |---------|--------|
-| Starting a feature | `feature_braindump` |
+| Starting a feature | `idea_to_spec` |
 | Debugging | `bug_troubleshoot` |
 | Before shipping | `security_audit` |
 | After building | `feature_walkthrough` |
@@ -142,22 +161,32 @@ Use the project_context skill pattern to help me continue."
 │                                                                  │
 │  BUILDING                          DOCUMENTING                   │
 │  ─────────                         ─────────────                 │
-│  feature_braindump                 feature_architecture          │
+│  idea_to_spec                      feature_architecture          │
 │  new_project                       feature_walkthrough           │
-│  project_context                   sop_standards                 │
-│  gemini_handoff                    schema_standards              │
+│  api_design                        api_reference                 │
+│  auth_implementation               sop_standards                 │
+│  error_handling                    schema_standards              │
 │                                                                  │
-│  FIXING                            SECURITY                      │
-│  ───────                           ─────────                     │
+│  FIXING & QUALITY                  SECURITY & TESTING            │
+│  ─────────────────                 ───────────────────           │
 │  bug_troubleshoot                  security_audit                │
-│  claude_verification                                             │
+│  refactoring                       e2e_testing                   │
+│  code_review_response              unit_testing                  │
 │                                                                  │
-│  CLIENT WORK                       CONTENT                       │
-│  ────────────                      ─────────                     │
-│  client_discovery                  content_creation              │
-│  proposal_generator                video_research                │
-│  website_build                     content_cascade               │
-│  website_launch                                                  │
+│  DEVOPS                            CONTENT                       │
+│  ───────                           ─────────                     │
+│  git_workflow                      content_creation              │
+│  docker_development                video_research                │
+│  environment_setup                 content_cascade               │
+│  db_migrations                                                   │
+│  infrastructure_as_code                                          │
+│                                                                  │
+│  CLIENT WORK                       OBSERVABILITY                 │
+│  ────────────                      ──────────────                │
+│  client_discovery                  observability                 │
+│  proposal_generator                database_optimization         │
+│  website_build                     error_tracking                │
+│  website_launch                    health_checks                 │
 │                                                                  │
 └─────────────────────────────────────────────────────────────────┘
 ```
@@ -166,10 +195,12 @@ Use the project_context skill pattern to help me continue."
 
 ## Next Steps
 
-1. ✅ Explore the [skills-index.md](.agent/skills-index.md) for full list
-2. ✅ Try `feature_braindump` on your next idea
-3. ✅ Set up `project_context` for your codebase
-4. ✅ Run `security_audit` before your next deploy
+1. ✅ Read [full-stack-developer-foundation.md](./docs/0-context/full-stack-developer-foundation.md) to understand the WHY
+2. ✅ Explore the [skills-index.md](./skills-index.md) for the full list of 100 skills
+3. ✅ Try `idea_to_spec` on your next feature idea
+4. ✅ Set up `project_context` for your codebase
+5. ✅ Use `codebase_navigation` when joining an existing project
+6. ✅ Run `security_audit` before your next deploy
 
 ---
 

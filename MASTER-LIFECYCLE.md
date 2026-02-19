@@ -24,9 +24,9 @@ graph TD
 
     subgraph "PHASE 1: BRAINSTORM"
         P1["/1-brainstorm<br/>Raw Ideas → Structured Docs"]
-        P1 --> P1a["feature_braindump<br/>WHAT/WHY/WHO/WHERE"]
+        P1 --> P1a["idea_to_spec<br/>Brain dump → Full spec"]
         P1 --> P1b["client_discovery<br/>+ proposal_generator"]
-        P1a --> P1c["idea_to_spec<br/>Full spec document"]
+        P1a --> P1c["Multi-AI review<br/>Cross-validate spec"]
         P1b --> P1c
     end
 
@@ -166,21 +166,23 @@ graph TD
 
 ## Current Framework Inventory
 
-### What EXISTS (40 skills, 16 workflows, 38 docs)
+### What EXISTS (100 skills, 18 workflows, 67 docs)
 
 | Phase | Skills | Workflows | Docs |
 |-------|--------|-----------|------|
-| **0-Context** | documentation_framework, new_project, project_context, ssot_structure | 0-context, new-project | ai-onboarding templates (2), glossary, master-workflow-guide, project-workflow-checklist |
-| **1-Brainstorm** | client_discovery, feature_braindump, gemini_handoff, idea_to_spec, proposal_generator, smb_launchpad | 1-brainstorm | client-discovery-template, proposal-template |
-| **2-Design** | atomic_reverse_architecture, deployment_modes, feature_architecture, schema_standards | 2-design, design-review | ara-template, frontend-architect-standards, tech-stack-guide |
-| **3-Build** | spec_build, bug_troubleshoot, claude_verification, code_changelog, code_review, observability, ui_polish, website_build | 3-build, debug, post-task | code-snippets, common-mistakes, project-templates, prompt-library, skill-combos, website-build-checklist |
-| **4-Secure** | security_audit, e2e_testing, ip_protection | 4-secure | security-audit-template |
-| **5-Ship** | db_migrations, infrastructure_as_code, website_launch | 5-ship, launch | industry-compliance-ref, website-launch-checklist-template |
-| **6-Handoff** | api_reference, doc_reorganize, feature_walkthrough | 6-handoff | feature-walkthrough-template |
-| **7-Maintenance** | documentation_standards, sop_standards, wi_standards, ssot_update | 7-maintenance | ssot-master-index, SOPs (5) |
-| **Toolkit** | ceo_brain, adversarial_gap_engine, video_research, content_creation, content_waterfall, personal_brand | content_production, age-commission, observability | long-form-video-protocol |
+| **0-Context** | codebase_navigation, documentation_framework, new_project, project_context, ssot_structure | 0-context, new-project | ai-onboarding templates (2), full-stack-developer-foundation, enterprise-development-guide, glossary, master-workflow-guide, project-workflow-checklist |
+| **1-Brainstorm** | client_discovery, idea_to_spec, proposal_generator, smb_launchpad, prioritization_frameworks, user_story_standards, competitive_analysis, product_metrics, user_research | 1-brainstorm | client-discovery-template, proposal-template, prioritization-matrix, user-story-template, competitive-analysis-template, product-metrics-template |
+| **2-Design** | atomic_reverse_architecture, deployment_modes, feature_architecture, schema_standards | 2-design, design-review | ara-template, architecture-trigger-map, css-tailwind-patterns, frontend-architect-standards, roadmap-planning-template, state-management-guide, tech-stack-guide |
+| **3-Build** | spec_build, bug_troubleshoot, code_changelog, code_review, code_review_response, observability, ui_polish, website_build, git_workflow, api_design, error_handling, auth_implementation, docker_development, environment_setup, refactoring, database_optimization, notification_systems, sprint_planning, stakeholder_communication, retrospective, cost_estimation + 11 domain-specific | 3-build, debug, post-task | browser-devtools-guide, code-architecture-patterns, code-snippets, common-mistakes, http-fundamentals, project-templates, prompt-library, skill-combos, terminal-essentials, typescript-patterns, website-build-checklist, sprint-planning-template, stakeholder-update-template, retrospective-template, cost-estimation-template |
+| **4-Secure** | security_audit, e2e_testing, ip_protection, unit_testing, integration_testing, accessibility_testing, performance_testing + 2 domain | 4-secure | security-audit-template, unit-test-patterns |
+| **5-Ship** | db_migrations, infrastructure_as_code, website_launch, ci_cd_pipeline, legal_compliance, seed_data + 4 domain | 5-ship, launch | alpha-readiness-checklist, analytics-event-taxonomy, beta-readiness-checklist, ci-cd-templates, feature-flag-checklist, ga-readiness-checklist, industry-compliance-ref, legal-page-templates, website-launch-checklist-template |
+| **5.5-Alpha** | error_tracking, health_checks, env_validation, qa_playbook, backup_strategy | alpha-release | — |
+| **5.75-Beta** | product_analytics, feedback_system, email_templates, error_boundaries, rate_limiting, feature_flags | beta-release | — |
+| **6-Handoff** | api_reference, doc_reorganize, feature_walkthrough, user_documentation, disaster_recovery, community_management | 6-handoff | disaster-recovery-template, feature-walkthrough-template |
+| **7-Maintenance** | documentation_standards, sop_standards, wi_standards, ssot_update, dependency_management | 7-maintenance | ssot-master-index, SOPs (5) |
+| **Toolkit** | ceo_brain, adversarial_gap_engine, video_research, content_creation, content_waterfall, personal_brand, ai_tool_orchestration | content_production, age-commission, observability | ai-tool-comparison, long-form-video-protocol |
 
-**Totals**: 40 skills, 16 workflows, 38 documents
+**Totals**: 100 skills, 18 workflows, 67 documents
 
 ---
 
@@ -347,10 +349,9 @@ graph LR
 
 | Step | Skill/Workflow | Status |
 |------|---------------|--------|
-| Structure raw ideas | `feature_braindump` | 🟢 Exists |
+| Brain dump → full spec | `idea_to_spec` | 🟢 Exists |
 | Client intake (if client project) | `client_discovery` → `proposal_generator` | 🟢 Exists |
-| Create full spec | `idea_to_spec` | 🟢 Exists |
-| Cross-AI validation | `gemini_handoff` | 🟢 Exists |
+| Cross-AI validation | `idea_to_spec` Part 3 + `ai_tool_orchestration` | 🟢 Exists |
 
 #### PHASE 2: DESIGN (Architecture)
 
@@ -591,17 +592,17 @@ ai-dev-workflow-framework/
 │   ├── README.md
 │   ├── skills-index.md
 │   ├── skills/
-│   │   ├── 0-context/          (4 skills)   ✅
-│   │   ├── 1-brainstorm/       (6 skills)   ✅
+│   │   ├── 0-context/          (5 skills)   ✅
+│   │   ├── 1-brainstorm/       (9 skills)   ✅
 │   │   ├── 2-design/           (4 skills)   ✅
-│   │   ├── 3-build/            (19 skills)  ✅ (8 core + 11 domain)
+│   │   ├── 3-build/            (32 skills)  ✅ (21 core + 11 domain)
 │   │   ├── 4-secure/           (9 skills)   ✅ (7 core + 2 domain)
 │   │   ├── 5-ship/             (10 skills)  ✅ (6 core + 4 domain)
 │   │   ├── 5.5-alpha/          (5 skills)   ✅
-│   │   ├── 5.75-beta/          (5 skills)   ✅
+│   │   ├── 5.75-beta/          (6 skills)   ✅
 │   │   ├── 6-handoff/          (6 skills)   ✅ (5 core + 1 domain)
 │   │   ├── 7-maintenance/      (5 skills)   ✅
-│   │   └── toolkit/            (5 skills)   ✅
+│   │   └── toolkit/            (7 skills)   ✅
 │   ├── workflows/
 │   │   ├── 0-context.md through 7-maintenance.md  ✅
 │   │   ├── alpha-release.md    ✅ Complete
@@ -673,5 +674,5 @@ To support the course "The Agentic Product Manager" and serve audiences with zer
 ---
 
 *Created: February 8, 2026*
-*Updated: February 10, 2026 — PM-focused skills added for course production*
-*Framework Version: 6.0 (90 skills, 18 workflows, 56 documents, all 9 blueprint categories covered)*
+*Updated: February 13, 2026 — 12 new skills added, 3 deleted, 10 new docs added (100 skills total)*
+*Framework Version: 6.1 (100 skills, 18 workflows, 67 documents, all 9 blueprint categories covered)*

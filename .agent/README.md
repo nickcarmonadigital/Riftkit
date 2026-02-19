@@ -1,6 +1,6 @@
 # AI Development Workflow Framework
 
-> **90 Skills** | **56 Docs** | **18 Workflows** | **9 Blueprint Categories** | **Zero Fluff**
+> **100 Skills** | **67 Docs** | **18 Workflows** | **9 Blueprint Categories** | **Zero Fluff**
 
 A battle-tested toolkit for AI-assisted development. Drop the `.agent` folder into any project and supercharge your workflow.
 
@@ -22,14 +22,14 @@ Your AI assistant will automatically detect and use these skills.
 
 ## 📚 What's Included
 
-### Skills (90)
+### Skills (100)
 
 | Category | Skills |
 |----------|--------|
-| **Context (4)** | `new_project` `project_context` `documentation_framework` `ssot_structure` |
-| **Brainstorm (10)** | `client_discovery` `feature_braindump` `gemini_handoff` `idea_to_spec` `proposal_generator` `smb_launchpad` `prioritization_frameworks` `user_story_standards` `competitive_analysis` `product_metrics` |
+| **Context (5)** | `new_project` `project_context` `documentation_framework` `ssot_structure` `codebase_navigation` |
+| **Brainstorm (9)** | `client_discovery` `idea_to_spec` `proposal_generator` `smb_launchpad` `prioritization_frameworks` `user_story_standards` `competitive_analysis` `product_metrics` `user_research` |
 | **Design (4)** | `atomic_reverse_architecture` `feature_architecture` `deployment_modes` `schema_standards` |
-| **Build (23)** | `spec_build` `bug_troubleshoot` `claude_verification` `website_build` `observability` `code_review` `ui_polish` `code_changelog` `sprint_planning` `stakeholder_communication` `retrospective` `cost_estimation` + 11 domain-specific |
+| **Build (34)** | `spec_build` `bug_troubleshoot` `website_build` `observability` `code_review` `ui_polish` `code_changelog` `sprint_planning` `stakeholder_communication` `retrospective` `cost_estimation` `git_workflow` `api_design` `error_handling` `auth_implementation` `docker_development` `environment_setup` `refactoring` `code_review_response` `database_optimization` `notification_systems` + 11 domain-specific |
 | **Secure (9)** | `security_audit` `e2e_testing` `ip_protection` `unit_testing` `integration_testing` `accessibility_testing` `performance_testing` + 2 domain |
 | **Ship (10)** | `infrastructure_as_code` `db_migrations` `website_launch` `ci_cd_pipeline` `legal_compliance` `seed_data` + 4 domain |
 | **Alpha Ops (5)** | `error_tracking` `health_checks` `env_validation` `qa_playbook` `backup_strategy` |
@@ -38,7 +38,7 @@ Your AI assistant will automatically detect and use these skills.
 | **Maintenance (5)** | `ssot_update` `documentation_standards` `sop_standards` `wi_standards` `dependency_management` |
 | **Toolkit (6)** | `video_research` `content_creation` `content_waterfall` `personal_brand` `ceo_brain` `ai_tool_orchestration` |
 
-→ Full reference: [docs/skills-index.md](./docs/skills-index.md)
+→ Full reference: [skills-index.md](./skills-index.md)
 
 ### Guides (19)
 
@@ -110,12 +110,12 @@ description: What this skill does
 .agent/
 ├── README.md              # You are here
 ├── GETTING_STARTED.md     # 5-minute setup guide
-├── skills/                # 90 skill folders (organized by phase)
+├── skills/                # 100 skill folders (organized by phase)
 │   ├── bug_troubleshoot/
-│   ├── feature_braindump/
+│   ├── git_workflow/
 │   └── ...
 ├── workflows/             # 18 workflow definitions
-└── docs/                  # 56 reference guides + templates
+└── docs/                  # 67 reference guides + templates
     ├── prompt-library.md
     ├── code-snippets.md
     └── ...

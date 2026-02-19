@@ -16,7 +16,7 @@
 │    ▼                                                                         │
 │  ┌──────────────────────────────────────────────────────────────────┐       │
 │  │ 1. DISCOVERY: What are we building?                               │       │
-│  │    Skills: feature_braindump, project_context                     │       │
+│  │    Skills: idea_to_spec, project_context                           │       │
 │  │    Output: Feature spec, context update                           │       │
 │  └────────────────────────────┬─────────────────────────────────────┘       │
 │                               │                                              │
@@ -37,7 +37,7 @@
 │                               ▼                                              │
 │  ┌──────────────────────────────────────────────────────────────────┐       │
 │  │ 4. BUILD: Implement the feature                                   │       │
-│  │    Skills: bug_troubleshoot, claude_verification                  │       │
+│  │    Skills: bug_troubleshoot, code_review                          │       │
 │  │    Tools: Your AI coding assistant                                │       │
 │  └────────────────────────────┬─────────────────────────────────────┘       │
 │                               │                                              │
@@ -71,15 +71,15 @@
 
 | Skill | Trigger | When to Use |
 |-------|---------|-------------|
-| `feature_braindump` | "I have an idea for..." | Convert ideas into specs |
+| `idea_to_spec` | "I have an idea for..." | Brain dump → structured spec |
 | `project_context` | "Update project context" | Track project state |
 | `documentation_framework` | "What docs do I need?" | Reference for doc types |
 | `feature_architecture` | "Document [feature] architecture" | After building complex features |
 | `feature_walkthrough` | "Create walkthrough" | After completing features |
 | `security_audit` | "Security audit for..." | Before shipping |
 | `bug_troubleshoot` | "I have a bug..." | Structured debugging |
-| `claude_verification` | "Verify this code" | Code review |
-| `gemini_handoff` | "Prepare handoff" | Switching AI agents |
+| `code_review` | "Review this code" | Code review |
+| `code_review_response` | "Respond to PR feedback" | Address review comments |
 
 ---
 
@@ -88,7 +88,7 @@
 ### Adding a New Feature
 
 ```text
-1. Start with: feature_braindump
+1. Start with: idea_to_spec
    → Outputs structured feature spec
 
 2. Check: existing project documentation
@@ -120,7 +120,7 @@
    → Understand the data flow
 
 3. Fix the bug
-   → Use claude_verification to review fix
+   → Use code_review to review fix
 
 4. Update: project_context
    → Note the fix

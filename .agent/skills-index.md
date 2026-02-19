@@ -1,6 +1,6 @@
 # Skills Index
 
-Complete list of all 90 skills in this framework, organized by lifecycle phase.
+Complete list of all 100 skills in this framework, organized by lifecycle phase.
 
 ## Quick Reference
 
@@ -10,92 +10,101 @@ Complete list of all 90 skills in this framework, organized by lifecycle phase.
 | 2 | `project_context` | 0-context | "Update the project context" |
 | 3 | `documentation_framework` | 0-context | "What docs do I need for [project]?" |
 | 4 | `ssot_structure` | 0-context | "Create an SSoT for [business]" |
-| 5 | `client_discovery` | 1-brainstorm | "Prepare for discovery call" |
-| 6 | `feature_braindump` | 1-brainstorm | "Brain dump: [your idea]" |
-| 7 | `gemini_handoff` | 1-brainstorm | "Here's the spec from Gemini: [paste]" |
-| 8 | `idea_to_spec` | 1-brainstorm | "Turn this idea into a spec" |
-| 9 | `proposal_generator` | 1-brainstorm | "Create a proposal for [client]" |
-| 10 | `smb_launchpad` | 1-brainstorm | "SMB launch plan for [business]" |
-| 11 | `prioritization_frameworks` | 1-brainstorm | "Score and rank features using RICE/MoSCoW" |
-| 12 | `user_story_standards` | 1-brainstorm | "Write user stories and acceptance criteria" |
-| 13 | `competitive_analysis` | 1-brainstorm | "Analyze competitors and find market gaps" |
-| 14 | `product_metrics` | 1-brainstorm | "Choose KPIs and North Star metric" |
+| 5 | `codebase_navigation` | 0-context | "Help me understand this codebase" |
+| 6 | `client_discovery` | 1-brainstorm | "Prepare for discovery call" |
+| 7 | `idea_to_spec` | 1-brainstorm | "Turn this idea into a spec" |
+| 8 | `proposal_generator` | 1-brainstorm | "Create a proposal for [client]" |
+| 9 | `smb_launchpad` | 1-brainstorm | "SMB launch plan for [business]" |
+| 10 | `prioritization_frameworks` | 1-brainstorm | "Score and rank features using RICE/MoSCoW" |
+| 11 | `user_story_standards` | 1-brainstorm | "Write user stories and acceptance criteria" |
+| 12 | `competitive_analysis` | 1-brainstorm | "Analyze competitors and find market gaps" |
+| 13 | `product_metrics` | 1-brainstorm | "Choose KPIs and North Star metric" |
+| 14 | `user_research` | 1-brainstorm | "Validate assumptions with user interviews" |
 | 15 | `atomic_reverse_architecture` | 2-design | "Decompose [feature] into atoms" |
-| 12 | `feature_architecture` | 2-design | "Document the [feature] architecture" |
-| 13 | `deployment_modes` | 2-design | "Plan deployment modes for [app]" |
-| 14 | `schema_standards` | 2-design | "Create a schema for [table]" |
-| 15 | `spec_build` | 3-build | "Build [feature] from spec" |
-| 16 | `bug_troubleshoot` | 3-build | "Bug: [description]" |
-| 17 | `claude_verification` | 3-build | "Review this code: [paste]" |
-| 18 | `website_build` | 3-build | "Build a website for [client]" |
-| 19 | `observability` | 3-build | "Set up monitoring for [service]" |
-| 20 | `code_review` | 3-build | "Code review for [feature]" |
-| 21 | `ui_polish` | 3-build | "Polish the UI for [page]" |
-| 22 | `code_changelog` | 3-build | "Log the changes I just made" |
-| 23 | `sprint_planning` | 3-build | "Break features into sprints" |
-| 24 | `stakeholder_communication` | 3-build | "Write status updates and roadmaps" |
-| 25 | `retrospective` | 3-build | "Run a sprint retro or post-mortem" |
-| 26 | `cost_estimation` | 3-build | "Estimate project costs and budget" |
-| 27 | `game_development` | 3-build | "Build a game / game architecture" |
-| 24 | `multiplayer_systems` | 3-build | "Add multiplayer / netcode" |
-| 25 | `smart_contract_dev` | 3-build | "Build smart contract / Solidity" |
-| 26 | `dapp_development` | 3-build | "Build dApp / connect wallet" |
-| 27 | `ml_pipeline` | 3-build | "Build ML pipeline / train model" |
-| 28 | `prompt_engineering` | 3-build | "Design prompts / build RAG system" |
-| 29 | `firmware_development` | 3-build | "Build firmware / embedded dev" |
-| 30 | `iot_platform` | 3-build | "Build IoT platform / connect devices" |
-| 31 | `etl_pipeline` | 3-build | "Build ETL pipeline / data pipeline" |
-| 32 | `data_warehouse` | 3-build | "Design data warehouse / star schema" |
-| 33 | `trading_systems` | 3-build | "Build trading bot / backtesting" |
-| 34 | `extension_development` | 3-build | "Build browser extension / VS Code plugin" |
-| 35 | `dashboard_development` | 3-build | "Build analytics dashboard" |
-| 36 | `security_audit` | 4-secure | "Security audit for [feature]" |
-| 37 | `e2e_testing` | 4-secure | "Write E2E tests for [flow]" |
-| 38 | `ip_protection` | 4-secure | "Check IP protection for [project]" |
-| 39 | `unit_testing` | 4-secure | "Write unit tests for [service]" |
-| 40 | `integration_testing` | 4-secure | "Write API integration tests" |
-| 41 | `accessibility_testing` | 4-secure | "Run accessibility audit" |
-| 42 | `performance_testing` | 4-secure | "Load test the API" |
-| 43 | `web3_security` | 4-secure | "Audit smart contract security" |
-| 44 | `financial_compliance` | 4-secure | "Financial regulatory compliance" |
-| 45 | `infrastructure_as_code` | 5-ship | "Set up infrastructure for [app]" |
-| 46 | `db_migrations` | 5-ship | "Plan database migration" |
-| 47 | `website_launch` | 5-ship | "Website launch checklist" |
-| 48 | `ci_cd_pipeline` | 5-ship | "Set up CI/CD with GitHub Actions" |
-| 49 | `legal_compliance` | 5-ship | "Create legal pages (ToS, Privacy)" |
-| 50 | `seed_data` | 5-ship | "Create seed data for demos" |
-| 51 | `desktop_publishing` | 5-ship | "Package desktop app / code sign" |
-| 52 | `oss_publishing` | 5-ship | "Publish open source / npm package" |
-| 53 | `game_publishing` | 5-ship | "Submit to Steam / App Store" |
-| 54 | `mlops` | 5-ship | "Deploy ML model / model serving" |
-| 55 | `error_tracking` | 5.5-alpha | "Set up Sentry error tracking" |
-| 56 | `health_checks` | 5.5-alpha | "Add health check endpoints" |
-| 57 | `env_validation` | 5.5-alpha | "Validate environment variables" |
-| 58 | `qa_playbook` | 5.5-alpha | "Create QA test playbook" |
-| 59 | `backup_strategy` | 5.5-alpha | "Set up database backups" |
-| 60 | `product_analytics` | 5.75-beta | "Set up PostHog analytics" |
-| 61 | `feedback_system` | 5.75-beta | "Add in-app bug reporter" |
-| 62 | `email_templates` | 5.75-beta | "Create branded email templates" |
-| 63 | `error_boundaries` | 5.75-beta | "Add error boundaries and toasts" |
-| 64 | `rate_limiting` | 5.75-beta | "Configure API rate limiting" |
-| 65 | `feature_flags` | 5.75-beta | "Set up feature flags and gradual rollout" |
-| 66 | `api_reference` | 6-handoff | "Generate API documentation" |
-| 66 | `feature_walkthrough` | 6-handoff | "Create a walkthrough for [feature]" |
-| 67 | `doc_reorganize` | 6-handoff | "Reorganize project documentation" |
-| 68 | `user_documentation` | 6-handoff | "Create help center / user guides" |
-| 69 | `disaster_recovery` | 6-handoff | "Create disaster recovery runbook" |
-| 70 | `community_management` | 6-handoff | "Set up open source community" |
-| 71 | `ssot_update` | 7-maintenance | "Update the SSoT" |
-| 72 | `documentation_standards` | 7-maintenance | "Review documentation standards" |
-| 73 | `sop_standards` | 7-maintenance | "Create an SOP for [process]" |
-| 74 | `wi_standards` | 7-maintenance | "Create a Work Instruction for [task]" |
-| 75 | `dependency_management` | 7-maintenance | "Audit npm dependencies" |
-| 76 | `video_research` | toolkit | "Research viral hooks for [niche]" |
-| 77 | `content_creation` | toolkit | "Write a script for [topic]" |
-| 78 | `content_waterfall` | toolkit | "Extract shorts from [video]" |
-| 79 | `personal_brand` | toolkit | "Build personal brand strategy" |
-| 80 | `ceo_brain` | toolkit | "Strategic analysis for [topic]" |
-| 81 | `ai_tool_orchestration` | toolkit | "Choose and chain AI tools for workflows" |
+| 15 | `feature_architecture` | 2-design | "Document the [feature] architecture" |
+| 16 | `deployment_modes` | 2-design | "Plan deployment modes for [app]" |
+| 17 | `schema_standards` | 2-design | "Create a schema for [table]" |
+| 18 | `spec_build` | 3-build | "Build [feature] from spec" |
+| 19 | `bug_troubleshoot` | 3-build | "Bug: [description]" |
+| 20 | `website_build` | 3-build | "Build a website for [client]" |
+| 21 | `observability` | 3-build | "Set up monitoring for [service]" |
+| 22 | `code_review` | 3-build | "Code review for [feature]" |
+| 23 | `ui_polish` | 3-build | "Polish the UI for [page]" |
+| 24 | `code_changelog` | 3-build | "Log the changes I just made" |
+| 25 | `sprint_planning` | 3-build | "Break features into sprints" |
+| 26 | `stakeholder_communication` | 3-build | "Write status updates and roadmaps" |
+| 27 | `retrospective` | 3-build | "Run a sprint retro or post-mortem" |
+| 28 | `cost_estimation` | 3-build | "Estimate project costs and budget" |
+| 29 | `git_workflow` | 3-build | "Set up Git branching strategy" |
+| 30 | `api_design` | 3-build | "Design REST API for [resource]" |
+| 31 | `error_handling` | 3-build | "Add error handling to [service]" |
+| 32 | `auth_implementation` | 3-build | "Implement JWT authentication" |
+| 33 | `docker_development` | 3-build | "Dockerize this project" |
+| 34 | `environment_setup` | 3-build | "Set up development environment" |
+| 35 | `refactoring` | 3-build | "Refactor [service] for maintainability" |
+| 36 | `code_review_response` | 3-build | "How do I respond to this code review?" |
+| 37 | `database_optimization` | 3-build | "This query is slow, help me optimize" |
+| 38 | `notification_systems` | 3-build | "Set up email/push/in-app notifications" |
+| 38 | `game_development` | 3-build | "Build a game / game architecture" |
+| 39 | `multiplayer_systems` | 3-build | "Add multiplayer / netcode" |
+| 40 | `smart_contract_dev` | 3-build | "Build smart contract / Solidity" |
+| 41 | `dapp_development` | 3-build | "Build dApp / connect wallet" |
+| 42 | `ml_pipeline` | 3-build | "Build ML pipeline / train model" |
+| 43 | `prompt_engineering` | 3-build | "Design prompts / build RAG system" |
+| 44 | `firmware_development` | 3-build | "Build firmware / embedded dev" |
+| 45 | `iot_platform` | 3-build | "Build IoT platform / connect devices" |
+| 46 | `etl_pipeline` | 3-build | "Build ETL pipeline / data pipeline" |
+| 47 | `data_warehouse` | 3-build | "Design data warehouse / star schema" |
+| 48 | `trading_systems` | 3-build | "Build trading bot / backtesting" |
+| 49 | `extension_development` | 3-build | "Build browser extension / VS Code plugin" |
+| 50 | `dashboard_development` | 3-build | "Build analytics dashboard" |
+| 51 | `security_audit` | 4-secure | "Security audit for [feature]" |
+| 52 | `e2e_testing` | 4-secure | "Write E2E tests for [flow]" |
+| 53 | `ip_protection` | 4-secure | "Check IP protection for [project]" |
+| 54 | `unit_testing` | 4-secure | "Write unit tests for [service]" |
+| 55 | `integration_testing` | 4-secure | "Write API integration tests" |
+| 56 | `accessibility_testing` | 4-secure | "Run accessibility audit" |
+| 57 | `performance_testing` | 4-secure | "Load test the API" |
+| 58 | `web3_security` | 4-secure | "Audit smart contract security" |
+| 59 | `financial_compliance` | 4-secure | "Financial regulatory compliance" |
+| 60 | `infrastructure_as_code` | 5-ship | "Set up infrastructure for [app]" |
+| 61 | `db_migrations` | 5-ship | "Plan database migration" |
+| 62 | `website_launch` | 5-ship | "Website launch checklist" |
+| 63 | `ci_cd_pipeline` | 5-ship | "Set up CI/CD with GitHub Actions" |
+| 64 | `legal_compliance` | 5-ship | "Create legal pages (ToS, Privacy)" |
+| 65 | `seed_data` | 5-ship | "Create seed data for demos" |
+| 66 | `desktop_publishing` | 5-ship | "Package desktop app / code sign" |
+| 67 | `oss_publishing` | 5-ship | "Publish open source / npm package" |
+| 68 | `game_publishing` | 5-ship | "Submit to Steam / App Store" |
+| 69 | `mlops` | 5-ship | "Deploy ML model / model serving" |
+| 70 | `error_tracking` | 5.5-alpha | "Set up Sentry error tracking" |
+| 71 | `health_checks` | 5.5-alpha | "Add health check endpoints" |
+| 72 | `env_validation` | 5.5-alpha | "Validate environment variables" |
+| 73 | `qa_playbook` | 5.5-alpha | "Create QA test playbook" |
+| 74 | `backup_strategy` | 5.5-alpha | "Set up database backups" |
+| 75 | `product_analytics` | 5.75-beta | "Set up PostHog analytics" |
+| 76 | `feedback_system` | 5.75-beta | "Add in-app bug reporter" |
+| 77 | `email_templates` | 5.75-beta | "Create branded email templates" |
+| 78 | `error_boundaries` | 5.75-beta | "Add error boundaries and toasts" |
+| 79 | `rate_limiting` | 5.75-beta | "Configure API rate limiting" |
+| 80 | `feature_flags` | 5.75-beta | "Set up feature flags and gradual rollout" |
+| 81 | `api_reference` | 6-handoff | "Generate API documentation" |
+| 82 | `feature_walkthrough` | 6-handoff | "Create a walkthrough for [feature]" |
+| 83 | `doc_reorganize` | 6-handoff | "Reorganize project documentation" |
+| 84 | `user_documentation` | 6-handoff | "Create help center / user guides" |
+| 85 | `disaster_recovery` | 6-handoff | "Create disaster recovery runbook" |
+| 86 | `community_management` | 6-handoff | "Set up open source community" |
+| 87 | `ssot_update` | 7-maintenance | "Update the SSoT" |
+| 88 | `documentation_standards` | 7-maintenance | "Review documentation standards" |
+| 89 | `sop_standards` | 7-maintenance | "Create an SOP for [process]" |
+| 90 | `wi_standards` | 7-maintenance | "Create a Work Instruction for [task]" |
+| 91 | `dependency_management` | 7-maintenance | "Audit npm dependencies" |
+| 92 | `video_research` | toolkit | "Research viral hooks for [niche]" |
+| 93 | `content_creation` | toolkit | "Write a script for [topic]" |
+| 94 | `content_waterfall` | toolkit | "Extract shorts from [video]" |
+| 95 | `personal_brand` | toolkit | "Build personal brand strategy" |
+| 96 | `ceo_brain` | toolkit | "Strategic analysis for [topic]" |
+| 97 | `ai_tool_orchestration` | toolkit | "Choose and chain AI tools for workflows" |
 
 ---
 
@@ -103,31 +112,30 @@ Complete list of all 90 skills in this framework, organized by lifecycle phase.
 
 ```
 .agent/skills/
-├── 0-context/                    (4 skills)
+├── 0-context/                    (5 skills)
 │   ├── new_project/
 │   ├── project_context/
 │   ├── documentation_framework/
-│   └── ssot_structure/
-├── 1-brainstorm/                 (10 skills) ← was 6, added 4 PM-focused
+│   ├── ssot_structure/
+│   └── codebase_navigation/       ★ NEW: Navigate unfamiliar codebases
+├── 1-brainstorm/                 (9 skills)
 │   ├── client_discovery/
-│   ├── feature_braindump/
-│   ├── gemini_handoff/
 │   ├── idea_to_spec/
 │   ├── proposal_generator/
 │   ├── smb_launchpad/
 │   ├── prioritization_frameworks/  ★ PM: RICE, MoSCoW, Kano
 │   ├── user_story_standards/       ★ PM: Stories, Gherkin, JTBD
 │   ├── competitive_analysis/       ★ PM: Market & competitor analysis
-│   └── product_metrics/            ★ PM: KPIs, North Star, AARRR
+│   ├── product_metrics/            ★ PM: KPIs, North Star, AARRR
+│   └── user_research/              ★ NEW: Interviews, usability testing, synthesis
 ├── 2-design/                     (4 skills)
 │   ├── atomic_reverse_architecture/
 │   ├── feature_architecture/
 │   ├── deployment_modes/
 │   └── schema_standards/
-├── 3-build/                      (23 skills) ← was 19, added 4 PM-focused
+├── 3-build/                      (34 skills)
 │   ├── spec_build/
 │   ├── bug_troubleshoot/
-│   ├── claude_verification/
 │   ├── website_build/
 │   ├── observability/
 │   ├── code_review/
@@ -137,6 +145,16 @@ Complete list of all 90 skills in this framework, organized by lifecycle phase.
 │   ├── stakeholder_communication/  ★ PM: Status updates, RACI, roadmaps
 │   ├── retrospective/              ★ PM: Retros, post-mortems, 5 Whys
 │   ├── cost_estimation/            ★ PM: Budgets, token costs, pricing
+│   ├── git_workflow/              ★ NEW: Branching, commits, PRs, recovery
+│   ├── api_design/                ★ NEW: RESTful API patterns with NestJS
+│   ├── error_handling/            ★ NEW: Exception filters, Prisma errors
+│   ├── auth_implementation/       ★ NEW: JWT, RBAC, OAuth, security
+│   ├── docker_development/        ★ NEW: Dockerfiles, docker-compose
+│   ├── environment_setup/         ★ NEW: ESLint, Prettier, Husky, .env
+│   ├── refactoring/               ★ NEW: Code smells, extract patterns
+│   ├── code_review_response/      ★ NEW: Receiving and responding to reviews
+│   ├── database_optimization/     ★ NEW: Indexes, N+1, EXPLAIN, pooling
+│   ├── notification_systems/     ★ NEW: Email, push, in-app, webhooks
 │   ├── game_development/         ★ DOMAIN: Games
 │   ├── multiplayer_systems/      ★ DOMAIN: Games
 │   ├── smart_contract_dev/       ★ DOMAIN: Web3
@@ -150,7 +168,7 @@ Complete list of all 90 skills in this framework, organized by lifecycle phase.
 │   ├── trading_systems/          ★ DOMAIN: Trading & Finance
 │   ├── extension_development/    ★ DOMAIN: Plugins & Extensions
 │   └── dashboard_development/    ★ DOMAIN: Data & Analytics
-├── 4-secure/                     (9 skills) ← was 7, added 2 domain-specific
+├── 4-secure/                     (9 skills)
 │   ├── security_audit/
 │   ├── e2e_testing/
 │   ├── ip_protection/
@@ -160,7 +178,7 @@ Complete list of all 90 skills in this framework, organized by lifecycle phase.
 │   ├── performance_testing/
 │   ├── web3_security/            ★ DOMAIN: Web3
 │   └── financial_compliance/     ★ DOMAIN: Trading & Finance
-├── 5-ship/                       (10 skills) ← was 6, added 4 domain-specific
+├── 5-ship/                       (10 skills)
 │   ├── infrastructure_as_code/
 │   ├── db_migrations/
 │   ├── website_launch/
@@ -177,14 +195,14 @@ Complete list of all 90 skills in this framework, organized by lifecycle phase.
 │   ├── env_validation/
 │   ├── qa_playbook/
 │   └── backup_strategy/
-├── 5.75-beta/                    (6 skills) ← was 5, added 1 PM-focused
+├── 5.75-beta/                    (6 skills)
 │   ├── product_analytics/
 │   ├── feedback_system/
 │   ├── email_templates/
 │   ├── error_boundaries/
 │   ├── rate_limiting/
 │   └── feature_flags/              ★ PM: Gradual rollout, A/B testing
-├── 6-handoff/                    (6 skills) ← was 5, added 1 domain-specific
+├── 6-handoff/                    (6 skills)
 │   ├── api_reference/
 │   ├── feature_walkthrough/
 │   ├── doc_reorganize/
@@ -197,7 +215,7 @@ Complete list of all 90 skills in this framework, organized by lifecycle phase.
 │   ├── sop_standards/
 │   ├── wi_standards/
 │   └── dependency_management/
-└── toolkit/                      (6 skills) ← was 5, added 1 PM-focused
+└── toolkit/                      (6 skills)
     ├── video_research/
     ├── content_creation/
     ├── content_waterfall/
@@ -206,7 +224,7 @@ Complete list of all 90 skills in this framework, organized by lifecycle phase.
     └── ai_tool_orchestration/      ★ PM: Multi-AI workflows, tool selection
 ```
 
-**Total: 90 skills** (40 original + 20 lifecycle + 20 domain-specific + 10 PM-focused)
+**Total: 100 skills** (40 original + 20 lifecycle + 20 domain-specific + 10 PM-focused + 12 full-stack dev + 1 navigation - 3 deleted)
 
 ---
 
@@ -226,6 +244,25 @@ Skills that cover specific project types from the blueprint library:
 | **08 — Plugins & Extensions** | `extension_development` | 3-build |
 | **09 — Data & Analytics** | `etl_pipeline`, `data_warehouse`, `dashboard_development` | 3-build |
 | **Open Source** | `oss_publishing`, `community_management` | 5-ship, 6-handoff |
+
+---
+
+## Full-Stack Developer Skills
+
+Skills specifically covering core full-stack development fundamentals:
+
+| Skill | What It Covers |
+|-------|---------------|
+| `codebase_navigation` | First 30 minutes in an unfamiliar codebase |
+| `git_workflow` | Branching, commits, PRs, conflict resolution, recovery |
+| `api_design` | RESTful patterns, pagination, validation, versioning |
+| `error_handling` | NestJS exceptions, Prisma errors, frontend error states |
+| `auth_implementation` | JWT, refresh tokens, RBAC, OAuth, password security |
+| `docker_development` | Dockerfiles, docker-compose, hot reload, debugging |
+| `environment_setup` | ESLint, Prettier, Husky, .env management |
+| `refactoring` | Code smells, extract patterns, safe refactoring process |
+| `code_review_response` | Receiving reviews, responding to feedback, growing |
+| `database_optimization` | Indexes, N+1 detection, EXPLAIN, connection pooling |
 
 ---
 
@@ -264,44 +301,55 @@ Skills that cover specific project types from the blueprint library:
 | 2 | glossary | 0-context | Original |
 | 3 | master-workflow-guide | 0-context | Original |
 | 4 | project-workflow-checklist | 0-context | Original |
-| 5 | client-discovery-template | 1-brainstorm | Original |
-| 6 | proposal-template | 1-brainstorm | Original |
-| 7 | **prioritization-matrix** | **1-brainstorm** | **NEW — PM** |
-| 8 | **user-story-template** | **1-brainstorm** | **NEW — PM** |
-| 9 | **competitive-analysis-template** | **1-brainstorm** | **NEW — PM** |
-| 10 | **product-metrics-template** | **1-brainstorm** | **NEW — PM** |
-| 11 | ara-template | 2-design | Original |
-| 8 | frontend-architect-standards | 2-design | Original |
-| 9 | tech-stack-guide | 2-design | Original |
-| 10 | code-snippets | 3-build | Original |
-| 11 | common-mistakes | 3-build | Original |
-| 12 | project-templates | 3-build | Original |
-| 13 | prompt-library | 3-build | Original |
-| 14 | skill-combos | 3-build | Original |
-| 15 | website-build-checklist | 3-build | Original |
-| 16 | **sprint-planning-template** | **3-build** | **NEW — PM** |
-| 17 | **stakeholder-update-template** | **3-build** | **NEW — PM** |
-| 18 | **retrospective-template** | **3-build** | **NEW — PM** |
-| 19 | **cost-estimation-template** | **3-build** | **NEW — PM** |
-| 20 | security-audit-template | 4-secure | Original |
-| 17 | **unit-test-patterns** | **4-secure** | **NEW** |
-| 18 | website-launch-checklist-template | 5-ship | Original |
-| 19 | industry-compliance-ref | 5-ship | Original |
-| 20 | **ci-cd-templates** | **5-ship** | **NEW** |
-| 21 | **legal-page-templates** | **5-ship** | **NEW** |
-| 22 | **alpha-readiness-checklist** | **5-ship** | **NEW** |
-| 23 | **beta-readiness-checklist** | **5-ship** | **NEW** |
-| 24 | **ga-readiness-checklist** | **5-ship** | **NEW** |
-| 25 | **analytics-event-taxonomy** | **5-ship** | **NEW** |
-| 26 | **feature-flag-checklist** | **5-ship** | **NEW — PM** |
-| 27 | feature-walkthrough-template | 6-handoff | Original |
-| 27 | **disaster-recovery-template** | **6-handoff** | **NEW** |
-| 28 | ssot-master-index | 7-maintenance | Original |
-| 29-33 | SOPs (5) | sops | Original |
-| 34 | long-form-video-protocol | toolkit | Original |
-| 35 | **ai-tool-comparison** | **toolkit** | **NEW — PM** |
+| 5 | **full-stack-developer-foundation** | **0-context** | **NEW — WHY document** |
+| 6 | **enterprise-development-guide** | **0-context** | **NEW — Enterprise patterns** |
+| 7 | client-discovery-template | 1-brainstorm | Original |
+| 8 | proposal-template | 1-brainstorm | Original |
+| 9 | **prioritization-matrix** | **1-brainstorm** | **NEW — PM** |
+| 10 | **user-story-template** | **1-brainstorm** | **NEW — PM** |
+| 11 | **competitive-analysis-template** | **1-brainstorm** | **NEW — PM** |
+| 12 | **product-metrics-template** | **1-brainstorm** | **NEW — PM** |
+| 13 | ara-template | 2-design | Original |
+| 14 | frontend-architect-standards | 2-design | Original |
+| 15 | tech-stack-guide | 2-design | Original |
+| 16 | **state-management-guide** | **2-design** | **NEW — React state patterns** |
+| 17 | **css-tailwind-patterns** | **2-design** | **NEW — Layout & components** |
+| 18 | **architecture-trigger-map** | **2-design** | **NEW — When to use what technology** |
+| 19 | code-snippets | 3-build | Original |
+| 19 | common-mistakes | 3-build | Original |
+| 20 | project-templates | 3-build | Original |
+| 21 | prompt-library | 3-build | Original |
+| 22 | skill-combos | 3-build | Original |
+| 23 | website-build-checklist | 3-build | Original |
+| 24 | **http-fundamentals** | **3-build** | **NEW — Methods, status codes, CORS** |
+| 25 | **typescript-patterns** | **3-build** | **NEW — Generics, utility types** |
+| 26 | **terminal-essentials** | **3-build** | **NEW — CLI, SSH, curl** |
+| 27 | **code-architecture-patterns** | **3-build** | **NEW — SOLID, DI, design patterns** |
+| 28 | **browser-devtools-guide** | **3-build** | **NEW — Chrome DevTools debugging** |
+| 29 | **sprint-planning-template** | **3-build** | **NEW — PM** |
+| 30 | **stakeholder-update-template** | **3-build** | **NEW — PM** |
+| 31 | **retrospective-template** | **3-build** | **NEW — PM** |
+| 32 | **cost-estimation-template** | **3-build** | **NEW — PM** |
+| 33 | security-audit-template | 4-secure | Original |
+| 34 | **unit-test-patterns** | **4-secure** | **NEW** |
+| 35 | website-launch-checklist-template | 5-ship | Original |
+| 36 | industry-compliance-ref | 5-ship | Original |
+| 37 | **ci-cd-templates** | **5-ship** | **NEW** |
+| 38 | **legal-page-templates** | **5-ship** | **NEW** |
+| 39 | **alpha-readiness-checklist** | **5-ship** | **NEW** |
+| 40 | **beta-readiness-checklist** | **5-ship** | **NEW** |
+| 41 | **ga-readiness-checklist** | **5-ship** | **NEW** |
+| 42 | **analytics-event-taxonomy** | **5-ship** | **NEW** |
+| 43 | **feature-flag-checklist** | **5-ship** | **NEW — PM** |
+| 44 | feature-walkthrough-template | 6-handoff | Original |
+| 45 | **disaster-recovery-template** | **6-handoff** | **NEW** |
+| 46 | ssot-master-index | 7-maintenance | Original |
+| 47-51 | SOPs (5) | sops | Original |
+| 52 | long-form-video-protocol | toolkit | Original |
+| 53 | **ai-tool-comparison** | **toolkit** | **NEW — PM** |
+| 54 | **roadmap-planning-template** | **2-design** | **NEW — Now/Next/Later roadmaps** |
 
-**Total: 56 documents** (38 original + 8 lifecycle + 10 PM-focused)
+**Total: 67 documents** (38 original + 8 lifecycle + 10 PM-focused + 11 full-stack dev)
 
 ---
 
@@ -326,4 +374,4 @@ Required sections:
 
 ---
 
-*Updated: February 2026 — v5.0 (90 skills, 18 workflows, 56 documents)*
+*Updated: February 2026 — v6.1 (100 skills, 18 workflows, 67 documents)*

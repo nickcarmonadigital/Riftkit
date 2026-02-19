@@ -9,7 +9,7 @@ Complete reference of all available skills with trigger commands.
 | Skill | Trigger | Purpose |
 |-------|---------|---------|
 | [Atomic Reverse Architecture](../skills/2-design/atomic_reverse_architecture/SKILL.md) | `/ara [project type]` | Design complete architectures using First Principles + Reverse Thinking |
-| [Feature Brain Dump](../skills/1-brainstorm/feature_braindump/SKILL.md) | `/brain-dump [idea]` | Convert messy ideas into structured specs |
+| [Idea to Spec](../skills/1-brainstorm/idea_to_spec/SKILL.md) | `/idea-to-spec [idea]` | Brain dump → structured spec → multi-AI review |
 | [Feature Architecture](../skills/2-design/feature_architecture/SKILL.md) | `/architecture [feature]` | Create comprehensive technical docs |
 | [Documentation Framework](../skills/0-context/documentation_framework/SKILL.md) | `/doc-standards` | Reference for document types and formats |
 | [SOP Standards](../skills/7-maintenance/sop_standards/SKILL.md) | `/create-sop [process]` | Standard Operating Procedure templates |
@@ -65,8 +65,8 @@ Complete reference of all available skills with trigger commands.
 |-------|---------|---------|
 | [SSoT Structure](../skills/0-context/ssot_structure/SKILL.md) | `/ssot-init` | Create Single Source of Truth |
 | [SSoT Update](../skills/7-maintenance/ssot_update/SKILL.md) | `/ssot-update` | Maintain central documentation |
-| [Gemini Handoff](../skills/1-brainstorm/gemini_handoff/SKILL.md) | `/handoff` | Transfer context between AIs |
-| [Claude Verification](../skills/3-build/claude_verification/SKILL.md) | `/verify [file]` | Code verification with Claude |
+| [Code Review](../skills/3-build/code_review/SKILL.md) | `/review [file]` | Comprehensive code review |
+| [Code Review Response](../skills/3-build/code_review_response/SKILL.md) | `/review-response [PR]` | Respond to PR feedback |
 
 ---
 
@@ -74,7 +74,7 @@ Complete reference of all available skills with trigger commands.
 
 ```
 # Most Used
-/brain-dump [idea]      → Spec out a feature
+/idea-to-spec [idea]    → Spec out a feature
 /debug [issue]          → Investigate a bug
 /walkthrough [feature]  → Document what you built
 /update-context         → Keep project state current

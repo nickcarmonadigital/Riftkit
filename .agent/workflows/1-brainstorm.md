@@ -1,8 +1,8 @@
 ---
-description: Brain dump any idea and get PRD, SOPs, WIs, and all structured documents automatically
+description: Turn any idea into PRD, SOPs, WIs, and all structured documents automatically
 ---
 
-# /braindump Workflow
+# /idea-to-spec Workflow
 
 > **THE ENTRY POINT**: Drop your raw ideas here. I'll create all the structured documents.
 
@@ -210,7 +210,7 @@ I'll show you the docs for approval before proceeding to implementation.
 | Skill | Purpose |
 |-------|---------|
 | `atomic_reverse_architecture` | Complex planning |
-| `feature_braindump` | Structuring raw ideas into Gherkin |
+| `idea_to_spec` | Brain dump + structuring raw ideas into full spec |
 
 ---
 
@@ -219,7 +219,7 @@ I'll show you the docs for approval before proceeding to implementation.
 Say any of these:
 
 - `/1-brainstorm`
-- `/braindump`
+- `/idea-to-spec`
 - "I have an idea..."
 - "Create a PRD for..."
 

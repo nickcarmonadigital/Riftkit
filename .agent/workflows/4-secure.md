@@ -21,7 +21,7 @@ description: Run security and quality audit on a feature or project
 
 ```bash
 view_file .agent/skills/security_audit/SKILL.md
-view_file .agent/skills/claude_verification/SKILL.md
+view_file .agent/skills/code_review/SKILL.md
 ```
 
 ---
@@ -110,7 +110,7 @@ Review and address vulnerabilities.
 
 ## Step 6: Second Opinion (Optional)
 
-Use claude_verification skill to get external review:
+Use code_review skill to get external review:
 
 1. Export relevant code
 2. Ask Claude to review for security issues

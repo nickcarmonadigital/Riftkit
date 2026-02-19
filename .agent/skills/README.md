@@ -90,15 +90,14 @@ graph TD
 - **[Project Context](./0-context/project_context/SKILL.md)**: The living heartbeat of the project.
 - **[Documentation Framework](./0-context/documentation_framework/SKILL.md)**: Setting up the `.agent/docs` folder.
 - **[SSOT Structure](./0-context/ssot_structure/SKILL.md)**: Defining the Single Source of Truth architecture.
+- **[Codebase Navigation](./0-context/codebase_navigation/SKILL.md)**: First 30 minutes in a new codebase.
 
 ### Phase 1: Brainstorm (Requirements)
 
 *From idea to spec.*
 
 - **[Client Discovery](./1-brainstorm/client_discovery/SKILL.md)**: Extract requirements from stakeholders.
-- **[Feature Braindump](./1-brainstorm/feature_braindump/SKILL.md)**: Rapidly converting raw ideas into requirements.
-- **[Gemini Handoff](./1-brainstorm/gemini_handoff/SKILL.md)**: Standardized format for ingesting specs from Gemini.
-- **[Idea to Spec](./1-brainstorm/idea_to_spec/SKILL.md)**: Quick conversion of a thought into requirements.
+- **[Idea to Spec](./1-brainstorm/idea_to_spec/SKILL.md)**: Brain dump → structured spec → multi-AI review (all-in-one).
 - **[Proposal Generator](./1-brainstorm/proposal_generator/SKILL.md)**: Create the Statement of Work (SOW).
 - **[SMB Launchpad](./1-brainstorm/smb_launchpad/SKILL.md)**: Strategy for small business clients.
 
@@ -117,12 +116,20 @@ graph TD
 
 - **[Spec Build](./3-build/spec_build/SKILL.md)**: The main loop: Plan -> Code -> Verify.
 - **[Bug Troubleshoot](./3-build/bug_troubleshoot/SKILL.md)**: Structured process for fixing bugs.
-- **[Claude Verification](./3-build/claude_verification/SKILL.md)**: High-level code review.
 - **[Website Build](./3-build/website_build/SKILL.md)**: Specialized skill for web app scaffolding.
 - **[Observability](./3-build/observability/SKILL.md)**: Logs, Metrics, and Tracing setup.
 - **[Code Review](./3-build/code_review/SKILL.md)**: Quality assurance on code.
+- **[Code Review Response](./3-build/code_review_response/SKILL.md)**: Responding to PR feedback professionally.
 - **[UI Polish](./3-build/ui_polish/SKILL.md)**: Aesthetic refinement.
 - **[Code Changelog](./3-build/code_changelog/SKILL.md)**: Tracking what changed in this session.
+- **[Git Workflow](./3-build/git_workflow/SKILL.md)**: Branch strategy, commits, PRs, conflict resolution.
+- **[API Design](./3-build/api_design/SKILL.md)**: RESTful API design, pagination, error responses.
+- **[Error Handling](./3-build/error_handling/SKILL.md)**: Exception filters, structured errors, frontend patterns.
+- **[Auth Implementation](./3-build/auth_implementation/SKILL.md)**: JWT, RBAC, OAuth, MFA implementation.
+- **[Docker Development](./3-build/docker_development/SKILL.md)**: Dockerfiles, docker-compose, dev containers.
+- **[Environment Setup](./3-build/environment_setup/SKILL.md)**: Tooling, linting, editor config, first-day checklist.
+- **[Refactoring](./3-build/refactoring/SKILL.md)**: Code smells, extract patterns, safe refactoring.
+- **[Database Optimization](./3-build/database_optimization/SKILL.md)**: Indexes, EXPLAIN, N+1, connection pooling.
 
 ### Phase 4: Secure (Verification)
 

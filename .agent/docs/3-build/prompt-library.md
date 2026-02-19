@@ -60,7 +60,7 @@ Help me turn this into a structured spec with:
 4. Database changes
 5. Implementation steps
 
-Use the feature_braindump skill.
+Use the idea_to_spec skill.
 ```
 
 ### Architecture Documentation
