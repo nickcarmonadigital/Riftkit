@@ -246,6 +246,21 @@ What does NOT count:
 
 ---
 
+---
+
+## Agent Automation
+
+> Use the **refactor-cleaner** agent (`.agent/agents/refactor-cleaner.md`) for automated dead code removal and cleanup.
+> Invoke via: `/refactor-clean`
+
+The refactor-cleaner agent can:
+- Identify and remove dead code
+- Clean up unused imports
+- Consolidate duplicate logic
+- Simplify complex conditionals
+
+---
+
 ## ✅ Exit Checklist
 
 - [ ] Tests exist before refactoring begins
@@ -254,3 +269,5 @@ What does NOT count:
 - [ ] No behavior changes mixed with refactoring
 - [ ] Code smells addressed are documented
 - [ ] Tech debt items tracked for future sprints
+- [ ] Dead code removed (unused imports, unreachable branches)
+- [ ] Duplicate logic consolidated into shared utilities

@@ -1,0 +1,95 @@
+{
+  "$schema": "project-state-v1",
+  "project": {
+    "name": "",
+    "description": "",
+    "repository": "",
+    "team_scale": "solo",
+    "governance_tier": "solo",
+    "start_date": "",
+    "created_at": "",
+    "last_updated": "",
+    "updated_by": ""
+  },
+  "current_phase": "0-context",
+  "phase_history": [
+    {
+      "phase": "0-context",
+      "status": "in-progress",
+      "entered_at": "",
+      "exited_at": null,
+      "gate_decision": null,
+      "gate_report": null,
+      "days_in_phase": 0,
+      "key_artifacts": [],
+      "notes": ""
+    }
+  ],
+  "metrics": {
+    "test_coverage": {
+      "unit": null,
+      "integration": null,
+      "e2e": null,
+      "trend": "stable"
+    },
+    "security": {
+      "last_audit_date": null,
+      "last_audit_result": null,
+      "critical_cves": 0,
+      "high_cves": 0,
+      "sast_status": null
+    },
+    "dependency_health": {
+      "total_dependencies": null,
+      "outdated": null,
+      "critical_vulnerabilities": 0,
+      "last_audit_date": null
+    },
+    "dora": {
+      "deployment_frequency": null,
+      "deployment_frequency_level": null,
+      "lead_time_hours": null,
+      "lead_time_level": null,
+      "change_failure_rate_pct": null,
+      "change_failure_rate_level": null,
+      "mttr_hours": null,
+      "mttr_level": null,
+      "measurement_period": null
+    },
+    "observability_level": null,
+    "open_bugs": {
+      "p0": 0,
+      "p1": 0,
+      "p2": 0,
+      "total": 0
+    }
+  },
+  "compliance": {
+    "applicable_frameworks": [],
+    "status_per_framework": {},
+    "last_compliance_audit": null,
+    "next_compliance_audit": null,
+    "drift_detected": false
+  },
+  "slos": [],
+  "rollout": {
+    "current_stage": null,
+    "target_stage": null,
+    "stage_history": [],
+    "rollback_count": 0
+  },
+  "blocking_issues": [],
+  "next_gate": {
+    "gate_id": "G0-1",
+    "from_phase": "0-context",
+    "to_phase": "1-brainstorm",
+    "readiness_estimate": null,
+    "blocking_criteria": []
+  },
+  "team": {
+    "members": [],
+    "on_call_rotation": null,
+    "roles": {}
+  },
+  "notes": ""
+}

@@ -6,6 +6,28 @@ description: Build a feature from an approved implementation plan
 
 > Use after /plan workflow when implementation plan is approved
 
+## Available Agents & Commands
+
+| Agent / Command | What It Does |
+|----------------|--------------|
+| `/plan` | Create implementation plan (uses `planner` agent) |
+| `/tdd` | Test-driven development workflow (uses `tdd-guide` agent) |
+| `/build-fix` | Fix build errors (uses `build-error-resolver` agent) |
+| `/code-review` | Automated code review (uses `code-reviewer` agent) |
+| `/refactor-clean` | Dead code removal (uses `refactor-cleaner` agent) |
+| `/go-build` | Go build error resolution (uses `go-build-resolver` agent) |
+| `/go-review` | Go code review (uses `go-reviewer` agent) |
+| `/python-review` | Python code review (uses `python-reviewer` agent) |
+| `/verify` | Verification loop |
+| `/test-coverage` | Test coverage analysis |
+| `/update-docs` | Update documentation (uses `doc-updater` agent) |
+| `/multi-backend` | Multi-agent backend development |
+| `/multi-frontend` | Multi-agent frontend development |
+
+> See [agents/README.md](../agents/README.md) and [commands/README.md](../commands/README.md) for full details.
+
+---
+
 ## Pre-Flight Checks
 
 - [ ] Implementation plan approved?

@@ -387,6 +387,100 @@ describe('edge cases', () => {
 });
 ```
 
+---
+
+## Agent Automation
+
+> Use the **tdd-guide** agent (`.agent/agents/tdd-guide.md`) for test-driven development guidance.
+> Invoke via: `/tdd`
+
+### RED-GREEN-REFACTOR Workflow
+
+1. **RED**: Write a failing test that describes the desired behavior
+2. **GREEN**: Write the minimum code to make the test pass
+3. **REFACTOR**: Clean up while keeping tests green
+
+### TDD Rules
+- Never write production code without a failing test
+- Write only enough test to fail
+- Write only enough code to pass
+
+### TDD Step-by-Step Process
+
+```
+Step 1: Write User Journey
+  "As a [role], I want to [action], so that [benefit]"
+
+Step 2: Generate Test Cases
+  - Happy path
+  - Edge cases (null, empty, boundary values)
+  - Error scenarios
+  - Fallback behavior
+
+Step 3: Run Tests (They Should FAIL)
+  npm test  →  RED
+
+Step 4: Implement Minimum Code
+  Write just enough to make the tests pass
+
+Step 5: Run Tests (They Should PASS)
+  npm test  →  GREEN
+
+Step 6: Refactor
+  - Remove duplication
+  - Improve naming
+  - Optimize performance
+  - Keep tests green throughout
+
+Step 7: Verify Coverage
+  npm run test:coverage  →  80%+ required
+```
+
+### Coverage Thresholds Configuration
+
+```json
+{
+  "jest": {
+    "coverageThresholds": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
+  }
+}
+```
+
+### Common Testing Mistakes
+
+| Mistake | Why It's Wrong | Correct Approach |
+|---------|---------------|-----------------|
+| Testing implementation details | Brittle, breaks on refactor | Test user-visible behavior |
+| Tests depend on each other | Order-dependent failures | Each test creates its own data |
+| Arbitrary `waitForTimeout` | Flaky, slow | Use `vi.useFakeTimers()` or `waitFor` |
+| Brittle CSS selectors | Break on style changes | Use `getByRole`, `getByTestId` |
+| No test isolation | State leaks between tests | `beforeEach` setup, `afterEach` cleanup |
+
+### Continuous Testing Integration
+
+```bash
+# Watch mode during development (re-runs on file change)
+npm test -- --watch
+
+# Pre-commit hook
+npm test && npm run lint
+
+# CI/CD pipeline
+- name: Run Tests
+  run: npm test -- --coverage
+- name: Upload Coverage
+  uses: codecov/codecov-action@v3
+```
+
+---
+
 ## ✅ EXIT CHECKLIST
 
 - [ ] All tests pass (`npm test` / `npx vitest run` exits clean)
@@ -399,5 +493,7 @@ describe('edge cases', () => {
 - [ ] No `console.log` left in test files
 - [ ] No hardcoded timeouts (use `vi.useFakeTimers()` instead)
 - [ ] Tests run in under 30 seconds total for the module
+- [ ] TDD workflow followed: RED -> GREEN -> REFACTOR
+- [ ] Coverage thresholds configured and enforced in CI
 
-*Skill Version: 1.0 | Created: February 2026*
+*Skill Version: 1.1 | Updated: February 2026 | Merged with ECC tdd-workflow*

@@ -363,13 +363,162 @@ export class AuthController {
 
 ---
 
+---
+
+## PART 9: HTTP METHOD SEMANTICS
+
+| Method | Idempotent | Safe | Use For |
+|--------|-----------|------|---------|
+| GET | Yes | Yes | Retrieve resources |
+| POST | No | No | Create resources, trigger actions |
+| PUT | Yes | No | Full replacement of a resource |
+| PATCH | No* | No | Partial update of a resource |
+| DELETE | Yes | No | Remove a resource |
+
+*PATCH can be made idempotent with proper implementation
+
+---
+
+## PART 10: STATUS CODE REFERENCE
+
+```
+# Success
+200 OK                    -- GET, PUT, PATCH (with response body)
+201 Created               -- POST (include Location header)
+204 No Content            -- DELETE, PUT (no response body)
+
+# Client Errors
+400 Bad Request           -- Validation failure, malformed JSON
+401 Unauthorized          -- Missing or invalid authentication
+403 Forbidden             -- Authenticated but not authorized
+404 Not Found             -- Resource doesn't exist
+409 Conflict              -- Duplicate entry, state conflict
+422 Unprocessable Entity  -- Semantically invalid (valid JSON, bad data)
+429 Too Many Requests     -- Rate limit exceeded
+
+# Server Errors
+500 Internal Server Error -- Unexpected failure (never expose details)
+502 Bad Gateway           -- Upstream service failed
+503 Service Unavailable   -- Temporary overload, include Retry-After
+```
+
+**Common mistakes to avoid:**
+- 200 for everything (use proper status codes semantically)
+- 500 for validation errors (use 400 or 422)
+- 200 for created resources (use 201 with Location header)
+
+---
+
+## PART 11: ADVANCED FILTERING PATTERNS
+
+### Comparison Operators (Bracket Notation)
+
+```
+GET /api/v1/products?price[gte]=10&price[lte]=100
+GET /api/v1/orders?created_at[after]=2025-01-01
+```
+
+### Multiple Values (Comma-Separated)
+
+```
+GET /api/v1/products?category=electronics,clothing
+```
+
+### Sparse Fieldsets (Reduce Payload)
+
+```
+GET /api/v1/users?fields=id,name,email
+GET /api/v1/orders?fields=id,total,status&include=customer.name
+```
+
+### Sort with Prefix Notation
+
+```
+# Single field (prefix - for descending)
+GET /api/v1/products?sort=-created_at
+
+# Multiple fields (comma-separated)
+GET /api/v1/products?sort=-featured,price,-created_at
+```
+
+---
+
+## PART 12: RATE LIMIT TIERS
+
+| Tier | Limit | Window | Use Case |
+|------|-------|--------|----------|
+| Anonymous | 30/min | Per IP | Public endpoints |
+| Authenticated | 100/min | Per user | Standard API access |
+| Premium | 1000/min | Per API key | Paid API plans |
+| Internal | 10000/min | Per service | Service-to-service |
+
+Rate limit response headers:
+
+```
+HTTP/1.1 429 Too Many Requests
+Retry-After: 60
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1640000000
+```
+
+---
+
+## PART 13: VERSIONING STRATEGY
+
+```
+1. Start with /api/v1/ -- don't version until you need to
+2. Maintain at most 2 active versions (current + previous)
+3. Deprecation timeline:
+   - Announce deprecation (6 months notice for public APIs)
+   - Add Sunset header: Sunset: Sat, 01 Jan 2026 00:00:00 GMT
+   - Return 410 Gone after sunset date
+4. Non-breaking changes don't need a new version:
+   - Adding new fields to responses
+   - Adding new optional query parameters
+   - Adding new endpoints
+5. Breaking changes require a new version:
+   - Removing or renaming fields
+   - Changing field types
+   - Changing URL structure
+   - Changing authentication method
+```
+
+---
+
+## PART 14: NAMING RULES
+
+```
+# GOOD
+/api/v1/team-members          # kebab-case for multi-word resources
+/api/v1/orders?status=active  # query params for filtering
+/api/v1/users/123/orders      # nested resources for ownership
+
+# Actions that don't map to CRUD (use verbs sparingly)
+POST /api/v1/orders/:id/cancel
+POST /api/v1/auth/login
+POST /api/v1/auth/refresh
+
+# BAD
+/api/v1/getUsers              # verb in URL
+/api/v1/user                  # singular (use plural)
+/api/v1/team_members          # snake_case in URLs
+/api/v1/users/123/getOrders   # verb in nested resource
+```
+
+---
+
 ## ✅ Exit Checklist
 
 - [ ] Resources use plural nouns (`/users` not `/user`)
 - [ ] HTTP methods match CRUD operations correctly
-- [ ] Pagination implemented (offset or cursor)
-- [ ] Error responses follow consistent format
+- [ ] Correct HTTP status codes returned (not 200 for everything)
+- [ ] Pagination implemented (offset or cursor based on use case)
+- [ ] Error responses follow consistent format with codes and messages
 - [ ] Input validation with class-validator + ValidationPipe
-- [ ] Rate limiting configured for sensitive endpoints
+- [ ] Rate limiting configured with appropriate tiers
 - [ ] Swagger/OpenAPI decorators added
-- [ ] No verbs in URLs
+- [ ] No verbs in URLs (kebab-case for multi-word resources)
+- [ ] Authorization checked (users access own resources only)
+- [ ] Sparse fieldsets or `select` used to minimize response payload
+- [ ] Versioning strategy documented

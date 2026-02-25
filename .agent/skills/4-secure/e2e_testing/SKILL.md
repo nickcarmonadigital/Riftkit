@@ -700,6 +700,163 @@ npx playwright test --update-snapshots
 
 ---
 
+---
+
+## Agent Automation
+
+> Use the **e2e-runner** agent (`.agent/agents/e2e-runner.md`) for automated E2E test execution.
+> Invoke via: `/e2e`
+
+### Flaky Test Quarantine Strategies
+
+When a test is known to be flaky, quarantine it rather than deleting it:
+
+```typescript
+// Mark a test as fixme (skipped, tracked)
+test('flaky: complex search', async ({ page }) => {
+  test.fixme(true, 'Flaky - Issue #123');
+  // test code...
+});
+
+// Conditionally skip in CI only
+test('conditional skip', async ({ page }) => {
+  test.skip(process.env.CI === 'true', 'Flaky in CI - Issue #123');
+  // test code...
+});
+```
+
+**Identify flakiness systematically:**
+
+```bash
+# Repeat a test to detect intermittent failures
+npx playwright test tests/search.spec.ts --repeat-each=10
+
+# Run with retries to find flaky tests
+npx playwright test tests/search.spec.ts --retries=3
+```
+
+**Common flaky causes and fixes:**
+
+| Cause | Bad Pattern | Good Pattern |
+|-------|------------|--------------|
+| Race condition | `await page.click('[data-testid="button"]')` | `await page.locator('[data-testid="button"]').click()` (auto-wait) |
+| Network timing | `await page.waitForTimeout(5000)` | `await page.waitForResponse(resp => resp.url().includes('/api/data'))` |
+| Animation | Click during animation | `await locator.waitFor({ state: 'visible' })` then click |
+
+### Artifact Management
+
+Capture evidence on test failures for debugging:
+
+```typescript
+// Explicit screenshots at key points
+await page.screenshot({ path: 'artifacts/after-login.png' });
+await page.screenshot({ path: 'artifacts/full-page.png', fullPage: true });
+
+// Element-specific screenshots
+await page.locator('[data-testid="chart"]').screenshot({ path: 'artifacts/chart.png' });
+```
+
+Configure video and trace capture in `playwright.config.ts`:
+
+```typescript
+use: {
+  video: 'retain-on-failure',    // Keep video only for failures
+  trace: 'on-first-retry',       // Capture trace on first retry
+  screenshot: 'only-on-failure', // Screenshot on failure
+}
+```
+
+### Multiple Reporter Formats
+
+```typescript
+// playwright.config.ts
+reporter: [
+  ['html', { outputFolder: 'playwright-report' }],
+  ['junit', { outputFile: 'playwright-results.xml' }],  // CI integration
+  ['json', { outputFile: 'playwright-results.json' }],   // Programmatic access
+  ['list'],                                                // Terminal output
+],
+```
+
+### Wallet / Web3 E2E Testing
+
+For applications with wallet integration:
+
+```typescript
+test('wallet connection', async ({ page, context }) => {
+  // Mock wallet provider before page load
+  await context.addInitScript(() => {
+    window.ethereum = {
+      isMetaMask: true,
+      request: async ({ method }) => {
+        if (method === 'eth_requestAccounts')
+          return ['0x1234567890123456789012345678901234567890'];
+        if (method === 'eth_chainId') return '0x1';
+      }
+    };
+  });
+
+  await page.goto('/');
+  await page.locator('[data-testid="connect-wallet"]').click();
+  await expect(page.locator('[data-testid="wallet-address"]')).toContainText('0x1234');
+});
+```
+
+### Financial / Critical Flow Testing
+
+```typescript
+test('trade execution', async ({ page }) => {
+  // Skip on production (real money)
+  test.skip(process.env.NODE_ENV === 'production', 'Skip on production');
+
+  await page.goto('/markets/test-market');
+  await page.locator('[data-testid="position-yes"]').click();
+  await page.locator('[data-testid="trade-amount"]').fill('1.0');
+
+  // Verify preview before confirming
+  const preview = page.locator('[data-testid="trade-preview"]');
+  await expect(preview).toContainText('1.0');
+
+  // Confirm and wait for API response
+  await page.locator('[data-testid="confirm-trade"]').click();
+  await page.waitForResponse(
+    resp => resp.url().includes('/api/trade') && resp.status() === 200,
+    { timeout: 30000 }
+  );
+
+  await expect(page.locator('[data-testid="trade-success"]')).toBeVisible();
+});
+```
+
+### Test Report Template
+
+```markdown
+# E2E Test Report
+
+**Date:** YYYY-MM-DD HH:MM
+**Duration:** Xm Ys
+**Status:** PASSING / FAILING
+
+## Summary
+- Total: X | Passed: Y (Z%) | Failed: A | Flaky: B | Skipped: C
+
+## Failed Tests
+
+### test-name
+**File:** `tests/e2e/feature.spec.ts:45`
+**Error:** Expected element to be visible
+**Screenshot:** artifacts/failed.png
+**Recommended Fix:** [description]
+
+## Artifacts
+- HTML Report: playwright-report/index.html
+- Screenshots: artifacts/*.png
+- Videos: artifacts/videos/*.webm
+- Traces: artifacts/*.zip
+```
+
+---
+
 ## ✅ Exit Checklist
 
 - [ ] Playwright installed and configured
@@ -710,5 +867,7 @@ npx playwright test --update-snapshots
 - [ ] Tests use stable selectors (role > label > testid)
 - [ ] CI pipeline runs E2E tests on every PR
 - [ ] Trace/screenshot/video captured on failure
+- [ ] Flaky tests quarantined with issue tracking (not deleted)
+- [ ] Multiple reporter formats configured (HTML + JUnit + JSON)
 - [ ] Tests pass reliably (no flaky tests)
 - [ ] Tests run against dedicated test database (not production)

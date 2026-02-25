@@ -31,6 +31,7 @@
 │  ┌──────────────────────────────────────────────────────────────────┐       │
 │  │ 3. PLAN: Create implementation plan                               │       │
 │  │    Skills: documentation_framework                                │       │
+│  │    Agent: /plan (planner + architect agents)                      │       │
 │  │    Output: Implementation plan with done criteria                 │       │
 │  └────────────────────────────┬─────────────────────────────────────┘       │
 │                               │                                              │
@@ -38,6 +39,7 @@
 │  ┌──────────────────────────────────────────────────────────────────┐       │
 │  │ 4. BUILD: Implement the feature                                   │       │
 │  │    Skills: bug_troubleshoot, code_review                          │       │
+│  │    Agents: /tdd, /build-fix, /code-review                        │       │
 │  │    Tools: Your AI coding assistant                                │       │
 │  └────────────────────────────┬─────────────────────────────────────┘       │
 │                               │                                              │
@@ -45,6 +47,7 @@
 │  ┌──────────────────────────────────────────────────────────────────┐       │
 │  │ 5. DOCUMENT: Record what was built                                │       │
 │  │    Skills: feature_architecture, feature_walkthrough              │       │
+│  │    Agent: /update-docs (doc-updater agent)                        │       │
 │  │    Output: Architecture doc, walkthrough                          │       │
 │  └────────────────────────────┬─────────────────────────────────────┘       │
 │                               │                                              │
@@ -52,6 +55,7 @@
 │  ┌──────────────────────────────────────────────────────────────────┐       │
 │  │ 6. SECURE: Audit for vulnerabilities                              │       │
 │  │    Skills: security_audit                                         │       │
+│  │    Agents: security-reviewer, /e2e (e2e-runner)                   │       │
 │  │    Output: Security audit report                                  │       │
 │  └────────────────────────────┬─────────────────────────────────────┘       │
 │                               │                                              │
@@ -69,17 +73,25 @@
 
 ## 📚 Skills Quick Reference
 
-| Skill | Trigger | When to Use |
-|-------|---------|-------------|
+| Skill / Command | Trigger | When to Use |
+|-----------------|---------|-------------|
 | `idea_to_spec` | "I have an idea for..." | Brain dump → structured spec |
 | `project_context` | "Update project context" | Track project state |
 | `documentation_framework` | "What docs do I need?" | Reference for doc types |
+| `/plan` | "Plan the implementation" | Create detailed plan (planner agent) |
+| `/tdd` | "Write tests first" | Test-driven development (tdd-guide agent) |
+| `/code-review` | "Review this code" | Automated code review (code-reviewer agent) |
+| `/build-fix` | "Fix this build error" | Build error resolution (build-error-resolver agent) |
+| `/e2e` | "Run E2E tests" | End-to-end testing (e2e-runner agent) |
+| `/refactor-clean` | "Clean up dead code" | Automated cleanup (refactor-cleaner agent) |
+| `/update-docs` | "Update the docs" | Documentation update (doc-updater agent) |
 | `feature_architecture` | "Document [feature] architecture" | After building complex features |
 | `feature_walkthrough` | "Create walkthrough" | After completing features |
-| `security_audit` | "Security audit for..." | Before shipping |
+| `security_audit` | "Security audit for..." | Before shipping (security-reviewer agent) |
 | `bug_troubleshoot` | "I have a bug..." | Structured debugging |
-| `code_review` | "Review this code" | Code review |
 | `code_review_response` | "Respond to PR feedback" | Address review comments |
+| `/checkpoint` | "Save session state" | Context window management |
+| `/learn` | "Extract patterns" | Learn from session |
 
 ---
 

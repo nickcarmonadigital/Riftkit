@@ -1,0 +1,568 @@
+================================================================
+[Loop 1] [Architect] [TK] 2026-02-25T08:00:00Z
+================================================================
+
+## Finding: Toolkit Lacks First-Principles Coverage of AI Session Lifecycle Management
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: The Toolkit phase contains 10 skills: age, ai_tool_orchestration, ceo-brain, content_creation, content_waterfall, cost_aware_llm_pipeline, iterative_retrieval, personal_brand, strategic_compact, video_research. A cross-cutting toolkit for an AI-driven dev framework must own complete coverage of: (1) session state lifecycle, (2) tool selection and routing, (3) cost governance, (4) context management, (5) knowledge capture and reuse, (6) orchestration patterns, (7) gap analysis and self-improvement, (8) brand/output quality, (9) content multiplication, and (10) research workflows. First-principles decomposition of "what must a toolkit own?" reveals the following atomic responsibilities that have NO skills covering them:
+- Skill versioning and deprecation management (no skill exists)
+- Skill dependency mapping and load ordering (no skill exists)
+- Skill quality metrics and validation (no skill exists — /skill-create generates files but doesn't validate quality)
+- AGE implementation pipeline: converting AGE findings into actual deployed skills (the age SKILL.md describes the loop protocol but does NOT describe how to take a gaps.log and produce shipping skills)
+- Cross-phase toolkit injection: how the toolkit injects itself into non-toolkit phases (no skill exists)
+- Reverse skill audit: mechanism to determine whether existing skills are being triggered and used (no skill exists — /learn extracts patterns but there is no "are existing skills working?" audit)
+### Proposed Resolution: New SKILL.md named "skill-lifecycle-manager" in toolkit phase. Trigger commands: "audit skill usage", "are my skills working?", "skill deprecation report". Scope: Tracks which skills have been triggered in recent sessions, identifies stale skills, enforces version metadata on all SKILL.md files, and runs quality checks (does the skill have trigger commands? completion criteria? a version?).
+### Cross-Phase Impact: Without this, ALL phases accumulate dead skills that never trigger. Skills from Build, Secure, and Maintenance phases silently fail to activate while users assume coverage exists.
+
+================================================================
+[Loop 1] [Architect] [TK] 2026-02-25T08:05:00Z
+================================================================
+
+## Finding: No Skill Covers the AGE Implementation Pipeline (Gap-to-Skill Conversion)
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: The "age" SKILL.md describes a 25-loop protocol for discovering gaps. The AGE-PROTOCOL.md (8-loop variant) describes discovery and solution-speccing. However, NEITHER document covers what happens AFTER a gaps.log is produced. There is no skill describing: how to prioritize gaps from the log, how to assign gaps to team members, how to create the actual SKILL.md file from a Builder-loop spec, how to validate the new skill works, and how to integrate it back into the framework. The /skill-create command generates skills from git history, not from gaps.log findings. This means AGE analysis produces specifications that die in the log file with no mechanical path to shipping.
+### Proposed Resolution: New SKILL.md named "age-to-skill-pipeline" in toolkit phase. Trigger commands: "implement age findings", "ship gaps from gaps.log", "convert age spec to skill". Scope: Takes a gaps.log Builder-loop output, extracts P0/P1 specs, creates SKILL.md scaffolding from each spec, runs /skill-create validation, and appends to skills-index.md.
+### Cross-Phase Impact: Every AGE analysis run on every phase (Build, Secure, Ship, etc.) produces a gaps.log. Without this pipeline, the entire AGE infrastructure is purely diagnostic — it discovers problems but has no mechanical resolution path.
+
+================================================================
+[Loop 1] [Architect] [TK] 2026-02-25T08:10:00Z
+================================================================
+
+## Finding: Content Skills (content_creation, content_waterfall, video_research, personal_brand) Are Developer-Brand Specific, Not Framework-General
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: Four of the ten toolkit skills (40%) are about social media content production: content_creation covers video hooks and filming best practices; content_waterfall covers extracting 30 shorts from one long-form video; video_research covers finding viral patterns on Instagram; personal_brand covers voice consistency for a specific "Logic-First Builder" persona. These skills are highly specific to a solo developer building a personal brand on Instagram/TikTok. They have zero relevance to a team using this framework for enterprise software delivery. The toolkit is described as "cross-cutting — it supports ALL phases," but 40% of it only supports ONE user's personal brand strategy. No first principle of a dev workflow framework mandates Instagram content production.
+### Proposed Resolution: These skills should remain but be scoped under a sub-directory "toolkit/personal-brand/" with a clear README noting they are optional brand-building extensions, not core framework infrastructure. A new "toolkit-core" vs "toolkit-extensions" taxonomy should be established. No new skill needed — needs reorganization and documentation.
+### Cross-Phase Impact: When new users adopt this framework, they encounter 4 skills irrelevant to their work, reducing perceived signal quality of the toolkit. This dilutes trust in the framework's recommendations for actual dev phases.
+
+================================================================
+[Loop 1] [Architect] [TK] 2026-02-25T08:15:00Z
+================================================================
+
+## Finding: No Skill Covers Multi-Agent Workflow Composition (How to Build Novel Orchestration Patterns)
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: The framework has /orchestrate command and /multi-* commands (multi-plan, multi-execute, multi-backend, multi-frontend, multi-workflow). The ai_tool_orchestration skill covers TOOL selection (Claude vs Cursor vs Copilot) and the ceo-brain skill covers a specific boardroom decision pattern. But there is NO skill covering: how to design a new multi-agent workflow from scratch, how to decide when parallel vs sequential agent execution is correct, how to handle agent failure in a pipeline, how to compose existing agents into novel patterns, or how to test an orchestration pipeline. The /orchestrate command describes 4 hardcoded workflows (feature, bugfix, refactor, security) but provides no guidance on authoring new ones.
+### Proposed Resolution: New SKILL.md named "workflow-composition" in toolkit phase. Trigger commands: "design a multi-agent workflow", "how do I orchestrate agents for X", "custom orchestration pattern". Scope: Teaches the primitives of sequential vs parallel execution, handoff document design, failure modes in agent pipelines, and how to write a new /orchestrate workflow type.
+### Cross-Phase Impact: Every phase (Build, Secure, Ship, Maintenance) benefits from custom orchestration. Without this skill, users are locked into the 4 hardcoded workflow types and cannot adapt orchestration to novel requirements.
+
+================================================================
+
+================================================================
+[Loop 2] [Architect] [TK] 2026-02-25T09:00:00Z
+================================================================
+
+## Finding: Depth Audit of All 10 Existing Skills
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: Reading Loop 1 findings and comparing each existing skill against "thorough" depth standard:
+
+| Skill | Depth | Reason |
+|-------|-------|--------|
+| age | SURFACE | Describes the loop protocol but has NO implementation guidance for running it in practice — no file paths, no how to initialize gaps.log, no how to use Builder output |
+| ai_tool_orchestration | ADEQUATE | Good decision tree and workflow patterns; missing: how to evaluate which tool actually performed better, no feedback loop, no metrics |
+| ceo-brain | SURFACE | Describes 9 personas and the debate structure but gives NO prompting templates, NO output format for the Execution Plan, NO integration with task.md or TodoWrite |
+| content_creation | ADEQUATE | Solid hook formulas and structures; missing: platform-specific algorithm guidance, A/B testing methodology |
+| content_waterfall | THOROUGH | Has workflow steps, tracking metrics, scheduling, checklist — most complete skill in the toolkit |
+| cost_aware_llm_pipeline | THOROUGH | Has code examples, pricing tables, anti-patterns, composition pattern — excellent depth |
+| iterative_retrieval | THOROUGH | Has phases, code examples, scoring criteria, practical examples — solid |
+| personal_brand | ADEQUATE | Has voice checklist and quality tests; missing: brand consistency enforcement across AI-generated content |
+| strategic_compact | ADEQUATE | Has hook setup, compaction guide, what survives; missing: how to write effective /compact summary messages |
+| video_research | ADEQUATE | Has manual and AI processes; missing: automated pipeline for batch processing, database schema for tracking |
+
+The two SURFACE skills (age and ceo-brain) are ironically the most strategically important ones in the toolkit. A skill that describes a complex protocol but provides no implementation path is not a functional skill.
+### Proposed Resolution: age SKILL.md needs a "Running AGE in Practice" section with: exact file paths, initialization steps, how to feed the gaps.log between loops, and how to use Builder output. ceo-brain SKILL.md needs: prompt templates for each of the 9 brains, an output format specification, and integration points with TodoWrite/task.md.
+### Cross-Phase Impact: The AGE skill is the meta-improvement engine for the entire framework. Its surface depth means the framework cannot effectively improve itself.
+
+================================================================
+[Loop 2] [Architect] [TK] 2026-02-25T09:10:00Z
+================================================================
+
+## Finding: No Skill Covers Skill Dependency Mapping
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: After reviewing all 10 SKILL.md files and their cross-references: content_waterfall references content_creation explicitly. iterative_retrieval references continuous-learning skill and agent definitions. strategic_compact references continuous-learning. But there is no systematic mapping of which skills depend on which, which skills must be activated before others, and what happens when a dependency skill is missing or outdated. The /evolve command clusters instincts but does not produce a dependency graph. No skill or tool in the framework produces a "skill dependency tree" that would tell a user: "to use workflow X, you need skills A, B, C loaded in sequence." This matters especially for toolkit skills that compose with phase skills.
+### Proposed Resolution: New SKILL.md named "skill-dependency-mapper" OR add dependency metadata to the SKILL.md frontmatter format (add `depends_on: [skill-name]` field). A companion /map-dependencies command would traverse all SKILL.md files and produce a dependency graph. Priority P2 — this is infrastructure that helps onboarding but is not blocking.
+### Cross-Phase Impact: All phases. When a user activates a phase skill that implicitly requires a toolkit skill (e.g., cost_aware_llm_pipeline), they get no warning that the toolkit skill must also be loaded.
+
+================================================================
+[Loop 2] [Architect] [TK] 2026-02-25T09:20:00Z
+================================================================
+
+## Finding: No Unified Trigger Command Taxonomy Across the Toolkit
+
+### Gap Type: MISSING_HANDOFF
+### Severity: MEDIUM
+### Evidence: Examining trigger commands across the 10 skills reveals severe inconsistency: content_waterfall has explicit TRIGGER COMMANDS section with 5 specific phrases. ai_tool_orchestration has a "When to Use" section with narrative bullets (no commands). ceo-brain has no trigger commands at all — just contextual use cases. age has no trigger commands — describes the loop protocol only. cost_aware_llm_pipeline has a "When to Activate" section. iterative_retrieval has a "When to Activate" section. strategic_compact has a "When to Activate" section. personal_brand has a "When to Use" section. content_creation has a "When to Use" section with narrative bullets. video_research has a "When to Use" section with narrative bullets. Only 1 of 10 skills (content_waterfall) has explicit slash-command-style trigger syntax. The other 9 use various formats. This makes it impossible to build automated command routing or skill discoverability.
+### Proposed Resolution: Establish a "Trigger Command Standard" — all SKILL.md files must include a standardized TRIGGER COMMANDS block with exact trigger phrases that activate the skill. Apply this standard as a retrofit to all 9 non-compliant toolkit skills. Add this standard to the SKILL.md template used by /skill-create.
+### Cross-Phase Impact: All phases. Every skill across the framework suffers from this inconsistency. Automated skill selection (which skill do I activate for this user request?) is impossible without standardized trigger syntax.
+
+================================================================
+
+================================================================
+[Loop 3] [Architect] [TK] 2026-02-25T10:00:00Z
+================================================================
+
+## Finding: Toolkit-to-Phase Handoff Is Completely Undefined
+
+### Gap Type: MISSING_HANDOFF
+### Severity: CRITICAL
+### Evidence: The Phase Adjacency Map in AGE-PROTOCOL.md lists: "Toolkit: Cross-cuts all phases." But NO skill in the toolkit describes HOW it integrates with specific phases. Examining the handoff question: What does Phase 0 (Context) pass to the toolkit? Nothing defined. What does Phase 3 (Build) receive from the toolkit? Nothing defined. When should a developer activate cost_aware_llm_pipeline — at project start, at first LLM call, at budget threshold? Undefined. When should strategic_compact activate relative to phase transitions? The skill describes general heuristics but does NOT say "compact between Phase 1 and Phase 2." When should iterative_retrieval activate in the Build phase versus the Design phase? Undefined. There are no "toolkit activation triggers" that fire when entering or exiting specific phases. The result: toolkit skills are passive reference documents rather than active phase participants.
+### Proposed Resolution: New SKILL.md named "toolkit-phase-integration-guide" OR add a `phases` field to SKILL.md frontmatter listing which phases activate each skill and at what events (phase-enter, phase-exit, on-demand). A companion section in each toolkit SKILL.md: "Phase Integration" — listing which phases should load this skill and when. Priority P1.
+### Cross-Phase Impact: This is the core cross-phase gap. Without defined integration points, the toolkit exists in isolation from the phases it claims to support.
+
+================================================================
+[Loop 3] [Architect] [TK] 2026-02-25T10:10:00Z
+================================================================
+
+## Finding: Toolkit Assumes Upstream (Phase 0) Delivered Clean Context — No Skill Validates This
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence: Multiple toolkit skills make implicit assumptions about upstream context: iterative_retrieval assumes a codebase already exists to search; cost_aware_llm_pipeline assumes an API client is already configured; strategic_compact assumes a long session has already started; ceo-brain assumes a decision problem has already been framed. But NO toolkit skill verifies that these preconditions are met before activating. If Phase 0 (Context) failed to establish project structure, a user activating iterative_retrieval in Phase 3 (Build) will get garbage output with no diagnostic. The toolkit has no "preflight check" pattern — no mechanism for a skill to declare "I require X to exist before I can execute" and verify it.
+### Proposed Resolution: Add a "Prerequisites" section to each SKILL.md listing what must be true before the skill activates. Create a companion /preflight command that reads a skill's prerequisites and validates them before execution. This is P1 infrastructure — it catches the most common failure mode (running a skill too early).
+### Cross-Phase Impact: Every phase transition is a risk point for unmet prerequisites. Build phase is highest risk — multiple toolkit skills are invoked during Build that require Design-phase artifacts to exist.
+
+================================================================
+[Loop 3] [Architect] [TK] 2026-02-25T10:20:00Z
+================================================================
+
+## Finding: No Toolkit Skill Covers What Happens When the Toolkit Itself Is Wrong
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: The AGE skill describes how to find gaps in OTHER phases. But what is the process when a toolkit skill itself gives bad guidance? For example: the ai_tool_orchestration skill recommends Gemini for brainstorming, but a user on a corporate network cannot access Gemini. The cost_aware_llm_pipeline pricing table uses 2025-2026 prices that will become stale. The personal_brand skill hardcodes a specific visual identity that may not match a new user's brand. There is no "toolkit skill override" mechanism — no way for a user to document "I've customized skill X for my context" and have that override take precedence. The framework has no skill inheritance or override pattern.
+### Proposed Resolution: Establish a "local overrides" convention: `.agent/skills/overrides/[skill-name].md` files that extend or replace specific sections of toolkit skills. The SKILL.md loading system should check overrides/ first. This enables teams to adapt toolkit skills without forking the entire framework. Priority P2.
+### Cross-Phase Impact: All phases. Any skill can become wrong for a specific team's context. Without override capability, teams must fork the framework to customize it, preventing upstream updates.
+
+================================================================
+[Loop 3] [Architect] [TK] 2026-02-25T10:30:00Z
+================================================================
+
+## Finding: Downstream Phases (Maintenance, Handoff) Have No Toolkit Feedback Loop
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence: The framework's phase adjacency ends at Phase 7 (Maintenance) → but the toolkit has no "retrospective" skill that runs after project completion to capture: which toolkit skills were activated, which ones were helpful, which ones caused confusion, and what new patterns emerged. The /learn command captures in-session patterns. But there is no end-of-project or end-of-phase toolkit audit that feeds improvements back into the toolkit itself. The toolkit is static — it does not learn from its own usage. By contrast, the continuous-learning-v2 skill (referenced by iterative_retrieval and strategic_compact) IS designed for per-session learning, but it lives outside the toolkit and its relationship to toolkit skills is undefined.
+### Proposed Resolution: New SKILL.md named "toolkit-retrospective" in toolkit phase. Trigger commands: "toolkit retrospective", "what skills worked?", "phase toolkit review". Scope: After completing a phase or project, runs a structured audit of toolkit skill usage, records which skills were activated, captures user feedback on effectiveness, and feeds findings into /learn or AGE for next iteration. Priority P1.
+### Cross-Phase Impact: Without this loop, the toolkit cannot improve. Phase 7 (Maintenance) in particular surfaces toolkit failures that never get reported back.
+
+================================================================
+
+================================================================
+[Loop 4] [Detective] [TK] 2026-02-25T11:00:00Z
+================================================================
+
+## Finding: Perfect Toolkit Execution Requires a Skill Registry That Does Not Exist
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Reading all Loop 1-3 findings: If a team perfectly completed a project using this framework's toolkit, what MUST have happened? They would have: (1) known which toolkit skills existed and were relevant to their phase, (2) known the trigger commands to activate each skill, (3) known the prerequisites for each skill, (4) tracked their AI costs across all toolkit operations, (5) managed context compaction at phase boundaries, (6) captured patterns via /learn at the end. Working backward from this ideal: Step 1 requires a SKILL REGISTRY — a queryable index of all skills with their phases, triggers, prerequisites, and status. The current skills-index.md (referenced in agents/README.md) is a flat catalog. It is not queryable, not linked to trigger commands, and not integrated with any activation mechanism. A perfect toolkit execution requires discoverability infrastructure that does not currently exist.
+### Proposed Resolution: New SKILL.md named "skill-registry" in toolkit phase AND a companion /search-skills command. The registry skill teaches the pattern of maintaining skills-index.md as a queryable structured document (YAML or JSON) with fields: name, phase, triggers, prerequisites, version, last-activated. /search-skills [query] returns matching skills. Priority P0 — this is discoverability infrastructure for the entire framework.
+### Cross-Phase Impact: ALL phases. Without a queryable skill registry, users cannot efficiently find skills relevant to their current task. This is the #1 discoverability gap in the entire framework.
+
+================================================================
+[Loop 4] [Detective] [TK] 2026-02-25T11:15:00Z
+================================================================
+
+## Finding: Perfect Cost Governance Requires Cross-Session Budget Tracking That cost_aware_llm_pipeline Does Not Provide
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: Working backward from a perfectly cost-governed project: the team would have had a project-level budget ($X for the entire build), tracked cumulative spend across ALL sessions (not just one pipeline execution), received alerts when approaching 50%/80%/100% of budget, attributed costs to specific phases and skills, and generated a post-project cost report. The cost_aware_llm_pipeline skill covers per-execution cost tracking with immutable CostRecord/CostTracker patterns — excellent for a single pipeline run. But it has no concept of: (1) persistent cross-session budget, (2) budget attached to a project or phase, (3) cost attribution to specific skills or agents, (4) alerting when approaching limits, (5) cost reporting format. The CostTracker is in-memory and dies with the process. There is no ".agent/costs.log" or equivalent.
+### Proposed Resolution: Extend cost_aware_llm_pipeline SKILL.md with a "Cross-Session Budget Tracking" section that defines: a .agent/costs.json persistent store format, a /budget command (set, check, report), and integration with the strategic_compact hook system to trigger compaction when per-session costs exceed threshold. Priority P1.
+### Cross-Phase Impact: Build phase (most AI calls), Secure phase (security scans), and any AI-heavy phase. Without cross-session tracking, a project can exhaust its AI budget mid-build with no warning.
+
+================================================================
+[Loop 4] [Detective] [TK] 2026-02-25T11:30:00Z
+================================================================
+
+## Finding: Perfect AGE Analysis Requires Loop-to-Loop Context Handoff That the age SKILL Does Not Specify
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: Reverse thinking the AGE skill: If a team ran a perfect 8-loop AGE analysis on a phase, what must have happened? Each loop must have: (1) read the existing gaps.log before writing, (2) started from a specific SKILL.md state, (3) had clear role definition (Architect/Detective/Builder), (4) produced findings in the exact gaps.log format, (5) not duplicated findings from prior loops. The age SKILL.md describes the philosophy and the 25-loop protocol diagram. It does NOT describe: what to put in the initialization message for each loop, how to verify that a loop read the gaps.log before producing findings, how to prevent cross-contamination between loops in a single AI session (since the AI retains context), and how to run the protocol in a team (multiple people running different loops). The "Ralph Wiggum" fresh-context principle is stated but not mechanically enforced. In the 8-loop reduced protocol (AGE-PROTOCOL.md), there is no mechanism to guarantee loop isolation.
+### Proposed Resolution: Add to the age SKILL.md: a "Loop Isolation Protocol" section with exact initialization prompts for each role (Architect/Detective/Builder), a checklist for verifying loop output before proceeding to next loop, and a "Team AGE" guide for distributing loops across multiple people. Priority P1.
+### Cross-Phase Impact: Every AGE analysis on every phase. Without loop isolation, multi-loop analyses produce contaminated findings that blur phase-specific gaps.
+
+================================================================
+[Loop 4] [Detective] [TK] 2026-02-25T11:45:00Z
+================================================================
+
+## Finding: Perfect Multi-Tool Orchestration Requires Tool Performance Metrics That ai_tool_orchestration Omits
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: If a developer perfectly orchestrated multiple AI tools over 3 months, what must have happened? They would have: selected the right tool for each task (the decision tree covers this), tracked which tool produced better results for each task type, adjusted their tool preferences based on evidence, and identified tasks where no single tool excelled. The ai_tool_orchestration skill covers selection heuristics but has NO feedback mechanism. After a Claude Code session, was it the right choice? After using Gemini for brainstorming, was the output better than using Claude? There is no "tool effectiveness log" and no structured way to record "this task type worked best with tool X." The cost optimization section gives monthly budget guidance but no per-task cost-effectiveness analysis. A developer running this framework for months accumulates no structured data about tool effectiveness.
+### Proposed Resolution: Add a "Tool Effectiveness Tracking" section to ai_tool_orchestration SKILL.md with: a simple markdown table format for logging tool selection decisions and outcomes, trigger for /learn to capture tool effectiveness patterns, and a monthly review cadence. This integrates with the /learn and /evolve ecosystem. Priority P2.
+### Cross-Phase Impact: All phases that use AI tools. Design phase (Gemini for architecture), Build phase (Claude Code for implementation), Review phases. Without feedback loops, tool selection remains heuristic and never improves from evidence.
+
+================================================================
+
+================================================================
+[Loop 5] [Detective] [TK] 2026-02-25T12:00:00Z
+================================================================
+
+## Finding: cost_aware_llm_pipeline Fails Catastrophically in Multi-Provider Environments
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: Reading all prior findings: The cost_aware_llm_pipeline skill is written exclusively for Anthropic API (Claude models with claude-sonnet-4-6, claude-haiku-4-5). It uses `from anthropic import APIConnectionError, RateLimitError, InternalServerError` — Anthropic SDK specific. The pricing table is Anthropic-only. The retry logic is Anthropic SDK specific. But the ai_tool_orchestration skill recommends using Claude, Gemini, GPT-4, Copilot together. In the real world, a project using this framework will call multiple providers: Anthropic for Claude Code, OpenAI for Copilot/GPT-4, Google for Gemini. When this happens: the CostTracker only tracks Anthropic costs, the model routing only knows Anthropic model complexity thresholds, and the retry logic fails silently for other providers. The skill title says "LLM Pipeline" implying generality, but it is provider-locked. A team that uses OpenRouter (as in the ATOM/OpenClaw setup in project memory) would find this skill completely inapplicable.
+### Proposed Resolution: Add a "Multi-Provider Extension" section to cost_aware_llm_pipeline SKILL.md that: (1) abstracts the CostRecord to include provider field, (2) provides a provider-agnostic retry error taxonomy, (3) extends pricing table to OpenAI and Google, (4) includes an OpenRouter-compatible routing pattern. Priority P1.
+### Cross-Phase Impact: Any phase where multiple AI providers are used. Most relevant to Build (highest LLM call volume) and Secure (may require specialized models).
+
+================================================================
+[Loop 5] [Detective] [TK] 2026-02-25T12:15:00Z
+================================================================
+
+## Finding: strategic_compact Fails When Claude Code Runs in Non-Interactive Mode (CI/CD, Automation)
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: The strategic_compact skill relies on a hook that fires on PreToolUse (Edit/Write) and suggests the user run /compact. This assumes an interactive human session where the user can read a suggestion and act on it. Failure modes not addressed: (1) When Claude Code runs in headless/CI mode (e.g., GitHub Actions using Claude Code as a CI agent), there is no user to read the suggestion — it silently fires and produces no effect. (2) When session context is managed by an orchestrator (multi-agent workflows via /multi-execute), the compact decision is made per-subagent and the orchestrator's context is separate. (3) When running /orchestrate workflows that span multiple agent invocations, strategic_compact fires in each subagent independently — but the orchestrator's context window is what actually matters. The skill's hook mechanism is designed for interactive solo sessions only and has undefined behavior in all automation contexts.
+### Proposed Resolution: Add a "Non-Interactive Context Management" section to strategic_compact SKILL.md covering: (1) how to handle compaction in CI/CD environments (write context summary to file instead of suggesting /compact), (2) how to configure orchestrator-level compaction vs subagent-level compaction, (3) a COMPACT_MODE env variable (interactive | file | disabled). Priority P1.
+### Cross-Phase Impact: Ship phase (CI/CD heavy), Multi-agent workflows across all phases. As automation increases, interactive-only tools become liabilities.
+
+================================================================
+[Loop 5] [Detective] [TK] 2026-02-25T12:30:00Z
+================================================================
+
+## Finding: iterative_retrieval Fails on Monorepos and Large Codebases With No Fallback
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence: The iterative_retrieval skill uses file glob patterns (src/**/*.ts) and keyword searches across a codebase. Failure modes: (1) In a monorepo with 10,000+ files, the DISPATCH phase returns too many candidates and overwhelms context. The skill caps at 3 cycles but has no guidance on what to do when 3 cycles complete without sufficient context. (2) In polyglot codebases (TypeScript + Python + Go), the pattern matching must vary by language but the skill only shows TypeScript examples. (3) In codebases with heavy code generation (Prisma generates types, OpenAPI generates clients), retrieved files are generated and mislead relevance scoring. (4) When the task itself is not well-defined enough to form an initial query, the DISPATCH phase produces garbage candidates from the first cycle. The skill says "Start broad, narrow progressively" but gives no guidance for the "task too vague to start" failure.
+### Proposed Resolution: Add a "Failure Modes and Recovery" section to iterative_retrieval SKILL.md: (1) monorepo scoping strategy (add workspace/package filter before dispatch), (2) generated-code exclusion patterns, (3) "task clarification loop" for vague tasks (ask 3 clarifying questions before first dispatch), (4) maximum-cycles-reached fallback (return top-N by relevance score even without 3 high-relevance files). Priority P2.
+### Cross-Phase Impact: Build and Maintenance phases most affected. Large codebases are where iterative_retrieval is most needed and currently most fragile.
+
+================================================================
+[Loop 5] [Detective] [TK] 2026-02-25T12:45:00Z
+================================================================
+
+## Finding: ceo-brain Skill Fails Without Structured Debate Memory — Produces Hallucinated Consensus
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: The ceo-brain skill convenes 9 "Brains" in a debate structure. The failure mode: in a long session, each Brain's output pushes prior Brains' outputs out of the context window. By the time the Visionary makes the final decision (Step 3), it may have lost the Analyst's (CFO) specific numbers from Step 2. The skill has no "debate log" artifact — no requirement to write each Brain's output to a structured file before proceeding. Without this, the "boardroom" debate is all in-context and subject to context pressure truncation. The final decision can then be based on incomplete information. In the worst case, the Visionary "hallucinate-synthesizes" positions that no Brain actually held. This is the most dangerous failure mode in a decision-making skill — it produces confident-sounding decisions based on corrupted context. The skill's mermaid diagram shows a Debate Log node but the SKILL.md does not define its format or persistence requirement.
+### Proposed Resolution: Add to ceo-brain SKILL.md: (1) a required "Debate Log" file format (.agent/memory/ceo-brain-[date]-[topic].md), (2) mandate that each Brain's output be written to the log before the next Brain is invoked, (3) Visionary reads from the log file, not from context memory, for the final decision. This eliminates context-truncation hallucination. Priority P0 — decision quality is critical.
+### Cross-Phase Impact: Any phase where strategic decisions are made. Most impactful in Design (architecture decisions), Secure (risk tradeoffs), and Handoff (final delivery decisions).
+
+================================================================
+
+================================================================
+[Loop 6] [Detective] [TK] 2026-02-25T13:00:00Z
+================================================================
+
+## Finding: Toolkit Has No Alignment With DORA Metrics — Deployment Frequency, Lead Time, MTTR, Change Failure Rate Are Untracked
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: DORA (DevOps Research and Assessment) metrics are the industry standard for measuring software delivery performance: Deployment Frequency, Lead Time for Changes, Mean Time to Recovery (MTTR), Change Failure Rate. The toolkit phase as cross-cutting infrastructure should track or enable measurement of all four. Current state: no toolkit skill mentions DORA. cost_aware_llm_pipeline tracks AI cost but not delivery velocity. strategic_compact tracks context but not lead time. The AGE skill finds gaps but does not measure if fixes improved DORA metrics. The framework has no telemetry or measurement skill. By contrast, high-performing engineering organizations use DORA as a north star. A framework claiming to support professional software delivery must enable DORA measurement.
+### Proposed Resolution: New SKILL.md named "delivery-metrics" in toolkit phase. Trigger commands: "what are our DORA metrics?", "measure delivery performance", "deployment frequency report". Scope: Teaches how to instrument the framework to capture the four DORA metrics using git history, deployment logs, and incident records. Includes a .agent/metrics/ data store convention and a /metrics command. Priority P1.
+### Cross-Phase Impact: Ship phase (deployment frequency, change failure rate), Maintenance phase (MTTR), Build phase (lead time). Without measurement, the framework cannot demonstrate improvement over time.
+
+================================================================
+[Loop 6] [Detective] [TK] 2026-02-25T13:15:00Z
+================================================================
+
+## Finding: Toolkit Has No Compliance or Audit Trail Capability (SOC2, ISO 27001 Deviation)
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: SOC2 Type II and ISO 27001 require: (1) evidence that AI tools handling sensitive data have appropriate access controls, (2) audit logs of AI-assisted decisions affecting production systems, (3) human review attestation for AI-generated code going to production, (4) data handling policies for code sent to external AI APIs. The toolkit as currently defined: sends code to external AI APIs (Claude, Gemini, GPT-4) with no guidance on data classification, has no audit log of AI-assisted decisions, has no "human review required" gate for AI-generated artifacts, and has no policy skill for acceptable AI tool use. For enterprise teams using this framework, the lack of compliance guidance creates liability. The security-reviewer agent focuses on code security, not AI usage compliance. This is a documented industry gap.
+### Proposed Resolution: New SKILL.md named "ai-compliance-toolkit" in toolkit phase. Trigger commands: "AI compliance review", "audit AI usage", "SOC2 AI checklist". Scope: Covers data classification for AI API calls (what to never send to external AI), audit logging of AI-assisted decisions, human-in-the-loop gates for production-bound AI-generated code, and policy templates for acceptable AI tool use. Priority P1 for enterprise users, P3 for solo developers.
+### Cross-Phase Impact: All phases. Any phase that sends code or data to external AI APIs has compliance exposure. Secure and Ship phases are highest risk.
+
+================================================================
+[Loop 6] [Detective] [TK] 2026-02-25T13:30:00Z
+================================================================
+
+## Finding: Toolkit Has No Prompt Injection Defense or AI Security Hardening (OWASP LLM Top 10 Deviation)
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: CRITICAL
+### Evidence: OWASP has published the LLM Top 10 vulnerabilities (2025): LLM01 Prompt Injection, LLM02 Insecure Output Handling, LLM03 Training Data Poisoning, LLM04 Model Denial of Service, LLM06 Sensitive Information Disclosure, LLM07 Insecure Plugin Design. The toolkit is the AI layer of this framework — it defines HOW AI tools are used. Yet NO toolkit skill addresses: prompt injection in AI-assisted workflows (malicious code in files read by Claude could inject into the AI's context), insecure output handling (AI-generated code used directly without validation), sensitive information disclosure (API keys, PII in prompts sent to external AI), insecure plugin/MCP design (the ai_tool_orchestration skill lists MCP servers but has NO security guidance for them). The ai_tool_orchestration skill says "Only connect MCP servers you trust" with no further guidance — a dangerously thin treatment of a high-severity risk.
+### Proposed Resolution: New SKILL.md named "ai-security-hardening" in toolkit phase. Trigger commands: "AI security review", "harden AI pipeline", "OWASP LLM audit". Scope: Covers the OWASP LLM Top 10 in the context of this framework's AI tool usage — prompt injection prevention, output validation gates, sensitive data scrubbing before API calls, and secure MCP server configuration. Priority P0 — this is a security gap in the AI layer itself.
+### Cross-Phase Impact: All phases. Particularly critical: Build (Claude reads production code), Secure (AI analyzes sensitive security findings), Handoff (documentation with sensitive system details).
+
+================================================================
+[Loop 6] [Detective] [TK] 2026-02-25T13:45:00Z
+================================================================
+
+## Finding: Toolkit Versioning Has No Semantic Versioning Standard (SRE/Release Engineering Deviation)
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence: Examining SKILL.md version metadata: content_waterfall is "Skill Version: 2.0 | Merged from: content_cascade + waterfall_content | Updated: January 26, 2026". ai_tool_orchestration is "Skill Version: 1.0 | Created: February 2026". personal_brand is "Skill Version: 1.0 | Created: January 20, 2026". cost_aware_llm_pipeline has no version header. iterative_retrieval has no version header. age has no version header. ceo-brain has no version header. strategic_compact has no version header. video_research has no version header. content_creation has no version header. 7 of 10 toolkit skills have NO version metadata. The 3 that do use inconsistent formats. Industry standard (semver.org) requires MAJOR.MINOR.PATCH format with defined semantics. Without versioning: users cannot know if a skill is stable or experimental, breaking changes cannot be communicated, and the skill-dependency system (proposed in Loop 2) cannot specify minimum version requirements.
+### Proposed Resolution: Establish mandatory semver versioning for all SKILL.md files. Add `version`, `status` (stable/experimental/deprecated), and `breaking_changes` fields to the SKILL.md frontmatter standard. Retrofit all 10 toolkit skills. The /skill-create command must generate version-stamped skills. Priority P2.
+### Cross-Phase Impact: All phases. Applies to all skills across the framework, not just toolkit. This is a framework-wide standards gap.
+
+================================================================
+
+================================================================
+[Loop 7] [Builder] [TK] 2026-02-25T14:00:00Z
+================================================================
+
+## Finding: Solution Spec — skill-registry (Addresses Loop 1, Loop 4 MISSING_SKILL: Discoverability)
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Loops 1 and 4 both confirmed: there is no queryable skill registry. Loop 2's depth audit confirmed skills-index.md exists but is a flat catalog. Loop 3 confirmed no phase-integration metadata on skills. Loop 5 confirmed trigger inconsistency makes routing impossible.
+
+**NEW SKILL SPEC:**
+- **Name**: skill-registry
+- **Phase**: toolkit
+- **Trigger Commands**: "search skills [query]", "what skill covers X?", "list skills for [phase]", "skill registry status"
+- **Scope**: Maintains a structured YAML registry at .agent/skills-registry.yaml with fields per skill: name, phase, triggers[], prerequisites[], version, status, last-activated, description. Provides query patterns for finding relevant skills by phase or keyword. Integrates with /skill-create to auto-register new skills and with /learn to update last-activated timestamps.
+- **Priority**: P0
+- **File**: `.agent/skills/toolkit/skill-registry/SKILL.md`
+- **Dependencies**: None (foundational)
+- **Agent requirement**: None (standalone SKILL.md + /search-skills command)
+
+================================================================
+[Loop 7] [Builder] [TK] 2026-02-25T14:10:00Z
+================================================================
+
+## Finding: Solution Spec — ai-security-hardening (Addresses Loop 6 INDUSTRY_DEVIATION: OWASP LLM Top 10)
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Loop 6 confirmed: no toolkit skill addresses OWASP LLM Top 10. The ai_tool_orchestration skill has dangerously thin MCP security guidance. No skill covers prompt injection, output validation, or sensitive data handling before AI API calls. Loop 5 confirmed cost_aware_llm_pipeline is provider-locked — the same architectural gap exists in security coverage.
+
+**NEW SKILL SPEC:**
+- **Name**: ai-security-hardening
+- **Phase**: toolkit
+- **Trigger Commands**: "AI security review", "harden AI pipeline", "OWASP LLM audit", "secure my AI tools", "before sending to AI API"
+- **Scope**: Implements OWASP LLM Top 10 defenses for framework AI usage. Section 1: Pre-flight data scrubber (regex/rules for detecting API keys, PII, credentials before sending to external AI). Section 2: Prompt injection detection (flag files with unusual instruction patterns before reading into agent context). Section 3: Output validation gate (checklist before using AI-generated code in production). Section 4: Secure MCP configuration guide (minimum permissions, network isolation, secret management for MCP servers).
+- **Priority**: P0
+- **File**: `.agent/skills/toolkit/ai-security-hardening/SKILL.md`
+- **Dependencies**: ai_tool_orchestration (extends its MCP guidance)
+- **Agent requirement**: Consider creating a security-ai-reviewer agent to automate pre-flight checks
+
+================================================================
+[Loop 7] [Builder] [TK] 2026-02-25T14:20:00Z
+================================================================
+
+## Finding: Solution Spec — ceo-brain Debate Log Enhancement (Addresses Loop 5 FAILURE_MODE: Hallucinated Consensus)
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: CRITICAL
+### Evidence: Loop 5 confirmed: ceo-brain's debate structure is entirely in-context with no persistent artifact. Context-pressure truncation causes the Visionary's final decision to be based on incomplete information, producing confident-sounding decisions from corrupted context. This is the highest-severity failure mode in the toolkit because it corrupts strategic decisions silently.
+
+**ENHANCEMENT SPEC (not a new skill — modify existing ceo-brain SKILL.md):**
+- **Change**: Add "Debate Log Protocol" section to ceo-brain SKILL.md
+- **Trigger**: Any invocation of ceo-brain boardroom protocol
+- **Content to Add**:
+  - Mandatory debate log file: `.agent/memory/boardroom-[YYYYMMDD]-[topic-slug].md`
+  - After each Brain speaks: append their output to the log file (use Write tool)
+  - Visionary's decision phase: READ the log file first, summarize all Brain positions from file, then decide
+  - Output format for each Brain entry in the log (Brain name, role, position, evidence, recommendation)
+  - Template for the final Decision Record (decision, rationale, dissenting views, action items)
+- **Priority**: P0
+- **File**: Modify `/mnt/c/Users/conva/Desktop/ai-dev-workflow-framework/.agent/skills/toolkit/ceo-brain/SKILL.md`
+- **Dependencies**: None (uses Write tool already available)
+
+================================================================
+[Loop 7] [Builder] [TK] 2026-02-25T14:30:00Z
+================================================================
+
+## Finding: Solution Spec — age-to-skill-pipeline (Addresses Loop 1 MISSING_SKILL: Gap-to-Skill Conversion)
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Loop 1 confirmed: AGE produces gaps.log with Builder-loop specs that have no mechanical path to becoming deployed skills. Loop 2 confirmed: age SKILL.md is SURFACE depth. Loop 4 confirmed: perfect AGE execution requires loop-by-loop validation that is currently undefined. The entire AGE infrastructure is diagnostic without a resolution pipeline.
+
+**NEW SKILL SPEC:**
+- **Name**: age-to-skill-pipeline
+- **Phase**: toolkit
+- **Trigger Commands**: "implement age findings", "ship gaps from log", "convert age spec to skill", "process gaps.log", "age implementation run"
+- **Scope**: Reads a gaps.log file, extracts all Builder-loop (Loop 7-8 in AGE-PROTOCOL.md) specifications, filters by priority (P0 first, then P1), creates SKILL.md scaffolding for each spec using the standard frontmatter format, writes to the correct phase directory, updates skills-registry.yaml, and opens a checklist of created files for user review before committing. Also handles "enhancement specs" (modifications to existing skills) by generating the exact Edit tool call needed.
+- **Priority**: P0
+- **File**: `.agent/skills/toolkit/age-to-skill-pipeline/SKILL.md`
+- **Dependencies**: skill-registry (to update registry after creating skills), age (reads gaps.log format)
+- **Agent requirement**: Consider creating an "age-implementer" agent that automates the pipeline end-to-end
+
+================================================================
+[Loop 7] [Builder] [TK] 2026-02-25T14:40:00Z
+================================================================
+
+## Finding: Solution Spec — toolkit-phase-integration-guide (Addresses Loop 3 MISSING_HANDOFF: Phase Integration Undefined)
+
+### Gap Type: MISSING_HANDOFF
+### Severity: CRITICAL
+### Evidence: Loop 3 confirmed: no skill defines HOW toolkit skills integrate with specific phases. Loop 3 also confirmed: no "preflight check" pattern exists. Loop 4's reverse thinking confirmed that perfect toolkit use requires knowing which skills activate at which phase boundaries.
+
+**NEW SKILL SPEC:**
+- **Name**: toolkit-phase-integration-guide
+- **Phase**: toolkit
+- **Trigger Commands**: "toolkit setup for [phase]", "which toolkit skills for build?", "phase toolkit activation", "configure toolkit"
+- **Scope**: Definitive reference for which toolkit skills activate at which phase events. Organized as a matrix: rows = phases (0-7 + Alpha/Beta), columns = toolkit skills, cells = activation event (phase-enter / on-demand / phase-exit / none). For each activation point: lists prerequisites, expected outputs, and handoff artifacts. Also defines the "preflight check" pattern — a /preflight [skill-name] command that validates prerequisites before skill execution.
+- **Priority**: P1
+- **File**: `.agent/skills/toolkit/toolkit-phase-integration-guide/SKILL.md`
+- **Dependencies**: All other toolkit skills (documents their integration points)
+- **Agent requirement**: None (reference document + /preflight command)
+
+================================================================
+[Loop 7] [Builder] [TK] 2026-02-25T14:50:00Z
+================================================================
+
+## Finding: Solution Spec — delivery-metrics (Addresses Loop 6 INDUSTRY_DEVIATION: DORA Metrics)
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: Loop 6 confirmed: framework has no DORA metrics capability. This is a critical gap for any team using this framework professionally — they cannot measure whether the framework is improving their delivery performance.
+
+**NEW SKILL SPEC:**
+- **Name**: delivery-metrics
+- **Phase**: toolkit
+- **Trigger Commands**: "measure delivery performance", "DORA metrics", "deployment frequency", "lead time report", "what's our MTTR?", "change failure rate"
+- **Scope**: Instruments the framework to capture the four DORA metrics. Deployment Frequency: counts deploys per week from git tags or deployment logs. Lead Time for Changes: measures commit-to-production time from git history. MTTR: records incident start/resolution timestamps in .agent/metrics/incidents.log. Change Failure Rate: flags commits that required hotfix within 24 hours. Stores all metrics in .agent/metrics/dora.json with weekly snapshots. Provides a /metrics report command that shows current Elite/High/Medium/Low DORA tier classification.
+- **Priority**: P1
+- **File**: `.agent/skills/toolkit/delivery-metrics/SKILL.md`
+- **Dependencies**: None (reads git history + deployment logs)
+- **Agent requirement**: None (standalone SKILL.md + /metrics command)
+
+================================================================
+[Loop 7] [Builder] [TK] 2026-02-25T15:00:00Z
+================================================================
+
+## Finding: Solution Spec — SKILL.md Standard Retrofits (Addresses Loop 2 SHALLOW_COVERAGE + Loop 2/3 Trigger Inconsistency + Loop 6 Versioning)
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: Loop 2 confirmed: age and ceo-brain are SURFACE depth. Loop 2/3 confirmed: 9 of 10 toolkit skills lack standardized trigger commands. Loop 6 confirmed: 7 of 10 skills lack version metadata. These are retrofits to existing skills, not new skills.
+
+**ENHANCEMENT SPECS (modify existing SKILL.md files):**
+
+1. **age SKILL.md** — Add: "Running AGE in Practice" section (initialization steps, exact gaps.log path setup, loop-by-loop initialization prompts, output validation checklist per loop). Add version: 1.1.0. Add TRIGGER COMMANDS block: "run age analysis on [phase]", "adversarial gap analysis for [target]", "8-loop age analysis".
+
+2. **ceo-brain SKILL.md** — Add: prompt template for each of 9 Brains, Debate Log file format, Decision Record output template, integration with task.md and TodoWrite. Add version: 1.1.0. Add TRIGGER COMMANDS block: "boardroom session on [topic]", "convene the brains", "CEO brain [decision]".
+
+3. **cost_aware_llm_pipeline SKILL.md** — Add: multi-provider extension (provider field in CostRecord, OpenAI/Google pricing, OpenRouter support), cross-session budget tracking (.agent/costs.json format), /budget command spec. Add version: 1.1.0. Add TRIGGER COMMANDS block.
+
+4. **All 7 remaining toolkit skills** — Add standardized `version`, `status`, `phases` frontmatter fields. Add TRIGGER COMMANDS block in consistent format.
+
+- **Priority**: P1 for age and ceo-brain (SURFACE depth), P2 for others (standardization)
+- **Implementation**: Edit existing SKILL.md files, no new directories needed
+
+================================================================
+
+================================================================
+[Loop 8] [Builder] [TK] 2026-02-25T15:30:00Z
+================================================================
+
+## Finding: Dependency Graph and Implementation Sequencing for All Proposed Solutions
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Reading all Loop 1-7 findings and organizing the full solution set into implementation order with dependencies:
+
+**PROPOSED SOLUTIONS INVENTORY:**
+
+| ID | Solution | Type | Priority | Complexity | Dependencies |
+|----|----------|------|----------|------------|--------------|
+| TK-S1 | skill-registry | New SKILL.md + command | P0 | M (half-day) | None — foundational |
+| TK-S2 | ai-security-hardening | New SKILL.md | P0 | L (full-day) | TK-S1 (to register), ai_tool_orchestration (extends) |
+| TK-S3 | ceo-brain Debate Log | Modify existing SKILL.md | P0 | S (1-2hrs) | None |
+| TK-S4 | age-to-skill-pipeline | New SKILL.md | P0 | M (half-day) | TK-S1 (to update registry), age (reads gaps.log) |
+| TK-S5 | toolkit-phase-integration-guide | New SKILL.md + command | P1 | L (full-day) | All toolkit skills must exist first |
+| TK-S6 | delivery-metrics | New SKILL.md + command | P1 | M (half-day) | None |
+| TK-S7 | age SKILL.md depth enhancement | Modify existing SKILL.md | P1 | S (1-2hrs) | None |
+| TK-S8 | ceo-brain full enhancement | Modify existing SKILL.md | P1 | S (1-2hrs) | TK-S3 already addresses debate log |
+| TK-S9 | cost_aware_llm_pipeline multi-provider | Modify existing SKILL.md | P1 | M (half-day) | None |
+| TK-S10 | Trigger command standardization (all 9 skills) | Modify existing SKILL.md x9 | P2 | S per skill | None |
+| TK-S11 | Semver versioning retrofit (all 10 skills) | Modify frontmatter x10 | P2 | S per skill | None |
+| TK-S12 | ai-compliance-toolkit | New SKILL.md | P1 | M (half-day) | TK-S2 (related to security) |
+| TK-S13 | toolkit-retrospective | New SKILL.md | P1 | S (1-2hrs) | TK-S1 (to log skill usage) |
+| TK-S14 | skill-lifecycle-manager | New SKILL.md | P1 | M (half-day) | TK-S1 (reads registry) |
+| TK-S15 | skill-dependency-mapper | New SKILL.md + /map-dependencies | P2 | M (half-day) | TK-S1 (reads registry) |
+| TK-S16 | workflow-composition | New SKILL.md | P1 | M (half-day) | None |
+| TK-S17 | Tool effectiveness tracking addition to ai_tool_orchestration | Modify existing SKILL.md | P2 | S (1-2hrs) | None |
+| TK-S18 | strategic_compact non-interactive mode | Modify existing SKILL.md | P1 | S (1-2hrs) | None |
+| TK-S19 | iterative_retrieval failure modes | Modify existing SKILL.md | P2 | S (1-2hrs) | None |
+
+**IMPLEMENTATION ORDER (respecting dependencies):**
+
+**Wave 1 — Foundation (do first, blocks everything):**
+1. TK-S1: skill-registry (P0, M) — no deps, enables all registry operations
+2. TK-S3: ceo-brain Debate Log (P0, S) — no deps, highest-severity failure fix
+3. TK-S7: age SKILL.md depth (P1, S) — no deps, enables better AGE runs immediately
+
+**Wave 2 — Core P0 (do second):**
+4. TK-S4: age-to-skill-pipeline (P0, M) — needs TK-S1
+5. TK-S2: ai-security-hardening (P0, L) — needs TK-S1
+
+**Wave 3 — High-Priority P1 New Skills:**
+6. TK-S6: delivery-metrics (P1, M) — no deps
+7. TK-S12: ai-compliance-toolkit (P1, M) — needs TK-S2
+8. TK-S13: toolkit-retrospective (P1, S) — needs TK-S1
+9. TK-S14: skill-lifecycle-manager (P1, M) — needs TK-S1
+10. TK-S16: workflow-composition (P1, M) — no deps
+11. TK-S18: strategic_compact non-interactive (P1, S) — no deps
+12. TK-S8: ceo-brain full enhancement (P1, S) — builds on TK-S3
+
+**Wave 4 — P1 Enhancements to Existing Skills:**
+13. TK-S9: cost_aware_llm_pipeline multi-provider (P1, M) — no deps
+14. TK-S5: toolkit-phase-integration-guide (P1, L) — needs all skills above
+
+**Wave 5 — P2 Standardization (do last, safe to batch):**
+15. TK-S10: Trigger command standardization x9 skills (P2, S each)
+16. TK-S11: Semver versioning retrofit x10 skills (P2, S each)
+17. TK-S15: skill-dependency-mapper (P2, M) — needs TK-S1
+18. TK-S17: ai_tool_orchestration effectiveness tracking (P2, S)
+19. TK-S19: iterative_retrieval failure modes (P2, S)
+
+**Infrastructure Requirements:**
+
+| Solution | Needs New Agent | Needs New Command | Needs New Directory |
+|----------|----------------|-------------------|---------------------|
+| TK-S1 skill-registry | No | /search-skills | .agent/skills/toolkit/skill-registry/ |
+| TK-S2 ai-security-hardening | Consider security-ai-reviewer | No | .agent/skills/toolkit/ai-security-hardening/ |
+| TK-S4 age-to-skill-pipeline | Consider age-implementer | No | .agent/skills/toolkit/age-to-skill-pipeline/ |
+| TK-S5 toolkit-phase-integration-guide | No | /preflight | .agent/skills/toolkit/toolkit-phase-integration-guide/ |
+| TK-S6 delivery-metrics | No | /metrics | .agent/skills/toolkit/delivery-metrics/ |
+| TK-S12 ai-compliance-toolkit | No | No | .agent/skills/toolkit/ai-compliance-toolkit/ |
+| TK-S13 toolkit-retrospective | No | No | .agent/skills/toolkit/toolkit-retrospective/ |
+| TK-S14 skill-lifecycle-manager | No | /audit-skills | .agent/skills/toolkit/skill-lifecycle-manager/ |
+| TK-S15 skill-dependency-mapper | No | /map-dependencies | .agent/skills/toolkit/skill-dependency-mapper/ |
+| TK-S16 workflow-composition | No | No | .agent/skills/toolkit/workflow-composition/ |
+
+**Total Work Estimate:**
+- P0 items: ~2.5 days
+- P1 items: ~4 days
+- P2 items: ~2 days
+- **Total: ~8.5 working days to achieve complete toolkit coverage**
+
+**Standalone vs Framework-Infrastructure Classification:**
+
+| Solution | Standalone SKILL.md | Requires Framework Infrastructure |
+|----------|--------------------|---------------------------------|
+| TK-S1 | No — needs /search-skills command | Yes — new command |
+| TK-S2 | Yes | No |
+| TK-S3 | Yes (modify) | No |
+| TK-S4 | No — needs file creation automation | Yes — consider agent |
+| TK-S5 | No — needs /preflight command | Yes — new command |
+| TK-S6 | No — needs /metrics command | Yes — new command |
+| TK-S7 thru TK-S11 | Yes (modify) | No |
+| TK-S12 thru TK-S16 | Yes | No (reference docs) |
+| TK-S17 thru TK-S19 | Yes (modify) | No |
+
+**Key Insight from Loop 8:** The framework's biggest structural gap is not any individual missing skill — it is the absence of a SKILL REGISTRY (TK-S1) that would make all other skills discoverable and composable. Every other gap either requires TK-S1 to fix properly or is independently addressable. TK-S1 is the single highest-leverage intervention in the toolkit phase.
+
+================================================================
+END OF 8-LOOP AGE ANALYSIS — TK TOOLKIT
+Generated: 2026-02-25
+Target: Toolkit Phase (10 skills)
+Total Findings: 19 confirmed gaps, 19 solution specs
+Critical (P0): 4 solutions — skill-registry, ai-security-hardening, ceo-brain-debate-log, age-to-skill-pipeline
+High (P1): 10 solutions
+Medium (P2): 5 solutions
+================================================================

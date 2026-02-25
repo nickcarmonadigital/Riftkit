@@ -6,6 +6,21 @@ description: Run security and quality audit on a feature or project
 
 > Use for security review, quality checks, or pre-launch verification
 
+## Available Agents & Commands
+
+| Agent / Command | What It Does |
+|----------------|--------------|
+| `/code-review` | Automated code review (uses `code-reviewer` agent) |
+| `/e2e` | End-to-end test execution (uses `e2e-runner` agent) |
+| `/tdd` | Test-driven development (uses `tdd-guide` agent) |
+| `/verify` | Verification loop |
+| `/test-coverage` | Test coverage analysis |
+| Security review | Use `security-reviewer` agent for automated security analysis |
+
+> See [agents/README.md](../agents/README.md) and [commands/README.md](../commands/README.md) for full details.
+
+---
+
 ## When to Use
 
 - Before deploying to production

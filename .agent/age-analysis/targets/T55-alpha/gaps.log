@@ -1,0 +1,524 @@
+================================================================
+[Loop 1] [Architect] [T55] 2026-02-25T08:00:00Z
+================================================================
+
+## Finding: Phase 5.5 Alpha Scope Is Critically Under-Specified
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: An alpha release phase owns a unique set of responsibilities that no other phase covers. The 5 current skills (backup_strategy, env_validation, error_tracking, health_checks, qa_playbook) address general infrastructure concerns that any production app needs — they do NOT address the specific lifecycle of an alpha program. First-principles decomposition of what "alpha" means reveals at minimum 12 atomic responsibilities: (1) alpha tester recruitment and onboarding, (2) access-gating (invite-only, allowlist), (3) outage/incident communication to alpha cohort, (4) staged rollout verification (is the alpha cohort receiving features?), (5) crash/panic reporting with session context, (6) performance baseline establishment (what is "normal" before you have beta traffic?), (7) SLA definition for alpha (uptime promises to testers, if any), (8) alpha-specific data policies (can testers trust their data survives?), (9) telemetry/event collection with alpha-specific instrumentation, (10) tester feedback loop (NPS, in-session annotation), (11) alpha exit criteria (what metrics/signals graduate you to beta?), (12) incident escalation procedures specific to alpha context (small cohort, high-trust testers, direct communication lines). None of these are covered by any current skill.
+### Proposed Resolution: Multiple new skills needed — see findings below for individual atomic gaps. Umbrella: alpha_program_management skill at P0.
+### Cross-Phase Impact: Without alpha program management, graduation from Alpha to Beta (5.75) has no defined criteria. The feedback_system in Phase 5.75 assumes a feedback collection mechanism during beta — but there is no mechanism established in 5.5 to bootstrap alpha tester relationships that would make beta feedback meaningful.
+
+================================================================
+
+## Finding: No Alpha Tester Onboarding or Access Control Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: An alpha is by definition a restricted, invite-only cohort. Phase 5.5 has no skill covering: invite code generation, allowlist management, alpha-specific user registration flow, alpha tester NDA/agreement acknowledgment, cohort size limits, or access revocation. The qa_playbook covers testing procedures but assumes testers already have access. There is no skill describing HOW to get trusted testers into the system in a controlled, auditable way.
+### Proposed Resolution: New skill: alpha_access_control — covers invite code system (UUID tokens, time-limited, single-use), allowlist-based registration, alpha-specific onboarding email/page, cohort size caps enforced at registration, and access revocation procedures.
+### Cross-Phase Impact: Phase 5.75 (Beta) assumes a larger but still gated audience. The access control patterns established in alpha directly inform beta waitlist and feature_flags (which exists in 5.75 but has no foundation established in 5.5).
+
+================================================================
+
+## Finding: No Outage Communication or Incident Response Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: When production goes down during alpha, there is no skill covering how to communicate with the alpha cohort. Alpha testers are high-trust, vocal users who expect direct communication — not a generic status page. There is no template for "alpha incident notification email," no status page configuration, no communication runbook. The health_checks skill establishes detection; nothing establishes response and communication. The error_tracking skill captures errors in Sentry; nothing translates those errors into human communication to affected users.
+### Proposed Resolution: New skill: incident_communication — covers status page setup (statuspage.io, Better Uptime status page, or self-hosted), incident template library (outage start, update, resolution emails), alpha cohort notification mechanism (direct email list or in-app banner), post-mortem template.
+### Cross-Phase Impact: This gap persists into Phase 5.75 (Beta) and Phase 6 (Handoff). A team that never learns incident communication during alpha will not have it for beta either.
+
+================================================================
+
+## Finding: No Performance Baseline Establishment
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Alpha is the first time real users touch real infrastructure. There is no skill covering the establishment of performance baselines: p50/p95/p99 latency, request throughput, error rates, DB query times, memory/CPU utilization under real load. Without a documented baseline from alpha, the team has no reference point to detect regressions during beta scaling. The health_checks skill monitors binary up/down. The error_tracking skill tracks exceptions. Neither establishes quantitative performance norms.
+### Proposed Resolution: New skill: performance_baseline — covers APM setup (Datadog, New Relic, or self-hosted OpenTelemetry), key metric definition (latency percentiles, throughput, Apdex score), baseline capture procedure during alpha week 1, alert threshold derivation from baseline, documentation template for baseline report.
+### Cross-Phase Impact: Phase 5.75 (Beta) adds product_analytics but lacks backend performance context. Without a Phase 5.5 baseline, you cannot tell if Beta traffic is causing degradation relative to Alpha performance.
+
+================================================================
+
+## Finding: No Alpha Exit Criteria or Graduation Checklist
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: The qa_playbook has an exit checklist for QA test runs, but there is no skill defining what signals graduate the product from alpha to beta. World-class software programs define alpha exit criteria such as: crash-free session rate > X%, median response time < Y ms, feedback sentiment score > Z, N active testers completing core flows, zero P0 open bugs, backup restore verified, all checklist items green. Without defined exit criteria, alpha-to-beta transition is subjective and likely premature.
+### Proposed Resolution: New skill or section within an alpha_program_management skill: alpha_exit_criteria — defines quantitative graduation gates, a dashboard template for tracking gate status, and an explicit sign-off process.
+### Cross-Phase Impact: Directly gates Phase 5.75 entry. Beta with premature alpha graduation risks exposing a larger audience to unresolved alpha-phase issues.
+
+================================================================
+[Loop 2] [Architect] [T55] 2026-02-25T08:20:00Z
+================================================================
+
+## Finding: backup_strategy Depth Grade — ADEQUATE (not thorough for alpha context)
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: The backup_strategy skill is thorough for general PostgreSQL backup mechanics (pg_dump, S3 upload, retention, restore verification, encryption). However, it is shallow in two alpha-specific dimensions: (1) It does not address backup cadence calibration during alpha — alpha databases are small but rapidly changing as schema migrations occur frequently; the skill's "daily backup" default may be insufficient and "pre-migration backup" is mentioned but not enforced as a gate in the alpha CI pipeline. (2) It has no guidance on communicating data durability guarantees to alpha testers — testers need to know if their alpha data will survive to beta or be wiped. The skill's GDPR export script is included which is appropriate, but there is no alpha-specific data lifecycle policy (e.g., "alpha data is ephemeral unless we announce GA data portability").
+### Proposed Resolution: Add an alpha-context section to backup_strategy covering: alpha data lifecycle policy template, pre-migration backup as a mandatory CI gate (not optional), communication template for tester data expectations.
+### Cross-Phase Impact: Phase 5.75 Beta testers may be surprised if alpha data is wiped. Without a communicated policy, this creates trust damage with the cohort that is your most influential early adopters.
+
+================================================================
+
+## Finding: env_validation Depth Grade — THOROUGH (no significant gaps)
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: LOW
+### Evidence: env_validation covers NestJS class-validator integration, conditional validation by environment, frontend Vite and Next.js patterns, .env.example maintenance, and CI sync checks. This is genuinely thorough for its scope. The only minor gap is that it does not address alpha-specific env vars (e.g., ALPHA_COHORT_SIZE, ALPHA_INVITE_SECRET, ALPHA_FEATURE_FLAGS) which do not exist because there is no alpha access control skill. This is a downstream gap from Loop 1's missing skills, not a flaw in env_validation itself.
+### Proposed Resolution: No change to env_validation itself required. The gap is resolved when alpha_access_control skill is added (it will define the new vars to validate).
+### Cross-Phase Impact: Low — env_validation is solid.
+
+================================================================
+
+## Finding: error_tracking Depth Grade — ADEQUATE (missing alpha-specific instrumentation)
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: error_tracking covers Sentry integration across NestJS, React, and Next.js with scrubbing, source maps, release tracking, and alerts. This is the right foundation. However, it is shallow in three alpha-specific areas: (1) No guidance on Sentry tagging errors with alpha cohort identifiers (e.g., `Sentry.setTag('cohort', 'alpha-v1')`) so alpha errors are filterable from future beta/production noise in the same project. (2) No session replay configuration guidance beyond the default `maskAllText: true` — during alpha, session replay is a critical debugging tool and the privacy/consent tradeoff needs to be addressed explicitly (alpha testers sign up knowing they are testing, so replay can be more permissive). (3) tracesSampleRate defaults to 0.2 in production — during alpha with low traffic, 1.0 is appropriate to capture every transaction for baseline establishment. This conflicts with the performance_baseline gap identified in Loop 1.
+### Proposed Resolution: Add alpha-specific Sentry configuration section: cohort tagging, session replay consent for alpha testers, and elevated tracesSampleRate during alpha period.
+### Cross-Phase Impact: Without alpha cohort tagging, errors from alpha will pollute beta error streams in the same Sentry project, making triage harder.
+
+================================================================
+
+## Finding: health_checks Depth Grade — ADEQUATE (missing synthetic monitoring)
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: health_checks covers NestJS Terminus, liveness/readiness/detailed endpoints, custom DB and Redis indicators, Kubernetes probes, and external uptime monitoring setup. Good coverage. Missing: (1) Synthetic transaction monitoring — health checks verify the API is up, but do not verify that a real user flow works end-to-end. During alpha, a broken checkout or login that still returns 200 on /health/ready goes undetected. (2) No SLA definition — the skill tells you to monitor but does not guide you to define what "acceptable uptime" means for alpha (99%? 95%? No SLA?). (3) The detailed endpoint returns memory/disk metrics but there is no guidance on what thresholds to set as alerts — teams will set up the endpoint and then have no idea what numbers are bad.
+### Proposed Resolution: Add synthetic monitoring section (Checkly or Playwright-based smoke tests on a schedule), SLA definition guidance for alpha context, and alert threshold decision matrix.
+### Cross-Phase Impact: Synthetic monitoring established in alpha is the foundation for the more sophisticated product_analytics monitoring in Phase 5.75.
+
+================================================================
+
+## Finding: qa_playbook Depth Grade — SURFACE for alpha context
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: qa_playbook is a well-structured manual testing framework. However, it is written for general use — the test cases (Auth, CRUD, Errors, Performance, Security, SaaS-specific) are generic. For an alpha program, it is missing: (1) Alpha-specific test scenarios — onboarding flow for a new invited tester, invite code redemption, alpha cohort data isolation verification, alpha feature flag activation. (2) No exploratory testing program for alpha — during alpha, you should be doing structured exploratory testing sessions with actual alpha testers (not just internal QA), including guided walkthroughs and think-aloud protocols. (3) No alpha tester-reported bug triage workflow — the bug severity classification is good, but there is no process for when alpha testers (not internal QA) submit bugs through a feedback channel. (4) The regression checklist is 5-minute post-deploy — good, but alpha also needs a weekly "alpha health review" checklist covering cohort activity rates, Sentry error trends, and backup verification status.
+### Proposed Resolution: Extend qa_playbook with alpha-specific test sections and an "alpha weekly health review" template. Alternatively, create a separate alpha_testing_program skill.
+### Cross-Phase Impact: Phase 5.75 feedback_system assumes bugs will come in and be triaged — but without an alpha tester bug triage workflow, the feedback_system in beta will be bootstrapped without process.
+
+================================================================
+[Loop 3] [Architect] [T55] 2026-02-25T08:40:00Z
+================================================================
+
+## Finding: Upstream Handoff Gap — Phase 5 (Ship) Leaves Staged Rollout Verification Undefined
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence: Phase 5 (Ship) includes deployment_patterns (blue-green, canary, rolling) and ci_cd_pipeline (automated deploys to production on main push). However, Phase 5's deployment_patterns ends at "deploy to production" without any concept of "verify this deployment reached the intended alpha cohort and is working for them specifically." Phase 5.5 picks up after the first real deployment, but there is no skill in 5.5 that verifies: Did the alpha users actually receive the new version? Are they actively using it? Did the canary rollout from Phase 5 actually stabilize before 5.5 begins? The handoff from Phase 5 to Phase 5.5 assumes deployment succeeded without verifying alpha-cohort-specific outcomes.
+### Proposed Resolution: New skill: staged_rollout_verification — covers post-deploy verification specific to alpha cohort (version header checks, session log sampling, active user confirmation, rollout percentage verification in feature flags, automated smoke test targeting alpha environment URL).
+### Cross-Phase Impact: Phase 5.75 feature_flags (gradual rollout from 1% → 100%) assumes the rollout infrastructure works — but if Phase 5.5 never verifies rollout targeting, the feature_flags skill in 5.75 starts from an untested foundation.
+
+================================================================
+
+## Finding: Upstream Handoff Gap — Phase 5 Runbook Exists in Concept but Phase 5.5 Has No Alpha-Specific Runbook
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence: Phase 5 deployment_patterns mentions "Runbook for common failure scenarios" in its production readiness checklist and "On-call rotation and escalation path defined." However, these are listed as checklist items with no corresponding skill to build them. Phase 5.5 then inherits an alpha environment with no documented runbook for alpha-specific failure modes: what to do when an alpha tester reports data loss, what to do when a migration fails mid-alpha, what to do when an alpha invite code is abused or leaked. The on-call escalation path referenced in Phase 5 is likewise undefined — during alpha with a small team, this is typically founder/lead direct-response but it needs to be documented.
+### Proposed Resolution: New skill: alpha_runbook — a structured runbook template covering top 10 alpha failure scenarios with step-by-step response procedures, escalation contacts, and communication templates.
+### Cross-Phase Impact: Without a runbook, incidents during alpha create ad-hoc panic. The lessons learned in alpha runbook procedures would directly inform the Phase 7 (Maintenance) runbooks.
+
+================================================================
+
+## Finding: Downstream Handoff Gap — Phase 5.5 Produces No Alpha Retrospective Input for Phase 5.75
+
+### Gap Type: MISSING_HANDOFF
+### Severity: MEDIUM
+### Evidence: Phase 5.75 (Beta) opens with email_templates, error_boundaries, feature_flags, feedback_system, product_analytics, and rate_limiting. None of these skills reference any output from Phase 5.5. There is no skill in Phase 5.5 that produces a structured alpha retrospective or lessons-learned document that could inform beta configuration. For example: What error types were most common in alpha? (should inform error_boundaries configuration in 5.75). What actions did alpha testers take most? (should inform product_analytics event taxonomy in 5.75). What rate limits were hit? (should inform rate_limiting configuration in 5.75). The two phases are completely decoupled — Phase 5.75 re-derives everything from scratch.
+### Proposed Resolution: New artifact type: alpha_retrospective_template — a structured output document generated at alpha close that captures error taxonomy, user behavior summary, infrastructure performance summary, and inputs for each Phase 5.75 skill configuration.
+### Cross-Phase Impact: This is the primary mechanism for transferring institutional knowledge between alpha and beta. Without it, beta teams repeat alpha mistakes.
+
+================================================================
+
+## Finding: Downstream Handoff Gap — Phase 5.75 Feature Flags Assumes Flagging Infrastructure Exists But Phase 5.5 Never Builds It
+
+### Gap Type: MISSING_HANDOFF
+### Severity: CRITICAL
+### Evidence: Phase 5.75 feature_flags is a thorough skill covering gradual rollout (1% → 100%), kill switches, A/B testing, and database-backed flag management. The skill's gradual rollout table starts at "Phase 1: Internal team only." But this implies the feature flag infrastructure (database table, admin UI, evaluation logic) must already exist before beta begins. Phase 5.5 has no skill for establishing feature flag infrastructure. If teams follow the framework sequentially, they reach Phase 5.75 needing feature flags urgently for beta rollout but have no infrastructure to build on. The kill switch pattern in feature_flags is essential for alpha safety (ability to disable a broken feature without deploy) but is not available because no Phase 5.5 skill establishes it.
+### Proposed Resolution: Feature flag infrastructure (at minimum: environment-variable based kill switches with Phase 5.5's specific alpha feature set documented) must be established in Phase 5.5. The feature_flags skill should either move partially to 5.5 or Phase 5.5 should have a prerequisite skill: alpha_kill_switches that provides the subset of feature flag functionality needed during alpha.
+### Cross-Phase Impact: This is a CRITICAL cross-phase dependency that blocks Phase 5.75 from working as designed.
+
+================================================================
+
+## Finding: Phase 5.5 Assumes Crash Reporting Exists But Telemetry Backpressure Is Unaddressed
+
+### Gap Type: MISSING_HANDOFF
+### Severity: MEDIUM
+### Evidence: error_tracking sets up Sentry with tracesSampleRate=0.2 in production (and by inheritance, alpha). If alpha traffic spikes unexpectedly (a tester shares an invite link, cohort doubles overnight), Sentry event volume could spike and hit free-tier rate limits, causing error events to be dropped precisely when you need them most. There is no skill in Phase 5.5 covering telemetry backpressure: Sentry rate limit monitoring, event sampling strategy under load, fallback logging when Sentry is rate-limited. This is an alpha-specific risk because the team has no historical baseline to set quotas from.
+### Proposed Resolution: Add a section to error_tracking covering alpha-specific telemetry configuration: Sentry quota monitoring, event volume alerts, and a fallback structured logging strategy when Sentry quota is exceeded.
+### Cross-Phase Impact: Telemetry backpressure becomes more acute in Phase 5.75 Beta with larger user volumes. The pattern established in Phase 5.5 must scale.
+
+================================================================
+[Loop 4] [Detective] [T55] 2026-02-25T09:00:00Z
+================================================================
+
+## Finding: Reverse-Think — Alpha Data Loss Prevention Is Completely Absent
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Working backward from a perfect alpha completion: "If this alpha succeeded, the team had zero data loss events that affected tester trust." For this to be true, the following must have existed: (1) A documented data durability promise communicated to alpha testers at onboarding ("your data will be preserved through beta"). (2) A pre-migration backup gate in CI that is enforced, not optional. (3) A soft-delete pattern or recycle bin for critical entities that alpha testers might accidentally delete. (4) A data recovery SLA communicated to testers ("if data loss occurs, we will restore within X hours"). The backup_strategy skill covers the technical backup mechanics but none of these trust/communication/policy dimensions. The end-state of "testers trust their data" requires all four elements, and three of them are entirely absent from the framework.
+### Proposed Resolution: New skill: alpha_data_policy — covers the data durability promise document, soft-delete implementation pattern, data recovery SLA definition, and the pre-migration backup CI gate as a required step (not optional).
+### Cross-Phase Impact: Tester data trust established in alpha is the foundation for paying customer data trust in beta. Teams that lose alpha tester data typically see abandonment from their most vocal early adopters.
+
+================================================================
+
+## Finding: Reverse-Think — Session Recording and Crash Reporting Are Shallow
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: Working backward from "the team understood exactly what alpha testers experienced when things broke." For this to be true: session replays tied to specific error events must exist, crash reports must include enough context (user actions leading up to crash, network conditions, device specs) to reproduce the issue. The error_tracking skill configures Sentry Session Replay with maskAllText: true and blockAllMedia: true — these privacy defaults are appropriate for production but are overly restrictive for alpha where testers have explicitly consented to being observed. The skill does not provide: (1) guidance on alpha-specific replay configuration with reduced masking, (2) Sentry Feedback widget configuration (Sentry's built-in feedback capture on error), (3) custom breadcrumb instrumentation to capture the specific user actions that preceded each crash.
+### Proposed Resolution: Extend error_tracking with an alpha-specific session recording section: conditional replay configuration based on NODE_ENV/ALPHA_MODE, Sentry Feedback widget setup, and a custom breadcrumbs guide for instrumenting critical user flows.
+### Cross-Phase Impact: Detailed crash context from alpha is what allows rapid bug fixing before beta. Without it, beta launches with the same undiagnosed bugs.
+
+================================================================
+
+## Finding: Reverse-Think — No Structured Alpha Tester Communication Channel
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Working backward from "alpha testers were engaged, provided useful feedback, and became beta advocates." For this to be true: there must have been a structured communication channel (Discord server, Slack workspace, or email list) for the alpha cohort, regular updates from the team to the cohort (weekly/bi-weekly changelogs), a mechanism for testers to ask questions (not just report bugs), and a direct line to the founder/PM for high-priority issues. None of this exists in Phase 5.5. The feedback_system in Phase 5.75 handles bug reporting but is not a community communication channel. The qa_playbook handles testing procedures but not community management.
+### Proposed Resolution: New skill: alpha_community — covers alpha communication channel setup (Discord/Slack template, invite workflow), changelog/update cadence template, weekly alpha update email template, direct escalation path for tester-reported P0 issues, and cohort NPS/sentiment tracking.
+### Cross-Phase Impact: Alpha community members who have a good experience become beta advocates and provide the social proof needed for Phase 5.75 Beta growth.
+
+================================================================
+
+## Finding: Reverse-Think — No SLA or Uptime Promise Framework for Alpha
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: Working backward from "alpha testers had calibrated expectations about reliability." For this to be true: the team must have communicated an explicit uptime expectation (or explicit "no SLA — this is alpha, expect downtime") and testers must have agreed to those terms. Currently Phase 5.5 has no skill for defining what reliability promises are appropriate during alpha: typical alpha SLA is "best effort, no guarantee" but this must be documented and communicated. Without it, testers expect production-grade reliability, get disappointed during inevitable outages, and churn before providing meaningful feedback.
+### Proposed Resolution: Add SLA definition section to an alpha_program_management skill: alpha uptime expectation template ("We target 95% uptime during alpha and will notify you within 30 minutes of any outage"), maintenance window definition, and the communication template for each reliability level.
+### Cross-Phase Impact: SLA discipline established in alpha sets the standard for Phase 5.75 Beta SLAs and ultimately Phase 6 (Handoff) contractual SLAs.
+
+================================================================
+
+## Finding: Reverse-Think — Backup Restore Verification Is Monthly, But Alpha Needs Weekly
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: The backup_strategy skill schedules monthly restore verification ("First Sunday of every month"). Working backward from "the team was confident their backup actually worked": during alpha with frequent schema migrations, a monthly restore test is too infrequent. A migration bug could corrupt data, the team might not discover the backup is broken until the monthly test — potentially weeks later. For alpha specifically (pre-product-market-fit, experimenting, frequent schema changes), weekly restore verification is the appropriate cadence. The skill provides the GitHub Actions workflow to do this but recommends monthly, not weekly.
+### Proposed Resolution: Add alpha-context note to backup_strategy: recommend weekly restore verification during active alpha (daily migrations possible), provide a modified GitHub Actions cron schedule for weekly runs during alpha period.
+### Cross-Phase Impact: Discovering a broken backup during beta (with 10x more users) is catastrophically worse than discovering it in alpha. Weekly verification during alpha is the insurance policy.
+
+================================================================
+[Loop 5] [Detective] [T55] 2026-02-25T09:20:00Z
+================================================================
+
+## Finding: Failure Mode — Different Stack: health_checks Fails for Serverless Deployments
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence: health_checks is built entirely around NestJS + Terminus + persistent process model (liveness/readiness probes, startup grace period, AppReadinessService). If the project being alpha-tested is deployed serverlessly (Vercel Functions, AWS Lambda, Cloudflare Workers), the entire health check architecture is inappropriate: there is no persistent process to probe, no memory RSs check possible, no disk usage check, and liveness/readiness probes do not apply. The skill does not acknowledge this failure mode or provide an alternative for serverless stacks. A team with a Next.js API routes deployment would apply this skill and build infrastructure that does nothing useful.
+### Proposed Resolution: Add a "Serverless Health Checks" section to health_checks: synthetic health check pattern (external uptime monitor pings an edge function, function calls DB), cold start time monitoring, serverless-specific metrics (invocation error rate, duration p99, concurrent executions).
+### Cross-Phase Impact: Phase 5.75 product_analytics will track frontend metrics regardless of stack. Backend health monitoring for serverless needs to be established in Phase 5.5.
+
+================================================================
+
+## Finding: Failure Mode — Team Size Change: qa_playbook Breaks at 1-Person Team
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence: qa_playbook assumes a team where a dedicated QA person runs through test cases, fills in pass/fail tables, and files bug reports. For a solo founder or 2-person team in alpha (the most common scenario for early-stage products), this process is unworkable: the same person writing code is running QA, the test cases feel like bureaucratic overhead, and the structured table format is not maintained. The skill has no "solo/small team" adaptation: abbreviated smoke tests, automated test coverage as substitute for manual test cases in certain sections, or a lighter-weight tracking mechanism (GitHub Issues labels vs. a table).
+### Proposed Resolution: Add a "Solo / Small Team Mode" section to qa_playbook: a condensed 20-item essential-only checklist derived from the full test suite, guidance on which sections can be replaced by automated tests, and a simpler bug tracking approach (GitHub Issues with labels vs. a table).
+### Cross-Phase Impact: If the qa_playbook is abandoned because it is too heavyweight for a small team, the team enters Phase 5.75 Beta with no structured QA process — the feedback_system catches issues reactively, not proactively.
+
+================================================================
+
+## Finding: Failure Mode — Compliance Regime Change: backup_strategy Is Inadequate for HIPAA/PCI
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: backup_strategy covers standard data protection (encrypted at rest, S3 lifecycle, access control). It mentions GDPR data export. It does NOT address compliance-specific backup requirements: HIPAA requires 6-year retention of PHI backups (vs. the 12-month maximum in the skill), PCI DSS requires cardholder data backups to be encrypted with keys stored separately (vs. the SSE-AES256 approach that stores keys in AWS), SOC 2 requires documented backup procedures with access logs. A healthcare or fintech alpha that follows this skill verbatim would fail their first compliance audit. The skill is also PostgreSQL-specific — teams using MySQL, MongoDB, or cloud-specific databases (DynamoDB, Firestore) have no coverage.
+### Proposed Resolution: Add compliance-regime callout boxes to backup_strategy: HIPAA retention note, PCI key management note, SOC 2 audit log note. Add a non-PostgreSQL section or at minimum a note directing teams to provider-specific backup documentation.
+### Cross-Phase Impact: Compliance gaps found during beta (5.75) or handoff (Phase 6) are far more expensive to fix than gaps caught during alpha (5.5). The alpha phase is the right time to establish compliant backup practices.
+
+================================================================
+
+## Finding: Failure Mode — Scale Change: error_tracking Performance Impact at High Volume
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence: error_tracking sets tracesSampleRate: 0.2 in production. During alpha with 10-50 users, this is fine. If the alpha goes viral or the team manually escalates the cohort to 10,000 users rapidly, the profiling overhead (nodeProfilingIntegration) and session replay (replaysSessionSampleRate: 0.1) can materially impact application performance. The skill does not provide: (1) guidance on how to reduce Sentry overhead under load (reduce tracesSampleRate dynamically, disable profiling), (2) Sentry monthly event quota calculation for expected alpha volume, (3) cost estimation for Sentry paid plans as volume grows. Teams could face unexpected Sentry bills or performance degradation as alpha scales.
+### Proposed Resolution: Add alpha scaling section to error_tracking: event volume estimation formula, Sentry plan tier guidance by expected user count, dynamic sampling strategy for rapid scale events.
+### Cross-Phase Impact: Sentry costs can become material in Phase 5.75 Beta with hundreds of users. Establishing a volume-aware configuration in alpha prevents bill shock in beta.
+
+================================================================
+
+## Finding: Failure Mode — No Alpha-Specific Access Control When invite Codes Are Leaked
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: There is no alpha_access_control skill (identified in Loop 1). When alpha invite codes are leaked (to Twitter, Product Hunt, Reddit — this happens routinely), teams have no mechanism to: (1) detect the leak (spike in registration attempts), (2) invalidate specific invite codes without invalidating all codes, (3) rate-limit registration by IP/email domain, (4) enforce a cohort size cap. This is a concrete failure mode with clear steps: leaked code → thousands of unwanted registrations → alpha environment overwhelmed → real alpha testers lose access or experience degradation → alpha fails. Phase 5.5 has no skill addressing this scenario.
+### Proposed Resolution: alpha_access_control skill (specified in Loop 1) must include: invite code invalidation API, registration rate limiting by IP, cohort size hard cap enforced at database level, registration anomaly alert (>10 registrations in 5 minutes triggers Slack alert).
+### Cross-Phase Impact: Access control patterns from alpha directly inform beta waitlist management in Phase 5.75.
+
+================================================================
+[Loop 6] [Detective] [T55] 2026-02-25T09:40:00Z
+================================================================
+
+## Finding: Industry Standard Deviation — DORA Metrics Not Mentioned
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence: DORA (DevOps Research and Assessment) defines four key metrics for software delivery performance: Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Mean Time to Restore. These metrics are the industry standard for measuring DevOps maturity. During alpha, teams should establish baseline DORA measurements — not to achieve elite performance, but to have a reference point for improvement. Phase 5.5 has no skill mentioning DORA metrics. The health_checks skill mentions uptime monitoring. The ci_cd_pipeline in Phase 5 covers deployment frequency implicitly. But no skill in 5.5 aggregates these into DORA reporting. Teams that never measure DORA metrics during alpha/beta cannot quantify their engineering effectiveness for investors, boards, or their own improvement.
+### Proposed Resolution: Add DORA metrics tracking section to either an alpha_program_management skill or as an addition to health_checks: define the four metrics, provide lightweight tracking approaches (GitHub Actions run data, deployment timestamps, incident duration logs), and recommend tools (LinearB, Sleuth, or custom dashboards).
+### Cross-Phase Impact: DORA metrics tracked from alpha become the baseline for continuous improvement through beta (5.75), handoff (6), and maintenance (7). Establishing them in 5.5 is the right time.
+
+================================================================
+
+## Finding: Industry Standard Deviation — SRE Error Budget Concept Absent
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence: Google's Site Reliability Engineering practices (widely adopted as industry standard) define the error budget concept: the acceptable amount of unreliability based on an SLO. For alpha with a target 99% uptime SLO, the error budget is 1% of time = ~7.2 hours/month of acceptable downtime. This concept directly answers "should we delay this risky migration?" (check error budget remaining) and "how much alpha testing can we do before we owe tester uptime?" None of Phase 5.5's skills use error budget terminology or establish SLOs as a first-class concept. The health_checks skill monitors health but never defines an acceptable health threshold as an SLO. The backup_strategy defines RPO/RTO which are disaster recovery concepts but not availability SLOs.
+### Proposed Resolution: Add SLO/error budget section to health_checks or a new skill: define SLO for alpha (99% or 95%), calculate error budget, provide a simple error budget burn rate dashboard (Grafana or Datadog template), and decision framework for "is the error budget depleted? → freeze risky changes."
+### Cross-Phase Impact: SLO/error budget discipline is an industry standard for Phase 6 (Handoff) SLA negotiations with customers. Establishing the concept in Phase 5.5 is essential for organizational maturity.
+
+================================================================
+
+## Finding: Industry Standard Deviation — OWASP Application Security Testing Not Integrated into QA
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: OWASP defines the Application Security Verification Standard (ASVS) and provides the OWASP Testing Guide as the industry standard for security testing. Phase 5.5's qa_playbook has a "Security Spot-Check" section (TC-SEC-001 through TC-SEC-005) covering auth bypass, IDOR, SQL injection, sensitive data in URL, and HTTPS enforcement. This is a surface-level security check — it misses OWASP ASVS Level 1 items including: CSRF protection verification, HTTP security header validation (Content-Security-Policy, X-Content-Type-Options, X-Frame-Options), cookie security flags (Secure, HttpOnly, SameSite), session fixation, open redirect vulnerabilities, and mass assignment vulnerabilities. An alpha that ships without these checks will have these vulnerabilities exposed to real users.
+### Proposed Resolution: Extend qa_playbook Security section with OWASP ASVS Level 1 test cases (the minimum standard for any Internet-facing application). Alternatively, create a dedicated alpha_security_checklist skill that maps to OWASP ASVS Level 1 requirements with specific test steps.
+### Cross-Phase Impact: Phase 4 (Secure) presumably covers security hardening, but Phase 5.5 needs a security verification checkpoint specific to alpha deployment. OWASP compliance in alpha prevents embarrassing vulnerability disclosures during beta's broader exposure.
+
+================================================================
+
+## Finding: Industry Standard Deviation — No Structured Post-Incident Review Process
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence: Industry SRE practice (Google SRE Book, PagerDuty Incident Response, Atlassian Incident Management Guide) mandates post-incident reviews (post-mortems) for any significant outage. The industry standard format includes: timeline, contributing factors, impact assessment, action items with owners and due dates, and a blameless culture statement. Phase 5.5 has no skill covering post-incident review. The incident_communication gap (identified in Loop 1) addresses communicating during an incident; a post-mortem skill addresses learning from it. During alpha, every incident is a learning opportunity that should be documented and addressed before beta.
+### Proposed Resolution: New skill: post_incident_review — covers the blameless post-mortem template, timeline reconstruction procedure, impact quantification method, action item tracking, and the follow-through mechanism to verify action items were completed before beta launch.
+### Cross-Phase Impact: Post-incident review discipline in alpha is the mechanism for continuously improving the system before the higher-stakes beta phase. Teams that skip post-mortems in alpha repeatedly encounter the same incidents in beta.
+
+================================================================
+
+## Finding: Industry Standard Deviation — ISO 27001 / SOC 2 Data Handling Requirements
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: ISO 27001 and SOC 2 Type II are the industry standard security certifications for SaaS companies. Both require: access control logging (who accessed what data when), change management procedures (documented approval for changes to production), incident response plans (formalized, not ad-hoc), and vendor risk assessment (for third-party services like Sentry, Supabase, AWS). Phase 5.5 has none of these. If the alpha product intends to pursue SOC 2 certification (which is increasingly required by enterprise customers), the foundation must be laid during alpha: establishing access logging, formalizing change management, and documenting the vendor list. Starting SOC 2 readiness in Phase 5.5 means certification is achievable by Phase 6 (Handoff). Starting in Phase 6 means a 12-18 month delay.
+### Proposed Resolution: New skill: compliance_foundation — covers SOC 2/ISO 27001 readiness checklist for alpha stage, access logging setup (who deploys, who accesses production DB), change management log template, vendor inventory creation, and a recommended timeline for certification pursuit.
+### Cross-Phase Impact: Compliance foundation established in Phase 5.5 Alpha directly unlocks enterprise sales in Phase 6 (Handoff). This is a high-leverage investment.
+
+================================================================
+[Loop 7] [Builder] [T55] 2026-02-25T10:00:00Z
+================================================================
+
+## Finding: Spec — alpha_access_control Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Confirmed by Loop 1 (no access gating for alpha cohort), Loop 5 (leaked invite code failure mode), Loop 3 (downstream dependency for Phase 5.75 feature_flags and feedback_system).
+### Proposed Resolution:
+**Skill Name**: alpha_access_control
+**Phase**: 5.5-alpha
+**Trigger Commands**:
+- "set up alpha access"
+- "invite-only registration"
+- "alpha waitlist"
+- "restrict alpha to invited users"
+- "Using alpha_access_control skill: gate access to alpha testers"
+
+**Scope**: Implement an invite-code-based registration system with NestJS + Prisma. The skill covers: AlphaInvite Prisma model (code, expiresAt, usedBy, maxUses), invite code generation endpoint (admin-only), invite code validation middleware on registration, cohort size cap enforced at DB level, rate limiting on registration endpoint (10 attempts/IP/hour), registration anomaly detection (>10 registrations in 5 minutes triggers Slack alert), invite code invalidation API, and a communication template for distributing codes to testers. The skill also covers the corresponding env vars (ALPHA_COHORT_MAX_SIZE, ALPHA_INVITE_SECRET) to be added to env_validation.
+
+**Priority**: P0 — Cannot run a controlled alpha without this.
+### Cross-Phase Impact: This skill is the prerequisite for Phase 5.75 feature_flags gradual rollout targeting. Invite codes established here are the user identity anchor for beta cohort management.
+
+================================================================
+
+## Finding: Spec — incident_communication Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Confirmed by Loop 1 (no outage communication for alpha cohort), Loop 3 (upstream runbook gap), Loop 6 (industry deviation — no post-incident review).
+### Proposed Resolution:
+**Skill Name**: incident_communication
+**Phase**: 5.5-alpha
+**Trigger Commands**:
+- "set up status page"
+- "incident communication templates"
+- "outage notification"
+- "alpha incident response"
+- "Using incident_communication skill: set up status page and templates"
+
+**Scope**: Three-part skill covering: (1) Status page setup using Better Uptime (free tier), BetterStack, or self-hosted Uptime Kuma — with integration to the health_checks /health/ready endpoint. (2) Incident communication template library: "Investigating" message (within 15 min of detection), "Identified — working on fix" update (within 1 hour), "Resolved" notification with duration and impact summary, post-incident summary email. All templates are pre-written for direct use. (3) Alpha cohort notification mechanism: email list integration (Resend or SendGrid to a "alpha-testers@" list), in-app maintenance banner component (React), and a Slack/Discord announcement channel update. Skill includes severity matrix (P0 = immediate page + notification, P1 = Slack + email within 30 min, P2 = email within 2 hours).
+
+**Priority**: P0 — Alpha testers who receive no communication during outages abandon and do not return.
+### Cross-Phase Impact: Status page established in 5.5 carries forward as the public-facing communication channel for Phase 5.75 Beta and Phase 6 customer-facing SLAs.
+
+================================================================
+
+## Finding: Spec — performance_baseline Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Confirmed by Loop 1 (no baseline establishment), Loop 4 (reverse-think on understanding tester experience), Loop 6 (DORA metrics absent).
+### Proposed Resolution:
+**Skill Name**: performance_baseline
+**Phase**: 5.5-alpha
+**Trigger Commands**:
+- "establish performance baseline"
+- "set up APM"
+- "configure metrics"
+- "application performance monitoring"
+- "Using performance_baseline skill: instrument and baseline the application"
+
+**Scope**: Covers OpenTelemetry instrumentation for NestJS (traces, metrics, logs) with export to either Grafana Cloud (free tier), Datadog (free trial), or Prometheus + Grafana (self-hosted). Key metrics to baseline: HTTP request duration (p50/p95/p99 by endpoint), database query duration (p50/p95 by query type), error rate (per endpoint per minute), memory usage (heap, RSS trend over time), and CPU utilization. Skill includes: a one-week "baseline capture" procedure (collect metrics for 7 days before making significant changes), baseline report template (Markdown table of all metrics with "normal range" column), alert threshold derivation formula (threshold = p95_baseline * 1.5), and DORA metric calculation from GitHub Actions data (deployment frequency, lead time).
+
+**Priority**: P1 — High. Required before you can detect regressions in beta.
+### Cross-Phase Impact: Baselines from Phase 5.5 are the reference for Phase 5.75 product_analytics backend correlations. DORA metrics tracked from alpha provide engineering velocity data for investors.
+
+================================================================
+
+## Finding: Spec — staged_rollout_verification Skill
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence: Confirmed by Loop 3 (upstream handoff gap — Phase 5 deploys but Phase 5.5 never verifies cohort received it), Loop 5 (failure mode — no verification of rollout targeting).
+### Proposed Resolution:
+**Skill Name**: staged_rollout_verification
+**Phase**: 5.5-alpha
+**Trigger Commands**:
+- "verify rollout"
+- "confirm alpha users on new version"
+- "post-deploy alpha verification"
+- "Using staged_rollout_verification skill: verify the deploy reached alpha testers"
+
+**Scope**: Post-deploy verification checklist and automation for confirming a deployment successfully reached the alpha cohort. Covers: (1) Version endpoint — a GET /version endpoint that returns current git SHA and deployment timestamp, not requiring auth. (2) Version verification script — hits /version for each alpha environment, confirms SHA matches expected deploy. (3) Cohort activity sampling — a script that checks the last-seen timestamp for each active alpha tester in the DB and confirms at least N% have made a request against the new version within 24 hours of deploy. (4) Feature flag verification — confirms alpha-specific flags are in expected state post-deploy. (5) Smoke test runner — a GitHub Actions workflow that runs against the alpha environment URL post-deploy (distinct from CI smoke tests against staging).
+
+**Priority**: P1 — High. Without this, teams deploy blind and discover issues only when testers complain.
+### Cross-Phase Impact: Rollout verification patterns from Phase 5.5 are the foundation for the gradual rollout tracking in Phase 5.75 feature_flags (verifying each percentage increment reached the target cohort).
+
+================================================================
+
+## Finding: Spec — alpha_exit_criteria Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Confirmed by Loop 1 (no graduation checklist), Loop 4 (reverse-think on structured program completion).
+### Proposed Resolution:
+**Skill Name**: alpha_exit_criteria
+**Phase**: 5.5-alpha
+**Trigger Commands**:
+- "define alpha exit criteria"
+- "alpha graduation requirements"
+- "ready for beta"
+- "alpha to beta checklist"
+- "Using alpha_exit_criteria skill: define the gates for graduating to beta"
+
+**Scope**: Defines the quantitative and qualitative gates that must be met before transitioning from alpha to beta. Template covers: (1) Reliability gates: crash-free session rate > 98%, uptime > 99% over trailing 7 days, zero open P0 bugs, all P1 bugs have documented workarounds. (2) Performance gates: p95 response time within baseline range, no memory leak trend in 7-day rolling window, backup restore test passed within last 7 days. (3) Coverage gates: all qa_playbook P0/P1 test cases passing, OWASP ASVS Level 1 checklist complete, env_validation covers all production vars. (4) Tester engagement gates: N% of alpha testers completed core flow at least once, median tester NPS > 6, feedback backlog < X open P1+ issues. (5) Process gates: incident_communication templates tested in a drill, runbook reviewed and signed off, alpha retrospective document drafted. Skill includes a GitHub Issues template for tracking gate status and a sign-off procedure.
+
+**Priority**: P1 — High. The most common alpha failure mode is premature beta launch.
+### Cross-Phase Impact: Alpha exit criteria are the direct inputs to Phase 5.75 Beta onboarding. Gates that pass in 5.5 define the minimum quality bar for 5.75.
+
+================================================================
+
+## Finding: Spec — alpha_data_policy Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Confirmed by Loop 4 (data loss prevention absent), Loop 6 (SOC 2 / ISO 27001 data handling), Loop 2 (backup_strategy shallow in data lifecycle policy).
+### Proposed Resolution:
+**Skill Name**: alpha_data_policy
+**Phase**: 5.5-alpha
+**Trigger Commands**:
+- "alpha data policy"
+- "tester data durability"
+- "data retention for alpha"
+- "Using alpha_data_policy skill: establish data handling policy for alpha testers"
+
+**Scope**: Three-part skill: (1) Data durability policy document template — a two-paragraph plain-English statement for alpha testers explaining: what data is collected, whether it will be preserved into beta/GA, what happens to data if the product shuts down during alpha, and how to export their data (using the GDPR export script from backup_strategy). (2) Soft-delete implementation pattern for NestJS + Prisma — add deletedAt: DateTime? field to critical models, update all delete operations to set deletedAt, add global Prisma middleware to filter soft-deleted records, add admin-only hard-delete procedure. (3) Pre-migration backup enforcement — GitHub Actions step that runs before prisma migrate deploy and fails the deployment if backup fails, with a Slack notification to the team. The skill also defines which data categories are "alpha ephemeral" (test records, seed data) vs. "alpha permanent" (real user data that must survive to GA).
+
+**Priority**: P0 — Data loss during alpha destroys tester trust irreparably.
+### Cross-Phase Impact: The soft-delete pattern and data policy established here is maintained through Phase 5.75 Beta and becomes the data retention policy referenced in Phase 6 (Handoff) customer contracts.
+
+================================================================
+[Loop 8] [Builder] [T55] 2026-02-25T10:20:00Z
+================================================================
+
+## Finding: Dependency Map for All Proposed Skills
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Building on all Loop 7 specs and all earlier findings. The dependency graph between proposed skills and existing skills is as follows:
+
+**Dependency Chain 1 (Critical Path — Alpha Launch Gate)**:
+env_validation (existing) → alpha_access_control (new, P0) → alpha_data_policy (new, P0)
+The alpha_access_control skill requires new env vars (ALPHA_COHORT_MAX_SIZE, ALPHA_INVITE_SECRET) that must be added to the env_validation schema. alpha_data_policy requires the access control user model to know which records are "tester data."
+
+**Dependency Chain 2 (Observability Stack)**:
+error_tracking (existing) → performance_baseline (new, P1) → staged_rollout_verification (new, P1)
+performance_baseline depends on error_tracking being configured (Sentry is one instrumentation source). staged_rollout_verification depends on performance_baseline having established the /version endpoint and alpha metrics.
+
+**Dependency Chain 3 (Incident Response)**:
+health_checks (existing) → incident_communication (new, P0) → post_incident_review (implicit from Loop 6)
+health_checks detects incidents; incident_communication responds to them; post_incident_review learns from them. All three must be in place before alpha goes live.
+
+**Dependency Chain 4 (Alpha Program Graduation)**:
+backup_strategy (existing) + qa_playbook (existing) + alpha_exit_criteria (new, P1) → alpha_retrospective (implicit from Loop 3)
+alpha_exit_criteria aggregates outputs from backup_strategy (restore test passed), qa_playbook (P0/P1 tests passing), health_checks (uptime %), error_tracking (crash-free sessions), and performance_baseline (latency within baseline). The alpha_retrospective outputs the aggregated state to Phase 5.75.
+
+**Cross-Phase Dependency**:
+alpha_access_control (5.5) → feature_flags (5.75) — access control user model is the targeting entity for feature flag rollouts
+incident_communication (5.5) → email_templates (5.75) — status page and notification templates established in alpha are extended in beta
+performance_baseline (5.5) → product_analytics (5.75) — backend performance baseline feeds into product analytics baseline correlations
+
+### Proposed Resolution: Skills must be implemented in this priority order: (1) alpha_access_control + alpha_data_policy (parallel, both P0, both day-1 alpha requirements), (2) incident_communication (P0, must be ready before any user touches the alpha), (3) performance_baseline (P1, should be running from day 1 of alpha to capture baseline), (4) staged_rollout_verification (P1, needed for first alpha deploy), (5) alpha_exit_criteria (P1, needed before beta transition planning begins).
+### Cross-Phase Impact: All proposed skills in Phase 5.5 have direct downstream dependencies in Phase 5.75. None of them are standalone — they are specifically designed to create the foundation that Phase 5.75 builds on.
+
+================================================================
+
+## Finding: Complexity Classification for All Proposed Skills
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Building on Loop 7 specs, assigning complexity and infrastructure requirements per protocol.
+
+| Skill | Priority | Complexity | Type | Needs New Infrastructure? |
+|-------|----------|------------|------|--------------------------|
+| alpha_access_control | P0 | M (half-day) | New SKILL.md | No — extends existing NestJS + Prisma patterns |
+| alpha_data_policy | P0 | M (half-day) | New SKILL.md | No — extends backup_strategy + Prisma patterns |
+| incident_communication | P0 | M (half-day) | New SKILL.md | No — uses existing Slack webhook + email patterns |
+| performance_baseline | P1 | L (full-day) | New SKILL.md | Yes — requires new agent for OpenTelemetry setup |
+| staged_rollout_verification | P1 | S (1-2 hrs) | New SKILL.md | No — GitHub Actions + existing /health endpoint |
+| alpha_exit_criteria | P1 | S (1-2 hrs) | New SKILL.md | No — template document + GitHub Issues |
+| alpha_community | P1 | S (1-2 hrs) | New SKILL.md | No — Discord/Slack setup templates |
+| alpha_runbook | P2 | M (half-day) | New SKILL.md | No — template document |
+| compliance_foundation | P2 | L (full-day) | New SKILL.md | No — SOC 2 readiness templates |
+| post_incident_review | P2 | S (1-2 hrs) | New SKILL.md | No — blameless post-mortem template |
+
+**Modifications to Existing Skills** (lower complexity, no new SKILL.md files):
+| Skill | Change | Complexity |
+|-------|--------|------------|
+| error_tracking | Add alpha cohort tagging, session replay consent, elevated tracesSampleRate during alpha | S |
+| backup_strategy | Add weekly restore verification schedule, alpha data lifecycle policy section, pre-migration CI gate enforcement | S |
+| health_checks | Add synthetic transaction monitoring section, SLO/error budget section, serverless alternative section | M |
+| qa_playbook | Add OWASP ASVS Level 1 security test cases, alpha-specific test scenarios, solo/small team mode | M |
+| env_validation | Add alpha-specific env var documentation (depends on alpha_access_control being written first) | S |
+
+**Summary of Phase 5.5 Gap Remediation**:
+- P0 gaps: 3 new skills + 2 existing skill extensions
+- P1 gaps: 4 new skills + 2 existing skill extensions
+- P2 gaps: 3 new skills + 1 existing skill extension
+- Total new SKILL.md files recommended: 10
+- Total existing skill modifications: 5
+- Current skill count: 5
+- Recommended final skill count: 15 (with modifications to 5 existing)
+
+The current Phase 5.5 at 5 skills covers approximately 35% of the atomic responsibilities that a world-class alpha program requires. The 10 missing skills and 5 skill modifications would bring coverage to approximately 90%.
+
+### Cross-Phase Impact: Completing the recommended Phase 5.5 skill set would eliminate 4 critical cross-phase dependency gaps with Phase 5.75 (Beta), establish the compliance foundation for Phase 6 (Handoff), and provide the observability baseline needed for Phase 7 (Maintenance) runbooks.
+
+================================================================
+END OF AGE 8-LOOP ANALYSIS — TARGET T55 — 2026-02-25
+================================================================

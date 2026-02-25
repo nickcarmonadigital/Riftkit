@@ -481,6 +481,21 @@ const prisma = new PrismaClient({
 
 ---
 
+---
+
+## Agent Automation
+
+> Use the **build-error-resolver** agent (`.agent/agents/build-error-resolver.md`) for automated build error diagnosis and resolution.
+> Invoke via: `/build-fix`
+
+The build-error-resolver agent can:
+- Parse build error output
+- Identify root causes across the dependency chain
+- Apply targeted fixes
+- Verify the fix compiles successfully
+
+---
+
 ## ✅ Exit Checklist
 
 - [ ] Bug reproduced consistently (or documented as intermittent with pattern)

@@ -1,0 +1,977 @@
+================================================================
+[Loop 1] [Architect] [T2] 2026-02-25T08:00:00Z
+================================================================
+
+## Finding: Phase 2 Has Only 4 Skills For A Domain That Requires 15-20
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence:
+First-principles decomposition of what a "Design Phase" must own in a world-class software development framework reveals roughly 15-20 distinct atomic responsibilities. Phase 2 currently covers only 4: ARA (architecture synthesis methodology), deployment modes (multi-environment compliance), feature architecture (documentation), and schema standards (data model documentation). The following atomic responsibilities have zero coverage:
+
+1. Architecture Decision Records (ADRs) — no skill for capturing WHY architectural choices were made
+2. Technology selection / tech stack evaluation — no structured process for choosing database, frameworks, languages, cloud providers with documented tradeoffs
+3. System integration design — how services/systems communicate (REST vs GraphQL vs gRPC vs messaging, event contracts, integration topologies)
+4. Security architecture design — threat modeling (STRIDE, PASTA), trust boundaries, security zones, attack surface mapping BEFORE build begins
+5. Performance / scalability modeling — capacity planning, SLOs, load modeling, bottleneck identification during design
+6. Cost architecture / FinOps design — cloud cost modeling, resource sizing, budget projections during design
+7. API contract design (separate from api_design in Phase 3) — designing the API contract as a design artifact, consumer-first / contract-first
+8. Data flow and privacy design — PII classification, data residency decisions, GDPR/HIPAA data flow mapping
+9. Dependency mapping and risk assessment — external dependencies, vendor lock-in analysis, supply chain risk
+10. Design review process — structured peer review / design critique workflow before build begins
+11. Non-functional requirements (NFRs) specification — latency, availability, durability, consistency, observability requirements
+12. Error budget and reliability design — SLI/SLO/SLA definitions, error budget policy
+13. Component interface design — defining contracts between internal components before they are built
+14. Testing strategy design — deciding the testing pyramid shape, coverage targets, testing infrastructure requirements at design time
+
+### Proposed Resolution:
+Create 10+ new skills for Phase 2 covering ADRs, tech-stack-selection, security-threat-modeling, performance-modeling, cost-architecture, api-contract-design, data-privacy-design, dependency-risk-assessment, design-review-process, and nfr-specification.
+### Cross-Phase Impact:
+Every downstream phase (3-7) is affected. Build (Phase 3) begins implementation without architectural constraints documented. Secure (Phase 4) has no threat model to audit against. Ship (Phase 5) has no SLO targets to validate. Maintenance (Phase 7) has no ADR trail to understand why decisions were made.
+================================================================
+
+## Finding: No Architecture Decision Record (ADR) Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence:
+ADRs are the canonical mechanism for recording architectural decisions — context, decision, consequences, and status (proposed/accepted/superseded/deprecated). Without ADRs, every future team member, AI agent, and contributor must reverse-engineer WHY the architecture is the way it is. ARA produces a vision, decomposition, and dependency graph but explicitly produces NO "decision record" artifact that tracks alternatives considered and rationale. The feature_architecture skill produces documentation of what exists but does not capture why choices were made over alternatives. No Phase 2 skill currently triggers creation of an ADR document.
+### Proposed Resolution:
+New skill: `architecture_decision_records` in Phase 2. Trigger: "Record architectural decision for [choice]" / "Create ADR for [decision]". Scope: Provides MADR (Markdown Architectural Decision Records) format, decision log template, status lifecycle (Proposed → Accepted → Deprecated → Superseded), and a searchable ADR index. Integrates with SSoT in Phase 12.
+### Cross-Phase Impact:
+Without ADRs, Phase 3 (Build) implements against unexplained constraints. Phase 6 (Handoff) cannot explain system design to new teams. Phase 7 (Maintenance) makes decisions that contradict earlier reasoning, causing architectural drift.
+================================================================
+
+## Finding: No Technology Selection / Stack Evaluation Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence:
+A design phase must include a structured process for selecting technologies — choosing between PostgreSQL vs MongoDB, REST vs GraphQL, monolith vs microservices, React vs Vue, etc. The current Phase 2 assumes technology choices are already made (ARA is technology-agnostic at decomposition but produces no selection artifact; deployment_modes assumes NestJS + React + specific providers). There is no skill that guides the user through a weighted decision matrix, tradeoff analysis, or tech radar consultation. The framework implicitly locks every project into NestJS + React + PostgreSQL without documenting why.
+### Proposed Resolution:
+New skill: `technology_selection` in Phase 2. Trigger: "Evaluate technology choices for [project]" / "Tech stack decision for [decision]". Scope: Provides a weighted evaluation matrix template, defines evaluation criteria (team familiarity, community support, performance, licensing, cost, security track record), produces a Technology Selection Record (TSR), and flags high-risk or novel technology choices for escalation.
+### Cross-Phase Impact:
+Phase 3 (Build) has 59+ skills that are almost entirely NestJS/React-specific. If a project uses Django, Go, or Spring Boot, there are Phase 3 skills for those stacks but no Phase 2 design skill that would route to the correct Phase 3 skills or document why that stack was chosen.
+================================================================
+
+## Finding: No Security Threat Modeling Skill At Design Time
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence:
+Security architecture must begin at the design phase, not at Phase 4 (Secure). The OWASP threat modeling process (STRIDE: Spoofing, Tampering, Repudiation, Information Disclosure, Denial of Service, Elevation of Privilege) should produce a threat model during design. The current Phase 2 has no such skill. The `deployment_modes` skill touches on security only in that it flags Sovereign mode data privacy. The `feature_architecture` skill has a "Security Considerations" section but it is template-level and not a threat modeling exercise. Phase 4 has a `security_audit` skill (referenced in spec_build Phase 5) but this is a post-hoc audit, not design-time threat modeling. "Security by design" requires the threat model BEFORE API and schema are defined.
+### Proposed Resolution:
+New skill: `security_threat_modeling` in Phase 2. Trigger: "Threat model for [feature/system]" / "Run STRIDE analysis on [design]". Scope: Guides a STRIDE threat identification session against the ARA output, produces a threat register with risk ratings (likelihood × impact), defines security controls to address each threat, and creates trust boundary diagrams. Output becomes a security requirements document that feeds Phase 5 (security_audit checks against this register).
+### Cross-Phase Impact:
+Phase 3 (Build) implements without security constraints defined. Phase 4 (Secure) audits against no baseline. Phase 5 (Ship) may ship features with unaddressed threats because the security review was never design-grounded.
+================================================================
+
+## Finding: No Non-Functional Requirements (NFR) Specification Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence:
+NFRs (latency targets, throughput, availability %, consistency model, data durability, regulatory compliance tiers) must be specified at design time because they constrain every implementation choice. ARA's Phase 2 (Atomic Decomposition) asks "what is the minimum this needs to function?" but does not systematically capture NFRs. The quality checklist checks that success metrics are defined at vision level, but does not require SLO-level precision. No Phase 2 skill produces an NFR specification document. The schema_standards skill documents data structure but not data access latency requirements or volume expectations that would influence index design.
+### Proposed Resolution:
+New skill: `nfr_specification` in Phase 2. Trigger: "Define NFRs for [system]" / "Specify performance and reliability requirements for [feature]". Scope: Captures latency (p50, p95, p99), throughput (requests/second), availability (99.9% vs 99.99%), data durability, consistency model (eventual vs strong), compliance tiers (SOC2, HIPAA, GDPR), and scale targets. Produces an NFR contract that feeds both Phase 3 (implementation constraints) and Phase 5 (acceptance criteria for shipping).
+### Cross-Phase Impact:
+Phase 3 (Build) implements without knowing if the feature needs to handle 10 or 10,000 concurrent users. Phase 5 (Ship) has no performance acceptance criteria. Phase 7 (Maintenance) has no SLO baseline to detect regressions.
+================================================================
+
+## Finding: ARA Skill Is Methodology-Heavy But Produces No Standardized Artifact Schema
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence:
+The ARA skill is well-designed as a methodology document but it has a critical gap: its five output documents (Vision Document, Architecture Document, Implementation Plan, Gap Checklist) have no standardized schema or template that downstream skills can reliably parse. The quality checklist validates process completeness but does not define the machine-readable or agent-readable format of outputs. The `spec_build` skill invokes ARA at Phase 2 and expects "dependency map, component breakdown, integration points" but ARA's Dependency Ordering output (Phase 5) is described as a visual representation in text form with no consistent structure.
+### Proposed Resolution:
+Extend ARA SKILL.md to include mandatory artifact schemas: JSON schema for the Dependency Map, table format for the Component Breakdown, and a standardized Integration Points document template. These outputs should be parseable by downstream Phase 3 skills.
+### Cross-Phase Impact:
+Phase 3 spec_build Phase 2 gate condition ("All dependencies identified and mapped") cannot be automatically verified without a structured artifact format.
+================================================================
+
+## Finding: schema_standards Skill Is Entity-Level But Has No System-Level Data Architecture Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence:
+The schema_standards skill covers how to document individual entity schemas (field definitions, types, constraints, indexes). It does not cover: multi-tenant data isolation strategies, data partitioning decisions, polyglot persistence decisions (when to use Redis vs PostgreSQL vs object storage), data lifecycle management (retention policies, archival strategies), or cross-schema relationship governance. A design phase needs both entity-level schema documentation AND a system-level data architecture document that explains the overall data topology.
+### Proposed Resolution:
+New skill: `data_architecture_design` in Phase 2. Trigger: "Design the data architecture for [system]" / "Document data topology for [project]". Scope: Covers database selection justification, data partitioning strategy, caching layer design, data lifecycle policies, backup and recovery design, and cross-service data ownership rules.
+### Cross-Phase Impact:
+Phase 3 (Build) `database_optimization` skill optimizes queries without knowing the intended data architecture. Schema migrations may contradict the intended partitioning or tenancy model.
+================================================================
+
+================================================================
+[Loop 2] [Architect] [T2] 2026-02-25T09:00:00Z
+================================================================
+
+## Finding: deployment_modes Grades SHALLOW On Implementation Guidance
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence:
+Reading gaps.log from Loop 1 confirms no earlier finding covers this. The `deployment_modes` skill defines the 3-tier model (Cloud/Hybrid/Sovereign) and provides an excellent mandatory spec section and compliance checklist. However, grading its depth against a "world-class deployment architecture" standard reveals critical gaps:
+
+1. **Mode detection mechanism**: The skill references `deployment-mode.config.ts` but provides no implementation for HOW the mode is detected at runtime (env var? config file? user setting in DB?). This is the foundational piece that makes the abstraction work.
+
+2. **Migration tooling**: The skill mentions "Export & import data" for mode migration but provides no skill, tool, or process for safely migrating data between modes. Moving from Cloud (Supabase PostgreSQL) to Sovereign (SQLite) involves schema compatibility, data serialization, and integrity verification — none of which are covered.
+
+3. **Hybrid mode is underspecified**: Hybrid mode's definition is vague ("Cloud DB + Local Cache + Local AI"). There is no specification for what the synchronization protocol is, how conflicts are resolved, or when to choose cloud vs local processing within Hybrid mode.
+
+4. **No feature flag integration**: The skill has no concept of feature availability flags per mode. Some features may be genuinely impossible in Sovereign mode (e.g., real-time collaboration). There is no pattern for declaring feature capability matrices per deployment mode.
+
+5. **No testing strategy**: The compliance checklist has checkboxes but provides no guidance on HOW to test each mode during development. A developer without a local Ollama instance cannot test Sovereign mode locally.
+
+### Proposed Resolution:
+Significantly extend `deployment_modes` with: (a) runtime mode detection implementation, (b) a mode migration playbook skill, (c) feature capability matrix template, (d) local testing strategy for each mode (Docker Compose profiles for mode simulation), and (e) Hybrid mode conflict resolution specification.
+### Cross-Phase Impact:
+Phase 3 (Build) implements features without a testable mode simulation setup. Phase 9 (spec_build Phase 9: Deployment Modes verification) cannot pass if there is no way to test modes locally. Phase 5 (Ship) may ship with untested Sovereign mode support.
+================================================================
+
+## Finding: feature_architecture Skill Is Retrospective, Not Prospective
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence:
+The `feature_architecture` skill's stated trigger commands are "Document the [feature name] architecture" and its WHEN TO USE conditions are "Feature is complex / spans multiple files / hard to understand / frequently modified / critical." All of these describe documenting something that already EXISTS. The skill is designed as a documentation skill for existing code, not as a design-time planning instrument. This is the wrong tool for Phase 2. In the `spec_build` workflow, Phase 4 (API Design) invokes `feature_architecture` but expects "API specification with endpoints, request/response schemas" — yet the skill's template is about reverse-engineering and describing existing systems, not forward-defining API contracts.
+
+The "University Heist Analysis" section (Big O, concurrency, race conditions) is valuable but appears as an afterthought in a documentation template rather than a first-class design exercise.
+
+The skill has no concept of:
+- Forward-design (define before you build)
+- Interface-first design (define the API contract before the implementation)
+- C4 model diagrams (Context, Container, Component, Code level architecture diagrams)
+- Design alternatives and why alternatives were rejected
+### Proposed Resolution:
+Split `feature_architecture` into two skills: (1) `feature_architecture_design` (Phase 2 — forward-looking, interface-first, produces design artifacts before code exists) and (2) `feature_architecture_document` (Phase 3/6 — retrospective documentation of what was built). The design variant should include C4 model templates, interface contract definitions, and explicit "alternatives considered" sections.
+### Cross-Phase Impact:
+Phase 3 (Build) `spec_build` calls feature_architecture in Phase 4 but gets documentation tooling instead of design tooling. The API may be defined ad-hoc during implementation rather than designed upfront.
+================================================================
+
+## Finding: schema_standards Grades ADEQUATE But Missing Migration Strategy
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence:
+The `schema_standards` skill is ADEQUATE for documenting a schema's field definitions, constraints, and indexes. However, it is missing:
+
+1. **Migration strategy**: No guidance on how the schema evolves over time. Schema migrations are a critical design decision (expand-then-contract pattern vs direct schema changes, zero-downtime migrations, backward-compatible changes). This should be defined at design time.
+
+2. **Multi-database compatibility**: The skill mentions implementations including "Supabase / Airtable / Notion / PostgreSQL" but provides no guidance on documenting compatibility constraints between implementations. A schema designed for PostgreSQL with pgvector or JSONB is not SQLite-compatible.
+
+3. **Performance implications**: The schema has an Indexes section but no guidance on how to model query patterns that drive index design. Index design without knowing the query patterns is guesswork.
+
+4. **Tenant isolation**: No mention of multi-tenancy patterns (row-level tenancy with `tenant_id` foreign key, schema-per-tenant, database-per-tenant). This is a critical design decision that affects every table in a multi-tenant SaaS.
+
+5. **Append-only semantics vs soft delete**: The skill mentions `status: Draft/Active/Archived` but provides no guidance on when to use soft delete vs hard delete vs append-only event log patterns.
+
+### Proposed Resolution:
+Extend `schema_standards` to include: (a) migration strategy section in the schema template, (b) database compatibility matrix, (c) query pattern documentation that drives index design, (d) tenancy model declaration, (e) delete strategy declaration (soft/hard/append-only).
+### Cross-Phase Impact:
+Phase 3 (Build) `database_optimization` may add indexes that conflict with the schema design intent. Phase 7 (Maintenance) may make breaking schema changes without a migration strategy.
+================================================================
+
+## Finding: ARA Has No Explicit Cross-Cutting Concerns Inventory
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence:
+ARA Phase 4 (Gap Synthesis) defines 9 gap categories: Integration, Error Recovery, Observability, Security, Configuration, Testing, Deployment, Scaling, Data Persistence. These categories are correctly identified but the skill provides NO inventory or checklist of the specific cross-cutting concerns within each category that a world-class architecture must address. For example, under "Observability" a world-class architecture must define: structured logging format, log aggregation strategy, distributed trace context propagation, metric naming conventions, health check endpoint contracts, and alerting runbooks. ARA's checklist only verifies that "cross-cutting concerns are addressed" without specifying WHICH ones. This means a developer can check the box by mentioning logging once without designing the observability architecture.
+### Proposed Resolution:
+Extend ARA Phase 4 with a pre-populated cross-cutting concerns inventory for each of the 9 categories. Each category should have 5-10 specific questions that must be answered (not just "considered") before the gap synthesis is complete.
+### Cross-Phase Impact:
+Phase 3 (Build) `observability` skill works without knowing what observability architecture was designed. Phase 4 (Secure) has no documented security controls to audit against.
+================================================================
+
+## Finding: No Design-Time API Contract Skill (Consumer-First Design)
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence:
+The `api_design` skill lives in Phase 3 (Build) and covers REST patterns, pagination, error formats, and NestJS implementation. This is implementation-time API design. Phase 2 has no skill for design-time API contract definition using consumer-first / API-first / contract-first approaches. Consumer-first design means: define the API contract (OpenAPI/AsyncAPI spec) BEFORE writing any implementation code, validate the contract with consumers/clients, and then implement to the contract. This is distinct from Phase 3's api_design skill which designs the API as part of implementation. The current framework has no Phase 2 artifact that says "this is the API contract we committed to; Phase 3 must implement to it."
+### Proposed Resolution:
+New skill: `api_contract_design` in Phase 2. Trigger: "Define API contract for [service/feature]" / "Design API spec for [integration]". Scope: Produces an OpenAPI 3.0 or AsyncAPI spec as the design artifact before any implementation begins. Covers consumer identification, required operations per consumer, schema definitions (not implementation DTOs but contract types), error contract definitions, and breaking-change policy. This spec becomes the Phase 3 api_design implementation target.
+### Cross-Phase Impact:
+Without a design-time API contract, Phase 3 api_design produces an implementation that may not match what consumers (frontend, mobile, third-party integrators) actually need. Phase 6 (Handoff) cannot provide consumers with a stable contract.
+================================================================
+
+================================================================
+[Loop 3] [Architect] [T2] 2026-02-25T10:00:00Z
+================================================================
+
+## Finding: Phase 1 → Phase 2 Handoff: No Formal Gate Between Brainstorm Outputs and Design Inputs
+
+### Gap Type: MISSING_HANDOFF
+### Severity: CRITICAL
+### Evidence:
+Phase 1 (Brainstorm) produces: client discovery outputs, competitive analysis, idea_to_spec PRDs, user stories (Classic/Gherkin/JTBD), prioritization scores (RICE/MoSCoW/Kano), product metrics, proposals, and SMB launchpad artifacts. Phase 2 (Design) begins with ARA asking "What does success look like?" (Vision State). There is NO formal handoff mechanism that:
+
+1. Confirms which Phase 1 outputs are REQUIRED inputs to Phase 2 (e.g., is a user story required before ARA begins?)
+2. Defines the quality gate a Phase 1 spec must pass before design work begins (e.g., must the spec have acceptance criteria? Must it have a priority score?)
+3. Maps Phase 1 artifact formats to Phase 2 input requirements (the `idea_to_spec` output format has OVERVIEW/TECHNICAL/SECURITY/BUILD sections; ARA expects a Vision State — how do these align?)
+4. Handles the case where Phase 1 produced a high-level concept but no concrete spec (brainstorming often produces unstructured ideas)
+
+The `spec_build` skill's Phase 1 (Vision & PRD via idea_to_spec) feeds into Phase 2 (ARA Analysis) but spec_build is a Phase 3 orchestrator, meaning the design phase is being invoked from within a build workflow rather than as an independent upstream gate.
+
+### Proposed Resolution:
+New skill: `design_intake` in Phase 2. Trigger: "Begin design phase for [feature/project]" / "Validate design readiness for [spec]". Scope: Checks incoming Phase 1 artifacts for completeness (problem statement, user stories, priority score, success metrics), maps Phase 1 outputs to Phase 2 input requirements, produces a "Design Readiness Checklist" that must pass before ARA begins, and defines what happens when Phase 1 artifacts are incomplete (send back vs design under uncertainty).
+### Cross-Phase Impact:
+Without a formal handoff gate, Design can begin on half-baked ideas that should have stayed in Brainstorm. This causes ARA rework, schema redesign, and wasted Phase 3 implementation cycles.
+================================================================
+
+## Finding: Phase 2 → Phase 3 Handoff: Design Artifacts Are Not Formally Structured As Phase 3 Inputs
+
+### Gap Type: MISSING_HANDOFF
+### Severity: CRITICAL
+### Evidence:
+Phase 2 (Design) produces: ARA documents (vision, architecture, implementation plan, gap checklist), deployment modes compliance sections, feature architecture documents, and schema documents. Phase 3 (Build) has 59+ skills but NO Phase 3 skill explicitly requires reading Phase 2 artifacts as preconditions. The `spec_build` skill (Phase 3) invokes Phase 2 skills within its workflow (Phases 2-4 of the 12-phase loop), blurring the boundary between Design and Build. This means:
+
+1. Phase 3 skills (backend_patterns, api_design, auth_implementation, environment_setup, etc.) can be invoked directly without any Phase 2 artifacts having been produced
+2. There is no "Design Sign-Off" gate that must be passed before Phase 3 begins
+3. A developer can jump straight to Phase 3 `spec_build` and do their own design within that workflow — bypassing Phase 2 entirely
+4. Phase 3's `environment_setup` skill sets up development environment (Node version, ESLint, Prettier, .env) without referencing the technology decisions that SHOULD have been made in Phase 2's technology_selection skill (which doesn't exist yet)
+
+### Proposed Resolution:
+New skill: `design_handoff` in Phase 2. Trigger: "Complete design phase for [feature/project]" / "Package design artifacts for build". Scope: Consolidates all Phase 2 outputs into a Design Package (ARA artifacts + schema docs + deployment modes compliance + security threat model + NFR spec + ADRs), validates the package is complete, and produces a Design Sign-Off document with a checklist of everything Phase 3 must implement. This becomes the Phase 3 entry requirement.
+### Cross-Phase Impact:
+Without a Design Sign-Off, Phase 3 operates without authoritative design constraints. Phase 7 (Maintenance) inherits a system built without recorded design intent.
+================================================================
+
+## Finding: Phase 1 Prioritization Output Not Consumed By Phase 2 Architecture
+
+### Gap Type: MISSING_HANDOFF
+### Severity: MEDIUM
+### Evidence:
+Phase 1 has a `prioritization_frameworks` skill (RICE, MoSCoW, Kano) that assigns P0-P3 priority scores and build sequence to features. Phase 2's ARA skill has a Dependency Ordering phase (Phase 5) that determines build order based on technical dependencies. These two ordering systems (business priority from Phase 1, technical dependency order from Phase 2) may conflict, and there is no Phase 2 skill that reconciles them. For example, Phase 1 might score "real-time notifications" as P0 (high business priority) while Phase 2 ARA might place it late in the dependency order (notifications depend on users, events, email/push infrastructure). Without reconciliation, the build order is undefined.
+
+Additionally, Phase 1's user stories (user_story_standards) with Gherkin acceptance criteria are the natural input to ARA Phase 3 (Reverse Condition Mapping — "For each atom, what conditions MUST be true?") but there is no explicit mapping between user story acceptance criteria and reverse conditions.
+### Proposed Resolution:
+Extend ARA's SKILL.md to include an explicit Phase 0.5: "Business Priority Alignment" — map the RICE/MoSCoW priority scores from Phase 1 against the technical dependency order from Phase 5, flag conflicts, and produce a reconciled build sequence. Also add an explicit mapping: "User story acceptance criteria → ARA reverse conditions."
+### Cross-Phase Impact:
+Phase 3 `sprint_planning` skill (in Phase 3) may produce a sprint with technically-ordered work that conflicts with business priority. Stakeholders in Phase 3 `stakeholder_communication` may receive updates that don't align with the business priorities they approved in Phase 1.
+================================================================
+
+## Finding: Phase 2 Design Has No Explicit Interface To Phase 4 (Secure)
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence:
+Phase 4 (Secure) presumably contains security audit skills. The `spec_build` skill Phase 5 references a `security_audit` skill. There is no Phase 2 artifact that Phase 4 can audit against. A security audit without a threat model or security requirements document is a free-form review rather than a structured verification. The current Phase 2 has no skill that:
+- Defines trust boundaries between components
+- Classifies data sensitivity (PII, PHI, financial, public)
+- Defines authentication/authorization requirements per API endpoint (before Phase 3 implements them)
+- Specifies encryption requirements (at rest, in transit, key management)
+
+These must exist as design artifacts for Phase 4 to audit against, otherwise Phase 4 is creating requirements post-hoc rather than verifying pre-stated requirements.
+### Proposed Resolution:
+The `security_threat_modeling` skill proposed in Loop 1 would partially address this. Additionally, Phase 2 needs a `security_requirements_specification` skill that translates threat model findings into concrete security requirements that Phase 3 must implement and Phase 4 must verify.
+### Cross-Phase Impact:
+Phase 4 (Secure) cannot do a meaningful audit without Phase 2 security artifacts. Phase 5 (Ship) security sign-off has no baseline to compare against. The framework's entire security posture is weakened.
+================================================================
+
+## Finding: Phase 2 Has No Skill For Designing The Observability Architecture
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence:
+Phase 3 (Build) has an `observability` skill that implements logging, metrics, and tracing. But observability architecture should be designed in Phase 2: What structured log format will be used? What metric naming convention? What trace propagation standard (W3C TraceContext, B3)? What observability backend (Datadog, Grafana, CloudWatch)? What SLI metrics will be tracked? These decisions affect every service and cannot be retrofitted easily. No Phase 2 skill addresses this. The `deployment_modes` skill does not mention observability per deployment mode (Sovereign mode with no cloud observability needs local ELK or Grafana stack).
+### Proposed Resolution:
+New skill: `observability_architecture` in Phase 2. Trigger: "Design observability for [system]" / "Define monitoring architecture for [project]". Scope: Defines log schema, metric naming conventions, trace propagation, health check contracts, observability backend selection per deployment mode, and alerting philosophy (alerts on SLO burn rates, not individual metric thresholds).
+### Cross-Phase Impact:
+Phase 3 `observability` skill implements logging without a schema specification, leading to inconsistent log formats across services. Phase 7 (Maintenance) cannot correlate incidents without consistent trace IDs.
+================================================================
+
+================================================================
+[Loop 4] [Detective] [T2] 2026-02-25T11:00:00Z
+================================================================
+
+## Finding: Reverse Test — "Perfectly Completed Design" Would Have ADR Trail; Framework Produces None
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence:
+Working backward from a perfectly completed design phase: if a project went through Phase 2 flawlessly, what MUST exist? The answer includes a documented trail of every significant architectural decision with: the decision context (what forces were at play), the decision made, the alternatives considered, and the consequences. None of the 4 current skills produce this artifact. ARA Phase 5 produces a dependency order but not decision rationale. feature_architecture produces a structural description but not why alternatives were rejected. schema_standards documents the chosen schema but not why UUID vs auto-increment, or why JSONB vs normalized tables.
+
+Delta between what exists and what should exist: There is a complete absence of architectural rationale documentation. Every "why" question about the design will be unanswerable from Phase 2 artifacts alone.
+
+Confirming this is NOT covered by prior findings: Loop 1 identified the ADR gap as a missing skill. This finding confirms it from the reverse-thinking direction: the delta is total — zero ADR artifacts are produced by any current Phase 2 skill.
+### Proposed Resolution:
+Confirmed high priority. The `architecture_decision_records` skill (Loop 1 proposal) is necessary and must be created as a Phase 2 core skill alongside ARA.
+### Cross-Phase Impact:
+Without ADRs, every future phase produces "archaeology artifacts" — developers reverse-engineer decisions from code comments and commit history. This dramatically increases maintenance cost in Phase 7 and handoff friction in Phase 6.
+================================================================
+
+## Finding: Reverse Test — "Perfectly Completed Design" Would Have A Deployment Architecture Diagram; Framework Produces None
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence:
+Working backward: if a project completed Phase 2 perfectly, a deployment architecture diagram MUST exist showing: where services run, what container orchestration is used (Docker Compose vs Kubernetes vs serverless), how networking is configured (VPC, subnets, security groups), what load balancers sit in front, what managed services are used vs self-hosted, and how the 3 deployment modes map to actual infrastructure. The `deployment_modes` skill defines the three modes conceptually and provides file structure for abstraction layers but produces NO deployment architecture diagram. The skill says "Cloud Mode: Supabase DB + Supabase Storage + Cloud AI APIs" but does not produce an infrastructure diagram that would allow a DevOps engineer to provision the environment.
+
+Delta: The deployment_modes skill is a compliance checklist for code abstraction, NOT a deployment architecture design skill. These are different responsibilities that are conflated into one skill.
+### Proposed Resolution:
+New skill: `deployment_architecture` in Phase 2. Trigger: "Design deployment architecture for [project]" / "Create infrastructure diagram for [deployment mode]". Scope: Produces infrastructure-as-diagram artifacts (mermaid or draw.io compatible) for each of the 3 deployment modes, defines infrastructure provisioning requirements (IaC templates or manual steps), specifies networking topology, and defines rollout strategy (blue-green, canary, rolling). Distinct from the deployment_modes compliance checklist.
+### Cross-Phase Impact:
+Phase 5 (Ship) has a `docker_development` skill in Phase 3 and presumably deployment skills, but without a Phase 2 deployment architecture design, Phase 5 is inventing the infrastructure topology during shipping, not implementing a pre-designed architecture.
+================================================================
+
+## Finding: Reverse Test — "Perfectly Completed Design" Would Have A Cost Model; Framework Produces None
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence:
+Working backward: a perfectly completed design phase for a SaaS product MUST include a cost model: what does it cost to run this system at 100, 1000, and 10,000 users? What are the variable cost drivers (AI API calls, storage, compute)? What is the unit economics target (cost per user/transaction)? Phase 3 (Build) has a `cost_estimation` skill — but this skill estimates the COST TO BUILD (development cost), not the cost to OPERATE (infrastructure and API costs). Neither skill covers design-time cost architecture: choosing between serverless (pay-per-request) vs dedicated instances (fixed cost), or designing token-efficient AI prompts to reduce OpenAI costs.
+
+The `deployment_modes` skill describes Cloud mode as using "OpenAI/Claude/Gemini via API" without any consideration of the cost implications. For AI-heavy features, API costs can exceed infrastructure costs by orders of magnitude. This is an architectural decision that must be made in Phase 2.
+
+Delta: No Phase 2 skill produces a cost model or FinOps design artifact.
+### Proposed Resolution:
+New skill: `cost_architecture` in Phase 2. Trigger: "Model infrastructure costs for [project]" / "FinOps design for [system]". Scope: Produces a cost model with per-unit economics, identifies top cost drivers, evaluates cost vs capability tradeoffs for major architectural choices (AI model selection, storage tier, compute sizing), and defines cost alerting thresholds. Integrates with deployment_modes (cost differs dramatically by mode).
+### Cross-Phase Impact:
+Phase 3 (Build) `cost_estimation` skill covers build cost only. Without a Phase 2 cost architecture, a project can be built on-budget but operate at 10x the projected operational cost.
+================================================================
+
+## Finding: Reverse Test — "Perfectly Completed Design" Would Have Explicit Data Privacy Design; Framework Has None
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence:
+Working backward from a GDPR/HIPAA-compliant product: the design phase MUST produce a data privacy design document covering: PII field classification (which schema fields contain personal data), data residency requirements (must EU user data stay in EU?), data retention policies (auto-delete after N days), right-to-erasure implementation strategy (how to delete a user's PII from all tables/backups), consent management architecture (where is consent recorded, how is it propagated), and third-party data sharing agreements (what data goes to OpenAI, Supabase, etc.).
+
+The `schema_standards` skill has a status/owner governance section but zero privacy classification. The `deployment_modes` skill notes "Data stored in cloud. May be used to train third-party AI unless opted out" as a privacy note but provides no design guidance. There is no Phase 2 skill that produces a data privacy design artifact.
+
+Delta: A GDPR-regulated project cannot complete Phase 2 with current skills because no skill produces the data flow mapping required for a GDPR Article 30 Record of Processing Activities (RoPA).
+### Proposed Resolution:
+New skill: `data_privacy_design` in Phase 2. Trigger: "Design data privacy for [system]" / "GDPR/HIPAA design for [feature]". Scope: PII field classification matrix, data residency decisions, retention policy specification, erasure strategy (technical implementation design for right-to-erasure), consent record architecture, third-party data processor inventory, and GDPR Article 30 RoPA template.
+### Cross-Phase Impact:
+Phase 4 (Secure) cannot audit GDPR compliance without a data privacy design. Phase 5 (Ship) may ship features that are immediately non-compliant. Phase 7 (Maintenance) inherits privacy debt that is expensive to remediate.
+================================================================
+
+## Finding: Reverse Test — "Perfectly Completed Design" Would Have Explicitly Ruled On Consistency Model; Framework Is Silent
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence:
+Working backward: a system design that handles concurrent users MUST have explicitly decided its consistency model: strong consistency (all reads see the latest write) vs eventual consistency (reads may see stale data) vs causal consistency. This decision affects: cache invalidation strategy, whether optimistic or pessimistic locking is used, WebSocket event ordering guarantees, and how conflicts are resolved in Hybrid deployment mode where local and cloud data diverge.
+
+The `feature_architecture` skill mentions "Concurrency & Race Conditions" under the University Heist Analysis but this is a documentation section for existing code, not a design-time decision framework. The ARA skill Phase 3 asks about race conditions as part of reverse condition mapping but provides no framework for selecting the appropriate consistency model.
+
+Delta: No Phase 2 skill produces a consistency model decision artifact. Developers make ad-hoc consistency choices during Phase 3 implementation.
+### Proposed Resolution:
+This finding should be folded into the NFR specification skill (proposed in Loop 1) which must include consistency model as a required NFR decision point.
+### Cross-Phase Impact:
+Phase 3 (Build) may mix strong-consistency patterns (database transactions) with eventual consistency patterns (caching) without conscious design, creating subtle correctness bugs.
+================================================================
+
+================================================================
+[Loop 5] [Detective] [T2] 2026-02-25T12:00:00Z
+================================================================
+
+## Finding: ARA Fails For Brownfield / Migration Projects
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence:
+The ARA skill's WHEN TO USE section explicitly targets: "Greenfield projects — Starting something from scratch", "New project types — Unfamiliar territory", "Complex systems — Multiple interacting components", "Before writing code — Design first, build second." There is no guidance for brownfield projects: systems that already exist and need to be redesigned, refactored, or extended. The methodology starts with "What does success look like?" (Vision State) which assumes a blank slate. For brownfield work:
+- The current state is a constraint, not a blank slate
+- Legacy dependencies may be non-negotiable
+- The decomposition must account for "what can we NOT change"
+- Reverse condition mapping must identify existing components that satisfy conditions (not just missing ones)
+- Migration risk must be explicitly modeled
+
+When a developer uses ARA on a 3-year-old monolith that needs microservices extraction, the methodology provides no way to incorporate "this legacy subsystem must remain until Q3" as a hard constraint.
+### Proposed Resolution:
+Extend ARA SKILL.md with a "Brownfield Mode" section: additional Phase 0 (Current State Mapping), modified Phase 2 that separates "atoms that must be preserved" from "atoms to be redesigned," and Phase 3 reverse condition mapping that marks conditions as either "already satisfied by legacy system" or "new requirement." Alternatively, create a companion skill: `migration_architecture` in Phase 2.
+### Cross-Phase Impact:
+Phase 3 (Build) `refactoring` skill exists but operates without a design-phase migration architecture plan. Refactoring efforts may be uncoordinated, creating partial migrations that are worse than either the old or new system.
+================================================================
+
+## Finding: deployment_modes Fails For Edge / IoT / Embedded Contexts
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence:
+The `deployment_modes` skill defines 3 modes: Cloud (managed), Hybrid (cloud + local), Sovereign (full local). These 3 modes assume a user is running software on a general-purpose computer or server. The framework has Phase 3 skills for: `iot_platform`, `firmware_development`, `extension_development` (browser extensions), `dapp_development` (blockchain). These downstream skills have radically different deployment contexts:
+- IoT/firmware: resource-constrained devices with no general-purpose OS, intermittent connectivity, OTA update constraints
+- Browser extensions: sandboxed browser environment with Manifest V3 permissions model
+- dApp/Web3: decentralized deployment, smart contract immutability constraints
+
+None of these fit the 3-mode model. The `deployment_modes` skill would declare these "Sovereign mode" (local execution) but that label is meaningless for a microcontroller with 256KB flash. The mandatory deployment modes spec section in feature specs cannot be sensibly completed for these contexts.
+### Proposed Resolution:
+Extend `deployment_modes` with a "Deployment Context Override" mechanism: if the project context is IoT/firmware/extension/dApp, the 3-mode model does not apply and an alternative context-specific deployment specification is used. Define what the mandatory spec section looks like for each alternative context.
+### Cross-Phase Impact:
+Phase 3 skills for IoT, firmware, and dApp development exist but developers following the Phase 2 → Phase 3 workflow will be forced to complete a deployment modes compliance section that does not apply to their context, adding noise without value.
+================================================================
+
+## Finding: feature_architecture Fails For Event-Driven / Async Systems
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence:
+The `feature_architecture` skill's documentation template is designed entirely around synchronous request/response architectures: "User → Frontend → Backend → DB → Response." The template includes API endpoints (HTTP), frontend components, and data flow diagrams. For event-driven architectures (message queues, event streaming, CQRS, event sourcing), the template is structurally inadequate:
+- No concept of event schemas / message contracts
+- No producer/consumer topology documentation
+- No concept of idempotency requirements for message handlers
+- No dead-letter queue design
+- No ordering guarantees documentation
+- The sequenceDiagram template assumes synchronous flow
+
+The framework has Phase 3 skills like `etl_pipeline`, `data_warehouse`, `notification_systems`, and `trading_systems` — all of which are heavily event-driven. A developer designing a trading system architecture in Phase 2 using `feature_architecture` will get a template that does not support event-driven patterns.
+### Proposed Resolution:
+Extend `feature_architecture` with an "Architecture Style" selector at the top of the document: Synchronous REST / Event-Driven / CQRS+ES / Batch Processing. Each style triggers a different template variant with appropriate diagram types (sequence diagram for REST, event flow diagram for event-driven, projection/command separation for CQRS).
+### Cross-Phase Impact:
+Phase 3 `trading_systems`, `etl_pipeline`, `notification_systems` skills are built on event patterns but Phase 2 provides no design template for those patterns. Developers skip Phase 2 design for event-driven features because the tools don't fit.
+================================================================
+
+## Finding: schema_standards Fails Silently For Non-Relational Data Models
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence:
+The `schema_standards` skill is designed around relational database schemas (tables, fields, foreign keys, indexes). The framework's Phase 3 includes `clickhouse_io` (OLAP/columnar), `data_warehouse` (dimensional modeling), `ml_pipeline` (feature stores), and `etl_pipeline` (pipeline schemas). These all have different schema concepts:
+- ClickHouse: no foreign keys, partition keys, sorting keys, materialized views, engines (MergeTree family)
+- Data warehouse: fact tables, dimension tables, star/snowflake schemas, slowly changing dimensions
+- ML feature store: feature groups, feature versioning, training/serving skew prevention
+
+The `schema_standards` skill applied to a ClickHouse OLAP schema would produce a document with UUID primary keys and `FOREIGN KEY` references that cannot be implemented because ClickHouse does not support these constructs.
+### Proposed Resolution:
+Extend `schema_standards` with a "Schema Target" type selector: OLTP (Relational) / OLAP (Columnar) / Document / Time-Series / Graph / Feature Store. Each type overrides the field definition template with the appropriate concepts for that database paradigm.
+### Cross-Phase Impact:
+Phase 3 `clickhouse_io` and `data_warehouse` skills are used without appropriate Phase 2 schema design tooling, meaning complex OLAP schemas are designed ad-hoc during implementation.
+================================================================
+
+## Finding: ARA Quality Checklist Cannot Be Automatically Validated
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence:
+ARA's quality checklist has 17 checkboxes across 5 phases. These are all binary self-assessment items ("Each atom has single responsibility," "All 9 gap categories checked"). There is no automated validation mechanism, no agent that reviews the ARA output against the checklist, and no minimum quality threshold defined. Failure mode: a developer or AI agent can check all boxes without actually producing quality outputs. For example, "All 9 gap categories checked" can be satisfied by a single sentence per category. The checklist provides no minimum depth requirement.
+
+Similarly, the `deployment_modes` compliance checklist has checkboxes but no automated verification. There is no CI check that validates deployment mode compliance in the codebase.
+### Proposed Resolution:
+Define automated validation hooks for both ARA and deployment_modes: (1) an ARA Review Agent that evaluates the completeness of each phase output against minimum quality criteria (e.g., "Atomic Decomposition must have at least 5 atoms, each with inputs and outputs documented"), (2) a deployment_modes CI linter that checks for direct provider calls in source code (grep for `supabase.from`, `s3.upload`, `openai.chat` outside of provider files).
+### Cross-Phase Impact:
+Without automated validation, quality gate failures in Phase 2 are invisible until Phase 3 implementation reveals incomplete design, causing expensive rework.
+================================================================
+
+================================================================
+[Loop 6] [Detective] [T2] 2026-02-25T13:00:00Z
+================================================================
+
+## Finding: Framework Ignores ISO/IEC 25010 Quality Model (Industry Standard For Software Quality)
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence:
+ISO/IEC 25010 defines the Software Quality Model with 8 quality characteristics: Functional Suitability, Performance Efficiency, Compatibility, Usability, Reliability, Security, Maintainability, and Portability. A world-class design phase explicitly addresses all 8 characteristics. Phase 2 currently covers:
+- Security: partially (deployment_modes mentions AI data privacy, but no threat modeling)
+- Portability: partially (deployment_modes covers multi-mode deployment)
+- Functional Suitability: partially (ARA Phase 1 Vision State)
+
+Zero coverage for:
+- Performance Efficiency: no performance requirements, no capacity model
+- Compatibility: no interoperability requirements, no data exchange format standards
+- Usability: no accessibility requirements, no UX design constraints
+- Reliability: no fault tolerance design, no recovery time objectives (RTO/RPO)
+- Maintainability: no modularity requirements, no changeability analysis, no testability requirements at design time
+
+This is not a minor gap — ISO 25010 is the foundational standard for software quality specification. A design phase that ignores 6 of 8 quality characteristics will systematically produce systems that fail on those dimensions.
+### Proposed Resolution:
+Add an ISO 25010 Quality Characteristics section to the ARA quality checklist as a mandatory Phase 4 (Gap Synthesis) output. Each characteristic must be explicitly addressed or documented as "Not Applicable" with justification. This does not require new skills but requires updating ARA's cross-cutting concerns inventory.
+### Cross-Phase Impact:
+Phase 3 (Build) implements features without quality constraints on Reliability, Performance Efficiency, Usability, or Maintainability. Phase 5 (Ship) ships to users without knowing if reliability or performance targets are met.
+================================================================
+
+## Finding: Framework Has No C4 Model Architecture Diagrams (Industry Standard For Architecture Communication)
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence:
+The C4 Model (Simon Brown, widely adopted since 2018) defines four levels of architecture diagrams: Context (system in its environment), Container (runtime boundaries: apps, databases, queues), Component (modules within a container), and Code (classes/functions). This is the industry standard for communicating software architecture to different audiences (executives → Context, architects → Container, developers → Component, code reviewers → Code). The framework's Phase 2 has no C4 model skill. The `feature_architecture` skill uses mermaid sequenceDiagram and graph TD but these are ad-hoc, not C4-structured. ARA's Dependency Ordering (Phase 5) produces a dependency graph but this is not a C4 diagram.
+
+Without C4 diagrams, the framework lacks a structured, audience-appropriate way to communicate architecture. Industry teams (from startups to enterprises) routinely use C4 for onboarding and design review.
+### Proposed Resolution:
+New skill: `c4_architecture_diagrams` in Phase 2. Trigger: "Create C4 diagrams for [system]" / "Generate architecture diagrams for [project]". Scope: Produces all 4 C4 diagram levels using mermaid syntax, defines which level is appropriate for which audience (stakeholders, developers, reviewers), and integrates with the `feature_architecture` and ARA outputs. Provides mermaid templates for each C4 level.
+### Cross-Phase Impact:
+Phase 6 (Handoff) has no standardized architecture diagrams to give to clients or incoming teams. Phase 3 developers must read ARA's text-based dependency descriptions instead of visual Container diagrams.
+================================================================
+
+## Finding: Framework Ignores DORA Metrics At Design Time (Industry Standard For Delivery Performance)
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence:
+DORA (DevOps Research & Assessment) defines 4 key metrics for software delivery performance: Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Mean Time to Recovery (MTTR). Elite performers target: deployment multiple times per day, lead time under 1 hour, change failure rate under 5%, MTTR under 1 hour. These must be designed for at the architecture level — they cannot be retrofitted. Designing for DORA elite performance requires: feature flags (for deployment frequency without user impact), automated rollback mechanisms (for MTTR), progressive delivery patterns (for change failure rate), and CI/CD pipeline architecture (for lead time). No Phase 2 skill addresses DORA metrics or designs for delivery performance targets. The framework goes from design directly to build without specifying delivery performance targets.
+### Proposed Resolution:
+Add a "Delivery Architecture" section to ARA Phase 4 (Gap Synthesis): required DORA targets must be specified and the architectural implications of each target must be documented. For example, "Deployment frequency: multiple per day → requires feature flags, database migration strategy for zero-downtime deploys, and automated smoke tests."
+### Cross-Phase Impact:
+Phase 5 (Ship) and Phase 3 (git_workflow, docker_development) implement CI/CD without delivery performance targets. The framework may produce systems that are architecturally incapable of elite DORA performance.
+================================================================
+
+## Finding: Framework Ignores OpenAPI/AsyncAPI First Design (Industry Mandate For API Governance)
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence:
+The industry standard for API development is "API-first" or "contract-first" design: write the OpenAPI 3.0 or AsyncAPI 2.x specification BEFORE writing implementation code. This enables: parallel frontend/backend development against the contract mock, contract testing (Pact, Dredd), automatic SDK generation for consumers, API governance linting (Spectral), and breaking change detection. Phase 3's `api_design` skill shows NestJS implementation code with Swagger decorators (`@ApiProperty`, `@ApiOperation`) but this is a code-first approach where the OpenAPI spec is generated FROM the code. The industry API governance approach (API-first) generates the spec first and validates code against it. No Phase 2 skill produces a standalone OpenAPI specification before any code is written.
+
+This finding directly relates to the `api_contract_design` gap identified in Loop 2 but approaches it from the industry standards angle: the industry mandate is contract-first, the framework practices code-first.
+### Proposed Resolution:
+Confirmed from industry standards perspective. The `api_contract_design` skill (proposed in Loop 2) is the correct resolution. Additional requirement: the skill must explicitly specify that the OpenAPI spec is the SOURCE OF TRUTH, not a generated artifact. Phase 3 `api_design` should reference the Phase 2 OpenAPI spec and validate implementation against it.
+### Cross-Phase Impact:
+Without an API-first Phase 2 artifact, frontend (Phase 3 `frontend_patterns`) cannot develop in parallel against a stable contract. Third-party integrators have no spec to build against before the backend is complete.
+================================================================
+
+## Finding: Framework Ignores Accessibility (WCAG 2.1) At Design Time (Legal Mandate In Many Jurisdictions)
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence:
+WCAG 2.1 (Web Content Accessibility Guidelines) is a legal requirement in the EU (EN 301 549), UK (Equality Act 2010), USA (ADA/Section 508), and Australia (ATAG). Accessibility must be designed from the beginning — retrofitting is 30x more expensive than designing for accessibility from the start. Phase 2 has no skill for accessibility design: no WCAG 2.1 conformance level target (A, AA, AAA), no accessible color palette specification, no keyboard navigation design, no screen reader interaction design, no ARIA role/landmark design for complex components. Phase 3 has a `ui_polish` skill and a `liquid_glass_design` skill but neither is an accessibility design skill. The `ui_polish` skill in Phase 3's spec_build (Phase 10) references tooltip/help text but not accessibility conformance.
+
+For any product shipping to EU, UK, or USA markets, skipping accessibility design is a legal risk.
+### Proposed Resolution:
+New skill: `accessibility_design` in Phase 2. Trigger: "Design accessibility for [product/feature]" / "Define WCAG requirements for [project]". Scope: Sets WCAG 2.1 conformance target, defines keyboard navigation patterns for complex UI components, specifies ARIA roles and landmarks, defines color contrast requirements, establishes accessible form validation pattern, and produces an accessibility requirements checklist that Phase 3 frontend implementation must satisfy.
+### Cross-Phase Impact:
+Phase 3 `frontend_patterns` and `ui_polish` implement UI without accessibility requirements. Phase 5 (Ship) may ship legally non-compliant products. Phase 7 (Maintenance) inherits accessibility debt.
+================================================================
+
+## Finding: Framework Has No Design-Level Performance Budget (Core Web Vitals Industry Standard)
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence:
+Google's Core Web Vitals (LCP, INP, CLS) are now ranking factors for SEO and de facto industry standards for web performance. Setting a performance budget (max LCP: 2.5 seconds, max CLS: 0.1, max INP: 200ms) at design time constrains architectural choices: whether to use SSR vs CSR, whether to use a CDN, how to design lazy loading, what image optimization strategy to use. No Phase 2 skill sets a performance budget. Phase 3 `frontend_patterns` implements UI without performance constraints. This connects to the NFR gap (Loop 1) but specifically references the industry-standard Core Web Vitals metric set.
+### Proposed Resolution:
+Add Core Web Vitals targets to the NFR specification skill (proposed in Loop 1) as required performance budget items for any web-facing product. Additionally, add to the ARA quality checklist: "Performance budget defined for frontend (LCP, INP, CLS targets)."
+### Cross-Phase Impact:
+Phase 3 frontend implementation choices (bundle size, hydration strategy, image handling) are made without performance budget constraints. Phase 5 (Ship) may ship with poor Core Web Vitals scores that harm SEO.
+================================================================
+
+================================================================
+[Loop 7] [Builder] [T2] 2026-02-25T14:00:00Z
+================================================================
+
+## Finding: Solution Spec — architecture_decision_records Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: References Loop 1 Finding "No ADR Skill" and Loop 4 Finding "Reverse Test — ADR Trail"
+### Proposed Resolution:
+
+**Skill Name**: `architecture_decision_records`
+**Phase**: 2-design
+**Trigger Commands**:
+```
+"Record architectural decision for [choice]"
+"Create ADR for [decision]"
+"Document why we chose [X] over [Y]"
+"Using adr skill: [decision context]"
+```
+**Scope**: Implements MADR (Markdown Architectural Decision Records) format v3.0. Provides a fill-in-the-blank ADR template capturing: context and problem statement, decision drivers, considered options with pros/cons table, decision outcome, positive and negative consequences, and status lifecycle (Proposed → Accepted → Deprecated → Superseded). Maintains an ADR index file. Integrates with SSoT.
+
+**Output Location**: `.agent/docs/2-design/adrs/ADR-[NNN]-[title].md` + `.agent/docs/2-design/adrs/index.md`
+
+**Priority**: P0 — CRITICAL. Every project that exits Phase 2 should have at least 3-5 ADRs for the most consequential decisions.
+### Cross-Phase Impact:
+Directly enables: Phase 6 (Handoff) explanation of architectural choices; Phase 7 (Maintenance) preventing decision reversal without context.
+================================================================
+
+## Finding: Solution Spec — security_threat_modeling Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: References Loop 1 Finding "No Security Threat Modeling Skill" and Loop 3 Finding "No Interface To Phase 4"
+### Proposed Resolution:
+
+**Skill Name**: `security_threat_modeling`
+**Phase**: 2-design
+**Trigger Commands**:
+```
+"Threat model for [feature/system]"
+"Run STRIDE analysis on [component]"
+"Identify security threats for [design]"
+"Using threat_modeling skill: [system]"
+```
+**Scope**: Guides a 5-step STRIDE threat modeling session against the ARA architecture output. Step 1: Draw data flow diagram from ARA artifacts. Step 2: Enumerate threats using STRIDE per DFD boundary. Step 3: Rate each threat (DREAD: Damage, Reproducibility, Exploitability, Affected Users, Discoverability). Step 4: Define mitigations for each high/critical threat. Step 5: Produce Threat Register (threats + ratings + mitigations + residual risk). Output: Threat Register document that becomes Phase 4's audit baseline.
+
+**Output Location**: `.agent/docs/2-design/[project]-threat-model.md`
+
+**Priority**: P0 — CRITICAL for any system handling user data, financial transactions, or PII.
+### Cross-Phase Impact:
+Enables Phase 4 (Secure) to audit against a threat register rather than performing ad-hoc reviews. Directly feeds Phase 5 (Ship) security acceptance criteria.
+================================================================
+
+## Finding: Solution Spec — design_handoff Skill
+
+### Gap Type: MISSING_HANDOFF
+### Severity: CRITICAL
+### Evidence: References Loop 3 Finding "Phase 2 → Phase 3 Handoff: No Formal Gate"
+### Proposed Resolution:
+
+**Skill Name**: `design_handoff`
+**Phase**: 2-design
+**Trigger Commands**:
+```
+"Complete design phase for [project]"
+"Package design artifacts for build"
+"Design sign-off for [feature]"
+"Using design_handoff skill: [project]"
+```
+**Scope**: Consolidates all Phase 2 outputs into a Design Package manifest (`.agent/docs/2-design/design-package.md`). Validates that each required Phase 2 artifact exists and meets minimum quality criteria: ARA architecture document, at least 1 ADR, schema documents for all entities, deployment modes compliance section, security threat model (if user data is involved), NFR specification. Produces a Design Sign-Off document with implementation constraints for Phase 3, a "Must Not Change Without ADR" list of locked decisions, and a Phase 3 entry checklist.
+
+**Output Location**: `.agent/docs/2-design/design-package.md` + `.agent/docs/2-design/design-signoff.md`
+
+**Priority**: P0 — CRITICAL. This is the gate between Design and Build.
+### Cross-Phase Impact:
+Enforces that Phase 3 (Build) cannot begin without a complete Design Package. Provides Phase 7 (Maintenance) with the intended design constraints.
+================================================================
+
+## Finding: Solution Spec — nfr_specification Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: References Loop 1 Finding "No NFR Specification Skill", Loop 4 Finding "Consistency Model Silence", Loop 6 Finding "DORA Metrics", "Core Web Vitals"
+### Proposed Resolution:
+
+**Skill Name**: `nfr_specification`
+**Phase**: 2-design
+**Trigger Commands**:
+```
+"Define NFRs for [system]"
+"Specify performance requirements for [feature]"
+"Set SLO targets for [service]"
+"Using nfr_specification skill: [project]"
+```
+**Scope**: Produces an NFR document covering 7 dimensions: (1) Performance — latency targets (p50/p95/p99), throughput (RPS), Core Web Vitals (LCP/INP/CLS) for web UIs; (2) Reliability — availability target (99.9%, 99.99%), RTO, RPO, error budget; (3) Scalability — scale-up and scale-out targets, peak concurrency; (4) Security — compliance tiers (SOC2/HIPAA/GDPR), encryption requirements; (5) Maintainability — DORA targets (deployment frequency, lead time, change failure rate, MTTR); (6) Consistency — consistency model choice (strong/eventual/causal) with justification; (7) Accessibility — WCAG 2.1 conformance level target. Each dimension has a "Not Applicable + reason" option.
+
+**Output Location**: `.agent/docs/2-design/[project]-nfr-spec.md`
+
+**Priority**: P1 — HIGH. Required before any performance-sensitive or reliability-critical feature enters Phase 3.
+### Cross-Phase Impact:
+Feeds Phase 5 (Ship) acceptance criteria. Feeds Phase 7 (Maintenance) SLO baseline. Feeds Phase 3 `observability` skill with metric targets to alert on.
+================================================================
+
+## Finding: Solution Spec — c4_architecture_diagrams Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: References Loop 6 Finding "No C4 Model Architecture Diagrams"
+### Proposed Resolution:
+
+**Skill Name**: `c4_architecture_diagrams`
+**Phase**: 2-design
+**Trigger Commands**:
+```
+"Create C4 diagrams for [system]"
+"Generate architecture diagrams for [project]"
+"C4 context diagram for [system]"
+"Using c4_diagrams skill: [project]"
+```
+**Scope**: Produces all 4 C4 diagram levels in mermaid syntax. Level 1 (Context): shows the system and its users/external dependencies for stakeholder communication. Level 2 (Container): shows runtime boundaries (web app, API, database, queue) for architect/team communication. Level 3 (Component): shows internal modules within each container for developer communication. Level 4 (Code): shows key class/function relationships for code reviewer communication. Provides audience guidance for each level. Integrates with ARA's atomic decomposition to auto-suggest container and component boundaries.
+
+**Output Location**: `.agent/docs/2-design/[project]-c4-diagrams.md`
+
+**Priority**: P1 — HIGH. Especially critical for Phase 6 (Handoff) and team onboarding.
+### Cross-Phase Impact:
+Phase 6 (Handoff) uses C4 Context and Container diagrams for client/stakeholder presentation. Phase 3 developers use Component diagrams to understand implementation boundaries.
+================================================================
+
+## Finding: Solution Spec — api_contract_design Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: References Loop 2 Finding "No Design-Time API Contract Skill" and Loop 6 Finding "OpenAPI/AsyncAPI First Design Industry Mandate"
+### Proposed Resolution:
+
+**Skill Name**: `api_contract_design`
+**Phase**: 2-design
+**Trigger Commands**:
+```
+"Define API contract for [service/feature]"
+"Design API spec before implementation for [API]"
+"Contract-first API design for [integration]"
+"Using api_contract_design skill: [API]"
+```
+**Scope**: Produces an OpenAPI 3.0 specification file as the design artifact before any implementation code is written. Covers: consumer identification (who are the API clients?), required operations per consumer (what does each consumer need?), schema definitions for all request/response types, error contract (consistent error envelope), authentication/authorization requirements per endpoint, breaking-change policy, and versioning strategy declaration. The resulting spec becomes the authoritative contract that Phase 3 `api_design` must implement and that CI validates the implementation against (using Dredd or Spectral).
+
+**Output Location**: `.agent/docs/2-design/[project]-api-contract.yaml`
+
+**Priority**: P1 — HIGH for any project with a frontend + backend split or third-party integrators.
+### Cross-Phase Impact:
+Enables parallel frontend/backend development in Phase 3. Provides Phase 6 (Handoff) with a stable API contract for third-party consumers.
+================================================================
+
+## Finding: Solution Spec — data_privacy_design Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: References Loop 4 Finding "No Data Privacy Design" and Loop 6 Finding "WCAG 2.1 Legal Mandate"
+### Proposed Resolution:
+
+**Skill Name**: `data_privacy_design`
+**Phase**: 2-design
+**Trigger Commands**:
+```
+"Design data privacy for [system]"
+"GDPR compliance design for [feature]"
+"PII classification for [data model]"
+"Using data_privacy_design skill: [project]"
+```
+**Scope**: Covers 6 areas: (1) PII classification matrix — annotates schema fields with privacy tier (public, internal, sensitive-PII, sensitive-PHI, sensitive-financial); (2) Data residency map — which data must stay in which geographic region; (3) Retention policy specification — automated deletion schedule per data tier; (4) Right-to-erasure design — technical implementation strategy (cascade delete, anonymization, pseudonymization) for each PII-bearing entity; (5) Consent architecture — where consent is recorded, how it propagates, how it is withdrawn; (6) GDPR Article 30 RoPA template — Record of Processing Activities with data subjects, legal basis, processors, and retention.
+
+**Output Location**: `.agent/docs/2-design/[project]-data-privacy.md`
+
+**Priority**: P1 — HIGH for any product handling EU users, health data, or financial data.
+### Cross-Phase Impact:
+Feeds Phase 4 (Secure) compliance audit. Required by any enterprise or regulated-industry customer in Phase 6 (Handoff). Prevents Phase 7 (Maintenance) inheriting privacy debt.
+================================================================
+
+## Finding: Solution Spec — design_intake Skill
+
+### Gap Type: MISSING_HANDOFF
+### Severity: CRITICAL
+### Evidence: References Loop 3 Finding "Phase 1 → Phase 2 Handoff: No Formal Gate"
+### Proposed Resolution:
+
+**Skill Name**: `design_intake`
+**Phase**: 2-design
+**Trigger Commands**:
+```
+"Begin design phase for [feature/project]"
+"Validate design readiness for [spec]"
+"Check if [spec] is ready for design"
+"Using design_intake skill: [feature]"
+```
+**Scope**: Validates incoming Phase 1 artifacts for completeness before design work begins. Required Phase 1 inputs: (a) at least one user story per major user type, (b) problem statement (from idea_to_spec OVERVIEW section), (c) success criteria (measurable, not vague), (d) priority score (RICE or MoSCoW), (e) scope exclusions documented (what is explicitly NOT in scope). Optional: competitive analysis, user research data. If required inputs are missing, triggers specific Phase 1 skill invocations to complete them. Produces "Design Readiness: APPROVED" or "Design Readiness: BLOCKED — missing: [list]" status.
+
+**Output Location**: `.agent/docs/2-design/design-readiness.md`
+
+**Priority**: P0 — CRITICAL. This is the Phase 1 → Phase 2 gate.
+### Cross-Phase Impact:
+Prevents ARA work from beginning on under-specified requirements. Sends incomplete specs back to Phase 1 before design resources are consumed.
+================================================================
+
+================================================================
+[Loop 8] [Builder] [T2] 2026-02-25T15:00:00Z
+================================================================
+
+## Finding: Implementation Plan — Dependencies Between Proposed Skills
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: References all Loop 7 solution specs. This finding maps the dependency graph and implementation sequence for all proposed solutions.
+
+### Proposed Resolution:
+
+**Dependency Graph For Proposed Phase 2 Skills:**
+
+```
+design_intake
+  └─ must exist BEFORE: ARA, security_threat_modeling, api_contract_design, schema_standards, nfr_specification
+  └─ depends ON: Phase 1 skills (idea_to_spec, user_story_standards, prioritization_frameworks) [already exist]
+
+architecture_decision_records
+  └─ must exist ALONGSIDE: ARA (first ADR should record ARA's key architectural choices)
+  └─ depends ON: design_intake [proposed]
+  └─ feeds INTO: design_handoff [proposed]
+
+nfr_specification
+  └─ must exist BEFORE: api_contract_design, security_threat_modeling, c4_architecture_diagrams
+  └─ depends ON: design_intake [proposed]
+  └─ feeds INTO: design_handoff [proposed], Phase 5 (Ship) acceptance criteria
+
+security_threat_modeling
+  └─ depends ON: ARA [exists], nfr_specification [proposed], design_intake [proposed]
+  └─ feeds INTO: design_handoff [proposed], Phase 4 (Secure) security_audit
+  └─ BLOCKS: design_handoff if user data is involved and threat model is absent
+
+c4_architecture_diagrams
+  └─ depends ON: ARA [exists] — takes ARA atomic decomposition as Container/Component input
+  └─ feeds INTO: design_handoff [proposed], Phase 6 (Handoff)
+  └─ CAN BE PARALLEL WITH: api_contract_design, security_threat_modeling
+
+api_contract_design
+  └─ depends ON: ARA [exists], nfr_specification [proposed]
+  └─ feeds INTO: Phase 3 api_design [already exists — must reference contract], design_handoff [proposed]
+  └─ CAN BE PARALLEL WITH: schema_standards, c4_architecture_diagrams
+
+data_privacy_design
+  └─ depends ON: schema_standards [exists], design_intake [proposed]
+  └─ feeds INTO: design_handoff [proposed], Phase 4 security audit
+  └─ CAN BE PARALLEL WITH: security_threat_modeling
+
+design_handoff
+  └─ depends ON: ALL above [must exist to validate package completeness]
+  └─ is the TERMINAL skill for Phase 2 — no Phase 3 skill should begin without it
+  └─ complexity: S (it is an aggregation/validation skill, not creative work)
+```
+
+**Implementation Sequence (Build Order):**
+
+| Order | Skill | Depends On | Complexity | Type |
+|-------|-------|-----------|------------|------|
+| 1 | `design_intake` | Phase 1 skills (exist) | S | Standalone SKILL.md |
+| 2 | `architecture_decision_records` | design_intake | M | Standalone SKILL.md |
+| 3 | `nfr_specification` | design_intake | M | Standalone SKILL.md |
+| 4a | `security_threat_modeling` | ARA + nfr_specification | L | Standalone SKILL.md |
+| 4b | `api_contract_design` | ARA + nfr_specification | M | Standalone SKILL.md |
+| 4c | `c4_architecture_diagrams` | ARA | S | Standalone SKILL.md |
+| 4d | `data_privacy_design` | schema_standards + design_intake | M | Standalone SKILL.md |
+| 5 | `design_handoff` | all above | S | Standalone SKILL.md |
+
+Complexity: S = 1-2 hrs, M = half-day, L = full day
+
+**Total effort to close critical and high Phase 2 gaps: ~3.5 full days of SKILL.md authoring**
+### Cross-Phase Impact:
+All phases downstream of Phase 2 benefit. Estimated reduction in Phase 3 rework: 30-40% (no more "oops, we designed for the wrong consistency model" or "we forgot GDPR"). Estimated reduction in Phase 4 audit time: 50% (auditing against a threat register vs ad-hoc review).
+================================================================
+
+## Finding: Implementation Plan — Existing Skill Extensions (Not New Files)
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: References Loop 2 (deployment_modes shallow), Loop 2 (feature_architecture retrospective), Loop 2 (schema_standards migration gap), Loop 2 (ARA cross-cutting gap), Loop 5 (ARA brownfield failure), Loop 5 (deployment_modes IoT failure), Loop 5 (feature_architecture event-driven failure), Loop 6 (ISO 25010 gap), Loop 6 (DORA metrics).
+
+### Proposed Resolution:
+
+**Extensions Required To Existing Phase 2 Skills:**
+
+**1. ARA SKILL.md Extensions** (complexity: M — half-day)
+- Add pre-populated cross-cutting concerns inventory (Loop 2 finding) with 5-10 specific questions per category
+- Add ISO 25010 quality characteristics section to Phase 4 checklist (Loop 6)
+- Add DORA metrics targets to Phase 4 delivery architecture (Loop 6)
+- Add "Brownfield Mode" section (Loop 5) with Phase 0 current-state mapping
+- Add business priority alignment step (Phase 0.5) to reconcile RICE scores with technical dependency order (Loop 3)
+- Add mandatory artifact schemas (standardized output formats) for ARA deliverables (Loop 2)
+
+**2. deployment_modes SKILL.md Extensions** (complexity: M — half-day)
+- Add runtime mode detection implementation (env var/config mechanism)
+- Add mode migration playbook reference (or create `deployment_mode_migration` as a companion skill)
+- Add feature capability matrix template per mode
+- Add local testing strategy for each mode (Docker Compose profile per mode)
+- Add Hybrid mode conflict resolution specification
+- Add deployment context override for IoT/firmware/dApp/extension contexts
+
+**3. feature_architecture SKILL.md Extensions** (complexity: S — 1-2 hrs)
+- Add "Architecture Style" selector at document header (Sync REST / Event-Driven / CQRS+ES / Batch)
+- Add event-driven diagram templates (event flow, producer/consumer topology, dead-letter queue)
+- Add forward-design trigger commands ("Design the architecture for [feature before it exists]")
+- Add C4 model reference (link to c4_architecture_diagrams skill for container/component diagrams)
+- Add "alternatives considered" section to document template
+
+**4. schema_standards SKILL.md Extensions** (complexity: S — 1-2 hrs)
+- Add Schema Target type selector (OLTP / OLAP / Document / Time-Series / Graph / Feature Store)
+- Add migration strategy section to master template
+- Add database compatibility matrix (PostgreSQL vs SQLite vs ClickHouse feature support)
+- Add query pattern documentation section (drives index design)
+- Add tenancy model declaration (row-level / schema-per-tenant / database-per-tenant)
+- Add delete strategy declaration (soft / hard / append-only event log)
+
+**Priority Order for Extensions:**
+1. ARA extensions (P0 — foundational methodology improvements)
+2. deployment_modes extensions (P1 — addresses testing and IoT failure modes)
+3. schema_standards extensions (P1 — addresses brownfield and OLAP gaps)
+4. feature_architecture extensions (P2 — addresses event-driven and forward-design gaps)
+### Cross-Phase Impact:
+ARA extensions improve quality of every downstream phase. deployment_modes extensions enable Sovereign mode testing in Phase 3. Schema_standards extensions prevent database-incompatible schema designs from reaching Phase 3 implementation.
+================================================================
+
+## Finding: Implementation Plan — Framework Infrastructure Required
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: References Loop 5 "ARA Quality Checklist Cannot Be Automatically Validated" and all Loop 7 skills that require agent-level validation.
+
+### Proposed Resolution:
+
+**Infrastructure Requirements Beyond SKILL.md Files:**
+
+**1. Design Phase Agent (New Agent)**
+Several proposed skills require agent-level validation that goes beyond passive skill documentation:
+- `design_intake` skill needs to AUTOMATICALLY check Phase 1 artifact completeness (not just provide a checklist for manual checking)
+- `design_handoff` skill needs to AUTOMATICALLY verify all required Phase 2 artifacts exist at specified paths
+- ARA quality validation needs an agent that reads the ARA document and grades completeness
+
+Recommendation: Create a `design-agent` (similar to how `spec_build` is an orchestrator) that:
+- Runs `design_intake` validation automatically when invoked
+- Tracks which Phase 2 skills have been completed for a given project
+- Produces a Phase 2 Completion Certificate that is required by Phase 3 skills
+
+Infrastructure type: New agent definition in `.agent/` directory
+Complexity: L (full day — requires agent configuration and workflow definition)
+
+**2. Deployment Modes CI Linter (New Script)**
+The `deployment_modes` skill needs automated enforcement beyond a compliance checklist:
+- A pre-commit or CI script that greps source code for direct provider calls (supabase.from(), s3.upload(), openai.chat()) outside of the designated provider abstraction files
+- This cannot be done with a SKILL.md alone — it requires a CI hook
+
+Infrastructure type: New script in `.agent/hooks/` or CI configuration
+Complexity: S (1-2 hrs — grep-based linting script)
+
+**3. Phase 2 Artifact Registry**
+As Phase 2 grows from 4 to 12+ skills, there needs to be a way to track which artifacts exist for a given project without reading every directory manually:
+- A simple `.agent/docs/2-design/manifest.json` that lists all Phase 2 artifacts and their completion status
+- Updated by each skill when it produces its output artifact
+
+Infrastructure type: New manifest format + update instructions in each skill's EXIT CHECKLIST
+Complexity: S (1-2 hrs — manifest schema definition and checklist additions)
+
+**Priority:**
+1. Deployment Modes CI Linter (P1 — addresses the most common coding mistakes with automated enforcement)
+2. Phase 2 Artifact Registry (P1 — enables design_handoff validation without manual file scanning)
+3. Design Phase Agent (P2 — valuable but requires more infrastructure; SKILL.md-based intake/handoff can be manual initially)
+### Cross-Phase Impact:
+CI Linter directly enforces Phase 2 deployment modes compliance in Phase 3 code. Artifact Registry enables Phase 3 `spec_build` to verify Phase 2 completion before beginning. Design Phase Agent would reduce AI agent design phase errors by providing automated quality gates.
+================================================================
+
+## Finding: Summary — Consolidated Gap Severity Matrix For Phase 2
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Synthesizing all 8 loops into a prioritized action matrix.
+
+### Proposed Resolution:
+
+**Phase 2 Gap Remediation Priority Matrix:**
+
+| Priority | Item | Type | Loops | Effort |
+|----------|------|------|-------|--------|
+| P0 | `design_intake` skill (Phase 1→2 gate) | New SKILL.md | L1,L3 | S |
+| P0 | `architecture_decision_records` skill | New SKILL.md | L1,L4 | M |
+| P0 | `security_threat_modeling` skill | New SKILL.md | L1,L3,L6 | L |
+| P0 | `design_handoff` skill (Phase 2→3 gate) | New SKILL.md | L3,L7 | S |
+| P1 | `nfr_specification` skill | New SKILL.md | L1,L4,L6 | M |
+| P1 | `api_contract_design` skill | New SKILL.md | L2,L6,L7 | M |
+| P1 | `data_privacy_design` skill | New SKILL.md | L4,L6 | M |
+| P1 | `c4_architecture_diagrams` skill | New SKILL.md | L6,L7 | S |
+| P1 | ARA SKILL.md extensions | Extension | L2,L3,L5,L6 | M |
+| P1 | deployment_modes SKILL.md extensions | Extension | L2,L5 | M |
+| P1 | Deployment Modes CI Linter | New Script | L5 | S |
+| P1 | Phase 2 Artifact Registry | New Manifest | L8 | S |
+| P2 | `deployment_architecture` skill (infra diagrams) | New SKILL.md | L4 | M |
+| P2 | `cost_architecture` skill (FinOps design) | New SKILL.md | L4 | M |
+| P2 | `data_architecture_design` skill (system-level data) | New SKILL.md | L1 | M |
+| P2 | schema_standards SKILL.md extensions | Extension | L2,L5 | S |
+| P2 | feature_architecture SKILL.md extensions | Extension | L2,L5 | S |
+| P2 | `accessibility_design` skill | New SKILL.md | L6 | M |
+| P2 | `observability_architecture` skill | New SKILL.md | L3 | M |
+| P3 | `technology_selection` skill | New SKILL.md | L1 | M |
+| P3 | Design Phase Agent | New Agent | L5,L8 | L |
+| P3 | `migration_architecture` skill (brownfield) | New SKILL.md | L5 | M |
+
+**Summary Statistics:**
+- New SKILL.md files required: 13 (4 at P0, 4 at P1, 5 at P2/P3)
+- Existing skill extensions required: 4 files
+- Infrastructure items required: 3 (CI linter, artifact registry, design agent)
+- Total estimated effort to close P0+P1 gaps: ~6 full days
+- Total estimated effort to close all gaps: ~12 full days
+- Current Phase 2 skill count: 4
+- Target Phase 2 skill count (P0+P1 complete): 12
+- Target Phase 2 skill count (all gaps closed): 17+
+
+**Critical Observation**: Phase 2 is the most under-resourced phase relative to its importance. Every downstream phase (3-7) inherits the consequences of Phase 2 gaps. The 4 existing skills are all useful and reasonably well-designed; the phase is simply incomplete for a production-grade framework. A design phase with only 4 skills will systematically produce architectures missing ADRs, threat models, NFR contracts, API contracts, privacy designs, and handoff gates — making every subsequent phase harder, slower, and more error-prone.
+### Cross-Phase Impact:
+Closing P0 gaps directly reduces Phase 3 rework, Phase 4 ad-hoc security work, Phase 5 ship-blocking surprises, and Phase 7 maintenance archaeology. Closing P1 gaps enables parallel development (api_contract_design), legal compliance (data_privacy_design + accessibility_design), and industry-standard architecture communication (c4_architecture_diagrams).
+================================================================

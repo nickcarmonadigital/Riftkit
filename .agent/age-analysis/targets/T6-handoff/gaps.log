@@ -1,0 +1,679 @@
+================================================================
+[Loop 1] [Architect] [T6] 2026-02-25T08:00:00Z
+================================================================
+
+## Finding: Stakeholder Sign-Off and Operational Readiness Gate Missing
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Phase 6 (Handoff) contains api_reference, community_management, disaster_recovery, doc_reorganize, feature_walkthrough, and user_documentation. None of these skills address the formal handoff gate: getting sign-off from stakeholders (product owners, customers, operations teams) that the product is ready for general availability. "Handoff" as a phase implies transferring ownership from the build team to an operations/support/user base — yet there is no skill governing the readiness review checklist, acceptance criteria verification, stakeholder approval workflow, or the formal declaration that handoff is complete. Without this, the phase has no authoritative ending condition.
+### Proposed Resolution: Skill name "operational_readiness_review", Phase 6, triggers: "Run pre-GA readiness check", "Stakeholder sign-off checklist", "Operational readiness review for [project]". Scope: Defines the formal readiness gate that gates transition from build/beta to GA, covering acceptance criteria verification against Phase 3-5 outputs, stakeholder sign-off matrix (who must approve what), operational readiness scorecard, and the formal handoff declaration document.
+### Cross-Phase Impact: Without a readiness gate, Phase 7 (Maintenance) can begin on a product that has not been formally accepted. Phase 5.75 (Beta) feedback may not be formally resolved before handoff occurs. Upstream phases have no guarantee their deliverables were verified at handoff.
+
+---
+
+## Finding: Support Team Enablement Has No Dedicated Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: user_documentation covers end-user help centers and in-app contextual help. feature_walkthrough covers developer-oriented walkthroughs. disaster_recovery covers incident response runbooks. None of these address the specific work of enabling a support team: training support agents on the product, creating internal support playbooks distinct from public docs, giving support staff tools to diagnose common issues, and documenting escalation paths. Support team enablement is a distinct handoff deliverable — the people who answer user questions need different materials than users or engineers.
+### Proposed Resolution: Skill name "support_enablement", Phase 6, triggers: "Enable support team for [product]", "Create support playbook for [feature]", "Internal support documentation". Scope: Creates the internal knowledge base and training materials specifically for support agents, including diagnostic decision trees, escalation matrices, known issue trackers with workarounds, and a support agent onboarding checklist distinct from end-user documentation.
+### Cross-Phase Impact: Phase 7 (Maintenance) depends on a functioning support layer. Without support enablement, incoming maintenance issues will be routed incorrectly, response times will be slow, and engineering will be interrupted with issues that support should handle.
+
+---
+
+## Finding: SLA Definition and Handoff of SLA Commitments Is Absent
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: disaster_recovery defines incident severity levels (SEV1-SEV4) and recovery time targets per scenario. However, no skill addresses the formal definition of Service Level Agreements (SLAs) at handoff: what uptime is promised, what response times are committed, what the penalty or remediation policy is, and how these are communicated to customers. The disaster_recovery runbooks are operational tools — SLA handoff is a contractual and communication act that must happen at the boundary of Phase 6. Without formalized SLAs, the downstream support and maintenance team operates without targets.
+### Proposed Resolution: Skill name "sla_handoff", Phase 6, triggers: "Define SLA for [service]", "Create SLA documentation for handoff", "SLA commitments for [product]". Scope: Documents the formal SLA commitments being transferred at handoff — uptime targets, response time SLOs, error budget definitions, escalation SLAs, and the communication artifact that conveys these to customers and the operations team inheriting the product.
+### Cross-Phase Impact: Phase 7 (Maintenance) cannot measure its own success without defined SLAs. DORA metrics (change failure rate, MTTR) have no context without SLO baselines. Phase 5 and 5.75 (Ship/Beta) established monitoring — but the targets for that monitoring are only defined at this handoff.
+
+---
+
+## Finding: Monitoring and Alerting Handoff Is Not Addressed
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: disaster_recovery includes a maintenance schedule and status page bookmarks. However, it assumes the monitoring infrastructure already exists and the team knows what to watch. No Phase 6 skill covers the explicit handoff of monitoring ownership: transferring alerting configurations, defining who owns which alert, setting up on-call rotations with tooling (PagerDuty, OpsGenie), or documenting what each alert means and what the first response should be. This is distinct from the runbooks (which address known scenarios) — monitoring handoff ensures unknown incidents are detected and routed.
+### Proposed Resolution: Skill name "monitoring_handoff", Phase 6, triggers: "Hand off monitoring for [service]", "Set up on-call rotation", "Document alerting for [project]". Scope: Produces the monitoring ownership document mapping each alert to an owner/team, configures on-call tooling, documents what each alert means and its first-response action, and establishes the escalation chain from automated alert to human response.
+### Cross-Phase Impact: Phase 7 (Maintenance) continuous_learning and dependency_management assume a functioning operational feedback loop. Without a monitoring handoff, that loop has no inputs. Phase 5.75 (Beta) rate_limiting and error_boundaries were implemented — but their alert owners are undefined at handoff.
+
+---
+
+## Finding: Knowledge Audit / Brain-Drain Prevention Has No Coverage
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: feature_walkthrough captures how individual features work. doc_reorganize cleans up document structure. user_documentation builds the help center. None of these perform a systematic knowledge audit to identify tacit knowledge that exists only in the build team's heads and must be externalized before handoff. This is especially critical for: architectural decisions and their rationale (ADRs), environment-specific quirks and gotchas, credentials and access management inventory, and "tribal knowledge" that engineers know but haven't documented. Without a knowledge audit, handoff creates a knowledge vacuum.
+### Proposed Resolution: Skill name "knowledge_audit", Phase 6, triggers: "Run knowledge audit for [project]", "Brain-drain prevention checklist", "Knowledge transfer checklist". Scope: Executes a structured interview and documentation process to surface tacit knowledge from the build team, capturing architectural decision records (ADRs), environment gotchas, access inventory, and an explicit "known unknowns" registry before team handoff or offboarding.
+### Cross-Phase Impact: Phase 7 (Maintenance) sop_standards, wi_standards, and documentation_standards build on existing documentation — but if foundational knowledge was never captured at handoff, maintenance teams are building on sand. This gap is the leading cause of maintenance failures following successful builds.
+
+---
+
+## Finding: Training Material Generation and Onboarding Analytics Are Not Covered
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: user_documentation addresses help centers with onboarding tours (via react-joyride) and in-app contextual help. community_management addresses contributor onboarding for open source projects. But neither skill addresses: generating structured training curricula for new users, measuring onboarding effectiveness through analytics (completion rates, time-to-first-value, drop-off points), or iterating on onboarding based on data. The user_documentation skill notes "feedback metrics are tracked" but this is for help article quality — not the onboarding funnel as a whole.
+### Proposed Resolution: Skill name "onboarding_analytics", Phase 6, triggers: "Measure onboarding effectiveness", "Track user onboarding funnel", "Onboarding analytics for [product]". Scope: Instruments the onboarding flow with analytics events (step completion, time-on-step, exit points), creates dashboards for activation metrics (time-to-first-value, 7-day retention by onboarding path), and produces the iteration protocol for improving onboarding based on data.
+### Cross-Phase Impact: Phase 5.75 (Beta) product_analytics established analytics infrastructure — but onboarding funnel analytics are a specialized sub-domain that connects the handoff phase directly to long-term user retention, which is a Phase 7 concern.
+
+---
+
+## Finding: Video and Demo Creation for Handoff Has No Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: user_documentation mentions video vs text guidance ("Keep videos under 3 minutes") but provides no tooling, workflow, or standards for actually creating product demo videos or handoff videos. feature_walkthrough produces written walkthrough documents. Neither skill covers: recording product demos for prospects, creating handoff briefing videos for incoming operations teams, producing tutorial videos for complex workflows, or establishing a video production standard. This leaves a gap in the most effective knowledge transfer medium for complex UI products.
+### Proposed Resolution: Skill name "demo_creation", Phase 6, triggers: "Create product demo for [feature]", "Record handoff briefing video", "Video walkthrough for [workflow]". Scope: Defines the workflow and standards for creating product demo videos and handoff briefing recordings, covering tooling recommendations (Loom, OBS, Descript), script templates, distribution channels, and the relationship between video assets and the written documentation they supplement.
+### Cross-Phase Impact: community_management (Phase 6) benefits from video content for social media and tutorials. Phase 7 maintenance training benefits from recorded handoff briefings that can be re-watched by new team members.
+
+---
+
+## Finding: Runbook Automation Is Not Addressed
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: disaster_recovery provides detailed human-executable runbooks (8 scenarios). However, there is no skill addressing the automation of these runbooks: converting manual runbook steps into executable scripts, building self-healing automation, or using tools like AWS Systems Manager Runbooks, PagerDuty Process Automation, or simple shell scripts to automate recovery steps. The skill acknowledges "During an incident is the worst time to figure out your recovery process" — but stops short of automating the process for faster and more reliable execution.
+### Proposed Resolution: Skill name "runbook_automation", Phase 6, triggers: "Automate runbook for [scenario]", "Convert runbook to script", "Self-healing automation for [service]". Scope: Transforms the human-executable runbooks from disaster_recovery into automated executable scripts or workflows, covering script templates for the 8 standard scenarios, integration with monitoring tooling to trigger automation on alert, and testing protocols for automated runbooks.
+### Cross-Phase Impact: Phase 7 (Maintenance) dependency_management and sop_standards assume runbooks exist — runbook automation makes them more reliable. Phase 5.75 (Beta) rate_limiting could benefit from auto-remediation scripts.
+
+================================================================
+[Loop 2] [Architect] [T6] 2026-02-25T08:15:00Z
+================================================================
+
+## Finding: api_reference Skill Grade — SHALLOW (NestJS-Only, No API Governance)
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: api_reference is graded SHALLOW at the phase level. It is deeply NestJS/Swagger-specific — all 8 parts are NestJS code. Missing coverage: GraphQL schema documentation, gRPC service definitions, REST API documentation for non-NestJS backends (Express, FastAPI, Go), API deprecation management (how to document breaking changes and notify consumers), and API governance (who approves API changes, how breaking changes are communicated, how API contracts are enforced in CI). The SDK generation section covers only TypeScript (Orval, openapi-generator). The API Empathy Checks section is strong but the skill effectively excludes non-NestJS stacks from Phase 6 coverage.
+### Proposed Resolution: Expand api_reference to add a "Stack-Agnostic API Documentation" section covering FastAPI auto-docs, Express swagger-jsdoc, and a "API Governance" section covering breaking change policies, deprecation versioning, and consumer notification protocols. This is a depth expansion to the existing skill.
+### Cross-Phase Impact: Phase 7 (Maintenance) documentation_standards inherits the API documentation approach. If only NestJS is covered, mixed-stack or polyglot projects have undocumented services at handoff.
+
+---
+
+## Finding: community_management Grade — ADEQUATE (Open-Source Only, Missing SaaS/Enterprise Handoff)
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: community_management is graded ADEQUATE for open source projects, SURFACE for proprietary SaaS/enterprise. The skill is explicitly open source oriented (GitHub Issues, contributor ladders, CONTRIBUTING.md, BDFL governance models). For proprietary products handed off to customer success or enterprise account teams, the relevant concepts are: customer success handoff protocols, customer advisory board setup, enterprise onboarding programs, and customer communication channel governance. The current skill sets up the wrong mental model for 60%+ of software handoffs.
+### Proposed Resolution: Add "Closed-Source / SaaS Community" section covering: customer success handoff checklist, enterprise customer onboarding program, internal customer communication channel setup (Slack Connect, customer portals), and customer health scoring at handoff.
+### Cross-Phase Impact: Phase 7 Maintenance managing a proprietary product's customer base will be using contributor-ecosystem patterns rather than customer success patterns, creating operational mismatch.
+
+---
+
+## Finding: disaster_recovery Grade — ADEQUATE (No Formal RTO/RPO, No DR Drill Playbook)
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: disaster_recovery is graded ADEQUATE. Gaps: (1) Recovery Time Target fields are informal ("30 minutes", "1 hour") without formal RTO/RPO definitions contractually established. (2) Annual DR drill mentioned but no drill playbook provided — how do you run the drill, measure success, and update runbooks based on findings? (3) No Business Continuity Plan (BCP) covering what non-engineering business functions (sales, billing, customer communications) do during extended outages. (4) Security breach scenario lacks forensic evidence preservation steps required for legal/compliance post-incident.
+### Proposed Resolution: Add to disaster_recovery: formal RTO/RPO definition table per service tier, DR drill playbook template with success metrics, BCP template for business operations, and forensic preservation checklist for Scenario 6 (Security Breach).
+### Cross-Phase Impact: Phase 7 Maintenance SLA targets depend on formalized RTO/RPO from Phase 6 handoff. Without the drill playbook, annual drills described in the maintenance schedule cannot be executed properly.
+
+---
+
+## Finding: doc_reorganize Misclassified — Wrong Scope for Phase 6
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: doc_reorganize is a document hygiene utility (move sections, fix headings, group content). It produces no new handoff artifact. Its "When to Use" confirms it is a final-step support tool, not a standalone handoff deliverable. It consumes documents but creates nothing a stakeholder, support agent, or operations team needs. Its presence as one of only six Phase 6 skills displaces a slot that should contain a higher-impact skill with real handoff deliverables. Graded SURFACE for Phase 6 purposes specifically.
+### Proposed Resolution: Reclassify doc_reorganize as a Toolkit skill (cross-cutting utility usable across all phases). Replace its Phase 6 slot with knowledge_audit or support_enablement (both identified in Loop 1 as CRITICAL gaps).
+### Cross-Phase Impact: Displacing this skill frees a Phase 6 slot for a CRITICAL capability. All phases benefit from doc_reorganize being in Toolkit where it can be triggered from any phase.
+
+---
+
+## Finding: feature_walkthrough Grade — ADEQUATE (Developer-Only Audience, No Stakeholder Variant)
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: feature_walkthrough is graded ADEQUATE for developer audiences. The template includes "Key Files" (code paths) irrelevant to business stakeholders. Missing: (1) a stakeholder-facing walkthrough variant (business outcomes, no code), (2) walkthrough version management (when does a walkthrough expire?), (3) audit enforcement mechanism (MANDATORY flag exists but no automated check for uncovered features). The output location is hardcoded to `.agent/docs/6-handoff/feature_walkthrough/` which tightly couples the skill to a specific repo structure.
+### Proposed Resolution: Add "Stakeholder Walkthrough" template variant, walkthrough version/deprecation guidance, and an audit command trigger (`/walkthrough-audit`) that checks for features lacking walkthroughs.
+### Cross-Phase Impact: Phase 7 Maintenance inherits all feature walkthroughs. Without versioning guidance, walkthroughs become stale during maintenance phases, undermining the documentation contract.
+
+---
+
+## Finding: user_documentation Grade — THOROUGH (Minor Gaps in Support Integration)
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: LOW
+### Evidence: user_documentation is graded THOROUGH — best skill in Phase 6. Minor gaps only: (1) No integration guidance for connecting help center to support ticketing systems (Zendesk, Intercom) for deflection analytics, (2) no guidance on AI/semantic search for help centers, (3) search analytics captures "no results" at the search level but not per-article for failed resolution tracking.
+### Proposed Resolution: Minor additions: add "Support System Integration" section covering Zendesk/Intercom help center embedding and deflection metric tracking. Add semantic search (pgvector, Typesense) as option in search section.
+### Cross-Phase Impact: Low. user_documentation is already the strongest skill in Phase 6. Improvements here are incremental quality gains rather than gap-filling.
+
+================================================================
+[Loop 3] [Architect] [T6] 2026-02-25T08:30:00Z
+================================================================
+
+## Finding: Phase 5.75 Beta Feedback Is Not Formally Closed Before Handoff
+
+### Gap Type: MISSING_HANDOFF
+### Severity: CRITICAL
+### Evidence: Phase 5.75 (Beta) includes feedback_system and product_analytics skills. These produce beta feedback data and analytics. Phase 6 (Handoff) has no skill that formally closes the beta feedback loop: reviewing all unresolved beta feedback, triaging it (fix now vs. known issue in backlog vs. won't fix), and producing a "Beta Closure Report" that stakeholders sign off on. The feature_flags skill in Phase 5.75 may have flags still active at handoff. The disaster_recovery and user_documentation skills assume a clean state — but if beta feedback reveals unresolved issues, handoff documentation will be inaccurate or incomplete. There is a structural assumption that beta ends cleanly before Phase 6 begins, but no mechanism to enforce or verify this.
+### Proposed Resolution: Skill name "beta_closure", Phase 6 (or Phase 5.75 exit gate), triggers: "Close beta program", "Beta feedback resolution report", "GA readiness from beta". Scope: Produces the formal beta closure report: categorized resolution of all beta feedback, active feature flag inventory with disposition (keep/remove), unresolved issues registered in backlog with priority, and the signed attestation that beta is complete.
+### Cross-Phase Impact: Phase 5.75 has no formal exit gate — its work bleeds into Phase 6 without a defined stopping point. Phase 7 inherits the backlog created at this junction.
+
+---
+
+## Finding: Feature Flags Active at Handoff Are Not Inventoried or Transitioned
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence: Phase 5.75 feature_flags establishes a disciplined flag lifecycle: create, deploy, rollout, monitor, remove. However, Phase 6 has no skill that audits which feature flags are still active at the time of handoff and documents their intended state. If a flag is at 50% rollout at handoff time, the incoming maintenance team needs to know: is this flag intended to stay at 50% permanently? Is it supposed to reach 100% during Phase 7? Who owns the flag cleanup? The feature_flags skill says "Monitor for 1 week, then remove flag" — but this presumes the same team is doing both. At a team handoff boundary, flags in intermediate states create operational ambiguity.
+### Proposed Resolution: Add to the proposed "operational_readiness_review" skill (Loop 1): a Feature Flag Inventory section that documents every active flag at handoff time, its current rollout percentage, its intended final state, and who owns completing the rollout or cleanup post-handoff.
+### Cross-Phase Impact: Phase 7 (Maintenance) receives undefined operational state if flags are in intermediate positions. The flag debt described in feature_flags ("nobody remembers what a flag was for") is most likely to occur precisely at a team handoff boundary.
+
+---
+
+## Finding: Rate Limiting Thresholds and Error Boundary Configurations Are Not Documented at Handoff
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence: Phase 5.75 (Beta) includes rate_limiting and error_boundaries skills. These establish configuration parameters (rate limits per user/tier, circuit breaker thresholds, error boundary fallback behaviors). Phase 6 has no skill that produces a "Configuration Reference" document — the authoritative record of every tuned parameter, its current value, the rationale for that value (informed by beta traffic), and the threshold at which it should be reconsidered. Without this, Phase 7 maintenance team will not know: what the rate limits are, why they were set that way, or when to adjust them.
+### Proposed Resolution: Add to the proposed "knowledge_audit" skill (Loop 1): a "Production Configuration Registry" section specifically capturing rate limiting thresholds, error boundary configurations, feature flag states, and infrastructure sizing decisions with their performance-tested rationale.
+### Cross-Phase Impact: Phase 7 dependency_management needs to understand current configuration before making changes. Phase 5.75's beta learnings about optimal thresholds are lost without a configuration handoff document.
+
+---
+
+## Finding: Phase 7 Maintenance Assumes Documentation Standards Exist — Phase 6 Does Not Establish Them
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence: Phase 7 (Maintenance) documentation_standards skill creates SOPs, Work Instructions, and Schemas using a comprehensive template system with SSoT Asset IDs, version control, and domain codes. But this system requires a pre-existing organizational structure (SSoT Master Index at `.agent/docs/7-maintenance/ssot-master-index.md`). Phase 6 handoff skills produce documentation (user_documentation, feature_walkthrough, api_reference) but do not produce their content in the SOP/WI/Schema format that Phase 7 expects. There is a documentation format mismatch: Phase 6 creates help articles and walkthroughs; Phase 7 expects SOPs and Work Instructions. The transition from informal Phase 6 docs to formal Phase 7 documentation structures is never bridged.
+### Proposed Resolution: Add to Phase 6 an "SOP Seed" deliverable — convert the top 5 operational processes identified during handoff (deployment process, incident response, customer onboarding, access provisioning, backup verification) into Phase 7-compatible SOP format using documentation_standards templates. This seeds Phase 7's SSoT with ready content.
+### Cross-Phase Impact: Phase 7 ssot_update protocol requires an existing SSoT Master Index. If Phase 6 does not initialize this index with handoff content, Phase 7 starts with an empty registry — undermining the continuity the SSoT system is designed to provide.
+
+---
+
+## Finding: Phase 7 Continuous Learning Depends on Observation Data That Phase 6 Does Not Generate
+
+### Gap Type: MISSING_HANDOFF
+### Severity: MEDIUM
+### Evidence: Phase 7 (Maintenance) continuous_learning v2 learns from session observations to build instincts and evolve skills. It depends on a history of prompts, tool calls, and outcomes to identify patterns. Phase 6 handoff produces documentation but does not produce any structured artifact about how the project was built — what patterns were used, what decisions were made, what the build team learned during development. This means Phase 7's continuous_learning system starts with zero project-specific context — it will only learn from Phase 7 maintenance sessions, missing all the institutional knowledge accumulated during Phases 1-6.
+### Proposed Resolution: Add to the proposed "knowledge_audit" skill: a "Lessons Learned Log" in continuous_learning-compatible format, capturing build phase patterns, decisions, and anti-patterns that the Phase 7 AI agent can immediately load as inherited instincts. This bridges the learning system across phase boundaries.
+### Cross-Phase Impact: Phase 7 continuous_learning's effectiveness is directly proportional to the quality of its initial instinct set. Seeding it with Phase 6 lessons learned compresses the learning curve for the maintenance phase significantly.
+
+---
+
+## Finding: No Cross-Phase Skill Dependency Map Exists for Phase 6 Outputs
+
+### Gap Type: MISSING_HANDOFF
+### Severity: MEDIUM
+### Evidence: Phase 6 skills produce multiple artifacts (API docs, help center, runbooks, walkthroughs, community governance). Phase 7 skills (documentation_standards, ssot_update, continuous_learning, dependency_management) consume these artifacts. But there is no declared dependency map: which Phase 7 skill requires which Phase 6 artifact? Without this map, there is no way to audit handoff completeness before transitioning to Phase 7. An incomplete handoff (missing runbooks, missing API docs) will not be detected until Phase 7 work fails. This is analogous to a software dependency resolution problem — Phase 7 cannot self-declare its dependencies on Phase 6 outputs.
+### Proposed Resolution: Add to the proposed "operational_readiness_review" skill: a "Phase 6 → Phase 7 Dependency Matrix" that lists every Phase 7 skill with its Phase 6 prerequisite artifacts. The readiness review checks off each dependency before declaring handoff complete.
+### Cross-Phase Impact: This is a structural framework gap affecting every phase transition, but it is most acute here because Phase 6 is the final build phase before the perpetual maintenance loop of Phase 7.
+
+================================================================
+[Loop 4] [Detective] [T6] 2026-02-25T08:45:00Z
+================================================================
+
+## Finding: No Mechanism to Verify the Product Is Actually Deployable by Someone Other Than Its Builder
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Reasoning backward from a perfect handoff: if Phase 6 was completed ideally, a new engineer who had never touched the codebase would be able to clone the repo, follow the setup documentation, and run the application successfully within 2 hours. Currently: api_reference documents endpoints (assuming the app is already running), user_documentation helps users (assuming the app is deployed), disaster_recovery handles failures (assuming the app was successfully deployed). None of these skills include a "Stranger Test" — having someone unfamiliar with the project execute the setup documentation from scratch and validating that it works end-to-end. If the handoff documentation cannot guide a stranger to a running system, it has failed its core purpose.
+### Proposed Resolution: Add to "knowledge_audit" skill (Loop 1): a mandatory "Stranger Test" protocol — a structured exercise where someone not on the build team executes all setup and deployment documentation from scratch, recording every point of failure or ambiguity, producing a gap list that must be resolved before handoff is declared complete.
+### Cross-Phase Impact: Every phase downstream of 6 depends on new team members being able to onboard. If the setup docs fail the Stranger Test, Phase 7 maintenance will immediately incur technical debt from ad-hoc knowledge transfer.
+
+---
+
+## Finding: Credential and Access Management Handoff Is Entirely Absent
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Reasoning backward: a complete handoff must include transferring access. The build team holds: production API keys, database credentials, hosting provider accounts, third-party service accounts (Stripe, SendGrid, etc.), domain registrar access, DNS management credentials, CI/CD pipeline secrets, and monitoring tool logins. Phase 6 has no skill that: (1) inventories all credentials and access points, (2) transfers ownership of accounts from build team to operations team, (3) rotates credentials at handoff (ensuring the outgoing team loses access), (4) documents which roles/people need which access for Phase 7 operations. disaster_recovery references credentials (JWT secret, Stripe webhook secret, DB passwords) but assumes they exist and are known — not that they are inventoried and transferred.
+### Proposed Resolution: Skill name "access_handoff", Phase 6, triggers: "Transfer system access", "Credential inventory for handoff", "Access management handoff". Scope: Produces the complete credential inventory (what exists, where it is stored, who currently has access), executes the access transfer workflow (new owners receive access, old owners are removed), rotates all secrets at handoff as a security hygiene step, and documents the ongoing access management policy for Phase 7.
+### Cross-Phase Impact: Phase 4 (Secure) established secrets management practices. Phase 6 access_handoff closes the loop by transferring those secrets to the new operations team. Without this, the outgoing team retains access to production systems indefinitely — a security violation in any compliance regime.
+
+---
+
+## Finding: Knowledge Base Seeding Is Not Part of Any Phase 6 Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Working backward from a complete handoff: the support team should have a populated knowledge base before taking their first support ticket. user_documentation creates the public help center. But the internal knowledge base (support agent KB, internal wiki, Notion/Confluence space) needs to be seeded with: known issues and workarounds, common customer complaints and resolutions, escalation decision trees, product FAQ derived from beta feedback, and internal troubleshooting guides. community_management handles external contributor knowledge. disaster_recovery handles engineering runbooks. Nothing handles the internal operational knowledge base that support agents use daily.
+### Proposed Resolution: Add to the proposed "support_enablement" skill (Loop 1): a "Knowledge Base Seeding" section that defines the minimum viable internal KB content for Day 1 of Phase 7 operations, covering known issue tracker, FAQ from beta feedback, escalation trees, and a template for ongoing KB article creation triggered by support tickets.
+### Cross-Phase Impact: Phase 7 operations without a seeded KB will generate a burst of "support debt" in the first 30 days as agents improvise answers and build KB content reactively instead of proactively.
+
+---
+
+## Finding: No Handoff Ceremony or Communication Plan Exists
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: Working backward from ideal: a successful handoff includes a formal communication event — a handoff meeting, a handoff document distributed to all stakeholders, and a go-live announcement. The current Phase 6 skills produce artifacts (docs, runbooks, API specs) but no communication plan: who gets told about the handoff, in what format, with what information, and at what time? The email_templates skill in Phase 5.75 handles transactional email — but go-live and handoff announcements are a different communication type: stakeholder briefings, press releases for public launches, customer notifications of GA status, internal team announcements.
+### Proposed Resolution: Add to the proposed "operational_readiness_review" skill: a "Handoff Communication Plan" section defining: the internal stakeholder announcement, customer-facing GA announcement (if applicable), press/marketing release (if public launch), support team go-live briefing, and the communication timeline coordinating all these outputs.
+### Cross-Phase Impact: Without a communication plan, handoff is a paperwork exercise rather than an organizational event. Phase 7 operations teams who don't know they are now responsible for a system cannot respond appropriately when incidents occur.
+
+---
+
+## Finding: The Phase Has No Defined Sequence — Skills Are Unordered
+
+### Gap Type: MISSING_HANDOFF
+### Severity: MEDIUM
+### Evidence: Reasoning backward: a perfect handoff follows a specific sequence. You cannot write the user documentation before the features are stable. You cannot transfer monitoring ownership before the monitoring exists. You cannot execute the knowledge audit after the build team has dispersed. Phase 6 skills have no defined execution order. The framework provides trigger commands but no orchestrating sequence: which skill runs first? What does each skill depend on from other skills in the same phase? feature_walkthrough (for individual features) should precede doc_reorganize (which reorganizes accumulated walkthroughs). disaster_recovery should be written before monitoring_handoff (which references the runbooks). Without sequencing, teams execute skills in arbitrary order, creating dependencies gaps.
+### Proposed Resolution: Add a Phase 6 Orchestration Document (or add an ordering section to the proposed "operational_readiness_review" skill) that defines the mandatory execution sequence: (1) knowledge_audit, (2) feature_walkthrough per feature, (3) user_documentation, (4) api_reference, (5) disaster_recovery, (6) support_enablement, (7) monitoring_handoff, (8) sla_handoff, (9) access_handoff, (10) doc_reorganize, (11) operational_readiness_review.
+### Cross-Phase Impact: Lack of sequencing affects every phase but is most critical at Phase 6 because handoff artifacts depend on each other (walkthroughs inform user docs; disaster recovery informs monitoring handoff). Out-of-order execution creates rework.
+
+================================================================
+[Loop 5] [Detective] [T6] 2026-02-25T08:59:00Z
+================================================================
+
+## Finding: api_reference Fails for GraphQL-First Projects
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: If the project uses GraphQL (Apollo, Pothos, type-graphql) instead of REST, api_reference provides zero usable guidance. GraphQL documentation requires different tooling: GraphiQL or Apollo Studio for interactive exploration, graphql-inspector for schema change detection, SDL generation from code-first schemas, and subscription documentation patterns. The NestJS-specific content (SwaggerModule, @ApiTags, @ApiOperation) is entirely inapplicable to GraphQL endpoints. In GraphQL-first architectures (increasingly common for complex data requirements), the Phase 6 api_reference skill produces nothing of value. This is a critical stack-context failure mode that affects 20-30% of modern API projects.
+### Proposed Resolution: Add GraphQL documentation section to api_reference: schema SDL generation, GraphiQL/Apollo Studio setup, subscription documentation, schema change detection CI (graphql-inspector), and schema-first vs code-first documentation strategies.
+### Cross-Phase Impact: Any phase that documents APIs (Phase 3 Build, Phase 4 Secure) will have created GraphQL APIs that go undocumented at Phase 6 handoff if this gap is not addressed.
+
+---
+
+## Finding: community_management Fails for Regulated Industries (HIPAA, PCI, FedRAMP)
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: community_management's governance models (BDFL, Steering Committee, Foundation, Corporate-backed) and funding models (GitHub Sponsors, Open Collective, dual licensing) assume a commercially and legally unconstrained environment. For projects in healthcare (HIPAA), payments (PCI-DSS), government (FedRAMP), or financial services (SOX, FINRA), community management has additional constraints: contributors may need background checks, code contributions must pass security reviews before merge, intellectual property ownership must be formally documented, export control laws (ITAR, EAR) may restrict who can contribute, and government contracts may prohibit certain open source licenses. The skill has zero guidance for regulated-industry community management.
+### Proposed Resolution: Add "Regulated Industry Considerations" section to community_management: contributor vetting requirements, IP assignment agreements (CLA vs DCO), export control license compatibility matrix, and government contract open source policy guidance.
+### Cross-Phase Impact: Phase 4 (Secure) addresses compliance requirements during build. If community management at handoff violates those same compliance requirements, Phase 4's work is undermined.
+
+---
+
+## Finding: disaster_recovery Assumes Cloud Deployment — Fails for On-Premise / Air-Gapped Systems
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: disaster_recovery is entirely structured around cloud providers: Vercel, Railway, Render, Supabase, AWS, Cloudflare, Stripe. Every scenario's "Steps" reference cloud provider dashboards and cloud-native rollback mechanisms. For projects deployed on-premise, in air-gapped environments (government, defense, healthcare), or on private infrastructure, none of the recovery procedures apply. There is no runbook for: bare-metal server recovery, on-premise database backup restore, VPN/firewall configuration recovery, or network appliance failover. This is a systematic failure mode for the significant portion of enterprise software that is not cloud-hosted.
+### Proposed Resolution: Add "On-Premise / Private Infrastructure" runbook variants to disaster_recovery for the 4 most critical scenarios (backend down, database corruption, security breach, performance degradation), using generic tooling (systemd, pg_dump, SSH, Ansible) rather than cloud provider dashboards.
+### Cross-Phase Impact: Phase 7 (Maintenance) operations on on-premise deployments have no incident response guide from Phase 6 if this gap is not addressed.
+
+---
+
+## Finding: user_documentation Fails When Product Has No UI (API-Only / Headless Products)
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence: user_documentation is entirely structured around UI-centric products: HelpTooltip components, HelpPanel slide-outs, onboarding tours with CSS selectors, "click the Save button" writing style. For API-only products, developer tools, CLIs, or headless services, the entire skill is inapplicable: there are no UI elements to attach tooltips to, no panels to open, no "click" actions to document. Developer documentation for these products requires: interactive code examples (Runkit, CodeSandbox), SDK reference documentation, CLI command reference, authentication credential management guides, and webhook integration tutorials. These are fundamentally different from the UI-centric help center model.
+### Proposed Resolution: Add "Developer-Centric Documentation" section to user_documentation: CLI reference format, SDK getting-started template, webhook integration tutorial template, interactive code example embedding (CodeSandbox/Stackblitz), and developer quickstart guide structure.
+### Cross-Phase Impact: API-first products built in Phase 3 without a UI will have no usable documentation at Phase 6 handoff. api_reference covers the technical spec but not the developer experience documentation.
+
+---
+
+## Finding: feature_walkthrough Fails Under High Feature Velocity
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence: feature_walkthrough mandates "MANDATORY: Every completed feature MUST have a walkthrough." Under high feature velocity (10+ features shipped in a sprint), this creates a documentation bottleneck: walkthroughs pile up, become outdated before they are completed, and the mandatory requirement becomes impossible to honor without delaying feature releases. The skill provides no prioritization mechanism: which features need walkthroughs most urgently? Are all features equal in walkthrough requirement? How do you triage a 50-feature backlog of missing walkthroughs? The mandatory nature of the skill, without a triage framework, turns into documentation debt in high-velocity contexts.
+### Proposed Resolution: Add to feature_walkthrough: a "Walkthrough Triage Matrix" that categorizes features by user-facing impact and complexity to prioritize walkthrough creation, a "Minimal Viable Walkthrough" fast-track template for low-impact features, and a team-velocity-adjusted walkthrough creation schedule.
+### Cross-Phase Impact: Phase 7 maintenance will inherit a feature inventory. If walkthroughs were skipped for 30% of features under velocity pressure, Phase 7 documentation_standards work starts with a known gap that was never addressed.
+
+---
+
+## Finding: disaster_recovery Provides No Guidance for Data Privacy Breach Under GDPR
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: disaster_recovery Scenario 6 (Security Breach) mentions "GDPR requires notification within 72 hours" but provides no practical guidance on: what qualifies as a GDPR-reportable breach, how to assess whether personal data was accessed, the specific notification format required by different EU supervisory authorities, data subject notification requirements, the Documentation of Processing Activities (ROPA) update requirements post-breach, or international data transfer breach implications. A single sentence about a 72-hour deadline is insufficient for a framework used in production. For any EU-user-serving product, this gap creates legal liability at the handoff stage.
+### Proposed Resolution: Expand Scenario 6 to include: GDPR breach assessment checklist (is it reportable?), supervisory authority notification template (varies by country), data subject notification template, ROPA update procedure, and legal counsel escalation trigger criteria.
+### Cross-Phase Impact: Phase 4 (Secure) addresses GDPR compliance during build. Phase 6 disaster_recovery must address GDPR incident response at handoff. Without this, Phase 7 maintenance has no compliant breach response protocol.
+
+================================================================
+[Loop 6] [Detective] [T6] 2026-02-25T09:15:00Z
+================================================================
+
+## Finding: DORA Metrics — No Skill Establishes Baselines at Handoff
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: CRITICAL
+### Evidence: DORA (DevOps Research and Assessment) defines four key metrics for software delivery performance: Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Mean Time to Restore (MTTR). Industry standard (Google SRE, DORA State of DevOps Report) mandates that these baselines be established before a system transitions to maintenance operations, so that Phase 7 can measure whether performance is improving or degrading. Phase 6 has no skill that: measures the current deployment frequency achieved during beta, establishes MTTR baselines from beta incidents, records lead time from commit to production, or documents the change failure rate. Without DORA baselines at handoff, Phase 7 has no performance benchmark — it cannot determine if its changes are improving or worsening the system.
+### Proposed Resolution: Add to "operational_readiness_review" skill: a DORA Metrics Baseline section that captures the four DORA metrics from Phase 5-5.75 data, classifies the team as Elite/High/Medium/Low performer per DORA benchmarks, and sets target metrics for Phase 7.
+### Cross-Phase Impact: Phase 7 continuous_learning and documentation_standards are improvement-oriented — but improvement requires a baseline. DORA baselines from Phase 6 are the prerequisite for meaningful Phase 7 performance measurement.
+
+---
+
+## Finding: SRE Error Budget — No Framework Established at Handoff
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: Site Reliability Engineering (SRE) practice (Google SRE Book, USENIX SREcon standards) requires that SLOs be established at handoff with associated error budgets — the amount of downtime/errors permissible within the SLO window. Phase 6 has no skill establishing: error budget calculation (e.g., 99.9% uptime = 8.7 hours of downtime/year budget), error budget burn rate monitoring, the freeze policy (what happens when error budget is exhausted — feature freeze, incident-only work), and the error budget review cadence. disaster_recovery defines SEV levels but not the error budget framework that governs how aggressively Phase 7 can make changes. Without an error budget, Phase 7 makes changes without understanding the reliability risk they are incurring.
+### Proposed Resolution: Add to the proposed "sla_handoff" skill (Loop 1): an Error Budget section defining SLO percentage, error budget calculation, burn rate alert thresholds, and the change freeze policy triggered by budget exhaustion.
+### Cross-Phase Impact: Phase 7 maintenance change velocity should be governed by the error budget. Without it, maintenance changes happen at arbitrary cadence with no reliability guardrails.
+
+---
+
+## Finding: ISO 27001 / SOC 2 — No Asset Register Transfer at Handoff
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: ISO 27001 (Annex A.8 - Asset Management) and SOC 2 (CC6.1 - Logical Access Security) require that information assets be formally catalogued with assigned owners, and that ownership transfer be documented when stewardship changes. Phase 6 handoff is precisely such a stewardship change. No Phase 6 skill produces: an Information Asset Register (IAR) cataloguing all data assets (databases, file stores, backup archives, API keys, customer data), their classification (public/internal/confidential/restricted), their current owner, and the new owner after handoff. For any organization pursuing or maintaining ISO 27001 or SOC 2 certification, undocumented asset transfer at Phase 6 is an audit finding.
+### Proposed Resolution: Add to the proposed "access_handoff" skill (Loop 4): an Information Asset Register section following ISO 27001 Annex A.8 format, capturing all assets, their classification, processing activities, and ownership transfer records.
+### Cross-Phase Impact: Phase 4 (Secure) establishes security controls. Phase 6 must transfer those controls with their assets. Phase 7 inherits the responsibility for maintaining ISO 27001/SOC 2 compliance — but cannot do so without knowing what assets it owns.
+
+---
+
+## Finding: OWASP Secure Handoff — No Penetration Test Sign-Off Required
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: OWASP's Software Assurance Maturity Model (SAMM) and NIST SP 800-64 both recommend that a formal security assessment (penetration test or security review sign-off) be completed before a system is handed off from development to production operations. Phase 4 (Secure) addresses security controls during build. But Phase 6 has no skill requiring: a final penetration test or security review before GA, a vulnerability assessment report as a handoff artifact, a CVE/vulnerability registry establishing the security baseline at handoff, or a formal security acceptance sign-off. If Phase 4 was completed months before Phase 6, new vulnerabilities may have been introduced during the Phase 5-5.75 development that was done after the security phase.
+### Proposed Resolution: Add to "operational_readiness_review" skill: a Security Sign-Off Gate requiring a current (< 90 days) security assessment report (penetration test summary, vulnerability scan results), all critical/high findings resolved or risk-accepted with documented justification, and a CISO/security lead sign-off.
+### Cross-Phase Impact: Phase 4 (Secure) is the primary security phase, but Phase 6 is the last opportunity before production operations begin. Without a security sign-off at handoff, Phase 7 may inherit a system with unresolved vulnerabilities.
+
+---
+
+## Finding: NIST CSF — No Cybersecurity Framework Mapping at Handoff
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence: NIST Cybersecurity Framework (CSF) 2.0 defines six functions: Govern, Identify, Protect, Detect, Respond, Recover. The "Recover" function is explicitly about restoration of services post-incident and handoff of recovery responsibilities. Phase 6's disaster_recovery addresses Respond and Recover at the technical level but does not produce the NIST CSF mapping artifact that regulated enterprises require: which CSF subcategories does this system satisfy, who is the system owner (CSF Govern), what are the information flows (CSF Identify), and how does the recovery plan map to NIST SP 800-184 (Guide for Cybersecurity Event Recovery)?
+### Proposed Resolution: Add to "disaster_recovery" skill: a NIST CSF mapping appendix that maps each runbook to the CSF Respond/Recover subcategories, and a System Owner declaration satisfying CSF Govern requirements.
+### Cross-Phase Impact: Organizations requiring NIST CSF compliance cannot use disaster_recovery as a compliance artifact without this mapping. Phase 7 maintenance operations inherit CSF compliance responsibility.
+
+---
+
+## Finding: CIS Controls — No Baseline Configuration Documentation at Handoff
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence: CIS Controls v8 (Safeguard 4.1 - Establish and Maintain a Secure Configuration Process) requires that a secure configuration baseline be documented and transferred with system ownership. Phase 6 has no skill producing: a hardened configuration baseline document (what security configurations were applied to servers, containers, databases, and network components), a CIS Benchmark compliance summary, or a configuration drift detection setup (ensuring Phase 7 maintenance changes don't erode the security baseline). Phase 4 (Secure) may have applied CIS hardening — but if it is not documented and transferred at Phase 6, the configuration baseline is unknown to Phase 7 operators.
+### Proposed Resolution: Add to "knowledge_audit" skill (Loop 1): a "Secure Configuration Baseline" section capturing all hardened configurations, CIS Benchmark version applied, deviations from benchmark with justifications, and the configuration drift detection mechanism in place.
+### Cross-Phase Impact: Phase 7 dependency_management changes (OS upgrades, package updates) may inadvertently reset security configurations without a documented baseline to compare against.
+
+================================================================
+[Loop 7] [Builder] [T6] 2026-02-25T09:30:00Z
+================================================================
+
+## Finding: SPEC — operational_readiness_review Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Confirmed by Loops 1, 3, 4, 6 findings: (L1) Phase has no ending condition; (L3) beta feedback not formally closed; (L3) no Phase 6→7 dependency matrix; (L4) no handoff ceremony/communication plan; (L6) no DORA baseline; (L6) no security sign-off gate.
+### Proposed Resolution:
+  Name: operational_readiness_review
+  Phase: 6-handoff
+  Trigger commands:
+    "Run pre-GA readiness check"
+    "Stakeholder sign-off checklist for [project]"
+    "Operational readiness review"
+    "Using operational_readiness_review skill: [project]"
+  Scope: This skill defines and executes the formal handoff gate that must be passed before Phase 7 (Maintenance) begins. It covers: (1) Acceptance criteria verification checklist referencing outputs from Phases 3-5, (2) Stakeholder sign-off matrix with required approvers per role (engineering lead, product owner, security lead, operations lead, customer representative for enterprise), (3) DORA metrics baseline capture from beta data, (4) Feature flag inventory and disposition, (5) Security assessment sign-off gate (< 90 days), (6) Phase 6→Phase 7 dependency matrix audit, (7) Handoff communication plan (internal announcement, customer GA announcement, support team go-live brief), (8) Formal handoff declaration document with signature block.
+  Priority: P0 — CRITICAL. Without this skill, Phase 6 has no authoritative completion state.
+### Cross-Phase Impact: Directly unblocks Phase 7 start. Closes Phase 5.75 beta loop. Provides DORA baselines for Phase 7 measurement.
+
+---
+
+## Finding: SPEC — knowledge_audit Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Confirmed by Loops 1, 3, 4, 5, 6 findings: (L1) tacit knowledge not externalized; (L3) no configuration registry; (L3) lessons learned not captured for continuous_learning; (L4) setup docs not Stranger-Tested; (L6) no secure configuration baseline; (L6) no CIS benchmark documentation.
+### Proposed Resolution:
+  Name: knowledge_audit
+  Phase: 6-handoff
+  Trigger commands:
+    "Run knowledge audit for [project]"
+    "Brain-drain prevention checklist"
+    "Knowledge transfer for [project]"
+    "Using knowledge_audit skill: [project]"
+  Scope: Executes a structured knowledge externalization process covering: (1) Architectural Decision Records (ADRs) — captures the 10 most significant architectural decisions made during Phases 1-5 with rationale, (2) Production Configuration Registry — all tuned parameters (rate limits, timeouts, error thresholds, feature flag states) with performance-tested rationale, (3) Environment Gotchas — undocumented behaviors, environment-specific quirks, and known sharp edges, (4) Credentials Inventory — all secrets, their storage locations, rotation schedules (feeds into access_handoff), (5) Secure Configuration Baseline — CIS hardening applied, deviations, drift detection setup, (6) Lessons Learned Log — in continuous_learning-compatible instinct format for Phase 7 AI agent seeding, (7) Stranger Test Protocol — structured walkthrough by a non-build-team member validating all setup docs.
+  Priority: P0 — CRITICAL. This is the primary artifact ensuring Phase 7 can operate the system without the build team.
+### Cross-Phase Impact: Seeds Phase 7 continuous_learning with project-specific instincts. Provides configuration context for Phase 7 dependency_management. Reveals documentation gaps before they become Phase 7 operational failures.
+
+---
+
+## Finding: SPEC — support_enablement Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Confirmed by Loops 1, 4 findings: (L1) no internal support materials; (L4) knowledge base not seeded.
+### Proposed Resolution:
+  Name: support_enablement
+  Phase: 6-handoff
+  Trigger commands:
+    "Enable support team for [product]"
+    "Create support playbook"
+    "Internal support documentation for [product]"
+    "Using support_enablement skill: [product]"
+  Scope: Creates the complete internal support infrastructure for Day 1 operations: (1) Support Agent Onboarding Checklist — what a new support agent must know before taking their first ticket (distinct from user documentation), (2) Internal Diagnostic Decision Trees — step-by-step troubleshooting flows for the top 20 expected support issues, (3) Known Issue Tracker — pre-populated with all known bugs, workarounds, and ETA for resolution, (4) Escalation Matrix — which issues go to engineering, which to product, which to security, with contact information, (5) Knowledge Base Seed — minimum viable internal KB content in the organization's chosen tool (Notion, Confluence, Zendesk), (6) Support SLA response targets by issue severity aligned with the sla_handoff document.
+  Priority: P0 — CRITICAL. Every day Phase 7 operates without a functional support layer, engineering absorbs support load incorrectly.
+### Cross-Phase Impact: Phase 7 operations depend on this skill's output. Reduces engineering interruption during maintenance by routing issues correctly.
+
+---
+
+## Finding: SPEC — access_handoff Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Confirmed by Loop 4 finding: complete credential and access transfer is entirely absent from all Phase 6 skills, combined with Loop 6 ISO 27001 / SOC 2 asset register requirement.
+### Proposed Resolution:
+  Name: access_handoff
+  Phase: 6-handoff
+  Trigger commands:
+    "Transfer system access for [project]"
+    "Credential inventory for handoff"
+    "Access management handoff"
+    "Using access_handoff skill: [project]"
+  Scope: Produces a complete access transfer: (1) Credential Inventory — every secret, API key, service account, and login with its current holder, storage location (env var, vault, 1Password), and rotation date, (2) Access Transfer Matrix — for each credential/account, who currently has access, who needs access in Phase 7, and the transfer action (invite new, remove old, rotate), (3) Credential Rotation Protocol — rotate all secrets at handoff as a hygiene step (new keys issued, old keys revoked), (4) Information Asset Register (ISO 27001 Annex A.8 format) — all data assets with classification, owner, and processing activities, (5) Principle of Least Privilege Audit — verify Phase 7 team members have only the access they need, (6) Ongoing Access Management Policy — how to provision/deprovision access in Phase 7, reviewed quarterly.
+  Priority: P0 — CRITICAL. Security violation in any compliance regime if omitted.
+### Cross-Phase Impact: Directly satisfies Phase 4 (Secure) security controls by formally closing the access lifecycle. Required for ISO 27001/SOC 2 compliance. Enables Phase 7 operations without dependency on build team credentials.
+
+---
+
+## Finding: SPEC — sla_handoff Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Confirmed by Loops 1, 6 findings: (L1) no SLA definition at handoff; (L6) DORA metrics without SLO context; (L6) no error budget framework.
+### Proposed Resolution:
+  Name: sla_handoff
+  Phase: 6-handoff
+  Trigger commands:
+    "Define SLA for [service]"
+    "Create SLA documentation"
+    "SLA commitments for handoff"
+    "Using sla_handoff skill: [service]"
+  Scope: Establishes the service level framework for Phase 7: (1) Service Tier Classification — classify each service component by criticality (Critical/Important/Standard/Best-Effort), (2) SLO Definition — uptime targets, response time percentiles (p50, p95, p99), error rate thresholds, and data freshness SLOs per service tier, (3) Error Budget Calculation — from SLO percentages, calculate annual error budgets, monthly burn rate targets, and exhaustion alert thresholds, (4) Change Freeze Policy — what happens when error budget is exhausted (feature freeze, emergency-only deployments), (5) SLA Communication Document — customer-facing summary of commitments (if applicable), (6) SLO Review Cadence — monthly review schedule, (7) Escalation SLAs — maximum response times from support to engineering escalation by severity.
+  Priority: P1 — HIGH. Phase 7 cannot measure success without this.
+### Cross-Phase Impact: Provides context for DORA metrics baseline captured in operational_readiness_review. Governs Phase 7 change velocity via error budget. Defines the targets for monitoring_handoff alert thresholds.
+
+---
+
+## Finding: SPEC — monitoring_handoff Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Confirmed by Loops 1, 3 findings: (L1) no alert ownership transfer; (L3) rate_limiting/error_boundary configurations not documented.
+### Proposed Resolution:
+  Name: monitoring_handoff
+  Phase: 6-handoff
+  Trigger commands:
+    "Hand off monitoring for [service]"
+    "Set up on-call rotation"
+    "Document alerting ownership for [project]"
+    "Using monitoring_handoff skill: [project]"
+  Scope: Transfers operational observability to Phase 7: (1) Alert Ownership Map — every alert in the monitoring system mapped to its Phase 7 owner/team, first-response action, and runbook reference, (2) Dashboard Inventory — list of every monitoring dashboard, its purpose, and who is responsible for reviewing it, (3) On-Call Rotation Setup — configures PagerDuty/OpsGenie (or equivalent) with Phase 7 team schedule, escalation policies, and contact information, (4) Alert Threshold Documentation — every alert threshold value with its rationale (performance-tested during beta), aligned with SLO targets from sla_handoff, (5) Monitoring Coverage Gaps — identifies what is NOT monitored and the accepted risk, (6) Synthetic Monitoring Setup — uptime checks and transaction monitors verified and handed to Phase 7 ownership.
+  Priority: P1 — HIGH. Without this, Phase 7 cannot detect or respond to incidents reliably.
+### Cross-Phase Impact: Directly depends on sla_handoff (alert thresholds must align with SLOs). References disaster_recovery runbooks in alert documentation. Enables Phase 7 continuous_learning to have operational feedback data.
+
+---
+
+## Finding: SPEC — Expansions to Existing Skills (api_reference, community_management, disaster_recovery, feature_walkthrough)
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: Confirmed by Loop 2 depth grades and Loop 5 failure modes.
+### Proposed Resolution:
+  api_reference expansion:
+    - Add GraphQL documentation section (SDL generation, GraphiQL setup, schema change detection)
+    - Add API Governance section (breaking change policy, deprecation timeline, consumer notification)
+    - Add stack-agnostic alternatives (FastAPI auto-docs, Express swagger-jsdoc)
+    Priority: P1
+
+  disaster_recovery expansion:
+    - Add formal RTO/RPO definition table per service tier
+    - Add DR Drill Playbook template with success metrics
+    - Add Business Continuity Plan (BCP) template
+    - Expand Scenario 6 with GDPR breach assessment checklist and supervisory authority notification template
+    - Add forensic evidence preservation protocol
+    - Add on-premise/air-gapped runbook variants for 4 core scenarios
+    Priority: P1
+
+  community_management expansion:
+    - Add "Closed-Source / SaaS Community" section (customer success handoff, enterprise onboarding, customer advisory boards)
+    - Add "Regulated Industry Considerations" (contributor vetting, CLA/DCO, export control, government contract OSS policy)
+    Priority: P2
+
+  feature_walkthrough expansion:
+    - Add "Stakeholder Walkthrough" variant template (no code paths, business-outcome focused)
+    - Add walkthrough version management and deprecation guidance
+    - Add /walkthrough-audit command trigger for completeness checking
+    - Add Walkthrough Triage Matrix for high-velocity teams
+    Priority: P2
+### Cross-Phase Impact: api_reference expansion benefits all GraphQL projects. disaster_recovery GDPR expansion is legally required for EU-serving products.
+
+================================================================
+[Loop 8] [Builder] [T6] 2026-02-25T09:45:00Z
+================================================================
+
+## Finding: Skill Dependency Graph and Build Order for Phase 6 Additions
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: From all Loop 7 specs, the proposed skills and expansions have inter-dependencies that determine build order. Mapping them here to enable framework implementation.
+### Proposed Resolution:
+
+  DEPENDENCY GRAPH (new skills for Phase 6):
+
+  knowledge_audit
+    Depends on: nothing (runs first — captures what exists before handoff)
+    Produces: ADRs, config registry, gotchas log, credentials inventory (feeds access_handoff), lessons learned log (feeds Phase 7 continuous_learning), stranger test results
+    Complexity: L (full-day) — requires interviews, testing, documentation
+    Infrastructure: Standalone SKILL.md with structured templates
+    Build order: 1st
+
+  access_handoff
+    Depends on: knowledge_audit (credential inventory section)
+    Produces: credential inventory, access transfer matrix, information asset register
+    Complexity: M (half-day) — systematic but mechanical
+    Infrastructure: Standalone SKILL.md. May need integration with secrets management tooling
+    Build order: 2nd
+
+  sla_handoff
+    Depends on: Phase 5 monitoring setup, Phase 5.75 beta performance data
+    Produces: SLO definitions, error budget, change freeze policy, SLA communication doc
+    Complexity: M (half-day)
+    Infrastructure: Standalone SKILL.md
+    Build order: 3rd (parallel with access_handoff)
+
+  monitoring_handoff
+    Depends on: sla_handoff (alert thresholds must match SLOs), disaster_recovery (runbook references)
+    Produces: alert ownership map, on-call rotation config, dashboard inventory, alert threshold docs
+    Complexity: M (half-day)
+    Infrastructure: Standalone SKILL.md. References PagerDuty/OpsGenie tooling
+    Build order: 4th (after sla_handoff)
+
+  support_enablement
+    Depends on: user_documentation (references public docs), disaster_recovery (escalation paths), sla_handoff (support SLA targets)
+    Produces: support agent onboarding, diagnostic trees, known issue tracker, escalation matrix, KB seed
+    Complexity: L (full-day) — knowledge-intensive
+    Infrastructure: Standalone SKILL.md
+    Build order: 4th (parallel with monitoring_handoff)
+
+  operational_readiness_review
+    Depends on: ALL other Phase 6 skills must complete before this runs
+    Produces: readiness scorecard, stakeholder sign-off document, DORA baselines, handoff declaration, communication plan
+    Complexity: M (half-day) — orchestrating/verifying rather than creating
+    Infrastructure: Standalone SKILL.md. May need command (/readiness-check) to automate checklist
+    Build order: LAST (gate skill)
+
+  EXPANSIONS (to existing skills):
+    api_reference expansion: Complexity S (1-2 hours per section added) — Standalone SKILL.md edit
+    disaster_recovery GDPR/RTO/RPO/drill expansion: Complexity M (half-day) — Standalone SKILL.md edit
+    community_management SaaS/regulated expansion: Complexity S — Standalone SKILL.md edit
+    feature_walkthrough stakeholder/audit expansion: Complexity S — Standalone SKILL.md edit
+
+### Cross-Phase Impact: This dependency graph defines the Phase 6 build plan. All P0 skills (knowledge_audit, access_handoff, support_enablement, operational_readiness_review) must be built before the framework can claim Phase 6 coverage is complete.
+
+---
+
+## Finding: Framework Infrastructure Needed — /readiness-check Command
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: operational_readiness_review (Loop 7) requires a structured audit of whether all Phase 6 skills have been completed. This is complex enough that a dedicated Claude Code command would enforce it better than a manual checklist. The command would: read the Phase 6 skills list, check for the existence of their output artifacts in `.agent/docs/6-handoff/`, compute a completeness percentage, and block or warn if mandatory artifacts are missing. This is analogous to how CI/CD gates enforce code quality — a readiness check command enforces handoff quality.
+### Proposed Resolution:
+  Name: /readiness-check
+  Type: New Claude Code command (command.md in .agent/commands/ or .claude/commands/)
+  Trigger: /readiness-check
+  Scope: Scans Phase 6 output artifacts for completeness, produces a readiness report with completion percentage, lists incomplete items with their owning skill, and outputs a signed-off handoff declaration when all items are complete.
+  Complexity: M (half-day) — requires command infrastructure
+  Infrastructure: Needs new agent command file. Depends on consistent artifact naming conventions established across all Phase 6 skills.
+  Priority: P1
+### Cross-Phase Impact: This command pattern (phase completion gate enforced by command) could be extended to all phase transitions, becoming a framework-level convention. Establishes precedent for /phase-complete [N] commands.
+
+---
+
+## Finding: Framework Infrastructure Needed — Handoff Artifact Naming Convention
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: Phase 6 skills produce artifacts (walkthroughs, runbooks, API specs, SLA documents, access inventories) in various locations without a consistent naming convention. operational_readiness_review and /readiness-check cannot verify completeness if artifact locations are unpredictable. Currently: feature_walkthrough outputs to `.agent/docs/6-handoff/feature_walkthrough/[feature]-walkthrough.md`. Other skills produce no specified output paths. This inconsistency means the framework cannot programmatically audit Phase 6 completeness.
+### Proposed Resolution:
+  Define a Phase 6 Artifact Registry standard:
+    `.agent/docs/6-handoff/artifacts/` — root for all Phase 6 output artifacts
+    Sub-paths per skill:
+      api-reference/    — OpenAPI specs, SDK generation scripts
+      runbooks/         — disaster recovery runbooks
+      sla/              — SLA documents, error budget configs
+      monitoring/       — alert ownership maps, on-call schedules
+      support/          — support playbooks, KB seed content
+      access/           — credential inventory, asset register
+      knowledge/        — ADRs, config registry, lessons learned
+      readiness/        — readiness scorecard, stakeholder sign-offs
+  All skills must declare their output artifact paths in their SKILL.md frontmatter (output_artifacts field).
+  Complexity: S (1-2 hours) — naming convention document + skill frontmatter updates
+  Infrastructure: Convention document (could live in AGE protocol or framework README)
+  Priority: P2
+### Cross-Phase Impact: This artifact registry pattern, if adopted framework-wide, enables automated phase completion auditing across all phases (Phase 1 through Phase 7), making the /readiness-check approach generalizable.
+
+---
+
+## Finding: Priority Matrix and Implementation Roadmap Summary
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Synthesizing all 8 loops, the complete gap inventory for Phase 6 is:
+
+  P0 — CRITICAL (build first, framework is incomplete without these):
+    1. knowledge_audit (NEW SKILL) — L complexity
+    2. access_handoff (NEW SKILL) — M complexity
+    3. support_enablement (NEW SKILL) — L complexity
+    4. operational_readiness_review (NEW SKILL) — M complexity
+    5. doc_reorganize reclassification → Toolkit (RESTRUCTURE) — S complexity
+
+  P1 — HIGH (significant gaps, build in sprint 2):
+    6. sla_handoff (NEW SKILL) — M complexity
+    7. monitoring_handoff (NEW SKILL) — M complexity
+    8. api_reference expansion: GraphQL + API Governance (EXPAND) — M complexity
+    9. disaster_recovery expansion: RTO/RPO + DR Drill + GDPR + on-premise (EXPAND) — M complexity
+    10. /readiness-check command (NEW COMMAND) — M complexity
+
+  P2 — MEDIUM (address in sprint 3 or as use-case demands):
+    11. onboarding_analytics (NEW SKILL) — M complexity
+    12. demo_creation (NEW SKILL) — S complexity
+    13. runbook_automation (NEW SKILL) — L complexity
+    14. community_management expansion: SaaS + regulated industry (EXPAND) — S complexity
+    15. feature_walkthrough expansion: stakeholder variant + triage + audit (EXPAND) — S complexity
+    16. user_documentation expansion: support integration + semantic search (EXPAND) — S complexity
+    17. Artifact naming convention standard (NEW CONVENTION) — S complexity
+
+  P3 — LOW (quality improvements, address opportunistically):
+    18. beta_closure skill or gate (NEW SKILL or GATE) — M complexity
+    19. Phase 6 sequencing/orchestration document (NEW DOC) — S complexity
+
+  Total gap count: 19 items (4 new P0 skills, 6 new P1-P2 skills, 7 expansions, 2 infrastructure items)
+  Estimated total build effort: ~12-15 days (developer days) to reach full Phase 6 coverage
+
+### Proposed Resolution: Execute in priority order. P0 items should be built before any new Phase 6 handoffs are executed on production projects. P1 items should be built in parallel with P0 items where possible (sla_handoff and monitoring_handoff are independent of knowledge_audit).
+### Cross-Phase Impact: P0 gaps (knowledge_audit, access_handoff, support_enablement, operational_readiness_review) affect every project that uses this framework. The framework currently produces software that is well-built but poorly handed off. These gaps transform Phase 6 from a documentation phase into a true operational transfer phase.

@@ -96,11 +96,15 @@ These numbered workflows represent the standard sequence of a project.
 
 **Slash Command:** `/3-build` or `/build`
 **Purpose:** The coding phase. Implements the plan with strict TDD (Test Driven Development) and entropy checks to ensure high-quality code.
+**Agents:** `planner`, `tdd-guide`, `build-error-resolver`, `code-reviewer`, `refactor-cleaner`, `database-reviewer`, `go-reviewer`, `go-build-resolver`, `python-reviewer`
+**Commands:** `/plan`, `/tdd`, `/build-fix`, `/code-review`, `/refactor-clean`, `/go-build`, `/go-review`, `/python-review`, `/verify`, `/multi-backend`, `/multi-frontend`
 
 ### [4-secure.md](./4-secure.md) (Security & Quality)
 
 **Slash Command:** `/4-secure` or `/audit`
 **Purpose:** Comprehensive security and quality audit. Checks OWASP Top 10, dependencies, and code quality before shipping.
+**Agents:** `security-reviewer`, `code-reviewer`, `e2e-runner`, `tdd-guide`
+**Commands:** `/code-review`, `/e2e`, `/tdd`, `/verify`, `/test-coverage`
 
 ### [5-ship.md](./5-ship.md) (Deployment Prep)
 
@@ -111,6 +115,8 @@ These numbered workflows represent the standard sequence of a project.
 
 **Slash Command:** `/6-handoff` or `/client_handoff`
 **Purpose:** The "Exit Package" for handing over a completed project to a client. Ensures you are safely removed from the critical path and the client is set up for success.
+**Agents:** `doc-updater`
+**Commands:** `/update-docs`, `/update-codemaps`
 
 ### [7-maintenance.md](./7-maintenance.md) (Sustainment)
 
@@ -166,4 +172,17 @@ These workflows are used on-demand for specific tasks.
 
 ---
 
-*Agentic Framework v2.0*
+---
+
+## 🤖 Agents & Commands
+
+The framework includes **13 specialized agents** and **32 slash commands** that integrate with these workflows. Agents automate specific tasks (code review, testing, security analysis) while commands provide the interface to invoke them.
+
+- **Agents**: See [../agents/README.md](../agents/README.md)
+- **Commands**: See [../commands/README.md](../commands/README.md)
+- **Rules**: See [../rules/README.md](../rules/README.md) — coding guidelines agents follow
+- **Hooks**: See [../hooks/README.md](../hooks/README.md) — event-driven automations
+
+---
+
+*Agentic Framework v3.0 — Enhanced with Everything Claude Code*

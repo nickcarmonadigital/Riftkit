@@ -344,9 +344,237 @@ ORDER BY last_autovacuum DESC NULLS LAST;
 
 ---
 
+---
+
+## Agent Automation
+
+> Use the **database-reviewer** agent (`.agent/agents/database-reviewer.md`) for automated database review.
+
+---
+
+## PART 8: ADVANCED INDEX PATTERNS
+
+### Covering Index
+
+Avoids table lookup entirely — all required data is in the index itself:
+
+```sql
+CREATE INDEX idx_users_email_covering ON users (email) INCLUDE (name, created_at);
+-- SELECT email, name, created_at FROM users WHERE email = 'x' → Index Only Scan
+```
+
+### Partial Index
+
+Smaller, faster index that only includes rows matching a condition:
+
+```sql
+CREATE INDEX idx_users_active ON users (email) WHERE deleted_at IS NULL;
+-- Only indexes active users — much smaller than a full index
+```
+
+### BRIN Index (Time-Series Data)
+
+For naturally ordered data (timestamps, auto-incrementing IDs):
+
+```sql
+CREATE INDEX idx_events_created ON events USING brin (created_at);
+-- Much smaller than B-tree, excellent for append-only time-series data
+```
+
+### Data Type Quick Reference
+
+| Use Case | Correct Type | Avoid |
+|----------|-------------|-------|
+| IDs | `bigint` or `uuid` | `int` (overflow risk) |
+| Strings | `text` | `varchar(255)` (no performance difference in Postgres) |
+| Timestamps | `timestamptz` | `timestamp` (loses timezone info) |
+| Money | `numeric(10,2)` | `float` (precision loss) |
+| Flags | `boolean` | `varchar`, `int` |
+
+---
+
+## PART 9: QUEUE PROCESSING WITH SKIP LOCKED
+
+For job queues implemented in PostgreSQL — prevents workers from competing on the same row:
+
+```sql
+-- Claim a pending job atomically (no contention between workers)
+UPDATE jobs SET status = 'processing', started_at = now()
+WHERE id = (
+  SELECT id FROM jobs
+  WHERE status = 'pending'
+  ORDER BY created_at
+  LIMIT 1
+  FOR UPDATE SKIP LOCKED
+) RETURNING *;
+```
+
+This pattern is critical for:
+- Background job processing
+- Task queues without external infrastructure (no Redis/RabbitMQ needed)
+- Distributed workers reading from the same table
+
+---
+
+## PART 10: ROW LEVEL SECURITY (RLS)
+
+### Optimized RLS Policies
+
+```sql
+-- Enable RLS on a table
+ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+
+-- Optimized policy (wrap auth.uid() in SELECT for plan caching)
+CREATE POLICY user_orders ON orders
+  USING ((SELECT auth.uid()) = user_id);
+
+-- Note: wrapping in SELECT ensures the function is evaluated once per query,
+-- not once per row. This is a critical performance optimization.
+```
+
+### Multi-Tenant RLS
+
+```sql
+-- Tenant isolation via RLS
+CREATE POLICY tenant_isolation ON documents
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+
+-- Set tenant context at the start of each request
+SET LOCAL app.tenant_id = 'tenant-uuid-here';
+```
+
+---
+
+## PART 11: ANTI-PATTERN DETECTION QUERIES
+
+```sql
+-- Find unindexed foreign keys (performance killer for JOINs)
+SELECT conrelid::regclass AS table_name, a.attname AS column_name
+FROM pg_constraint c
+JOIN pg_attribute a ON a.attrelid = c.conrelid AND a.attnum = ANY(c.conkey)
+WHERE c.contype = 'f'
+  AND NOT EXISTS (
+    SELECT 1 FROM pg_index i
+    WHERE i.indrelid = c.conrelid AND a.attnum = ANY(i.indkey)
+  );
+
+-- Find slow queries (requires pg_stat_statements extension)
+CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
+SELECT query, mean_exec_time, calls
+FROM pg_stat_statements
+WHERE mean_exec_time > 100
+ORDER BY mean_exec_time DESC;
+
+-- Check table bloat (dead rows needing VACUUM)
+SELECT relname, n_dead_tup, last_vacuum, last_autovacuum
+FROM pg_stat_user_tables
+WHERE n_dead_tup > 1000
+ORDER BY n_dead_tup DESC;
+```
+
+---
+
+## PART 12: CONFIGURATION TUNING
+
+```sql
+-- Connection limits (adjust based on available RAM)
+ALTER SYSTEM SET max_connections = 100;
+ALTER SYSTEM SET work_mem = '8MB';
+
+-- Timeouts (prevent runaway queries and idle transactions)
+ALTER SYSTEM SET idle_in_transaction_session_timeout = '30s';
+ALTER SYSTEM SET statement_timeout = '30s';
+
+-- Security defaults
+REVOKE ALL ON SCHEMA public FROM public;
+
+-- Apply changes
+SELECT pg_reload_conf();
+```
+
+---
+
+## PART 13: MIGRATION SAFETY
+
+### Core Principles
+
+1. **Every change is a migration** — never alter production databases manually
+2. **Migrations are forward-only in production** — rollbacks use new forward migrations
+3. **Schema and data migrations are separate** — never mix DDL and DML
+4. **Test against production-sized data** — what works on 100 rows may lock on 10M
+5. **Migrations are immutable once deployed** — never edit a deployed migration
+
+### Safe Column Operations
+
+```sql
+-- GOOD: Nullable column (no lock)
+ALTER TABLE users ADD COLUMN avatar_url TEXT;
+
+-- GOOD: Column with default (Postgres 11+ is instant, no rewrite)
+ALTER TABLE users ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT true;
+
+-- BAD: NOT NULL without default (full table rewrite + lock)
+ALTER TABLE users ADD COLUMN role TEXT NOT NULL;
+```
+
+### Safe Index Creation
+
+```sql
+-- BAD: Blocks writes on large tables
+CREATE INDEX idx_users_email ON users (email);
+
+-- GOOD: Non-blocking, allows concurrent writes
+CREATE INDEX CONCURRENTLY idx_users_email ON users (email);
+-- Note: Cannot run inside a transaction block
+```
+
+### Zero-Downtime Column Rename (Expand-Contract)
+
+```sql
+-- Step 1: Add new column
+ALTER TABLE users ADD COLUMN display_name TEXT;
+
+-- Step 2: Backfill (separate migration)
+UPDATE users SET display_name = username WHERE display_name IS NULL;
+
+-- Step 3: Deploy app reading/writing both columns
+
+-- Step 4: Drop old column (after all reads migrated)
+ALTER TABLE users DROP COLUMN username;
+```
+
+### Large Data Migration (Batched)
+
+```sql
+DO $$
+DECLARE
+  batch_size INT := 10000;
+  rows_updated INT;
+BEGIN
+  LOOP
+    UPDATE users
+    SET normalized_email = LOWER(email)
+    WHERE id IN (
+      SELECT id FROM users
+      WHERE normalized_email IS NULL
+      LIMIT batch_size
+      FOR UPDATE SKIP LOCKED
+    );
+    GET DIAGNOSTICS rows_updated = ROW_COUNT;
+    RAISE NOTICE 'Updated % rows', rows_updated;
+    EXIT WHEN rows_updated = 0;
+    COMMIT;
+  END LOOP;
+END $$;
+```
+
+---
+
 ## ✅ Exit Checklist
 
 - [ ] Indexes created for commonly filtered/sorted columns
+- [ ] Covering indexes used for frequent query patterns
+- [ ] Partial indexes used where applicable (e.g., active records only)
 - [ ] No N+1 queries (verified with query logging)
 - [ ] EXPLAIN ANALYZE run on slow queries
 - [ ] Connection pooling configured for production
@@ -354,3 +582,7 @@ ORDER BY last_autovacuum DESC NULLS LAST;
 - [ ] Cursor pagination for large datasets
 - [ ] Slow query logging enabled in development
 - [ ] Cache hit ratio > 99%
+- [ ] Unindexed foreign keys identified and fixed
+- [ ] RLS policies optimized with SELECT wrapper
+- [ ] Migrations follow expand-contract for zero-downtime
+- [ ] Large data migrations batched with SKIP LOCKED

@@ -1,0 +1,715 @@
+================================================================
+[Loop 1] [Architect] [T5] 2026-02-25T08:00:00Z
+================================================================
+
+## Finding: Canary Deployment Verification Has No Automated Promotion/Abort Gate
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: The deployment_patterns skill mentions canary deployments conceptually (traffic splitting percentages, "route 5% of traffic"), and the mlops skill goes further with Kubernetes/Istio canary configs. However, neither skill nor any other in Phase 5 provides: (1) a signal-based automatic promotion/abort mechanism — i.e. "if error rate exceeds X% during canary window, abort automatically"; (2) a standardized canary verification step that must pass before full rollout; (3) integration between deployment tooling and observability to make rollout decisions. The ci_cd_pipeline skill's deploy stages go directly from "build" to "deploy to production" with no canary gate. The rollback section only covers manual revert-commit or CLI commands — it is entirely reactive, not proactive.
+### Proposed Resolution: New skill `canary_verification` in Phase 5 (or major expansion of deployment_patterns). Triggers: "canary deployment", "progressive rollout", "automated rollout verification". Scope: Implements automated canary promotion gates using error rate, latency p99, and business metric thresholds. Covers: GitHub Actions workflow step that polls metrics after canary deploy and aborts/promotes based on configurable thresholds; integrates with Datadog/Prometheus/Grafana; provides rollback-on-signal automation. Should cover both app-level and ML model canary verification.
+### Cross-Phase Impact: Phase 5.5 (Alpha) health_checks skill detects problems post-deploy but has no upstream feedback loop into Phase 5's deployment pipeline. Phase 4 (Secure) performance_testing validates baselines but no mechanism carries those baselines forward as canary abort criteria.
+
+================================================================
+
+## Finding: Release Signing and Artifact Integrity Verification is Absent
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: The infrastructure_as_code skill covers container image tagging (SHA + semver) and mentions Trivy scanning for CVEs. The desktop_publishing skill covers Authenticode and macOS notarization for desktop app signing. The oss_publishing skill covers npm publish. However, NONE of the skills address: (1) cryptographic signing of release artifacts (Docker images with cosign/Sigstore, npm package provenance, PyPI attestations); (2) SLSA (Supply-chain Levels for Software Artifacts) compliance; (3) software bill of materials (SBOM) generation; (4) artifact integrity verification before deployment (verifying the image being deployed matches what CI built). This is a supply chain security gap — a compromised registry could substitute a malicious image and no skill detects it.
+### Proposed Resolution: New skill `release_signing` or add a section to infrastructure_as_code. Triggers: "sign release artifacts", "container image signing", "SBOM generation", "supply chain security". Scope: Implements cosign for Docker image signing with Sigstore keyless signing in GitHub Actions; generates SBOMs via syft; adds SLSA provenance attestations; verifies signatures before deployment. Covers npm provenance (--provenance flag), PyPI attestations.
+### Cross-Phase Impact: Phase 4 (Secure) security_audit does not cover supply chain security as a deployment-time concern. Phase 6 (Handoff) and Phase 7 (Maintenance) have no mechanism to audit artifact integrity after the fact.
+
+================================================================
+
+## Finding: Zero-Downtime Migration Orchestration Has No Deployment Approval Gate
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: The db_migrations skill thoroughly covers expand-and-contract patterns, zero-downtime strategies, and the ordering of "deploy code first, then migrate." However, there is no skill or mechanism that: (1) enforces the deployment order in CI/CD (the ci_cd_pipeline skill runs migrations before deploying code in deploy-backend.yml — this is actually the WRONG order per db_migrations' own guidance); (2) implements a pre-deployment approval gate specifically for migrations that detects whether a migration is destructive; (3) ensures that the staging environment was used as a dry-run before production migration. The ci_cd_pipeline workflow runs `prisma migrate deploy` and then immediately `railway up` with no pause for validation.
+### Proposed Resolution: New skill `deployment_approval_gates` or expand ci_cd_pipeline. Scope: Defines structured approval gates — "migration gate" (auto-detects destructive SQL in migration files, requires manual approval for DROP/ALTER operations), "staging validation gate" (requires staging deployment to succeed before production), and "rollback readiness gate" (verifies backup exists and restore procedure is documented before proceeding). Integrates with GitHub Environments for approval workflows.
+### Cross-Phase Impact: Phase 4 integration_testing tests migrations in CI but produces no "migration safety report" artifact that Phase 5 can consume. Phase 5.5 backup_strategy covers post-deploy backups but there is no Phase 5 skill ensuring a pre-migration backup is taken.
+
+================================================================
+
+## Finding: Config Drift Detection Between Environments is Uncovered
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: The deployment_patterns skill covers configuration validation at startup (Zod schema), and the env_validation skill (Phase 5.5) covers fail-fast startup env checks. But there is no Phase 5 skill addressing: (1) detecting configuration drift between staging and production over time (e.g. a secret added to staging but not production causes a silent difference); (2) infrastructure drift between Terraform-managed state and actual cloud state; (3) container image version drift (production running v1.2.3 but Terraform/k8s manifest says v1.2.5); (4) scheduled drift detection as a continuous CI check. Configuration drift is a leading cause of "works in staging, fails in production" incidents.
+### Proposed Resolution: New skill `config_drift_detection`. Triggers: "config drift", "environment parity", "drift detection". Scope: Provides scheduled GitHub Actions workflow that compares environment configurations (env var presence, not values); runs `terraform plan` in CI to detect infrastructure drift; diffs container image digests between environments; generates drift report and alerts on deviation. Covers Doppler/Infisical diff APIs for secret inventory comparison.
+### Cross-Phase Impact: Phase 5.5 env_validation catches missing vars at startup but not drift accumulated over time. Phase 7 (Maintenance) has no upstream pattern for drift monitoring from Phase 5.
+
+================================================================
+
+## Finding: Changelog Generation and Release Notes Automation is Missing
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: The oss_publishing skill covers semantic-release for open source projects (automated CHANGELOG.md from conventional commits). The game_publishing skill has a manual Patch Notes Template. But for standard SaaS/web applications in Phase 5, there is no skill covering: (1) automated changelog generation from conventional commits for non-OSS projects; (2) release notes generation that feeds downstream platforms (GitHub Releases, deployment notifications in Slack, in-app "What's New" banners); (3) version bumping automation tied to the deployment pipeline; (4) a release notes format that bridges technical commit messages and user-facing language. The ci_cd_pipeline skill shows no changelog/release step in any workflow.
+### Proposed Resolution: New skill `release_automation` (or expand ci_cd_pipeline). Triggers: "generate release notes", "automate changelog", "version bump", "release management". Scope: Integrates conventional commits with automated changelog generation for both OSS and private projects; creates GitHub Releases with release notes on each deploy-to-main; optionally posts deployment notification to Slack/Discord; supports both automated and human-curated release notes. Covers bumping version files as part of the deployment pipeline.
+### Cross-Phase Impact: Phase 5.5 (Alpha) and Phase 5.75 (Beta) have no mechanism to receive structured "what changed" information from Phase 5 deployments. Phase 6 (Handoff) documentation has no upstream artifact of versioned changes.
+
+================================================================
+
+## Finding: Smoke Test Suite is Not a First-Class Phase 5 Artifact
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: The deployment_patterns skill mentions "smoke tests" in its Pipeline Stages section: "deploy staging → smoke tests → deploy production." The mlops skill runs "integration tests" and "shadow mode comparison" after staging deploy. But there is no dedicated skill defining what a smoke test suite is, how to build one, and how to integrate it as a mandatory post-deployment gate. The ci_cd_pipeline deploy workflow goes: build → deploy to Railway/Vercel → done. There is no "verify the deployment actually works" step. A deployment can succeed (exit code 0 from the CLI) while the application is 500-ing all requests.
+### Proposed Resolution: New skill `smoke_test_suite` in Phase 5. Triggers: "smoke tests", "deployment verification", "post-deploy checks", "verify deployment". Scope: Defines a lightweight, fast (< 2 minute) smoke test suite that runs immediately after every deployment; covers: HTTP status checks on critical endpoints, auth flow verification (can a user log in?), database connectivity probe, API contract spot-checks; integrates as a GitHub Actions job that runs after deploy and rolls back automatically on failure; provides both CLI-runnable and CI-runnable formats.
+### Cross-Phase Impact: Phase 5.5 health_checks covers liveness/readiness but not behavioral correctness. Phase 4 e2e_testing covers full user journeys but is too slow (minutes to hours) to run as a post-deploy gate. The gap between "deployment succeeded" and "application works" is unaddressed.
+
+================================================================
+[Loop 1 Summary]
+First-principles decomposition of Phase 5 (Ship) identifies these atomic responsibilities:
+1. Build pipeline (covered: ci_cd_pipeline) — ADEQUATE
+2. Deploy pipeline (covered: ci_cd_pipeline, deployment_patterns) — SHALLOW (no gates)
+3. Database schema evolution (covered: db_migrations) — THOROUGH
+4. Containerization / IaC (covered: infrastructure_as_code) — ADEQUATE
+5. Secrets management (covered: infrastructure_as_code) — ADEQUATE
+6. Canary / progressive deployment — MISSING
+7. Deployment approval gates — MISSING
+8. Release artifact signing / supply chain security — MISSING
+9. Config drift detection — MISSING
+10. Smoke test suite (post-deploy verification) — MISSING
+11. Changelog / release notes automation — MISSING (for non-OSS)
+12. Rollback automation (signal-based) — MISSING (only manual documented)
+13. Seed data management (covered: seed_data) — ADEQUATE
+14. Legal/compliance (covered: legal_compliance) — ADEQUATE
+15. Platform publishing: desktop (covered: desktop_publishing) — THOROUGH
+16. Platform publishing: games (covered: game_publishing) — THOROUGH
+17. Platform publishing: OSS (covered: oss_publishing) — THOROUGH
+18. ML model deployment (covered: mlops) — THOROUGH
+19. Website launch (covered: website_launch) — ADEQUATE
+================================================================
+
+================================================================
+[Loop 2] [Architect] [T5] 2026-02-25T08:20:00Z
+================================================================
+
+## Finding: ci_cd_pipeline Migration Order Bug — Skill Contains Dangerous Anti-Pattern
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: CRITICAL
+### Evidence: The ci_cd_pipeline skill's deploy-backend.yml workflow runs `npx prisma migrate deploy` BEFORE `railway up`. Per the db_migrations skill's own "Deployment Order Matters" section, this is explicitly labeled UNSAFE: "Migrate first, then deploy code → Running code doesn't know about new schema — ERRORS." This internal contradiction between two skills in the same phase (ci_cd_pipeline and db_migrations) means following one skill's instructions correctly will violate the other's safety guidance. The ci_cd_pipeline skill also lacks any mention of the expand-and-contract pattern from db_migrations, which means users following only ci_cd_pipeline get the dangerous pattern. This is the most critical internal inconsistency found.
+### Proposed Resolution: Update ci_cd_pipeline's deploy-backend.yml to use a staged deploy: (1) deploy new code that is backward-compatible with old schema, (2) run migrations, (3) optionally run a health check to confirm. Add an explicit cross-reference to db_migrations skill for the rationale. Consider adding a "migration safety check" step that reads the generated SQL and fails the pipeline if DROP or destructive ALTER statements are present without a manual approval gate.
+### Cross-Phase Impact: Phase 4 integration_testing tests migrations in isolation but does not test the deployment ORDER. Any user relying solely on ci_cd_pipeline will ship with a race condition between code and schema on every migration-bearing deploy.
+
+================================================================
+
+## Finding: infrastructure_as_code Skill Uses :latest Tag in Kubernetes Manifests — Contradicts Its Own Guidance
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: The infrastructure_as_code skill's "Tagging Strategy" section explicitly states: "`myapp:latest` — Most recent build (mutable, use with caution)." Its exit checklist says: "Container images tagged with version/SHA (not just `latest`)." Yet the Kubernetes Deployment YAML example in the same skill uses `image: myregistry/backend:latest`. This creates a scenario where users copy the Kubernetes example (the most natural action) and end up with latest-tag deployments — meaning: (1) Kubernetes may pull a different image than what was tested in CI; (2) image changes may not trigger pod restarts; (3) rollback to a specific version becomes impossible. The mlops skill's Kubernetes deployment correctly uses a pinned version tag (`registry.internal/ml/prediction-api:v3.2.1`), making this inconsistency visible.
+### Proposed Resolution: Update the infrastructure_as_code skill's Kubernetes deployment YAML to use `image: myregistry/backend:${{ github.sha }}` or `image: myregistry/backend:v1.2.3` with a comment explaining that the actual tag is injected by CI. Add `imagePullPolicy: Always` note for latest tags and `imagePullPolicy: IfNotPresent` for pinned tags.
+### Cross-Phase Impact: Phase 5.5 health_checks cannot detect version drift from this anti-pattern. Phase 7 (Maintenance) incident response has no reliable way to determine which code version is running if :latest is used.
+
+================================================================
+
+## Finding: website_launch Skill is Surface-Level Compared to Other Phase 5 Skills
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: The website_launch skill is a checklist-only document with no code examples, no automation, and no integration with the ci_cd_pipeline or deployment_patterns skills. It covers content, design, SEO, analytics, and forms — but has: (1) no Lighthouse CI integration (it says "Lighthouse score > 80" but provides no automation); (2) no automated broken-link checker; (3) no performance budget enforcement; (4) no CDN cache invalidation procedure; (5) no DNS TTL planning for go-live; (6) no A/B testing framework for landing page variants; (7) no CRO (conversion rate optimization) baseline setup. Compared to the 600-line desktop_publishing or 635-line mlops skills, website_launch is the thinnest skill in the phase at ~175 lines, and provides no automation primitives.
+### Proposed Resolution: Expand website_launch with: (1) Lighthouse CI GitHub Action integration; (2) automated dead-link checking (lychee or broken-link-checker in CI); (3) performance budget configuration (bundle size limits, Core Web Vitals targets); (4) CDN purge automation script; (5) DNS cutover procedure with TTL management. Alternatively, extract "website performance automation" as a separate skill.
+### Cross-Phase Impact: Phase 4 performance_testing covers backend performance but not frontend/web performance. Phase 5.5 (Alpha) env_validation and health_checks don't cover the marketing website stack (which is often a separate Next.js/Astro site).
+
+================================================================
+
+## Finding: seed_data Skill Covers Development/Staging but Not Production Onboarding Data
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: The seed_data skill is explicitly scoped to "development, testing, and product demos" and explicitly says "production mode: only system configuration, never demo data." This is correct safety-wise. However, there is no coverage of: (1) production "bootstrap data" — system settings, required lookup tables, feature flags, permission matrices, and plan configurations that MUST exist for production to function; (2) migration scripts that add new required reference data alongside schema migrations (e.g. a new "notification_type" enum table must have its rows inserted as part of the migration); (3) the difference between "demo data" (should never be in prod) and "reference data" (must be in prod). The current skill's production guard blocks ALL seeding in production, including legitimate reference data seeding.
+### Proposed Resolution: Expand seed_data to add a "production reference data" pattern: seeds that are always safe to run in any environment because they create/update required system records. Separate conceptually from demo data. Add a `SeedType.REFERENCE` vs `SeedType.DEMO` classification. Provide examples of reference data (billing plans, permission levels, system notification types).
+### Cross-Phase Impact: Phase 3 (Build) creates the schema but has no mechanism to define what reference data is "required." This gap means freshly deployed production apps may be missing critical configuration rows that no skill ensures exist.
+
+================================================================
+
+## Finding: legal_compliance Skill Has No Technical Audit Trail for Consent
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: The legal_compliance skill provides a cookie consent banner implementation and GDPR/CCPA checklists. However, it does not cover: (1) server-side consent logging — storing a record of when a user gave/withdrew consent, which version of the privacy policy they agreed to, and what they agreed to (required for GDPR accountability principle, Article 5(2)); (2) versioned policy agreement tracking in the database (the skill shows a `version: string` field on the document object but no database model for storing user agreement to each version); (3) re-consent flows when the privacy policy changes materially; (4) data subject request (DSR) fulfillment workflow — the GDPR checklist says "Right to access", "Right to erasure" etc. as checkboxes but provides no implementation; (5) automated data retention enforcement (deletion after retention period expires). The cookie consent code stores consent only in localStorage, which is not a server-side audit trail.
+### Proposed Resolution: Add to legal_compliance: (1) server-side consent logging model and API endpoint; (2) DSR fulfillment workflow patterns; (3) automated data retention cron job pattern; (4) re-consent modal trigger when policy version changes. This is a GDPR compliance obligation, not a nice-to-have.
+### Cross-Phase Impact: Phase 4 security_audit covers authentication and authorization but not privacy regulation compliance. Phase 5.5 has no skill for ongoing privacy compliance monitoring.
+
+================================================================
+
+## Finding: mlops Skill Lacks Feature Store and Training Data Versioning
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: LOW
+### Evidence: The mlops skill covers model serving, monitoring, and CI/CD for ML. However, for production ML systems, the data layer is equally critical: (1) no coverage of feature stores (Feast, Tecton, Hopsworks) for consistent feature computation between training and serving; (2) no coverage of training data versioning (DVC, LakeFS); (3) the data validation step in the CI/CD example (`validate_data.py`) has no skill-level guidance on what to validate or how; (4) no coverage of data lineage — being able to trace which data trained which model version. These are medium-maturity concerns and rated LOW as they apply to teams already past basic ML deployment.
+### Proposed Resolution: Add a "Feature Engineering and Data Versioning" section to mlops. Triggers: "feature store", "training data versioning", "data lineage". Scope: Cover DVC for dataset versioning, basic feature consistency checks between training and serving, and data validation schemas using Great Expectations or Pandera.
+### Cross-Phase Impact: Phase 4 eval_harness covers model evaluation but not data quality validation upstream of training. Phase 7 (Maintenance) has no pattern for investigating model degradation back to its training data source.
+
+================================================================
+[Loop 2 Grading of Existing Skills]
+- ci_cd_pipeline: ADEQUATE (solid coverage but dangerous migration ordering anti-pattern)
+- db_migrations: THOROUGH (comprehensive, well-structured)
+- deployment_patterns: ADEQUATE (good strategy descriptions, shallow on automation/gates)
+- desktop_publishing: THOROUGH (comprehensive multi-platform coverage)
+- game_publishing: THOROUGH (comprehensive, well-detailed)
+- infrastructure_as_code: ADEQUATE (good patterns, :latest tag inconsistency)
+- legal_compliance: SURFACE (missing consent audit trail, DSR implementation, retention enforcement)
+- mlops: THOROUGH (very comprehensive for its domain)
+- oss_publishing: THOROUGH (comprehensive)
+- seed_data: ADEQUATE (well-structured but gaps in production reference data)
+- website_launch: SURFACE (checklist-only, no automation primitives)
+================================================================
+
+================================================================
+[Loop 3] [Architect] [T5] 2026-02-25T08:40:00Z
+================================================================
+
+## Finding: Phase 4 → Phase 5 Handoff: Test Results Don't Gate Deployment
+
+### Gap Type: MISSING_HANDOFF
+### Severity: CRITICAL
+### Evidence: Phase 4 (Secure) produces: unit test results, integration test results, E2E test results, security audit findings, performance test baselines, and accessibility reports. Phase 5 (ci_cd_pipeline) re-runs lint, type-check, and unit tests as PR checks. However: (1) there is no mechanism for Phase 5's deployment pipeline to consume Phase 4's test artifacts — if Phase 4's E2E or integration tests are in a separate pipeline, their pass/fail status does not gate Phase 5's production deploy; (2) the performance test baselines from Phase 4 are not carried into Phase 5 as regression thresholds; (3) the security_audit checklist from Phase 4 produces no machine-readable artifact that Phase 5's deployment gate can check. Phase 5 rediscovers everything from scratch in CI rather than building on Phase 4's validated state.
+### Proposed Resolution: Define a "Phase 4 → Phase 5 handoff contract": a required artifact set that Phase 4 must produce before Phase 5 deployment is authorized. This could be a GitHub Actions reusable workflow that: (1) requires Phase 4's test suite workflow to have passed in the last N hours; (2) consumes performance baselines as environment variables; (3) checks that security_audit checklist items are marked complete. Document this in both phase skill sets.
+### Cross-Phase Impact: Without this gate, Phase 5 effectively ignores the extensive work of Phase 4. A project could skip Phase 4 entirely and Phase 5 would still deploy. This undermines the entire phase-gate model of the framework.
+
+================================================================
+
+## Finding: Phase 5 → Phase 5.5 Handoff: Alpha Receives No "Deployment Manifest"
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence: Phase 5.5 (Alpha) skills (health_checks, env_validation, error_tracking, backup_strategy, qa_playbook) all assume they are being configured "after" Phase 5 deployment. However: (1) Phase 5 produces no documented "deployment manifest" — a record of what was deployed (image tag/SHA, migration version, environment variables set, services running, external dependencies configured); (2) Phase 5.5's health_checks need to know what endpoints exist — but there is no Phase 5 artifact listing them; (3) Phase 5.5's env_validation needs to know what env vars are required — but Phase 5 produces no env var inventory; (4) Phase 5.5's backup_strategy needs the database connection details and schema version — but Phase 5 produces no structured output for this. The downstream phase operates blind.
+### Proposed Resolution: Phase 5 should produce a standardized "deployment manifest" JSON artifact after every production deploy. Contents: deployed SHA/tag, migration version applied, environment name, health endpoint URLs, required env var names (not values), timestamp, deployed-by identity. This manifest becomes the input to Phase 5.5's onboarding. Encode this in the ci_cd_pipeline's final deploy step.
+### Cross-Phase Impact: All Phase 5.5 skills would benefit. This also feeds Phase 6 (Handoff) documentation and Phase 7 (Maintenance) runbooks.
+
+================================================================
+
+## Finding: Phase 5 Assumes Phase 4 Validated Security But No "Security Clearance" Artifact Exists
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence: The deployment_patterns skill has a Production Readiness Checklist that includes: "All tests pass (unit, integration, E2E)", "No hardcoded secrets", "Dependencies scanned for CVEs", "Authentication and authorization verified." These are all Phase 4 deliverables. However: (1) these checklist items are static markdown — they require a human to read Phase 4's output and confirm them, there is no machine enforcement; (2) the ci_cd_pipeline skill's deployment workflow has no step that checks whether Phase 4's security_audit was completed; (3) dependency scanning (mentioned in the deployment_patterns checklist) is not automated in Phase 5's workflows — the infrastructure_as_code skill has a Trivy scan step but it's shown as a separate "add to CI pipeline" snippet, not integrated into the deploy workflow; (4) no skill in Phase 5 confirms that OWASP Top 10 items were addressed before shipping.
+### Proposed Resolution: Create a "pre-deployment security gate" step in the ci_cd_pipeline skill that: (1) runs Trivy container scan and fails on CRITICAL CVEs; (2) runs OWASP Dependency Check; (3) verifies that secrets scanner (trufflehog or similar) found no leaked secrets in the commit history. This converts Phase 4's checklist items into Phase 5 automation.
+### Cross-Phase Impact: Phase 4's security_audit produces findings in markdown. These need to be converted to SARIF or structured format to be consumable by Phase 5's deployment gate.
+
+================================================================
+
+## Finding: Phase 5 Produces No Rollback Plan Document for Phase 5.5 to Inherit
+
+### Gap Type: MISSING_HANDOFF
+### Severity: MEDIUM
+### Evidence: The db_migrations skill says "Rollback plan documented (SQL or backup restore)" in its exit checklist. The deployment_patterns skill has a Rollback Checklist. The ci_cd_pipeline skill has a Rollback Strategy section. However: (1) these are guidance documents, not artifacts — no skill produces a machine-readable or structured rollback plan that gets stored alongside the deployment; (2) Phase 5.5's qa_playbook and backup_strategy cannot reference a Phase 5 rollback runbook because one is never generated; (3) if a Phase 5.5 (Alpha) team member needs to roll back, they must re-read Phase 5 skill documentation rather than consulting the rollback plan specific to THIS deployment. During an actual incident, reading skill documentation is not what you want to be doing.
+### Proposed Resolution: Add to ci_cd_pipeline a "generate rollback runbook" step that produces a deployment-specific document: previous image tag, migration rollback SQL, feature flag states to revert, and commands to execute. Store this as a GitHub Actions artifact or commit it to a deployment-specific branch. Phase 5.5 should link to this artifact in its qa_playbook.
+### Cross-Phase Impact: Phase 7 (Maintenance) incident response needs rollback runbooks from prior deployments. Without Phase 5 generating them, Phase 7 must reconstruct them during incidents.
+
+================================================================
+
+## Finding: Phase 5 Skills Assume Single-Region Deployment — Multi-Region Gap
+
+### Gap Type: MISSING_HANDOFF
+### Severity: MEDIUM
+### Evidence: All Phase 5 deployment skills (ci_cd_pipeline, deployment_patterns, infrastructure_as_code) treat deployment as single-environment. There is no coverage of: (1) multi-region deployment coordination (deploy to US-East first, verify, then roll to EU); (2) region-aware database migration coordination (which region runs the migration? What about replication lag?); (3) DNS failover patterns; (4) global traffic management (Cloudflare Workers, AWS Global Accelerator); (5) data residency requirements that force region-specific deployments (GDPR data staying in EU). The legal_compliance skill mentions GDPR cross-border data transfers but provides no Phase 5 deployment implementation.
+### Proposed Resolution: Add a "Multi-Region Deployment" section to deployment_patterns or create a new skill. Cover: sequential region deployment with verification gates, migration execution in primary region with replication verification before other regions receive traffic, DNS failover configuration.
+### Cross-Phase Impact: Phase 5.5 backup_strategy only covers single-database backup. Multi-region adds cross-region backup synchronization requirements that fall through the gap.
+
+================================================================
+================================================================
+[Loop 4] [Detective] [T5] 2026-02-25T09:00:00Z
+================================================================
+
+## Finding: Reverse-Think: A Perfect Phase 5 Completion MUST Have Deployment Verification — But No Skill Ensures It
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Working backward from "Phase 5 completed perfectly": the team has a production deployment running, verified working. For this to be true, SOMEONE must have confirmed: (1) the deployed container/service is serving live traffic correctly; (2) the health endpoint returns 200; (3) the critical user flows work (login, core feature, payment if applicable); (4) error rate is not elevated; (5) performance is within baseline. Now checking: what Phase 5 skill ensures this happened? The ci_cd_pipeline deploys to Railway and exits. The deployment_patterns checklist has items to check but no automation. No skill provides a "deployment verification" automated step that answers "did this deployment succeed from a user perspective?" The mlops skill uniquely has `monitor_canary.py --rollback-on-error` but this is only for ML models. The gap is a deployment verification skill that runs after every production deploy.
+### Proposed Resolution: Skill: `deployment_verification`. Triggers: "verify deployment", "post-deploy check", "deployment health check". Scope: A standardized post-deployment verification workflow that: (1) waits for rolling deploy to complete; (2) hits critical API endpoints and asserts expected responses; (3) checks that error rate hasn't spiked (using platform APIs); (4) confirms new version hash is running (version endpoint); (5) notifies team on success or triggers automatic rollback on failure. This is different from Phase 5.5 health_checks (which is operational, not deployment-gated).
+### Cross-Phase Impact: This is the last gate before Phase 5.5 takes over. Without it, Phase 5.5 may receive a broken deployment and spend time diagnosing what should have been caught at deploy time.
+
+================================================================
+
+## Finding: Reverse-Think: A Perfect Phase 5 MUST Have All Secrets in Prod — But No Skill Verifies the Secrets Inventory
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Working backward from a successful Phase 5: production has all required secrets configured (DATABASE_URL, JWT_SECRET, API keys, etc.). For this to be true, there must be a mechanism to know WHICH secrets are required and verify they are present. Current state: the ci_cd_pipeline lists some secrets in a table (RAILWAY_TOKEN, VERCEL_TOKEN, etc.) as documentation. The env_validation skill (Phase 5.5) validates at runtime. But: (1) there is no Phase 5 pre-deploy step that checks "are all required secrets configured in the target environment before deploying?"; (2) if a new secret is added to the codebase (e.g. a new AI provider key), there is no mechanism to catch that it's missing from production before the deploy; (3) the infrastructure_as_code skill mentions secrets management best practices but provides no inventory or verification automation. A deploy to production failing because of a missing secret is embarrassing and avoidable.
+### Proposed Resolution: Add to ci_cd_pipeline a "pre-deploy secrets validation" step: enumerate required env var names from a committed `.env.example` or schema file; call the platform's secrets API (Railway environment API, GitHub Environment secrets API) to verify each one exists; fail the deploy if any are missing. This is distinct from validating values (which requires runtime) — just checking presence.
+### Cross-Phase Impact: Phase 5.5 env_validation catches this at runtime (app startup). Phase 5 should catch it pre-deploy. The gap means the first notification of a missing secret is a production startup failure, not a CI check.
+
+================================================================
+
+## Finding: Reverse-Think: A Perfect Phase 5 OSS Release MUST Be Tamper-Proof — Current OSS Publishing is Not
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Working backward from a secure OSS release: consumers of the npm/PyPI package can verify it came from the canonical source and was not tampered with. The oss_publishing skill covers semantic-release, npm publish, and PyPI publishing. But: (1) npm publish does not enable provenance by default — consumers cannot verify the package was built from the specific GitHub commit; (2) there is no mention of `npm publish --provenance` (requires OIDC token, supported since npm 9.5+); (3) no mention of PyPI's Trusted Publishers mechanism; (4) no mention of GPG signing for Git tags (signed releases); (5) no discussion of the `package-lock.json` integrity verification in the publishing pipeline. Supply chain attacks on npm packages (XZ Utils style) are a real threat that this skill ignores.
+### Proposed Resolution: Add a "Package Provenance" section to oss_publishing: (1) enable `--provenance` in npm publish workflow using OIDC token; (2) configure PyPI Trusted Publishers instead of API tokens; (3) sign Git release tags with GPG; (4) generate and publish SBOM alongside each release; (5) verify package contents with `npm pack --dry-run` before publish in CI.
+### Cross-Phase Impact: Phase 4 (Secure) security_audit covers code security but not supply chain security for published packages. Phase 7 (Maintenance) has no mechanism to audit published package integrity after the fact.
+
+================================================================
+
+## Finding: Reverse-Think: A Perfect Phase 5 Desktop Release MUST Work on Clean Machines — But CI Tests Simulate This Poorly
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: The desktop_publishing skill says "Test fresh install on clean VM (no dev tools installed)" in its testing checklist. However: (1) the CI/CD workflow in that skill builds and publishes artifacts to GitHub Releases but has no step that installs the artifact on a clean machine and runs automated tests; (2) Playwright for Electron testing is mentioned but runs against the development build, not the packaged artifact; (3) there is no "smoke test on packaged artifact" step in the CI pipeline — the build could silently produce a corrupted installer; (4) no Windows UAC elevation testing (critical for NSIS installers); (5) no testing of the auto-update flow in CI (update server endpoint returns correct manifest, download succeeds, install applies). The exit checklist mentions these but the CI workflow doesn't implement them.
+### Proposed Resolution: Add to desktop_publishing a "Packaged App Testing" CI step: (1) download the built artifact within the CI run; (2) install it on a fresh runner using platform-specific commands; (3) run a minimal Playwright suite against the installed app (not the dev build); (4) test the update manifest endpoint returns a valid response. This converts a manual checklist item into automated verification.
+### Cross-Phase Impact: Phase 4's unit_testing and e2e_testing cover the web frontend but not the desktop packaging layer. Phase 5.5 has no mechanism to verify desktop app health post-publish.
+
+================================================================
+
+## Finding: Reverse-Think: A Perfect Phase 5 ML Deployment MUST Have Reproducible Training — But MLOps Skill Has No Experiment Reproducibility Guarantee
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: LOW
+### Evidence: Working backward from a production ML model that can be audited and reproduced: the model training must be reproducible (same code + same data + same hyperparameters = same model). The mlops skill covers MLflow experiment tracking and model registry. However: (1) no coverage of random seed management (setting numpy/torch/tensorflow seeds for reproducibility); (2) no coverage of training environment pinning (Docker image for training, not just serving); (3) no coverage of data snapshot/version pinning at time of training run; (4) the CI/CD pipeline trains on `[self-hosted, gpu]` runner but doesn't pin the training environment beyond Python requirements. This is LOW severity because it's an advanced concern, but a model audit trail requires it.
+### Proposed Resolution: Add a "Reproducibility" section to mlops: set random seeds, use DVC or equivalent for data versioning, pin training Docker image SHA, log training hardware specs to MLflow. Rated LOW because most teams hit this later.
+### Cross-Phase Impact: Phase 4 eval_harness evaluates model quality but if training is not reproducible, evaluation results may not be reproducible either.
+
+================================================================
+================================================================
+[Loop 5] [Detective] [T5] 2026-02-25T09:20:00Z
+================================================================
+
+## Finding: Failure Mode — Multi-Service Deploy Partial Failure Has No Recovery Skill
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: CRITICAL
+### Evidence: The ci_cd_pipeline skill has separate workflows for backend (deploy-backend.yml) and frontend (deploy-frontend.yml). In a mono-repo with multiple deployment targets, they can succeed independently. Failure mode: backend deploys successfully (migrated DB, new code running), but frontend deploy fails. Now production has: new backend API (potentially breaking changes in responses) + old frontend code. Or: backend deploy fails AFTER migration runs. This partial deployment state is not addressed by any Phase 5 skill. There is no: (1) "atomic multi-service deployment" concept; (2) "rollback all on partial failure" mechanism; (3) detection that backend and frontend are out of sync; (4) API versioning strategy to survive the window of mismatch. The deploy workflows are fire-and-forget with no cross-workflow coordination.
+### Proposed Resolution: Add to ci_cd_pipeline: (1) a deployment coordinator workflow that sequences backend and frontend deploys and rolls back both on failure of either; (2) API version header (`X-API-Version`) pattern that frontend sends, allowing backend to serve old and new API simultaneously during the rollout window; (3) feature flag pattern to disable new features during partial deployment state. Also add a "Multi-Service Deploy Coordination" section to deployment_patterns.
+### Cross-Phase Impact: Phase 5.5 health_checks would detect this failure after the fact, but there's no automated recovery. Phase 4's integration tests may not catch frontend/backend API mismatches if they test each in isolation.
+
+================================================================
+
+## Finding: Failure Mode — Database Connection Pool Exhaustion During Migration Blocks Deploy
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: The db_migrations skill covers migration patterns, rollbacks, and data backfill. The infrastructure_as_code skill covers container resource limits. But there is no coverage of: (1) Prisma connection pool configuration and its interaction with migration execution (during `prisma migrate deploy`, Prisma opens connections; if connection pool is exhausted from running application, migration can fail or time out); (2) recommended practice of running migrations from a separate, connection-limited migration container/job rather than inside the application container; (3) PgBouncer connection pooler configuration changes needed alongside schema changes; (4) superuser vs. application user privilege requirements for migrations (CREATE INDEX CONCURRENTLY requires specific permissions); (5) handling of long-running transactions that block ALTER TABLE operations. These are real failure modes in production PostgreSQL deployments.
+### Proposed Resolution: Add "Production Migration Execution" section to db_migrations: (1) run `prisma migrate deploy` as a dedicated Kubernetes Job (not sidecar); (2) configure migration connection to use `?connection_limit=1` to avoid exhausting pool; (3) detect and kill blocking transactions before DDL operations; (4) use advisory locks to prevent concurrent migration runs; (5) set appropriate statement_timeout for migration operations.
+### Cross-Phase Impact: Phase 5.5 health_checks would detect database unreachability but not pool exhaustion during migration. Phase 4's integration_testing uses isolated test DBs that don't simulate production connection pool limits.
+
+================================================================
+
+## Finding: Failure Mode — CDN/Edge Cache Serves Stale Assets After Deployment
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: The ci_cd_pipeline's frontend deploy workflow deploys to Vercel (handles cache automatically). The website_launch skill says "Clear CDN cache" as a launch day step. But there is no skill covering: (1) automated CDN cache purge as part of the deployment pipeline for non-Vercel setups (Cloudflare, AWS CloudFront, Fastly, BunnyCDN); (2) cache busting strategies for static assets (content-hash file naming vs query strings); (3) versioned API responses that clients cache (Cache-Control headers on API responses and how they interact with deployments); (4) the risk of long-cached HTML pointing to old JS chunk filenames that no longer exist; (5) service worker cache management during application updates (service workers can serve old cached responses for hours/days after deploy). This failure mode causes users to see broken UIs after deployments.
+### Proposed Resolution: Add "Cache Invalidation Strategy" section to deployment_patterns or ci_cd_pipeline. Cover: (1) content-hash asset filenames (Vite does this by default) vs. CDN purge; (2) CDN purge API calls in deploy workflow (Cloudflare, CloudFront); (3) service worker update flow with prompt-to-reload; (4) API response cache headers per endpoint type; (5) `no-store` for auth endpoints, `stale-while-revalidate` for semi-static data.
+### Cross-Phase Impact: Phase 4 e2e_testing may not catch stale cache issues because test environments often have caching disabled. Phase 5.5 error_tracking would receive user-reported errors from stale cache but has no mechanism to correlate them with a recent deploy.
+
+================================================================
+
+## Finding: Failure Mode — Game Publishing Build Rejected by Platform After Weeks of Review
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence: The game_publishing skill has a comprehensive submission checklist but does not cover: (1) common rejection reasons and pre-submission checks to avoid them (Apple's "minimal functionality" rejection, Steam's content descriptor completeness, Google Play's target API level requirements); (2) pre-certification tools provided by platforms (Steam's automated validation, Google's pre-launch report, Apple's Transporter validation); (3) handling a rejection mid-review and the re-submission timeline; (4) localization completeness checks that platforms require; (5) the "long tail" failure: being approved then having your game removed post-launch for a policy violation discovered later (loot box compliance discovered after launch). The skill gives the happy path but not the failure recovery paths.
+### Proposed Resolution: Add "Pre-Submission Validation" and "Rejection Recovery" sections to game_publishing: (1) run platform-specific validation tools before submission; (2) checklist of common rejection reasons per platform; (3) re-submission timeline and strategy; (4) post-launch compliance monitoring schedule.
+### Cross-Phase Impact: This is self-contained within Phase 5 but feeds Phase 5.5/5.75 post-launch monitoring.
+
+================================================================
+
+## Finding: Failure Mode — IaC Terraform State Lock Prevents Emergency Deploy
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: The infrastructure_as_code skill covers Terraform state management with S3 + DynamoDB locking. However, it does not cover: (1) what happens when a Terraform state lock is stuck (previous run crashed, lock was never released); (2) how to safely force-unlock the state during an emergency; (3) the risk of running `terraform apply` concurrently from two CI runs (race condition on lock acquisition); (4) Terraform plan diffs in CI as a review step before apply (only `plan` is mentioned but no PR-comment-plan-diff automation); (5) state file corruption recovery; (6) handling Terraform provider version drift. In a production incident, a stuck Terraform lock can block all infrastructure changes for hours.
+### Proposed Resolution: Add "Operational Concerns" section to infrastructure_as_code: (1) stuck lock detection and safe force-unlock procedure; (2) concurrency control in CI (only allow one Terraform apply at a time via GitHub Actions concurrency groups); (3) Terraform plan-as-PR-comment automation (Atlantis or tfcmt); (4) state backup procedure.
+### Cross-Phase Impact: Phase 7 (Maintenance) runbooks need Terraform operational procedures. Phase 5.5 has no connection to infrastructure state management.
+
+================================================================
+================================================================
+[Loop 6] [Detective] [T5] 2026-02-25T09:40:00Z
+================================================================
+
+## Finding: DORA Metrics — Phase 5 Has No Deployment Frequency or Lead Time Instrumentation
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: DORA (DevOps Research and Assessment) defines four key metrics: Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Mean Time to Recovery (MTTR). Elite performers deploy multiple times per day with lead times under one hour. Phase 5 skills implement CI/CD pipelines but measure nothing: (1) no deployment frequency tracking — no skill captures "how many deployments per week" as a metric; (2) no lead time measurement — no step records time from first commit to production deploy; (3) no change failure rate tracking — no step records whether a deployment resulted in a rollback or incident; (4) no MTTR measurement — no skill connects incidents to their resolution. Without measuring these, teams cannot improve them and cannot benchmark against industry standards. DORA metrics are now industry standard (referenced in Google's SRE book, State of DevOps Report) and have no representation in Phase 5.
+### Proposed Resolution: Add "Deployment Metrics" section to ci_cd_pipeline. Implement: (1) deployment event logging to a database or metrics service (LinearB, Sleuth, or custom) at the end of each deploy workflow; (2) deployment duration tracking (commit SHA → production timestamp); (3) rollback event logging (which commits, how long it took); (4) weekly DORA metrics report as a GitHub Actions scheduled workflow. Triggers: "deployment metrics", "DORA metrics", "deployment frequency".
+### Cross-Phase Impact: Phase 7 (Maintenance) performance improvement is impossible without baseline DORA metrics from Phase 5. Phase 5.5 (Alpha) quality metrics have no deployment context.
+
+================================================================
+
+## Finding: SOC 2 / ISO 27001 — Change Management Requirements Not Met by Phase 5
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: SOC 2 Type II and ISO 27001 both require formal change management: (1) all production changes must be authorized before implementation; (2) changes must be tested before applying to production; (3) a change log must exist with who approved, what changed, when, and the result; (4) emergency changes must follow an expedited but still controlled process. Phase 5 skills: ci_cd_pipeline uses GitHub Environments with required reviewers for production — this partially addresses (1) for code. But: there is no skill covering: (a) database migration change approval records; (b) infrastructure change records (Terraform apply produces output but it's not stored as a change record); (c) formal rollback authorization records; (d) the concept of a "Change Advisory Board" (CAB) meeting or equivalent approval workflow for high-risk changes; (e) audit log retention requirements for change records. For SaaS companies pursuing SOC 2, this is a compliance gap.
+### Proposed Resolution: Add "Change Management Records" section to ci_cd_pipeline or create a new `change_management` skill. Covers: (1) structured change record format stored as GitHub Issues or in a dedicated system; (2) automated change record creation from deployment events; (3) linking deployments to change records; (4) emergency change procedure with post-incident review requirement; (5) change record retention (typically 1 year for SOC 2). Rated HIGH because SOC 2 is a standard requirement for B2B SaaS.
+### Cross-Phase Impact: Phase 4 (Secure) security_audit does not cover change management from an audit perspective. Phase 6 (Handoff) documentation has no change log artifact from Phase 5.
+
+================================================================
+
+## Finding: NIST SSDF (Secure Software Development Framework) — Phase 5 Missing Provenance and Integrity Requirements
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: NIST SP 800-218 (SSDF) and Executive Order 14028 (US) require software producers to: (1) maintain provenance of all software components; (2) provide a software bill of materials (SBOM) to customers; (3) use signed artifacts in the release pipeline; (4) implement vulnerability disclosure processes. For Phase 5: (1) SBOM generation is absent from all skills except indirectly mentioned in the gap identified in Loop 1; (2) artifact signing (cosign, Sigstore) is absent; (3) there is no vulnerability disclosure process in Phase 5 — the oss_publishing skill has SECURITY.md templates for OSS, but no equivalent for proprietary SaaS products; (4) the legal_compliance skill covers GDPR/CCPA but not cybersecurity regulatory requirements (NIST, CMMC for US government contractors). This is increasingly relevant as regulations like EU Cyber Resilience Act take effect.
+### Proposed Resolution: Add "Regulatory Compliance - Software Security" section to Phase 5 (either as a section in legal_compliance or a new skill). Cover: (1) SBOM generation with syft or cdxgen in CI pipeline; (2) SBOM distribution to enterprise customers; (3) vulnerability disclosure policy template (CVD); (4) NIST SSDF mapping checklist. Add artifact signing to infrastructure_as_code and oss_publishing.
+### Cross-Phase Impact: Phase 4 security_audit covers code-level vulnerabilities but not supply-chain and provenance requirements. Phase 6 (Handoff) has no mechanism to deliver SBOMs to customers.
+
+================================================================
+
+## Finding: SRE Practices — Error Budget and SLO/SLI Concepts Absent from Phase 5
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence: Google SRE (Site Reliability Engineering) practices, now widely adopted across the industry, define: SLIs (Service Level Indicators — what you measure), SLOs (Service Level Objectives — target values for SLIs), and Error Budgets (how much unreliability you can "spend" before pausing feature releases). Phase 5 skills: deployment_patterns mentions "monitoring alerts" and "uptime monitoring" but: (1) no skill defines how to set SLOs for a Phase 5 deployment; (2) no skill connects the error budget concept to deployment velocity (when error budget is exhausted, deployments should slow or stop); (3) no skill defines what SLIs to track (request latency p50/p95/p99, error rate, availability, saturation); (4) the ci_cd_pipeline has no "error budget gate" — if error budget is consumed, new feature deploys should be blocked. This is an industry-standard practice missing from the framework.
+### Proposed Resolution: Add "SLO and Error Budget" section to deployment_patterns. Define: (1) standard SLIs for web applications; (2) SLO configuration in monitoring tools (Datadog SLOs, Prometheus recording rules); (3) error budget calculation; (4) "error budget policy" — what happens when budget is exhausted (freeze deployments, write post-mortems); (5) integrate error budget check into the deployment gate (if budget < X%, require manual approval). Triggers: "SLO", "error budget", "service level objectives".
+### Cross-Phase Impact: Phase 5.5 health_checks monitors operational health but has no SLO/error budget concept. Phase 7 (Maintenance) improvement cycles should be driven by SLO violations but there's no connection.
+
+================================================================
+
+## Finding: CIS Benchmarks — Container Hardening Not Enforced Automatically in Phase 5
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence: CIS Docker Benchmark and CIS Kubernetes Benchmark define security configurations for containerized deployments. The infrastructure_as_code skill implements good practices (non-root user, multi-stage builds, resource limits, Trivy scanning) but does not: (1) enforce the full CIS Docker Benchmark (e.g., `--read-only` root filesystem, no `--privileged` containers, AppArmor/seccomp profiles); (2) implement Pod Security Standards (PSS) in Kubernetes (restricted, baseline, privileged namespace policies); (3) run kube-bench (CIS Kubernetes Benchmark scanner) in CI; (4) scan Dockerfiles with hadolint for best practice violations; (5) enforce no-new-privileges flag. The Trivy scan mentioned in infrastructure_as_code catches CVEs but not configuration security benchmarks.
+### Proposed Resolution: Add "Container Security Hardening" section to infrastructure_as_code: (1) hadolint in CI for Dockerfile linting; (2) kube-bench for Kubernetes CIS compliance; (3) seccomp profile examples; (4) Pod Security Standards configuration; (5) read-only filesystem pattern with explicit tmpfs mounts. Triggers: "container hardening", "CIS benchmarks", "Docker security".
+### Cross-Phase Impact: Phase 4 security_audit covers application-level security but not infrastructure-level container configuration security. Phase 5.5 has no container runtime security monitoring.
+
+================================================================
+================================================================
+[Loop 7] [Builder] [T5] 2026-02-25T10:00:00Z
+================================================================
+
+## Finding: SPEC — canary_verification Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Confirmed in Loop 1 (no signal-based canary gate), Loop 4 (reverse-think: perfect deploy must have verified canary), Loop 5 (multi-service partial failure failure mode). The single most dangerous gap in Phase 5 — a deployment can succeed CLI-wise while being broken for users, with no automated detection and rollback.
+### Proposed Resolution:
+**Skill Name**: `canary_verification`
+**Phase**: 5 (Ship)
+**Trigger Commands**:
+```
+"canary deployment"
+"progressive rollout"
+"automated rollout verification"
+"deployment canary check"
+"Using canary_verification skill: verify rollout for [service]"
+```
+**Scope**: Implements automated canary promotion and abort gates. Provides GitHub Actions reusable workflow that: (1) deploys canary (5-10% traffic) and waits a configurable dwell time; (2) polls metrics APIs (Datadog, Prometheus, CloudWatch) for error rate, p99 latency, and custom business metrics; (3) automatically promotes to full rollout if thresholds pass, or rolls back if they fail; (4) sends notification to Slack/PagerDuty with decision and evidence. Covers web app deployments (Railway, Kubernetes) and ML model canary (Istio VirtualService). Includes a simpler version using HTTP polling against the health endpoint for teams without dedicated observability platforms.
+**Priority**: P0 (Critical)
+### Cross-Phase Impact: Bridges Phase 5 deployment completion to Phase 5.5 Alpha operational monitoring. Eliminates the "deploy succeeded, application broken" failure mode.
+
+================================================================
+
+## Finding: SPEC — deployment_verification Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Confirmed in Loop 4 (reverse-think: perfect deployment must be verified working) and Loop 5 (CDN stale cache failure mode, multi-service partial failure).
+### Proposed Resolution:
+**Skill Name**: `deployment_verification`
+**Phase**: 5 (Ship)
+**Trigger Commands**:
+```
+"verify deployment"
+"post-deploy smoke check"
+"deployment health verification"
+"production verification"
+"Using deployment_verification skill: verify [service] on [environment]"
+```
+**Scope**: A lightweight (~2 minute), fast post-deployment verification suite that runs as the final step of every production deploy workflow. Distinguishes itself from Phase 5.5 health_checks (which are operational) and Phase 4 e2e_testing (which is comprehensive but slow). Covers: (1) HTTP status assertion on 3-5 critical endpoints; (2) authentication flow quick check (obtain a test token, hit an authenticated endpoint); (3) database connectivity probe via a lightweight API call; (4) version hash endpoint check (confirm new version is running); (5) automatic rollback trigger on failure (calls rollback API or runs rollback command). Provides both GitHub Actions workflow step and a standalone CLI script for manual verification. Configurable via a `deployment-verify.yaml` file in the repo root.
+**Priority**: P0 (Critical)
+### Cross-Phase Impact: Creates the "last gate" before Phase 5.5. Phase 5.5 health_checks can reference deployment_verification's configuration file to know which endpoints to monitor.
+
+================================================================
+
+## Finding: SPEC — release_signing Skill (or IaC Extension)
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Confirmed in Loop 1 (supply chain security gap), Loop 4 (OSS package not tamper-proof), Loop 6 (NIST SSDF requirements).
+### Proposed Resolution:
+**Skill Name**: `release_signing`
+**Phase**: 5 (Ship)
+**Trigger Commands**:
+```
+"sign release artifacts"
+"container image signing"
+"SBOM generation"
+"supply chain security"
+"software provenance"
+"Using release_signing skill: sign and attest [artifact type]"
+```
+**Scope**: Implements artifact signing and software bill of materials for all release artifact types. Covers: (1) Docker image signing with cosign using Sigstore keyless signing (OIDC-based, no key management); (2) npm package provenance with `--provenance` flag (GitHub Actions OIDC required); (3) PyPI Trusted Publishers configuration; (4) SBOM generation with syft in multiple formats (CycloneDX, SPDX); (5) Git tag signing with GPG; (6) GitHub Releases attestation. Provides GitHub Actions reusable workflow and verification instructions for consumers. Includes SLSA provenance level documentation.
+**Priority**: P1 (High)
+### Cross-Phase Impact: Feeds Phase 6 (Handoff) customer documentation (SBOM delivery). Addresses Loop 6 NIST SSDF finding. Reduces supply chain risk that Phase 4 security_audit doesn't cover.
+
+================================================================
+
+## Finding: SPEC — Fix ci_cd_pipeline Migration Ordering Anti-Pattern
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: CRITICAL
+### Evidence: Confirmed in Loop 2 (internal contradiction between ci_cd_pipeline and db_migrations on migration timing — ci_cd_pipeline runs migration BEFORE deploy, which db_migrations explicitly labels UNSAFE).
+### Proposed Resolution:
+**Action**: Edit `ci_cd_pipeline/SKILL.md` deploy-backend.yml workflow.
+**Change**: Restructure deploy-backend.yml into a two-stage deployment:
+Stage 1 — Deploy backward-compatible new code (new code that handles both old and new schema).
+Stage 2 — After new code is verified running, run `prisma migrate deploy`.
+Stage 3 — Optionally run post-migration health check.
+**Add**: Cross-reference to db_migrations skill ("See db_migrations skill for why deployment order matters").
+**Add**: "Migration Safety Check" step that greps the pending migration SQL for DROP TABLE, DROP COLUMN, ALTER COLUMN TYPE narrowing — and if found, fails the pipeline with a message requiring manual review.
+**Priority**: P0 (Critical fix to existing skill)
+**Trigger for Fix**: This is a bug correction, not a new skill. Should be applied to the skill immediately.
+### Cross-Phase Impact: Eliminates the race condition between schema and code during deployments. Aligns with db_migrations skill guidance.
+
+================================================================
+
+## Finding: SPEC — deployment_approval_gates Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Confirmed in Loop 1 (no gate for destructive migrations), Loop 3 (Phase 4 test results don't gate Phase 5 deploy), Loop 6 (SOC 2 change management requirements).
+### Proposed Resolution:
+**Skill Name**: `deployment_approval_gates`
+**Phase**: 5 (Ship)
+**Trigger Commands**:
+```
+"deployment approval gate"
+"production deploy gate"
+"change approval workflow"
+"migration approval"
+"Using deployment_approval_gates skill: configure gates for [project]"
+```
+**Scope**: Defines a set of mandatory gates that must pass before a production deployment proceeds. Each gate is a GitHub Actions job or step. Gates include: (1) "Test Gate" — Phase 4 test suite must have passed in the last 4 hours (checks workflow run status via GitHub API); (2) "Migration Gate" — scans pending migrations for destructive SQL; auto-approves additive migrations, requires human approval for destructive ones; (3) "Secrets Gate" — verifies all required secrets exist in production environment (from .env.example inventory); (4) "Security Gate" — runs Trivy container scan and blocks on CRITICAL CVEs; (5) "Change Record Gate" — creates a GitHub Issue as the change record with deployment details (SOC 2 compliance). All gates are configurable; teams can enable only the ones relevant to their compliance requirements.
+**Priority**: P1 (High)
+### Cross-Phase Impact: Formalizes the Phase 4 → Phase 5 handoff. Partially addresses Loop 6 SOC 2 finding. Integrates with Phase 5's deployment workflow as mandatory pre-deploy jobs.
+
+================================================================
+
+## Finding: SPEC — Expand website_launch with Lighthouse CI and Automation
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: Confirmed in Loop 2 (website_launch is checklist-only, surface-level) and Loop 5 (CDN cache invalidation failure mode).
+### Proposed Resolution:
+**Action**: Major expansion of `website_launch/SKILL.md` (not a new skill).
+**Add sections**:
+1. "Lighthouse CI" — GitHub Actions step using lighthouse-ci to enforce performance budgets (LCP < 2.5s, FID < 100ms, CLS < 0.1, Accessibility score > 90). Assert on PR and fail on regression.
+2. "Automated Link Checking" — lychee or broken-link-checker in CI as a weekly scheduled check and on-deploy verification.
+3. "CDN Cache Invalidation" — Cloudflare, CloudFront, and Fastly purge API calls as post-deploy CI steps; also covers Vercel automatic invalidation.
+4. "DNS Cutover Procedure" — TTL reduction timeline (48h before: reduce TTL to 60s; cutover: update A/CNAME; verify; revert TTL if needed).
+5. "Performance Budget" — bundlesize configuration for JS/CSS size limits in CI.
+**Priority**: P2 (Medium)
+### Cross-Phase Impact: Addresses Phase 4 performance_testing gap for frontend/web. Provides Phase 5.5 with website-specific monitoring configuration inputs.
+
+================================================================
+
+## Finding: SPEC — DORA Metrics Instrumentation in ci_cd_pipeline
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: Confirmed in Loop 6 (DORA metrics absent, industry standard).
+### Proposed Resolution:
+**Action**: Add "Deployment Metrics" section to `ci_cd_pipeline/SKILL.md`.
+**Content**: A GitHub Actions job `record-deployment` that runs after successful deploy:
+1. Records: timestamp, deployed SHA, environment, deploy duration (from job start to end), deployer identity.
+2. Writes to a JSON file committed to a `deployments` branch (low-tech but queryable).
+3. Alternatively: posts to a webhook endpoint that feeds a metrics dashboard.
+4. Weekly GitHub Actions scheduled workflow: computes DORA metrics from the deployment log (deployment frequency, lead time from first commit to deploy, rollbacks in past 30 days).
+5. Generates a markdown DORA report as a GitHub Actions artifact.
+**Trigger Commands**: "deployment metrics", "DORA metrics", "track deployments"
+**Priority**: P2 (Medium) — important for teams maturing their DevOps practice
+### Cross-Phase Impact: Provides Phase 7 (Maintenance) with a baseline for improvement measurement. Creates the audit trail needed for Phase 6 (Handoff) operations documentation.
+
+================================================================
+
+## Finding: SPEC — change_management Skill (SOC 2 / ISO 27001)
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: Confirmed in Loop 6 (SOC 2 change management requirements not met).
+### Proposed Resolution:
+**Skill Name**: `change_management`
+**Phase**: 5 (Ship) — cross-cutting but anchored here
+**Trigger Commands**:
+```
+"change management records"
+"SOC 2 change log"
+"deployment audit trail"
+"change advisory board"
+"Using change_management skill: implement change records for [project]"
+```
+**Scope**: Implements lightweight but auditable change management for SaaS companies. Covers: (1) automated change record creation (GitHub Issue) on every production deployment, containing: deployed version, who deployed, what changed (linked to PR), test results summary, rollback plan reference; (2) emergency change procedure template (expedited approval process with post-incident review requirement); (3) change record retention strategy (GitHub Issues archive or export to cloud storage); (4) monthly change log report for SOC 2 auditors; (5) mapping to SOC 2 CC8.1 control requirements. Designed to be lightweight — the entire workflow requires no external tooling beyond GitHub.
+**Priority**: P1 (High) for B2B SaaS companies
+### Cross-Phase Impact: Connects Phase 5 deployments to Phase 6 (Handoff) audit documentation. Addresses a real compliance requirement that the current framework ignores entirely.
+
+================================================================
+================================================================
+[Loop 8] [Builder] [T5] 2026-02-25T10:20:00Z
+================================================================
+
+## Finding: Dependency Map and Implementation Complexity for All Proposed Solutions
+
+### Gap Type: MISSING_SKILL
+### Severity: N/A (Builder synthesis)
+### Evidence: Loop 7 identified 8 proposed solutions. Loop 8 defines implementation order, dependencies, complexity, and infrastructure requirements.
+
+**DEPENDENCY GRAPH:**
+
+```
+P0 Fixes (no dependencies, implement first):
+├── [FIX-1] ci_cd_pipeline migration order anti-pattern fix
+│     Complexity: S (1-2 hrs) | Standalone SKILL.md edit
+│     Dependencies: None — this is a bug fix, edit existing file
+│     Infrastructure: None — edits existing GitHub Actions YAML
+│
+└── [FIX-2] infrastructure_as_code :latest tag fix in K8s manifest
+      Complexity: S (30 min) | Standalone SKILL.md edit
+      Dependencies: None
+      Infrastructure: None
+
+P0 New Skills (highest priority, implement after fixes):
+├── [SKILL-1] deployment_verification
+│     Complexity: M (half-day) | New SKILL.md + supporting workflow YAML
+│     Dependencies: Requires health endpoint patterns from deployment_patterns
+│                   Optionally reads deployment manifest from ci_cd_pipeline
+│     Infrastructure: Standalone — uses existing GitHub Actions infrastructure
+│                     Adds a new reusable workflow file
+│     Output consumed by: canary_verification (SKILL-2), Phase 5.5 health_checks
+│
+└── [SKILL-2] canary_verification
+      Complexity: L (full-day) | New SKILL.md + multiple workflow variants
+      Dependencies: SKILL-1 (deployment_verification) — canary uses same verification logic
+                    Requires observability platform (Datadog/Prometheus) OR accepts
+                    simplified HTTP polling fallback
+      Infrastructure: Requires traffic routing infrastructure (Istio for K8s, feature flags
+                      for simpler setups). Provides both complex and simple variants.
+      Output consumed by: All deployment workflows in Phase 5
+
+P1 New Skills (implement after P0):
+├── [SKILL-3] deployment_approval_gates
+│     Complexity: M (half-day) | New SKILL.md + GitHub Actions reusable workflow
+│     Dependencies: SKILL-1 (deployment_verification) — gate includes post-deploy check
+│                   FIX-1 (migration fix) — migration gate builds on fixed workflow
+│                   GitHub API access (already available in Actions via GITHUB_TOKEN)
+│     Infrastructure: Uses GitHub Environments (already exists in ci_cd_pipeline)
+│                     Adds GitHub API calls for test run status checks
+│     Output consumed by: ci_cd_pipeline (adds gate jobs), change_management (SKILL-6)
+│
+├── [SKILL-4] release_signing
+│     Complexity: M (half-day) | New SKILL.md + workflow snippets per artifact type
+│     Dependencies: None — standalone per artifact type
+│                   cosign is a standalone binary (no infra dependency)
+│                   npm provenance requires OIDC (already available in GitHub Actions)
+│     Infrastructure: Keyless Sigstore signing uses GitHub OIDC — no key management
+│                     SBOM storage: GitHub Releases attachment or S3 bucket (new infra)
+│     Output consumed by: oss_publishing (npm provenance section), Phase 6 (SBOM delivery)
+│
+└── [SKILL-5] change_management
+      Complexity: M (half-day) | New SKILL.md + GitHub Actions workflow + Issue templates
+      Dependencies: SKILL-3 (deployment_approval_gates) — gates create pre-deploy record
+                    ci_cd_pipeline — change record created at deploy completion
+      Infrastructure: Uses GitHub Issues (existing) — no new infrastructure
+                      Optional: export to S3 for long-term retention (SOC 2 requires 1yr)
+      Output consumed by: Phase 6 (Handoff) audit documentation
+
+P2 Skills/Extensions (implement when P0 and P1 are done):
+├── [EXT-1] website_launch expansion (Lighthouse CI + CDN cache + DNS)
+│     Complexity: M (half-day) | Expansion of existing SKILL.md
+│     Dependencies: Lighthouse CI package (installable, no infra)
+│                   CDN provider API tokens (Cloudflare, CloudFront — new secrets)
+│     Infrastructure: Adds Lighthouse CI GitHub App or action — minimal
+│
+├── [EXT-2] DORA metrics instrumentation in ci_cd_pipeline
+│     Complexity: S (2 hrs) | Adds a section + GitHub Actions job to existing SKILL.md
+│     Dependencies: None — writes to deployments branch (lightweight)
+│                   Optional: webhook endpoint for richer metrics
+│     Infrastructure: Adds `deployments` branch (git-based, no new infra) OR
+│                     uses existing metrics platform
+│
+├── [EXT-3] db_migrations production migration execution section
+│     Complexity: S (1-2 hrs) | Section addition to existing SKILL.md
+│     Dependencies: SKILL-3 (deployment_approval_gates) — migration gate references this
+│     Infrastructure: Kubernetes Job manifest (new pattern, no new infra)
+│
+└── [EXT-4] legal_compliance server-side consent audit trail
+      Complexity: M (half-day) | Section additions to existing SKILL.md
+      Dependencies: Prisma schema (existing), existing auth system
+      Infrastructure: New database model (Prisma migration required — meta-irony intended)
+
+P3 (Lower priority, implement when stable):
+├── [EXT-5] config_drift_detection (new SKILL.md)
+│     Complexity: L (full-day) | New skill with multi-tool integration
+│     Dependencies: Terraform (already in IaC skill), secrets manager API access
+│     Infrastructure: Scheduled GitHub Actions workflow (no new infra)
+│
+├── [EXT-6] Container security hardening (CIS) — section in infrastructure_as_code
+│     Complexity: S (2 hrs) | Section addition
+│     Dependencies: hadolint (CLI tool), kube-bench (K8s only)
+│     Infrastructure: hadolint GitHub Action (free, no infra)
+│
+└── [EXT-7] SLO/error budget — section in deployment_patterns
+      Complexity: M (half-day) | Section addition
+      Dependencies: Observability platform (Datadog/Prometheus) — already implied
+      Infrastructure: SLO configuration in monitoring tool
+```
+
+**IMPLEMENTATION SEQUENCE (recommended):**
+```
+Week 1: FIX-1, FIX-2 (bug fixes, no risk)
+Week 2: SKILL-1 deployment_verification (foundational)
+Week 3: SKILL-2 canary_verification (builds on SKILL-1)
+Week 4: SKILL-3 deployment_approval_gates (builds on SKILL-1, FIX-1)
+Week 5: SKILL-4 release_signing, SKILL-5 change_management (independent, parallel)
+Week 6+: P2 extensions based on team needs
+```
+
+**FRAMEWORK INFRASTRUCTURE ASSESSMENT:**
+- FIX-1, FIX-2: Standalone SKILL.md edits — no framework infrastructure needed
+- SKILL-1, SKILL-2, SKILL-3: Reusable GitHub Actions workflows — these should be placed in the framework's `.github/workflows/` as reusable workflow templates that projects can call with `uses:` syntax. This requires a decision on whether the framework repository hosts reusable Actions or just documents patterns.
+- SKILL-4: Generates a new type of artifact (SBOM, signatures) — framework may need a "release artifacts" storage pattern documented somewhere (S3 bucket IaC, GitHub Releases attachment convention).
+- SKILL-5: Introduces GitHub Issues as a compliance artifact — framework needs a decision on issue label taxonomy and retention export procedure.
+- SKILL-6 (change_management): Lightest infrastructure burden of all — pure GitHub Issues.
+
+**COMPLEXITY SUMMARY TABLE:**
+| ID | Name | Complexity | Type | Priority |
+|----|------|-----------|------|----------|
+| FIX-1 | ci_cd_pipeline migration order | S (1-2h) | Edit existing | P0 |
+| FIX-2 | IaC :latest tag fix | S (30m) | Edit existing | P0 |
+| SKILL-1 | deployment_verification | M (half-day) | New skill | P0 |
+| SKILL-2 | canary_verification | L (full-day) | New skill | P0 |
+| SKILL-3 | deployment_approval_gates | M (half-day) | New skill | P1 |
+| SKILL-4 | release_signing | M (half-day) | New skill | P1 |
+| SKILL-5 | change_management | M (half-day) | New skill | P1 |
+| EXT-1 | website_launch expansion | M (half-day) | Expand existing | P2 |
+| EXT-2 | DORA metrics in ci_cd_pipeline | S (2h) | Expand existing | P2 |
+| EXT-3 | db_migrations prod execution | S (2h) | Expand existing | P2 |
+| EXT-4 | legal_compliance consent trail | M (half-day) | Expand existing | P2 |
+| EXT-5 | config_drift_detection | L (full-day) | New skill | P3 |
+| EXT-6 | CIS container hardening | S (2h) | Expand existing | P3 |
+| EXT-7 | SLO/error budget | M (half-day) | Expand existing | P3 |
+
+**TOTAL INVESTMENT ESTIMATE:**
+- P0 items: ~2.5 days
+- P0 + P1 items: ~5 days
+- Full backlog (all items): ~9-10 days
+
+**INTER-PHASE INFRASTRUCTURE DECISIONS REQUIRED:**
+1. "Deployment Manifest" artifact format — needs standardization across Phase 5 and Phase 5.5
+2. GitHub Actions reusable workflow hosting — framework needs a home for shared workflows
+3. Phase 4 → Phase 5 handoff artifact contract — needs to be defined for the deployment_approval_gates skill to implement the "Test Gate"
+4. SBOM storage and delivery mechanism — needs a pattern for Phase 6 customer handoff
+
+================================================================
+[Loop 8 Complete — AGE Analysis for T5 (Phase 5: Ship) Complete]
+================================================================
+
+TOTAL FINDINGS SUMMARY:
+- CRITICAL gaps: 4 (ci_cd_pipeline migration order bug, no canary verification, no deployment verification, multi-service partial failure mode)
+- HIGH gaps: 10 (release signing, deployment approval gates, handoff contract gaps, SOC 2 change management, DORA metrics, NIST SSDF, CDN failure mode, IaC Terraform lock, secrets verification, OSS provenance)
+- MEDIUM gaps: 7 (config drift, changelog automation, website_launch shallow, seed_data production reference data, legal consent audit trail, multi-region, game publishing rejection recovery)
+- LOW gaps: 2 (mlops reproducibility, mlops feature store)
+
+PROPOSED NEW SKILLS: 5 (canary_verification, deployment_verification, release_signing, deployment_approval_gates, change_management)
+PROPOSED SKILL EDITS: 7 (ci_cd_pipeline x2, infrastructure_as_code x2, website_launch, db_migrations, legal_compliance)
+PROPOSED NEW SECTIONS IN EXISTING SKILLS: 5 (DORA metrics, SLO/error budget, CIS hardening, production migration execution, OSS provenance)
+================================================================

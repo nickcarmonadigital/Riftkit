@@ -1,0 +1,1184 @@
+================================================================
+[Loop 1] [Architect] [TX] 2026-02-25T10:00:00Z
+================================================================
+
+## Finding: "Compliance as a Ghost" — GDPR/SOC2/HIPAA/ISO27001 Appears in 7 of 11 Targets with No Cross-Phase Owner
+
+### Gap Type: MISSING_HANDOFF
+### Severity: CRITICAL
+### Evidence:
+Compliance appears as an isolated finding in T0 (no compliance posture baseline), T1 (no compliance-aware brainstorming), T2 (data flow and privacy design absent), T3 (no GDPR data handling patterns), T4 (financial_compliance skill exists but GDPR/HIPAA/ISO27001 absent), T5 (legal_compliance skill is surface-level boilerplate), T6 (no evidence that compliance artifacts are handed off), and T7 (no compliance maintenance cycle). Compliance is treated as a Phase 4 audit checklist item rather than a cross-lifecycle program. There is NO skill, agent, command, or workflow that owns the compliance PROGRAM — meaning: data classification done in Phase 2 design is never verified in Phase 4, legal pages created in Phase 5.75 are never linked back to actual data handling decisions made in Phase 3, and Phase 7 maintenance has no compliance drift detection mechanism whatsoever.
+
+The pattern: each phase dismisses compliance as "handled elsewhere" and no phase actually owns it end-to-end. The result is a compliance gap that exists in the dark matter BETWEEN every phase transition.
+
+### Proposed Resolution: Framework-level compliance program infrastructure: a `compliance_program` skill (cross-phase) plus a `compliance-reviewer` agent that runs at Phase 2→3 gate, Phase 4→5 gate, and Phase 7 continuously. Also a `/compliance-audit` command.
+### Cross-Phase Impact: Affects ALL 11 phases. A single compliance failure post-launch can shut down the product. GDPR violations carry up to 4% global annual turnover fines. SOC2 failures can terminate enterprise contracts.
+
+================================================================
+
+## Finding: "Observability Archipelago" — Observability Is Siloed Per Phase, Never Forms a Unified Maturity Model
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: CRITICAL
+### Evidence:
+Observability appears as fragmented islands across the framework:
+- Phase 0: No observability baseline assessment
+- Phase 2: No observability requirements in design phase
+- Phase 3: `observability` skill exists — covers metrics/logs/traces at build time
+- Phase 4: `performance_testing` skill covers load testing, not production telemetry
+- Phase 5: No observability-in-CI skill; ci_cd_pipeline skill has no metric-gate steps
+- Phase 5.5 Alpha: `health_checks` skill covers /health endpoints, `error_tracking` covers Sentry setup
+- Phase 5.75 Beta: `product_analytics` covers business metrics; NOT correlated with infrastructure metrics
+- Phase 6: No production observability handoff
+- Phase 7: No SLO/error budget management (found in T7 analysis)
+- Toolkit: `observability` workflow exists but is a strategy document, not an implementation guide
+
+The cross-cutting finding is that there is NO single source of truth for "what is the observability maturity of this system right now?" and no mechanism to graduate from Phase 3 observability (raw metrics) to Phase 7 observability (SLO-based error budgets). The framework cannot answer: "Are we observing what matters? Do we know when something is wrong before users do?"
+
+The T3 analysis found no correlation between observability instrumentation and deployment decisions in T5. The T7 analysis found no SLO/error budget management. The T55 analysis found health checks without SLA definitions. These three findings are actually the SAME systemic gap viewed from different angles: there is no observability progression model in the framework.
+
+### Proposed Resolution: New cross-phase `observability_maturity_model` skill (Phase 2-7 span) plus an `observability-reviewer` agent. Defines 4 maturity levels (Reactive → Proactive → Predictive → Autonomous) and maps each framework phase to the level it should produce.
+### Cross-Phase Impact: Without this, teams ship to production with Phase 3-level observability (raw logs, no SLOs) and never graduate. Mean Time To Detect (MTTD) stays high indefinitely.
+
+================================================================
+
+## Finding: "Feature Flag Orphan" — Feature Flags Exist Only in Phase 5.75 Beta But Are a Lifecycle-Spanning Concern
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence:
+Feature flags appear once in the framework: `feature_flags` skill in Phase 5.75 (Beta). However, feature flags as a cross-cutting concern span:
+- Phase 2 (Design): Feature flag architecture decisions (which flag system, where flags live, flag naming conventions)
+- Phase 3 (Build): Flag-aware code patterns (avoid flag debt, avoid nested flags, testability with flags)
+- Phase 4 (Secure): Feature flag security (who can toggle flags? flag bypass attacks?)
+- Phase 5 (Ship): CI/CD flag injection (how flags propagate through environments)
+- Phase 5.5 (Alpha): Alpha gating via flags (alpha cohort gets feature; general population doesn't)
+- Phase 5.75 (Beta): Beta rollout percentages — the ONE place the framework addresses this
+- Phase 6 (Handoff): Flag cleanup on GA (remove dead flags, document permanent flags)
+- Phase 7 (Maintenance): Flag lifecycle management (audit, cleanup, sunset)
+
+A feature flag introduced in Phase 3 without a cleanup protocol reaches Phase 7 as technical debt. The framework has no "flag inventory" concept, no flag cleanup step in Phase 6 or Phase 7, and no CI/CD gate that fails if a GA-bound release contains un-resolved alpha/beta flags.
+
+### Proposed Resolution: Extend `feature_flags` skill from Phase 5.75 to be a cross-phase reference. Add flag-cleanup checklist to Phase 6 (Handoff). Add flag-debt audit to Phase 7 dependency_management skill. Add /flag-audit command.
+### Cross-Phase Impact: Flag debt from unreleased or zombie flags is a documented cause of production incidents. Uncleaned flags from Alpha in Phase 5.5 survive into Phase 7 indefinitely.
+
+================================================================
+
+## Finding: "Internationalization Is Invisible" — i18n/l10n Has Zero Coverage Across the Entire Framework
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence:
+After reading all 11 gaps.logs and the full framework, there is NO mention of internationalization (i18n) or localization (l10n) in ANY phase, ANY skill, ANY agent, ANY command, or ANY workflow. This is a systemic absence, not a phase-specific one.
+
+A world-class software development lifecycle framework must address i18n at minimum in:
+- Phase 1 (Brainstorm): Market scope decision — will this product serve non-English markets?
+- Phase 2 (Design): i18n architecture — string externalization strategy, locale-aware data models (dates, currencies, addresses), RTL layout considerations
+- Phase 3 (Build): String extraction patterns, i18n-safe component design, locale-aware formatting
+- Phase 4 (Secure): Locale-specific XSS vectors (encoding differences), character set injection attacks
+- Phase 5 (Ship): Locale-aware CI/CD (build per locale? single build with runtime locale?)
+- Phase 6 (Handoff): Translation workflow handoff, locale QA checklist
+- Phase 7 (Maintenance): Translation maintenance, new string tracking, locale regression testing
+
+The impact: any framework-guided project targeting an international market starts i18n from scratch with no guidance. This is particularly painful because retrofitting i18n into an existing codebase is 3-5x more expensive than building it in from the start.
+
+### Proposed Resolution: New skill `internationalization_design` (Phase 2) covering i18n architecture decisions. New skill `i18n_implementation` (Phase 3) covering string externalization, locale-safe formatting, RTL. Add i18n checklist section to Phase 5.75 Beta and Phase 6 Handoff. Priority: P1 given cost of retrofitting.
+### Cross-Phase Impact: Any project that discovers it needs i18n in Phase 5 or later faces a full architectural retrofit. Without Phase 2 guidance, teams make locale-hostile data model decisions (storing dates without timezone, currency as float without locale, addresses in single-field format).
+
+================================================================
+
+## Finding: "Multi-Tenancy Is Assumed, Not Designed" — No Cross-Phase Multi-Tenancy Pattern
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence:
+Multi-tenancy appears as a fleeting reference in the beta-release workflow ("Org-scoping verification: user A can't see org B data") but there is NO dedicated skill, no design-phase multi-tenancy architecture guidance, and no cross-phase verification that tenant isolation is maintained throughout the lifecycle.
+
+Multi-tenancy as a cross-cutting concern spans:
+- Phase 2 (Design): Tenancy model selection (row-level isolation vs schema-per-tenant vs database-per-tenant), tenant data model, cross-tenant query prevention architecture
+- Phase 3 (Build): Tenant context injection patterns, middleware for tenant resolution, ORM-level tenant filtering
+- Phase 4 (Secure): Tenant isolation testing (verified that tenant A CANNOT access tenant B data through any vector), IDOR testing across tenants
+- Phase 5 (Ship): Tenant-aware migration strategy (multi-tenant migrations are a special class of risk)
+- Phase 5.5 (Alpha): Per-tenant health metrics
+- Phase 5.75 (Beta): Per-tenant analytics, per-tenant rate limits
+- Phase 6 (Handoff): Tenant offboarding, data export per tenant (GDPR Right to Portability)
+- Phase 7 (Maintenance): Tenant isolation regression testing in CI
+
+The T4 analysis flagged "cross-tenant data access" as a missing security test. The T3 analysis flagged missing ORM-level patterns. The T575 analysis flagged missing per-tenant analytics. These are the same systemic gap: multi-tenancy has no architectural home in the framework.
+
+### Proposed Resolution: New skill `multi_tenancy_architecture` (Phase 2). New security test checklist additions for tenant isolation (Phase 4). Tenant-aware sections added to Phase 5.5 health_checks and Phase 5.75 product_analytics skills.
+### Cross-Phase Impact: Cross-tenant data leaks are the #1 enterprise SaaS security incident class. A framework that guides multi-tenant SaaS product development must own this end-to-end.
+
+================================================================
+
+## Finding: "Progressive Rollout Has No End-to-End Story" — The Deployment Continuum Is Broken
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence:
+The framework's progressive rollout story:
+- Phase 5 has `deployment_patterns` skill (canary/blue-green mentioned conceptually)
+- Phase 5 has no automated canary verification gate (found in T5 analysis)
+- Phase 5.5 Alpha has no alpha cohort access-gating skill
+- Phase 5.75 Beta has `feature_flags` with rollout percentages
+- No phase connects the Alpha→Beta→GA traffic migration into a coherent model
+
+The actual end-to-end progressive rollout story should be:
+0% users (dev) → Internal team only (Alpha) → 10-50 external (Beta) → 1% canary (GA ramp) → 10% → 50% → 100% GA
+
+The framework treats these as disconnected events. Alpha uses invite lists. Beta uses feature flags. GA uses... nothing — the 5-ship workflow says "Deploy to staging, then deploy to production" with no canary gate.
+
+The T5 analysis found missing canary verification automation. The T55 analysis found no alpha access-gating. The T575 analysis found no Beta graduation criteria. Viewed from TX, these are all the same fundamental gap: the progressive rollout pipeline has no framework-level design.
+
+### Proposed Resolution: New cross-phase `progressive_rollout_playbook` skill (spans Phase 5 through Phase 5.75). Defines the complete 0%→100% traffic migration story with automated verification gates at each step.
+### Cross-Phase Impact: Teams ship directly to 100% production because they have no framework guidance for traffic ramping. One bad deployment = 100% user impact with no rollback automation.
+
+================================================================
+
+## Finding: "Disaster Recovery Is a One-Time Handoff Document, Not a Living Practice"
+
+### Gap Type: MISSING_HANDOFF
+### Severity: CRITICAL
+### Evidence:
+`disaster_recovery` skill lives in Phase 6 (Handoff). This placement encodes a critical mental model error: DR is treated as a one-time setup artifact created at handoff, not an ongoing operational discipline that must be designed in Phase 2, tested in Phase 4, exercised in Phase 5.5, and continuously practiced in Phase 7.
+
+The complete DR lifecycle that the framework currently has no single path through:
+- Phase 2: RTO/RPO requirements capture (what is the acceptable recovery time and data loss?)
+- Phase 3: DR-aware architecture (no single points of failure, circuit breakers, graceful degradation)
+- Phase 4: DR testing (chaos engineering, failover tests, backup restore verification)
+- Phase 5: DR-aware deployment (blue/green enables instant rollback; canary limits blast radius)
+- Phase 5.5 Alpha: Backup strategy verified (backup_strategy skill exists — good)
+- Phase 6: DR runbooks created (disaster_recovery skill — good but orphaned)
+- Phase 7: DR exercises (scheduled chaos tests, tabletop exercises, postmortem-driven DR improvements)
+
+The T7 analysis found no incident response operations skill. The T55 analysis found backup strategy but no restore testing verification loop. The T6 analysis found a DR skill but no DR test cadence. These are all fragments of the same systemic absence: DR as an operational program.
+
+### Proposed Resolution: (1) Move `disaster_recovery` skill to be Phase 2→7 referenced, not Phase 6 only. (2) New `chaos_engineering` skill (Phase 4/7). (3) New `dr_exercise_cadence` section in Phase 7. (4) Add RTO/RPO requirements to Phase 2 design templates.
+### Cross-Phase Impact: Every phase that skips DR design contributes to a system where recovery time is unknown until a disaster occurs. Mean Time To Recover (MTTR) has no framework-level ownership.
+
+================================================================
+
+## Finding: "Capacity Planning Is a Ghost Dimension" — No Phase Owns Capacity
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence:
+After scanning all 11 phase analyses and the framework skills inventory, there is no skill covering capacity planning — defined as: predicting resource needs (compute, storage, network, cost) for projected user growth over time. This is distinct from:
+- `performance_testing` (tests current system under load, doesn't project future needs)
+- `deployment_patterns` (deploys what exists, doesn't size what's needed)
+- `cost_estimation` (estimates project costs, not operational infrastructure costs at scale)
+- `database_optimization` (optimizes existing queries, doesn't project schema growth)
+
+Capacity planning must be done in:
+- Phase 2 (Design): Initial capacity model based on expected user/transaction volumes
+- Phase 3 (Build): Capacity-aware data modeling (partition strategies for future growth)
+- Phase 5 (Ship): Capacity-verified deployment (provision for expected load)
+- Phase 5.5 Alpha: Establish baseline resource consumption per user
+- Phase 7 (Maintenance): Ongoing capacity monitoring, growth projections, proactive scaling
+
+T5 analysis flagged no vertical/horizontal scaling automation. T7 analysis flagged no SLO/error budget. T2 analysis flagged no performance/scalability modeling in design. These are all capacity-dimension gaps.
+
+### Proposed Resolution: New skill `capacity_planning` (Phase 2, with Phase 7 update protocol). Covers: traffic modeling, resource baseline per user unit, growth projection, budget forecasting, scale-out triggers.
+### Cross-Phase Impact: Without capacity planning, every scaling event is reactive. Production incidents from resource exhaustion occur with no warning. Cloud costs are unmanaged and unpredictable.
+
+================================================================
+
+[Loop 2] [Architect] [TX] 2026-02-25T10:30:00Z
+================================================================
+
+## Finding: Framework Has 13 Agents But Zero Agents for Phases 0, 1, 5, 5.5, 5.75, 6, and 7
+
+### Gap Type: MISSING_SKILL (Infrastructure)
+### Severity: CRITICAL
+### Evidence:
+Agent-to-phase mapping analysis:
+
+| Phase | Agent(s) Present |
+|-------|-----------------|
+| Phase 0 (Context) | NONE |
+| Phase 1 (Brainstorm) | NONE |
+| Phase 2 (Design) | architect, planner |
+| Phase 3 (Build) | code-reviewer, tdd-guide, build-error-resolver, refactor-cleaner, database-reviewer, go-reviewer, go-build-resolver, python-reviewer |
+| Phase 4 (Secure) | security-reviewer, e2e-runner, code-reviewer, tdd-guide |
+| Phase 5 (Ship) | NONE |
+| Phase 5.5 (Alpha) | NONE |
+| Phase 5.75 (Beta) | NONE |
+| Phase 6 (Handoff) | doc-updater |
+| Phase 7 (Maintenance) | refactor-cleaner (shared with Phase 3) |
+| Toolkit | NONE |
+
+Phases 0, 1, 5, 5.5, 5.75 have ZERO dedicated agents. The framework is heavily weighted toward Build (Phase 3) with 8 agents. The operational phases (5, 5.5, 5.75, 6, 7) have 1 agent collectively.
+
+Missing agents that have clear, well-defined roles in their phases:
+1. **requirements-analyst** (Phase 1): Validates PRDs, checks for completeness, identifies ambiguities
+2. **deployment-engineer** (Phase 5): Validates Docker configs, IaC, CI/CD pipelines
+3. **release-manager** (Phase 5.5/5.75): Manages alpha/beta rollout gates, readiness verification
+4. **sre-reviewer** (Phase 7): Reviews SLOs, error budgets, incident readiness
+5. **compliance-reviewer** (Cross-phase): GDPR/SOC2/compliance posture review
+
+### Proposed Resolution: 5 new agents targeting the uncovered phases. Each should follow the same pattern as existing agents (frontmatter with name/description/tools/model).
+### Cross-Phase Impact: Phases without dedicated agents rely entirely on the human user knowing which skills to invoke. Automation coverage is Phase 3-centric, leaving operational phases (where most production incidents occur) fully manual.
+
+================================================================
+
+## Finding: Framework Has 32 Commands But Zero Commands for Phase 5.5, 5.75, or Phase 7 Operations
+
+### Gap Type: MISSING_SKILL (Infrastructure)
+### Severity: HIGH
+### Evidence:
+Command-to-phase mapping:
+
+Phase 0 (Context): `/checkpoint`, `/sessions` (partial)
+Phase 1 (Brainstorm): NONE specifically
+Phase 2 (Design): `/plan`, `/multi-plan`
+Phase 3 (Build): `/tdd`, `/build-fix`, `/go-build`, `/go-review`, `/go-test`, `/python-review`, `/refactor-clean`, `/code-review`, `/multi-execute`, `/multi-workflow`, `/multi-backend`, `/multi-frontend`
+Phase 4 (Secure): `/e2e`, `/verify`, `/test-coverage`, `/eval`
+Phase 5 (Ship): NONE specifically (the workflow references manual steps)
+Phase 5.5 (Alpha): NONE
+Phase 5.75 (Beta): NONE
+Phase 6 (Handoff): `/update-docs`, `/update-codemaps`
+Phase 7 (Maintenance): NONE
+Toolkit/Learning: `/learn`, `/learn-eval`, `/evolve`, `/skill-create`, `/instinct-status`, `/instinct-export`, `/instinct-import`, `/orchestrate`
+Infrastructure: `/pm2`, `/setup-pm`, `/sessions`, `/claw`
+
+Missing commands with obvious utility:
+- `/deploy` — Trigger deployment workflow with pre/post checks
+- `/alpha-check` — Run alpha readiness checklist
+- `/beta-check` — Run beta readiness checklist
+- `/rollback` — Trigger rollback workflow
+- `/incident` — Trigger incident response workflow
+- `/compliance-check` — Run compliance audit
+- `/capacity-review` — Review capacity and scaling status
+- `/flag-audit` — Audit feature flags for cleanup
+
+### Proposed Resolution: 8 new commands targeting the operational phases. These fill the automation gap in the deployment/operational lifecycle.
+### Cross-Phase Impact: Without commands for operational phases, the framework's automation value drops to near zero the moment code leaves the build phase. The most high-stakes moments (deploy, incident, rollback) have no framework support.
+
+================================================================
+
+## Finding: Framework Has 21 Workflows But No Workflows for Phases 1, 2.5 (Post-Design Gate), 5.5/5.75 (as separate items), or Mid-Phase Loops
+
+### Gap Type: MISSING_SKILL (Infrastructure)
+### Severity: HIGH
+### Evidence:
+Workflow inventory:
+- Core: 0-context, 1-brainstorm, 2-design, 3-build, 4-secure, 5-ship, 6-handoff, 7-maintenance
+- Alpha/Beta: alpha-release, beta-release
+- Toolkit: new-project, post-task, debug, launch, design-review, observability, content_production
+
+Missing workflows based on WORKFLOW_ECOSYSTEM.md analysis:
+1. **No Phase 1→2 Gate Workflow**: The ecosystem diagram shows `Brainstorm -- "PRD & Specs" --> Design` as a simple arrow. There is no formal "PRD review and approval" workflow that gates the transition. The design-review workflow only covers UI/UX designs, not PRD quality.
+2. **No "GA Release" Workflow**: There's alpha-release.md and beta-release.md, but no ga-release.md. The 5-ship.md workflow covers deployment prep but not the formal GA release process.
+3. **No Rollback Workflow**: Phase 5 identifies rollback as important but there is no dedicated rollback workflow.
+4. **No Incident Response Workflow**: Phase 7 maintenance covers bug triage but not acute incident response.
+5. **No Compliance Review Workflow**: No workflow triggers the compliance-reviewer agent at phase gates.
+6. **No Sprint Ceremony Workflow**: sprint_planning and retrospective skills exist but there is no workflow orchestrating a sprint ceremony sequence.
+
+### Proposed Resolution: 6 new workflow files. Priority order: ga-release.md (P0), rollback.md (P0), incident-response.md (P0), prd-review.md (P1), compliance-review.md (P1), sprint-ceremony.md (P2).
+### Cross-Phase Impact: Missing workflows mean the framework's "golden path" has undocumented exits. The gap between the last defined workflow (beta-release) and full GA is navigated without framework support.
+
+================================================================
+
+## Finding: The "/orchestrate" Command Has Only 4 Fixed Workflow Types — No Cross-Phase Orchestration Patterns
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence:
+The `/orchestrate` command defines 4 workflows:
+- `feature`: planner → tdd-guide → code-reviewer → security-reviewer
+- `bugfix`: planner → tdd-guide → code-reviewer
+- `refactor`: architect → code-reviewer → tdd-guide
+- `security`: security-reviewer → code-reviewer → architect
+
+These are ALL intra-Phase-3/4 patterns. None of the orchestration patterns cross into Phase 5, 6, or 7. There is no orchestration pattern for:
+- `release`: deployment-engineer → security-reviewer → release-manager → doc-updater
+- `incident`: sre-reviewer → build-error-resolver → doc-updater
+- `compliance`: compliance-reviewer → security-reviewer → doc-updater
+- `onboarding`: (new project full lifecycle bootstrap)
+- `handoff`: doc-updater → architect (for documentation completeness review)
+
+The orchestration infrastructure exists but only covers the Build phase. This means every cross-phase coordination is manual.
+
+### Proposed Resolution: Expand `/orchestrate` with 5 additional workflow types covering release, incident, compliance, handoff, and full-lifecycle onboarding. Requires adding the missing agents first.
+### Cross-Phase Impact: Without cross-phase orchestration, multi-agent automation stops at the build phase. The phases with the highest human coordination cost (release, incident, compliance) remain entirely manual.
+
+================================================================
+
+## Finding: No Rules Directory — Framework Has No Coding Standards Infrastructure
+
+### Gap Type: MISSING_SKILL (Infrastructure)
+### Severity: HIGH
+### Evidence:
+The agents/README.md references `[Rules](../rules/README.md) — Agents follow these coding guidelines`. The commands/README.md also references `[Rules](../rules/README.md) — Commands follow these guidelines`. However, when the .agent directory is listed, there is no `rules/` directory. The README.md references a `rules/README.md` that does not exist.
+
+This means:
+1. Agents have no shared coding standards to enforce
+2. The `code-reviewer` agent, despite being described as comprehensive, has no rules specification to reference
+3. The `security-reviewer` agent defines its own rules inline rather than referencing a shared standard
+4. Different reviewers may apply different standards depending on which agent is invoked
+
+Additionally, there is no `hooks/` directory — the commands/README.md references `[Hooks](../hooks/README.md) — Event-driven automations` but neither the hooks directory nor the README exists. Hooks are a key Claude Code infrastructure component that could automate post-task work, compliance gates, and session management.
+
+### Proposed Resolution: (1) Create `.agent/rules/` directory with framework-wide coding standards files (security-rules.md, code-quality-rules.md, documentation-rules.md). (2) Create `.agent/hooks/` directory with event-driven automations for post-commit, pre-deploy, and session-end events.
+### Cross-Phase Impact: Without rules, agents apply inconsistent standards across sessions. Without hooks, automation opportunities at event boundaries (git commit, task completion, deploy) are lost.
+
+================================================================
+
+[Loop 3] [Architect] [TX] 2026-02-25T11:00:00Z
+================================================================
+
+## Finding: Phase Transition Contracts Are Entirely Implicit — No Formal Gate Specifications
+
+### Gap Type: MISSING_HANDOFF
+### Severity: CRITICAL
+### Evidence:
+Mapping the complete handoff chain reveals that EVERY transition in the framework is informal:
+
+**T0→T1 (Context→Brainstorm)**:
+Expected input: project context, tech stack, stakeholder map
+Expected output: PRD, user stories, competitive analysis
+Actual contract: 0-context.md produces `session-handoff-prompt.md`. The 1-brainstorm workflow reads skills but has no intake checklist verifying Context phase completeness.
+CONTRACT GAP: No gate. A project can enter Brainstorm with an incomplete context.
+
+**T1→T2 (Brainstorm→Design)**:
+Expected input: Approved PRD, user stories, acceptance criteria
+Expected output: Architecture plan, schema, deployment design
+Actual contract: Brainstorm workflow says "PRD & Specs" → Design. No PRD completeness check, no PRD review gate, no formal approval step.
+CONTRACT GAP: Design can begin on an unreviewed PRD.
+
+**T2→T3 (Design→Build)**:
+Expected input: Approved architecture, schema definitions, feature specs
+Expected output: Working code with tests
+Actual contract: design-review toolkit workflow exists — this is the ONLY explicit gate in the entire framework.
+CONTRACT: Partially addressed, but design-review only covers UI/UX, not architecture approval.
+
+**T3→T4 (Build→Secure)**:
+Expected input: Feature-complete code with passing unit tests
+Expected output: Security-audited, quality-verified code
+Actual contract: `build` workflow exit checklist requires tests passing, then transitions to `audit` workflow.
+CONTRACT GAP: No formal "all features complete" verification before security audit begins.
+
+**T4→T5 (Secure→Ship)**:
+Expected input: Security audit passed, all tests green
+Expected output: Production-ready artifact
+Actual contract: audit workflow has an exit checklist. ship workflow has pre-flight checks.
+CONTRACT GAP: No machine-readable link between audit exit state and ship pre-flight. Manual human must confirm.
+
+**T5→T5.5 (Ship→Alpha)**:
+Expected input: Deployed to staging, builds passing
+Expected output: Alpha-ready system
+Actual contract: alpha-release.md has "When to Use" checklist.
+CONTRACT GAP: No verification that T5 ship workflow was actually completed before T5.5 begins.
+
+**T5.5→T5.75 (Alpha→Beta)**:
+Expected input: Alpha complete, no P0/P1 bugs
+Expected output: Beta-ready system
+Actual contract: beta-release.md has "Alpha testing complete — no P0 or P1 bugs remaining".
+CONTRACT GAP: "No P0 or P1 bugs" is defined how? What counts as P0? No bug severity rubric exists in the framework.
+
+**T5.75→T6 (Beta→Handoff)**:
+Expected input: Beta complete, GA criteria met
+Expected output: Handoff-ready system
+Actual contract: NONE. The beta-release.md ends. The 6-handoff.md begins with "Project is 'Feature Complete' and validated." — but no Beta graduation criteria skill exists (T575 analysis).
+CONTRACT GAP: This is the worst gap. Beta can end and Handoff can begin with no formal verification.
+
+**T6→T7 (Handoff→Maintenance)**:
+Expected input: Client accepted, all assets transferred
+Expected output: Maintenance program active
+Actual contract: Handoff checklist exists. Maintenance workflow begins.
+CONTRACT GAP: No formal service level agreement defined, no on-call structure established.
+
+**T7→T0 (Maintenance→Context)**:
+Expected input: New feature request or maintenance cycle
+Expected output: Fresh context loaded
+Actual contract: 7-maintenance.md says nothing about re-entering Phase 0.
+CONTRACT GAP: The loop-back from Maintenance to Context is shown in the ecosystem diagram but has no workflow.
+
+### Proposed Resolution: New `phase_gate_contracts` document at `.agent/docs/phase-gates.md` defining entry/exit criteria for each phase transition as machine-checkable conditions. New `/gate-check` command that validates transition readiness.
+### Cross-Phase Impact: Without formal gates, the framework's lifecycle is a waterfall in name only. Projects enter phases unprepared and discover missing prerequisites during execution, not before.
+
+================================================================
+
+## Finding: "Dark Matter Between Phases" — What Gets Dropped at Every Transition
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence:
+Analysis of what is PRODUCED by each phase versus what is CONSUMED by the next phase reveals systematic "dark matter" — decisions made in one phase that are never transmitted to the next:
+
+**ADR Dark Matter**: Phase 2 (Design) makes architectural decisions. These decisions are never formally surfaced to Phase 3 build, Phase 4 security audit, or Phase 7 maintenance. The architect agent has an ADR template but there is no ADR registry, no ADR reference in build workflows, and no ADR-aware security review.
+
+**Security Requirements Dark Matter**: Phase 2 should produce security requirements (threat model, trust boundaries). Phase 4 (Secure) should verify those requirements were met. Currently, Phase 4 security_audit skill checks OWASP Top 10 generically without reference to the specific security requirements defined in Phase 2. They are disconnected.
+
+**Performance Baseline Dark Matter**: Phase 4 `performance_testing` establishes performance benchmarks. These baselines are never referenced in Phase 5 (Ship) deployment verification, Phase 5.5 (Alpha) health checks, or Phase 7 (Maintenance) SLO definitions. They exist in isolation.
+
+**Test Coverage Dark Matter**: Phase 4 test coverage data is never consumed by Phase 5 (Ship) as a deployment gate. The ship workflow has no "minimum test coverage" check.
+
+**Dependency Inventory Dark Matter**: Phase 7 `dependency_management` tracks dependencies. When a new feature is built in a Phase 3 iteration, the dependency inventory from Phase 7 is not consulted. New dependencies are added without checking for existing license conflicts or vulnerability baseline.
+
+### Proposed Resolution: New concept of "Phase Artifacts" — defined outputs from each phase that are consumed by specific downstream phases. Document this as `.agent/docs/phase-artifacts.md` and reference it in each workflow's "Pre-Flight Checks" section.
+### Cross-Phase Impact: Phase artifact gaps compound. By Phase 7 (Maintenance), the system has lost the rationale for most architectural, security, and performance decisions made in Phases 2-4.
+
+================================================================
+
+[Loop 4] [Detective] [TX] 2026-02-25T11:30:00Z
+================================================================
+
+## Finding: Hypothetical Real-World Failure Walk-Through — "The SaaS Startup That Uses This Framework"
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: CRITICAL
+### Evidence:
+Simulating a real-world SaaS startup using this framework end-to-end reveals the following friction points in order of occurrence:
+
+**Week 1-2 (Phase 0-1)**:
+- Developer runs `/0-context` and `/1-brainstorm` — works well for single developer
+- PRD is created. No assumption testing (T1 gap). No market sizing (T1 gap).
+- Developer decides the product needs multi-tenancy. No guidance (TX gap #5).
+- Developer decides EU market is a target. No i18n guidance (TX gap #4).
+- FRICTION: Developer proceeds with unvalidated assumptions and un-designed i18n architecture.
+
+**Week 3-4 (Phase 2)**:
+- Developer runs `/2-design` and `/plan`. ARA methodology works.
+- No ADR capture mechanism (T2 gap). Architectural decisions are made verbally and lost.
+- No capacity planning (TX gap #8). System is designed for "current load" with no growth model.
+- No compliance design (TX gap #1). GDPR data flows are not mapped.
+- FRICTION: System is designed without compliance constraints or capacity model. These will be retrofitted later at high cost.
+
+**Week 5-12 (Phase 3)**:
+- `/3-build` and orchestrate feature workflows. Strong phase. Well-supported.
+- 50 features built. No feature flag strategy (TX gap #3). Flags added ad-hoc.
+- Multi-tenant queries are hand-coded. No cross-tenant isolation verification (TX gap #5).
+- FRICTION: Feature flag debt accumulates. Cross-tenant isolation is best-effort.
+
+**Week 13 (Phase 4)**:
+- `/4-secure` and security audit. OWASP checklist completed.
+- No cross-tenant isolation test (TX gap #5). Security audit misses tenant isolation.
+- No compliance testing (TX gap #1). GDPR audit missing.
+- Performance baseline established. Nowhere to store it for future reference (TX Loop 3 dark matter).
+- FRICTION: Security audit has blind spots in multi-tenancy and compliance.
+
+**Week 14 (Phase 5)**:
+- `/5-ship` runs. Docker, IaC, CI/CD set up.
+- No canary deployment gate (T5 gap). System deploys 100% immediately.
+- No feature flag cleanup for GA (TX gap #3). 30 alpha/beta flags still in code.
+- FRICTION: First production deploy is high-risk (100% rollout, no gates). Flag debt goes to production.
+
+**Week 15 (Phase 5.5 Alpha)**:
+- `/alpha` workflow runs. Error tracking, health checks, env validation — good.
+- No alpha cohort access gating skill (T55 gap). How do we limit access to alpha users only?
+- No alpha-specific data policy (T55 gap). Will alpha user data be preserved?
+- FRICTION: Alpha "launch" is actually a production launch with no access gates. Anyone can sign up.
+
+**Week 16-20 (Phase 5.75 Beta)**:
+- `/beta` workflow runs. Strong phase, well-covered.
+- Beta graduation criteria undefined (T575 gap). Beta runs indefinitely.
+- i18n was never designed (TX gap #4). European user signs up. Date formats are wrong. Currency is wrong. No fix without architectural retrofit.
+- FRICTION: Beta never formally ends. EU market is inaccessible without major rework.
+
+**Week 21 (Phase 6 Handoff)**:
+- `/6-handoff` workflow for client transfer.
+- No operational readiness review (T6 gap). Client accepts a system with zombie feature flags, missing i18n, unknown capacity limits.
+- No support team enablement (T6 gap). Client's support team has no documentation.
+- DR runbooks created now for the first time (should have been designed in Phase 2).
+- FRICTION: Handoff is a transfer of technical debt, not a clean exit.
+
+**Ongoing (Phase 7 Maintenance)**:
+- Incident occurs. No incident response skill or workflow (T7 gap). Developer improvises.
+- SLOs were never defined (T7 gap). No error budget to manage.
+- GDPR deletion request received. No data deletion workflow exists (TX gap #1 + T6 gap).
+- EU expansion required. i18n retrofit costs 4x the original implementation (TX gap #4).
+- FRICTION: Phase 7 is a cascade of issues from every upstream gap.
+
+### Proposed Resolution: This walk-through validates that the identified gaps are real and compounding. The most critical path is: compliance_program + i18n_design + multi_tenancy_architecture + phase_gate_contracts + progressive_rollout_playbook.
+### Cross-Phase Impact: The cumulative impact of ALL cross-cutting gaps on a real project is an unplanned retrofit cost estimated at 2-3x the original development cost.
+
+================================================================
+
+## Finding: The Framework Is Session-Scoped — It Has No Persistent Project State
+
+### Gap Type: MISSING_SKILL (Infrastructure)
+### Severity: HIGH
+### Evidence:
+The framework's context management (Phase 0, `0-context` workflow) is designed around sessions. The `session-handoff-prompt.md` is the primary state artifact. This creates a fundamental problem: the framework has no concept of "project state" that persists across weeks, months, and team members.
+
+Specific failures:
+1. The Phase 2 ADRs have no registry. One developer makes an architectural decision in Week 3. A new developer in Week 15 has no way to discover why the system was designed that way.
+2. The feature_registry.md mentioned in 0-context.md has no enforcement mechanism. Features can be built without registration.
+3. The skills extracted by `/learn` go to `.agent/skills/learned/` but are never indexed or discoverable.
+4. The security audit report from Phase 4 is a point-in-time document. Phase 7 maintenance has no mechanism to check "has this security issue been re-introduced?"
+5. There is no "project health dashboard" — a persistent view of: current phase, last audit date, test coverage trend, dependency health, compliance status.
+
+The T0 analysis identified the absence of a live system state tracker. The TK analysis identified the lack of skill discovery infrastructure. These are manifestations of the same problem: the framework is stateless at the project level.
+
+### Proposed Resolution: New infrastructure concept: the "Project Memory" persistent artifact. This is a structured `.agent/project-state.json` that is updated at each phase exit and provides a machine-readable project health snapshot. New `/project-status` command to display it.
+### Cross-Phase Impact: Without persistent project state, every new session starts from the last handoff document. Knowledge decay is constant. Long-running projects lose institutional memory across agent sessions.
+
+================================================================
+
+[Loop 5] [Detective] [TX] 2026-02-25T12:00:00Z
+================================================================
+
+## Finding: Framework Is Designed for Solo Developer — Breaks for Every Other Team Size
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: CRITICAL
+### Evidence:
+Analysis of framework fit by team size:
+
+**Solo Developer (1 person)**:
+Works well. Phase 0 context loading makes sense for a single developer picking up their own work. Handoff is self-to-self. The session-based model is appropriate.
+Friction: Even solo, there's no capacity planning, no compliance guidance, no i18n support.
+Assessment: ADEQUATE for solo, given significant skill gaps.
+
+**5-Person Startup**:
+Immediate friction:
+- The 0-context session model assumes one "active" developer. With 5 people, who maintains the session-handoff-prompt.md? Who has the authoritative context?
+- No branch strategy coordination skill (git_workflow covers branching but not multi-developer coordination)
+- No PR review assignment mechanism (code-reviewer is an agent, not a team coordination tool)
+- Sprint planning skill exists, but no backlog management, no ticket system integration, no story point calibration
+- The orchestrate command runs sequential agents but has no concept of "human team member in the loop"
+Assessment: BREAKS around Phase 3. The collaborative build phase has no team coordination infrastructure.
+
+**50-Person Enterprise**:
+Catastrophic friction:
+- Framework has no roles/RBAC concept. Who can approve a phase gate? Who can trigger a production deploy?
+- No audit trail mechanism. For SOC2/ISO27001, every phase transition needs an auditable record with timestamps and approver identities.
+- No multi-repo coordination. Enterprise projects span 5-20 repos. Phase 0 context loading assumes a single repo.
+- No team skill matrix. Enterprise training/onboarding of the framework itself has no guide.
+- Compliance requirements (GDPR officer must approve data model changes) have no mechanism in the framework.
+- Change management for production deployments (CAB approval) has no framework support.
+Assessment: UNUSABLE for enterprise compliance requirements. Would require significant governance overlay.
+
+**200-Person Organization**:
+Beyond catastrophic:
+- Multi-tenancy of the framework itself: different teams on different projects need their own `.agent/` configurations, shared skill libraries, and cross-project learning
+- Framework versioning: version 3.0 is mentioned in WORKFLOWS_README.md but there is no upgrade path, no deprecation policy, no compatibility matrix
+- Skill sharing across teams: a skill created by Team A is not discoverable by Team B unless manually shared
+- No organizational skill governance (who approves a skill before it's used org-wide?)
+Assessment: REQUIRES complete organizational framework overlay not present in current version.
+
+### Proposed Resolution: Three separate "team scale" configuration guides. Phase 0 needs a "team configuration" mode. Framework needs concept of "approval roles" for phase gates. For enterprise: new skill `governance_framework` covering RBAC, audit trails, CAB integration.
+### Cross-Phase Impact: The entire framework's agent/command/workflow infrastructure assumes a single active agent and a single repository. Multi-developer coordination is an emergent cross-cutting need not addressed at any phase level.
+
+================================================================
+
+## Finding: "Compliance Regime Blindness" — Framework Cannot Adapt to Different Regulatory Contexts
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence:
+The framework currently provides single-regime security/compliance guidance (OWASP Top 10, general GDPR mention, financial_compliance skill). However, projects governed by different compliance regimes have fundamentally different requirements at EVERY phase:
+
+**Healthcare / HIPAA context**:
+- Phase 2: Data model must separate PHI into designated tables with access logging
+- Phase 3: Every PHI access must be logged to an audit table (not just error logs)
+- Phase 4: HIPAA-specific security controls (encryption at rest AES-256, audit log integrity)
+- Phase 5: BAA agreements with every service provider (no Sentry without a BAA, for example)
+- Phase 6: HIPAA-compliant data handoff procedures
+- Framework coverage: NONE beyond `financial_compliance` (which is fintech, not healthcare)
+
+**Payment Card / PCI-DSS context**:
+- Phase 2: Cardholder data environment (CDE) must be isolated at architecture level
+- Phase 3: No card data in logs EVER (not even for debugging)
+- Phase 4: Quarterly vulnerability scans, penetration testing requirements
+- Phase 5: Quarterly external network scan required before production deploy
+- Framework coverage: `financial_compliance` skill touches on PCI but is described as "fintech" not specifically PCI-DSS
+
+**Government / FedRAMP context**:
+- All 800+ NIST SP 800-53 controls must be addressed
+- Phase 0: FedRAMP-compliant environment setup (GovCloud only)
+- Framework coverage: NONE
+
+**SOC2 Type II context** (applicable to almost any B2B SaaS):
+- All phase transitions must be documented with timestamps (Trust Services Criteria CC8.1)
+- Change management must be formalized
+- Framework coverage: No audit trail generation, no change management workflow
+
+### Proposed Resolution: New skill `compliance_regime_selector` (Phase 0/Phase 2 dual) that identifies the applicable compliance regime and generates a phase-specific compliance checklist for each downstream phase. Plugin architecture where compliance requirements inject into phase workflows.
+### Cross-Phase Impact: Teams building for healthcare or government markets using this framework are violating compliance requirements at every phase. The framework provides false confidence ("security_audit passed") while missing regime-specific mandates.
+
+================================================================
+
+## Finding: "Single Language Bias" — Framework Assumes TypeScript/Node.js at Infrastructure Level
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence:
+While the framework DOES have language-specific skills (golang_patterns, python_patterns, cpp_coding_standards, java_coding_standards, springboot_patterns, django_patterns, swift_*), the INFRASTRUCTURE level of the framework is Node.js/npm centric:
+
+- The `security-reviewer` agent runs `npm audit --audit-level=high`
+- The `4-secure.md` workflow runs `npm audit`
+- The `5-ship.md` workflow runs `npm run build`
+- The `beta-release.md` references `npx prisma db seed`
+- The `skill-create.md` runs `git log` analysis but pattern detection examples are npm/TypeScript
+
+If a team is building a Go microservices platform, a Python ML system, or a Java Spring Boot enterprise app, the workflow-level tooling is wrong. The security audit command fails. The build verification step fails. The seed data step doesn't apply.
+
+Language-specific build tooling should be abstracted or parameterized at the workflow level, not hardcoded for npm/TypeScript.
+
+### Proposed Resolution: Abstract workflow infrastructure commands. Each workflow that runs build/test/security commands should reference a project configuration file (`.agent/project.yml`) that specifies `build_cmd`, `test_cmd`, `security_scan_cmd`, `seed_cmd`. The commands become parameterized.
+### Cross-Phase Impact: Teams using non-JS stacks receive incorrect tooling guidance at every workflow stage. This undermines the framework's claim to be language-agnostic (it claims generality via skills but fails at the workflow layer).
+
+================================================================
+
+[Loop 6] [Detective] [TX] 2026-02-25T12:30:00Z
+================================================================
+
+## Finding: DORA Metrics Are Completely Absent — Framework Cannot Measure Its Own Effectiveness
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: CRITICAL
+### Evidence:
+DORA (DevOps Research and Assessment) defines the four key metrics for software delivery performance:
+1. **Deployment Frequency**: How often code is deployed to production
+2. **Lead Time for Changes**: Time from commit to production
+3. **Change Failure Rate**: Percentage of deployments causing a production failure
+4. **Mean Time to Restore (MTTR)**: Time to recover from a production failure
+
+The framework has ZERO coverage of DORA metrics as a measurement framework:
+- No skill for tracking deployment frequency
+- No skill for measuring lead time (the time from feature brainstorm to production deployment is never measured)
+- No skill for tracking change failure rate (post-deploy verification exists in 5-ship.md but outcomes are never tracked)
+- No skill for MTTR measurement (incident response has no home in the framework as found in T7 analysis)
+- No dashboard or report template for DORA metrics
+
+Industry classification (Forsgren et al., 2019): Elite performers deploy multiple times per day with <1hr lead time, <15% change failure rate, <1hr MTTR. Without tracking these metrics, framework users cannot know whether they are improving or degrading.
+
+Additionally, SPACE metrics (Satisfaction, Performance, Activity, Communication/Collaboration, Efficiency) for developer productivity are completely absent.
+
+### Proposed Resolution: New skill `dora_metrics_tracking` (Phase 7 with Phase 5 integration). Defines metric collection points at each phase, baseline calculation methodology, trend reporting. New `/dora-report` command.
+### Cross-Phase Impact: Without DORA tracking, teams cannot prove the framework is making them better. Every phase contributes to DORA metrics (T1 affects lead time, T4 affects change failure rate, T7 affects MTTR) but none measure their contribution.
+
+================================================================
+
+## Finding: OWASP SAMM Maturity Model Is Absent — Framework Has No Security Program Maturity Concept
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: CRITICAL
+### Evidence:
+OWASP SAMM (Software Assurance Maturity Model) defines 5 business functions (Governance, Design, Implementation, Verification, Operations) each with 3 security practices and 3 maturity levels. The framework's security coverage against SAMM:
+
+**Governance** (Policy, Education & Guidance, Policy & Compliance):
+- Policy: NONE
+- Education: NONE (no security training guidance)
+- Compliance: NONE (as found in TX Loop 1)
+SAMM Coverage: ~0%
+
+**Design** (Threat Assessment, Security Requirements, Security Architecture):
+- Threat Assessment: threat_modeling mentioned in T2/T4 gaps but NO skill exists
+- Security Requirements: NONE (no skill for capturing security requirements in Phase 2)
+- Security Architecture: NONE (no security architecture design skill for Phase 2)
+SAMM Coverage: ~0%
+
+**Implementation** (Secure Build, Secure Deployment, Defect Management):
+- Secure Build: partial (security_audit skill covers OWASP checklist)
+- Secure Deployment: partial (5-ship.md has security checks)
+- Defect Management: NONE (no vulnerability tracking/management system)
+SAMM Coverage: ~30%
+
+**Verification** (Architecture Assessment, Requirements-driven Testing, Security Testing):
+- Architecture Assessment: NONE
+- Requirements Testing: NONE (no "did we build what the security requirements specified?")
+- Security Testing: partial (security_audit, web3_security)
+SAMM Coverage: ~20%
+
+**Operations** (Incident Management, Environment Management, Operational Management):
+- Incident Management: NONE (as found in T7 analysis)
+- Environment Management: partial (env_validation in Phase 5.5)
+- Operational Management: NONE
+SAMM Coverage: ~10%
+
+Overall SAMM coverage: approximately 10-15%. A framework claiming comprehensive security guidance achieves SAMM Level 0-1 overall.
+
+### Proposed Resolution: New `security_program_design` skill (Phase 2) based on OWASP SAMM. Maps each SAMM practice to the relevant framework phase. Provides maturity assessment rubric. This is different from the phase-level security_audit — it's about building a security PROGRAM, not just running a checklist.
+### Cross-Phase Impact: The current framework's security coverage is entirely reactive (check for known vulnerabilities). SAMM Level 2+ requires proactive security design (threat modeling, security requirements, architecture review) that the framework has no path to.
+
+================================================================
+
+## Finding: SRE Practices — Error Budgets, SLOs, and Toil Reduction Have No Framework Home
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence:
+Google's SRE book defines the foundational operational practices for reliable software. Framework coverage against SRE principles:
+
+**Service Level Objectives (SLOs)**: NONE
+- No skill for defining SLOs (availability, latency, error rate)
+- No skill for tracking error budgets (how much reliability budget remains before freezing deployments)
+- T7 analysis explicitly identified this gap
+
+**Error Budgets**: NONE
+- No mechanism to freeze deployments when error budget is exhausted
+- CI/CD pipeline has no error-budget-gate
+
+**Toil Reduction**: NONE
+- No skill for identifying and eliminating operational toil
+- Phase 7 maintenance workflow is entirely reactive (fix bugs, update deps) with no toil audit
+
+**Postmortem Culture**: PARTIAL
+- 7-maintenance.md mentions "Post-Mortem (If Critical)" but this is a single markdown section, not a structured practice
+- No blameless postmortem framework
+- No action item tracking from postmortems
+- No "did this postmortem result in a systemic improvement?" verification
+
+**On-Call Management**: NONE
+- No on-call rotation design
+- No escalation policy framework
+- No alert fatigue management guidance
+- No runbook quality standards (beyond what disaster_recovery provides at handoff)
+
+**Capacity Planning**: NONE (confirmed gap from Loop 1)
+
+### Proposed Resolution: New skill `sre_foundations` (Phase 7 anchor, Phase 2 SLO definition). Covers: SLO definition templates, error budget calculation, toil audit framework, blameless postmortem template, on-call rotation design. This is the missing operational excellence layer.
+### Cross-Phase Impact: Without SRE practices, Phase 7 Maintenance is a fire-fighting phase rather than a continuous improvement phase. The framework ends at deployment and never addresses reliability engineering as a discipline.
+
+================================================================
+
+## Finding: ISO 27001 Information Security Management System — Zero Coverage
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence:
+ISO 27001 requires an Information Security Management System (ISMS) covering 93 controls across 4 themes. For any organization seeking ISO 27001 certification, the development framework must address:
+
+**Organizational Controls (37 controls)**:
+- Information security policies: No framework skill
+- Acceptable use of assets: No framework skill
+- Access control policy: No framework skill (auth_implementation covers implementation but not policy)
+- Supplier relationships: No framework skill
+
+**People Controls (8 controls)**:
+- Security awareness training: No framework skill
+- Background verification: No framework skill
+- Remote working security: No framework skill
+
+**Physical Controls (14 controls)**:
+- Entirely absent (may be out of scope for software framework, but at minimum should document "assumed handled by hosting provider")
+
+**Technological Controls (34 controls)**:
+- Privileged access rights: No framework skill
+- Capacity management: No framework skill (TX Loop 1 gap)
+- Protection against malware: framework dependency auditing partially covers this
+- Backup: backup_strategy skill in Phase 5.5 — GOOD
+- Logging and monitoring: observability skill — PARTIAL
+- Vulnerability management: dependency_management skill — PARTIAL
+
+Framework covers approximately 8-10% of ISO 27001 technological controls and essentially 0% of organizational and people controls.
+
+### Proposed Resolution: This is not about achieving full ISO 27001 compliance through the framework. Rather, a new `iso27001_gap_assessment` skill (Phase 0/Phase 4) that identifies which ISO 27001 controls are addressed by framework skills and which require organizational policies outside the framework.
+### Cross-Phase Impact: Enterprise teams using this framework for ISO 27001 audits will have documentation gaps that are only discovered during the audit itself, at maximum cost.
+
+================================================================
+
+[Loop 7] [Builder] [TX] 2026-02-25T13:00:00Z
+================================================================
+
+## Solution Specifications for Cross-Cutting Gaps
+
+### SOLUTION TX-S01: Cross-Phase Compliance Program Infrastructure
+**References**: TX-Loop1-Finding1, TX-Loop4-Finding2 (compliance regime blindness), TX-Loop6-Finding2 (OWASP SAMM gap), TX-Loop6-Finding4 (ISO 27001)
+
+**New Skill**: `compliance_program` — Phase: Cross-phase (0,2,4,6,7)
+**Trigger Commands**: "set up compliance program", "what compliance applies to this project", "run compliance audit for [phase]", "GDPR checklist", "SOC2 readiness"
+**Scope**: Three-part skill: (1) Compliance regime identification questionnaire (healthcare/fintech/general SaaS/government) that produces a project-specific compliance manifest. (2) Per-phase compliance checklist injection — for each identified regime, the skill provides the phase-specific requirements that must be met before phase exit. (3) Compliance drift detection for Phase 7 — periodic compliance posture re-assessment against the original manifest.
+**Priority**: P0 (CRITICAL — legal and financial exposure)
+
+**New Agent**: `compliance-reviewer`
+**Model**: Opus (complex reasoning required for compliance interpretation)
+**Tools**: Read, Grep, Glob, Bash
+**Phase**: Cross-phase (runs at T2→T3 gate, T4→T5 gate, T7 continuous)
+**Scope**: Reviews compliance artifacts against project compliance manifest. Flags compliance regressions. Generates compliance status reports for SOC2 Type II audit evidence.
+
+**New Command**: `/compliance-audit [phase]`
+**Scope**: Invokes compliance-reviewer agent against current phase artifacts. Outputs compliance status report with pass/fail against regime-specific controls.
+
+================================================================
+
+### SOLUTION TX-S02: Observability Maturity Model
+**References**: TX-Loop1-Finding2, TX-Loop6-Finding3 (SRE practices)
+
+**New Skill**: `observability_maturity_model` — Phase: 2 (design) through 7 (maintenance)
+**Trigger Commands**: "assess observability maturity", "what should we be monitoring?", "SLO definition", "error budget setup", "observability roadmap"
+**Scope**: Defines 4 maturity levels:
+- Level 1 (Reactive): Basic logs, error tracking, uptime monitoring — Phase 3/5.5 baseline
+- Level 2 (Proactive): Distributed tracing, structured logs, metric dashboards — Phase 5.75/6 target
+- Level 3 (Predictive): SLOs defined, error budgets tracked, anomaly detection — Phase 7 standard
+- Level 4 (Autonomous): ML-based anomaly detection, auto-remediation — future state
+Maps each framework phase to the level it should reach and provides concrete implementation guidance per level.
+**Priority**: P0 (CRITICAL — directly affects MTTD and MTTR)
+
+================================================================
+
+### SOLUTION TX-S03: i18n/l10n Cross-Phase Design
+**References**: TX-Loop1-Finding4
+
+**New Skill**: `internationalization_design` — Phase: 2 (Design)
+**Trigger Commands**: "international markets", "i18n architecture", "multi-language support", "localization strategy"
+**Scope**: Phase 2 design-time i18n decisions. Covers: string externalization architecture (i18next, Fluent, ICU format decision), locale-aware data model design (timezone storage, currency representation, address formats, date formatting), RTL layout considerations, locale detection and fallback strategy, translation workflow design (professional vs community translation, CAT tool selection).
+**Priority**: P1 (HIGH — catastrophic retrofit cost if skipped)
+
+**New Skill**: `i18n_implementation` — Phase: 3 (Build)
+**Trigger Commands**: "extract strings for translation", "implement locale support", "i18n for [component/service]"
+**Scope**: Phase 3 implementation patterns. Covers: extraction-first development workflow (code in locale-neutral way, extract strings, never hardcode), locale-safe date/number/currency formatting in both frontend (Intl API) and backend (server-side rendering locale), testing i18n (pseudo-localization, locale-specific CI test runs).
+**Priority**: P1
+
+================================================================
+
+### SOLUTION TX-S04: Multi-Tenancy Architecture Pattern
+**References**: TX-Loop1-Finding5, TX-Loop4-Finding1 (hypothetical walk-through)
+
+**New Skill**: `multi_tenancy_architecture` — Phase: 2 (Design)
+**Trigger Commands**: "multi-tenant design", "tenant isolation architecture", "SaaS tenancy model", "row-level vs schema tenancy"
+**Scope**: Complete tenancy model selection framework. Covers: three tenancy models (row-level isolation, schema-per-tenant, database-per-tenant) with decision matrix based on isolation requirements, regulatory context, performance characteristics, and operational complexity. Data model patterns for tenant resolution. Cross-tenant query prevention architecture. Tenant-aware caching strategy. Tenant offboarding and data export (GDPR portability). Includes Phase 4 security test specification for cross-tenant isolation verification.
+**Priority**: P1 (HIGH — cross-tenant data leaks are enterprise SaaS's #1 security incident class)
+
+================================================================
+
+### SOLUTION TX-S05: Progressive Rollout Playbook
+**References**: TX-Loop1-Finding6, TX-Loop3-Finding1 (Phase 5→5.5 contract gap)
+
+**New Skill**: `progressive_rollout_playbook` — Phase: 5 through 5.75
+**Trigger Commands**: "progressive rollout", "traffic migration plan", "alpha to beta to GA strategy", "rollout gates"
+**Scope**: End-to-end traffic migration playbook. Defines the complete continuum: 0% (dev) → alpha cohort (invite-only via allowlist) → beta (5%→25%→50% feature flag rollout) → canary GA (1%→10%→50%→100% with automated verification gate at each step). For each step: how to gate access, what metrics to verify before advancing, how to roll back if metrics fail. Automated canary verification gate specification (error rate threshold, p99 latency threshold, business metric floor). Alpha cohort management (invite codes, allowlist management).
+**Priority**: P0 (CRITICAL — 100% rollouts without gates are the primary cause of high-severity production incidents)
+
+**New Command**: `/rollout [stage] [--verify|--advance|--rollback]`
+**Scope**: Manages the rollout state machine. `/rollout canary --verify` checks metrics against thresholds. `/rollout canary --advance` promotes to next stage after verification. `/rollout canary --rollback` triggers automated rollback.
+
+================================================================
+
+### SOLUTION TX-S06: Disaster Recovery as a Lifecycle Program
+**References**: TX-Loop1-Finding7, TX-Loop3-Finding1 (T6→T7 contract gap)
+
+**New Skill**: `rto_rpo_design` — Phase: 2 (Design)
+**Trigger Commands**: "define RTO and RPO", "disaster recovery requirements", "business continuity requirements"
+**Scope**: Captures and documents RTO (Recovery Time Objective) and RPO (Recovery Point Objective) requirements during design. Produces a DR requirements document that is then referenced by disaster_recovery skill in Phase 6, backup_strategy skill in Phase 5.5, and incident_response_operations in Phase 7.
+**Priority**: P1
+
+**New Skill**: `chaos_engineering` — Phase: 4 (Secure) and Phase 7 (Maintenance)
+**Trigger Commands**: "chaos test", "failure injection test", "resilience testing", "gameday", "fault tolerance verification"
+**Scope**: Scheduled chaos engineering protocol. Covers: failure injection scenarios (container kill, network partition, database connection exhaustion, dependency timeout), gameday runbook, chaos test result analysis, DR runbook validation against actual failure scenarios. Phase 4 runs pre-production chaos tests. Phase 7 runs scheduled production chaos experiments.
+**Priority**: P1
+
+================================================================
+
+### SOLUTION TX-S07: DORA Metrics Tracking
+**References**: TX-Loop6-Finding1
+
+**New Skill**: `dora_metrics_tracking` — Phase: 7 (Maintenance) anchor, Phase 5 collection
+**Trigger Commands**: "DORA metrics", "deployment frequency report", "lead time analysis", "change failure rate", "MTTR baseline"
+**Scope**: Four-quadrant DORA metric tracking system. Defines collection points: deployment frequency from CI/CD logs, lead time from git tag (merge to main) to deployment timestamp, change failure rate from post-deploy incident count, MTTR from incident open to resolved. Provides weekly/monthly report template. Defines elite/high/medium/low performer thresholds. Correlates framework phase completion with DORA metric changes.
+**Priority**: P1
+
+**New Command**: `/dora-report [weekly|monthly|since-last-deploy]`
+**Scope**: Generates DORA metrics report from git history, CI/CD logs, and incident log.
+
+================================================================
+
+### SOLUTION TX-S08: Phase Gate Contract Infrastructure
+**References**: TX-Loop3-Finding1 (all phase transition gaps)
+
+**New Infrastructure Document**: `.agent/docs/phase-gates.md`
+**Scope**: Machine-checkable entry and exit criteria for each of the 10 phase transitions. Each gate defines: required input artifacts, required quality bars (test coverage %, security audit status, documentation completeness), required approvals (for team-scale configurations), and the "dark matter" cross-reference (which Phase N artifact must be consumed by Phase N+1).
+
+**New Command**: `/gate-check [from-phase] [to-phase]`
+**Scope**: Validates that all gate criteria are met before transitioning. Reads project state, checks artifact existence, runs automated quality checks. Outputs PASS/FAIL with specific gap list for any failures.
+
+**New Infrastructure Document**: `.agent/docs/phase-artifacts.md`
+**Scope**: Canonical list of what each phase produces and what consumes each artifact. ADRs produced by Phase 2 consumed by Phase 3 (build) and Phase 4 (security audit). Performance baseline produced by Phase 4 consumed by Phase 7 (SLO definition). This document is the "bill of materials" for the framework lifecycle.
+**Priority**: P0 (CRITICAL — without this, the framework is a collection of disconnected tools, not a lifecycle)
+
+================================================================
+
+### SOLUTION TX-S09: Missing Agent Suite
+**References**: TX-Loop2-Finding1
+
+**New Agent**: `requirements-analyst`
+- Phase: 1 (Brainstorm)
+- Model: Opus
+- Tools: Read, Grep, Glob
+- Scope: Reviews PRDs and user stories for completeness, testability, and ambiguity. Flags missing acceptance criteria, undefined personas, unvalidated assumptions, and missing non-functional requirements.
+- Priority: P1
+
+**New Agent**: `deployment-engineer`
+- Phase: 5 (Ship)
+- Model: Sonnet
+- Tools: Read, Grep, Glob, Bash, Write, Edit
+- Scope: Validates Docker configurations, IaC templates, CI/CD pipelines for correctness and security. Checks for hardcoded credentials in IaC, overly permissive IAM policies, missing resource limits, missing health checks in container configs.
+- Priority: P0 (no current agent for the highest-risk phase)
+
+**New Agent**: `release-manager`
+- Phase: 5.5/5.75 (Alpha/Beta)
+- Model: Sonnet
+- Tools: Read, Grep, Glob, Bash
+- Scope: Manages alpha/beta release gates. Verifies readiness checklists. Tracks go/no-go decisions. Manages rollout state progression.
+- Priority: P1
+
+**New Agent**: `sre-reviewer`
+- Phase: 7 (Maintenance)
+- Model: Opus
+- Tools: Read, Grep, Glob, Bash
+- Scope: Reviews SLO health, error budget consumption, incident postmortem quality, toil levels, on-call rotation health. Identifies reliability risks before they become incidents.
+- Priority: P1
+
+**New Agent**: `compliance-reviewer`
+- Phase: Cross-phase
+- Model: Opus
+- Tools: Read, Grep, Glob
+- Scope: Already specified in TX-S01.
+- Priority: P0
+
+================================================================
+
+### SOLUTION TX-S10: SRE Foundations Skill
+**References**: TX-Loop6-Finding3
+
+**New Skill**: `sre_foundations` — Phase: 7 (Maintenance) anchor, Phase 2 SLO definition
+**Trigger Commands**: "SLO definition", "error budget", "toil audit", "on-call setup", "blameless postmortem", "reliability engineering"
+**Scope**: Complete SRE practice foundation. Covers: SLO definition templates (availability, latency, error rate targets with measurement methodology), error budget calculation and burn rate alerting, toil identification and elimination framework (what counts as toil, quarterly toil audit process), blameless postmortem template (5-why analysis, contributing factors, action items with owners and deadlines), on-call rotation design (primary/secondary, escalation policy, runbook quality standards), reliability review cadence (weekly reliability review, monthly SLO review, quarterly capacity review).
+**Priority**: P0 (CRITICAL — SRE practices are the missing foundation of Phase 7)
+
+================================================================
+
+### SOLUTION TX-S11: Project Memory and Persistent State Infrastructure
+**References**: TX-Loop4-Finding2 (stateless project problem)
+
+**New Infrastructure**: `.agent/project-state.json` (machine-readable project health)
+**Scope**: Persistent project state artifact updated at each phase exit. Contains: current phase, last gate check timestamp, test coverage trend (last 5 measurements), DORA metrics snapshot, compliance status per regime, open ADR count, feature flag inventory count, last security audit date, last DR test date.
+
+**New Command**: `/project-status`
+**Scope**: Reads project-state.json and renders a human-readable dashboard. Shows: current phase, health indicators (green/yellow/red) for each tracked dimension, next recommended actions.
+
+**New Command**: `/adr [create|list|review] [title]`
+**Scope**: ADR lifecycle management. `/adr create "Use Redis for caching"` creates a new ADR using the architect agent template. `/adr list` shows all ADRs with status. `/adr review` invokes architect agent to review ADR quality and completeness.
+**Priority**: P1
+
+================================================================
+
+### SOLUTION TX-S12: Multi-Team Scale Configuration Guide
+**References**: TX-Loop5-Finding1 (team size scaling)
+
+**New Skill**: `team_scale_configuration` — Phase: 0 (Context)
+**Trigger Commands**: "configure framework for team", "multi-developer setup", "enterprise framework configuration"
+**Scope**: Three-mode framework configuration guide:
+- Solo mode: current default behavior, session-based context
+- Team mode (5-50): branch strategy for parallel development, PR assignment rules, shared agent contexts, sprint ceremony workflow integration
+- Enterprise mode (50+): approval roles for phase gates, audit trail generation, CAB integration for production changes, multi-repo coordination strategy, organizational skill governance (skill approval workflow before org-wide deployment)
+**Priority**: P1
+
+================================================================
+
+### SOLUTION TX-S13: Rules and Hooks Infrastructure
+**References**: TX-Loop2-Finding5 (missing rules and hooks directories)
+
+**New Infrastructure**: `.agent/rules/` directory
+**Files needed**:
+- `rules/security-rules.md` — Framework-wide security coding standards all agents enforce
+- `rules/code-quality-rules.md` — Code quality standards (complexity limits, naming conventions, documentation requirements)
+- `rules/documentation-rules.md` — What must be documented at each phase exit
+- `rules/compliance-rules.md` — Per-regime compliance coding rules (GDPR-safe logging, PCI data isolation)
+
+**New Infrastructure**: `.agent/hooks/` directory
+**Files needed**:
+- `hooks/post-task.md` — Triggers automatic doc update and project-state.json refresh after each task
+- `hooks/pre-commit.md` — Runs security-reviewer agent against staged changes
+- `hooks/post-deploy.md` — Triggers deployment verification and DORA metric collection
+- `hooks/session-end.md` — Ensures checkpoint is created and project-state.json is updated
+
+**Priority**: P1 (enables automation of compliance and quality gates without manual invocation)
+
+================================================================
+
+### SOLUTION TX-S14: Language-Agnostic Workflow Configuration
+**References**: TX-Loop5-Finding3 (Node.js/npm bias)
+
+**New Infrastructure**: `.agent/project.yml` (project configuration file)
+**Scope**: Project-level configuration file created during Phase 0 that parameterizes workflow commands:
+```yaml
+project:
+  name: my-project
+  stack: python  # or node, go, java, rust, etc.
+  build_cmd: "python -m pytest"
+  test_cmd: "python -m pytest --cov"
+  security_scan_cmd: "bandit -r src/ && safety check"
+  seed_cmd: "python manage.py loaddata fixtures/"
+  lint_cmd: "ruff check src/"
+  format_cmd: "ruff format src/"
+```
+All workflow files that currently hardcode `npm run build`, `npm audit` etc. are updated to read from project.yml.
+
+**New Command Update**: `/setup-pm` expanded to populate project.yml in addition to current functionality.
+**Priority**: P1 (breaks non-JS stacks at the workflow infrastructure layer)
+
+================================================================
+
+[Loop 8] [Builder] [TX] 2026-02-25T13:30:00Z
+================================================================
+
+## Dependency Map, Complexity, and Priority for All Cross-Cutting Solutions
+
+### Dependency Graph
+
+```
+TX-S08 (Phase Gate Contracts) ──────────────────────────────┐
+        ↑ Enables                                            │
+TX-S11 (Project Memory) ─────────────────────────────────── │
+        ↑ Populates                                          │
+TX-S13 (Rules & Hooks) ──────────────────────────────────── │
+        ↑ Automates                                          │
+        │                                                    ↓
+TX-S01 (Compliance Program) ──── depends on ──── TX-S05 (Progressive Rollout)
+TX-S02 (Observability Maturity) ─ depends on ──── TX-S10 (SRE Foundations)
+TX-S03 (i18n) ────────────────── standalone  ────────────────┘
+TX-S04 (Multi-Tenancy) ────────── standalone
+TX-S06 (DR Program) ──────────── depends on ──── TX-S08 (Phase Gates)
+TX-S07 (DORA Metrics) ─────────── depends on ──── TX-S11 (Project Memory)
+TX-S09 (Missing Agents) ──────── depends on ──── TX-S01, TX-S05, TX-S10
+TX-S12 (Team Scale Config) ────── depends on ──── TX-S08, TX-S11, TX-S13
+TX-S14 (Language Agnostic) ────── standalone (infrastructure refactor)
+```
+
+### Implementation Priority Matrix
+
+| Solution | Priority | Complexity | Dependencies | Weeks |
+|----------|----------|------------|--------------|-------|
+| TX-S08 Phase Gate Contracts | P0 | M (half-day) | none | Week 1 |
+| TX-S13 Rules & Hooks Infrastructure | P0 | M (half-day) | none | Week 1 |
+| TX-S14 Language-Agnostic Workflows | P0 | M (half-day) | none | Week 1 |
+| TX-S09 Missing Agents (deploy-eng + compliance-rev first) | P0 | M (per agent) | TX-S01, TX-S13 | Week 2 |
+| TX-S05 Progressive Rollout Playbook | P0 | L (full-day) | TX-S08 | Week 2 |
+| TX-S10 SRE Foundations | P0 | L (full-day) | TX-S11 | Week 2 |
+| TX-S01 Compliance Program | P0 | L (full-day) | TX-S08, TX-S13 | Week 3 |
+| TX-S02 Observability Maturity Model | P0 | M (half-day) | TX-S10 | Week 3 |
+| TX-S11 Project Memory Infrastructure | P1 | M (half-day) | TX-S08 | Week 2 |
+| TX-S06 DR Program (RTO/RPO + Chaos) | P1 | L (full-day) | TX-S08, TX-S11 | Week 3 |
+| TX-S07 DORA Metrics | P1 | M (half-day) | TX-S11 | Week 4 |
+| TX-S04 Multi-Tenancy Architecture | P1 | M (half-day) | none | Week 3 |
+| TX-S03 i18n/l10n Design + Implementation | P1 | M (per skill) | none | Week 3-4 |
+| TX-S12 Team Scale Configuration | P1 | L (full-day) | TX-S08,11,13 | Week 4 |
+| TX-S09 Remaining Agents (req-analyst, release-mgr, sre-rev) | P1 | M (per agent) | TX-S10 | Week 4 |
+
+**Complexity Key**:
+- S = Small (1-2 hours)
+- M = Medium (half-day, 3-4 hours)
+- L = Large (full-day, 6-8 hours)
+
+### Critical Path (Minimum Viable Cross-Cutting Fix)
+
+To address the most dangerous gaps with minimum effort, the critical path is:
+
+**Sprint 1 (Week 1) — Infrastructure Foundation**:
+1. TX-S14: Create `.agent/project.yml` spec and update 3 workflows (5-ship, alpha-release, beta-release) — M complexity
+2. TX-S13: Create `.agent/rules/` and `.agent/hooks/` directory structure with initial files — M complexity
+3. TX-S08: Create `.agent/docs/phase-gates.md` and `/gate-check` command spec — M complexity
+
+Total Sprint 1: 3 × M = ~1.5 days of skill writing
+
+**Sprint 2 (Week 2) — Operational Safety**:
+1. TX-S05: `progressive_rollout_playbook` skill + `/rollout` command — L complexity
+2. TX-S09: `deployment-engineer` agent + `compliance-reviewer` agent — 2 × M = M-L
+3. TX-S11: `.agent/project-state.json` spec + `/project-status` command — M complexity
+
+Total Sprint 2: ~2.5 days
+
+**Sprint 3 (Week 3) — Compliance and Reliability**:
+1. TX-S01: `compliance_program` skill + `/compliance-audit` command — L complexity
+2. TX-S10: `sre_foundations` skill — L complexity
+3. TX-S02: `observability_maturity_model` skill — M complexity
+
+Total Sprint 3: ~2.5 days
+
+**Sprint 4 (Week 4) — Product Expansion**:
+1. TX-S03: `internationalization_design` + `i18n_implementation` skills — 2 × M
+2. TX-S04: `multi_tenancy_architecture` skill — M complexity
+3. TX-S07: `dora_metrics_tracking` skill + `/dora-report` command — M complexity
+4. TX-S09: Remaining agents — 3 × M
+
+Total Sprint 4: ~3 days
+
+**Full implementation: ~4 weeks of focused work = ~10 working days of skill/agent/command/workflow writing.**
+
+### Cross-Cutting Gap Impact Summary
+
+If NONE of these gaps are addressed, the framework:
+1. **Cannot serve any compliance-regulated market** (healthcare, fintech, government, enterprise SaaS requiring SOC2)
+2. **Cannot serve non-English markets** (no i18n guidance anywhere)
+3. **Cannot scale past one developer** without team coordination infrastructure
+4. **Cannot measure its own effectiveness** (no DORA metrics)
+5. **Cannot handle production operations** with any rigor (no SRE practices, no incident response)
+6. **Cannot prevent high-severity production incidents** (no canary gates, no progressive rollout)
+7. **Loses knowledge across sessions** (stateless architecture, no project memory)
+8. **Has disconnected phases** (no formal gate contracts, dark matter between transitions)
+
+These are not theoretical concerns — they are the operational failures that any real-world project using this framework will encounter.
+
+### Emergent Systemic Pattern: "Build-Phase Gravity"
+
+The single most important cross-cutting finding is what can be called "Build-Phase Gravity":
+The framework has gravitational mass concentrated in Phase 3 (Build) — 8 of 13 agents, 12 of 32 commands, and the deepest skill coverage (50 skills) all reside here. Every other phase is relatively lightweight.
+
+This creates a systemic distortion:
+- Phases 0-2 are thin (under-engineered upfront thinking)
+- Phase 3 is heavy (over-engineered build tooling)
+- Phases 4-7 progressively thin out (under-engineered operational lifecycle)
+- The framework implicitly teaches: "writing code is the most important activity"
+
+The corrective force needed is not just "add skills to other phases" — it is a philosophical rebalancing toward the recognition that code is written once but operated forever. The operational lifecycle (Phases 5-7) is where the framework's users spend 80% of a product's lifetime, yet it receives 20% of the framework's coverage.
+
+This Build-Phase Gravity finding is emergent — it is not visible from any single phase analysis but only from the cross-cutting view across all 11 targets.
+
+================================================================
+[END OF TX ANALYSIS — 8 LOOPS COMPLETE]
+================================================================
+
+## SUMMARY: Cross-Cutting Gaps by Category
+
+### Infrastructure Gaps (Framework Level)
+| ID | Finding | Severity |
+|----|---------|----------|
+| TX-L2-F1 | 7 of 11 phases have no dedicated agent | CRITICAL |
+| TX-L2-F2 | 0 commands for Phase 5.5, 5.75, 7 operations | HIGH |
+| TX-L2-F3 | 6 critical workflows missing (GA, rollback, incident) | HIGH |
+| TX-L2-F4 | `/orchestrate` has no cross-phase patterns | HIGH |
+| TX-L2-F5 | Rules and Hooks directories are referenced but don't exist | HIGH |
+
+### Systemic Pattern Gaps (Visible Only from TX)
+| ID | Finding | Severity |
+|----|---------|----------|
+| TX-L1-F1 | Compliance program has no cross-phase owner | CRITICAL |
+| TX-L1-F2 | Observability forms no maturity progression | CRITICAL |
+| TX-L1-F3 | Feature flags are lifecycle orphans | HIGH |
+| TX-L1-F4 | i18n/l10n completely absent | HIGH |
+| TX-L1-F5 | Multi-tenancy is assumed, not designed | HIGH |
+| TX-L1-F6 | Progressive rollout has no end-to-end story | HIGH |
+| TX-L1-F7 | DR is a one-time document, not a living practice | CRITICAL |
+| TX-L1-F8 | Capacity planning has no home | HIGH |
+
+### Phase Handoff Gaps
+| ID | Finding | Severity |
+|----|---------|----------|
+| TX-L3-F1 | All 10 phase transitions have implicit contracts | CRITICAL |
+| TX-L3-F2 | ADR, security, performance, test, dependency artifacts are "dark matter" | HIGH |
+
+### Real-World Failure Modes
+| ID | Finding | Severity |
+|----|---------|----------|
+| TX-L4-F1 | Framework fails comprehensively on real SaaS project by Phase 5.75 | CRITICAL |
+| TX-L4-F2 | Framework is stateless — no persistent project memory | HIGH |
+| TX-L5-F1 | Framework designed for solo developer, breaks at 5-person team | CRITICAL |
+| TX-L5-F2 | Compliance regime blindness (HIPAA/PCI/FedRAMP/SOC2 all unsupported) | HIGH |
+| TX-L5-F3 | Node.js/npm hardcoded in workflow infrastructure | MEDIUM |
+
+### Industry Standard Deviations
+| ID | Finding | Severity |
+|----|---------|----------|
+| TX-L6-F1 | DORA metrics absent (cannot measure framework effectiveness) | CRITICAL |
+| TX-L6-F2 | OWASP SAMM coverage: ~10-15% (framework claims security, fails security maturity) | CRITICAL |
+| TX-L6-F3 | SRE practices: SLOs, error budgets, toil, postmortems all absent | HIGH |
+| TX-L6-F4 | ISO 27001: ~8-10% technological control coverage | HIGH |
+
+### Emergent Finding (Only Visible from TX)
+**Build-Phase Gravity**: The framework has 8 agents, 12 commands, and 50 skills in Phase 3 (Build) versus 1 agent, 0 commands, and 6 skills across Phases 5-7 combined. This philosophical imbalance systematically underserves the operational lifecycle where 80% of a product's lifetime is spent.
+
+================================================================

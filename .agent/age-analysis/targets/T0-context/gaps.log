@@ -1,0 +1,998 @@
+================================================================
+[Loop 1] [Architect] [T0] 2026-02-25T08:00:00Z
+================================================================
+
+## First-Principles Decomposition of Phase 0: Context
+
+A world-class context/onboarding phase for software projects must cover these
+atomic responsibilities. I catalog them here before comparing against existing skills.
+
+### ATOMIC RESPONSIBILITY INVENTORY
+
+**A. Project Identity & State**
+A1. What is the project (mission, purpose, stakeholders)
+A2. Current health snapshot (working/broken/degraded)
+A3. Current development velocity (fast, slow, blocked)
+A4. Business constraints (budget, timeline, compliance)
+A5. Stakeholder map (decision makers, users, operators)
+
+**B. Codebase Structure**
+B1. File system layout and conventions
+B2. Entry points and startup sequences
+B3. Module/component dependency graph
+B4. Data models and schema understanding
+B5. Test inventory and coverage
+B6. Build and CI/CD pipeline topology
+
+**C. Architecture Understanding**
+C1. Architectural pattern (monolith, microservices, etc.)
+C2. Layer topology (presentation, business, data)
+C3. Data flow maps for critical paths
+C4. External integrations inventory
+C5. Event/queue topology
+C6. Scaling characteristics
+
+**D. Quality Baseline**
+D1. Code quality metrics (complexity, duplication, coverage)
+D2. Security posture scan
+D3. Dependency health and vulnerability status
+D4. Technical debt inventory with priority scoring
+D5. Performance baseline (latency, throughput)
+D6. Documentation coverage
+
+**E. Historical Context**
+E1. Past incident patterns and failure modes
+E2. Architectural decision records (what and WHY)
+E3. Tribal knowledge and undocumented gotchas
+E4. Legacy code boundaries and modernization status
+E5. Team knowledge distribution (bus factor)
+
+**F. Infrastructure & Operations**
+F1. Deployment topology (environments, regions, cloud)
+F2. Monitoring and alerting inventory
+F3. Disaster recovery posture (RTO/RPO)
+F4. Cost analysis and optimization opportunities
+F5. Secret management and IAM posture
+
+**G. Process & Governance**
+G1. Team conventions and coding standards
+G2. Documentation governance and SSoT structure
+G3. Definition of Done and contribution process
+G4. Change management and review process
+G5. Compliance and regulatory requirements
+
+**H. Knowledge Handoff**
+H1. Structured extraction from departing developers
+H2. Bus factor analysis and mitigation
+H3. Runbook completeness for critical operations
+H4. Decision archaeology from git/PR history
+
+**I. New Project Scaffolding (if greenfield)**
+I1. Tech stack selection with rationale
+I2. Project structure initialization
+I3. Baseline tooling (lint, format, test, CI)
+I4. Initial security and quality baselines
+
+**J. Research & Discovery (pre-work for brainstorm phase)**
+J1. Search before building (existing solutions)
+J2. Competitive landscape awareness
+J3. Market/domain context
+J4. User mental models and existing behavior
+
+---
+
+## Finding: Missing Business Context & Stakeholder Mapping
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: No skill in Phase 0 covers stakeholder identification, business constraints, budget, timeline, compliance obligations, or decision-making authority. The phase can tell you HOW the code works but not WHY the project exists or WHO owns decisions. The `project_context` skill references "project overview" but its template is AI-onboarding-centric, not business-context-centric. When a developer joins, they cannot answer: "Who decides what we build next?" or "What compliance regime does this system operate under?"
+### Proposed Resolution: New skill — `stakeholder_map` (Phase 0). Trigger: "Who owns this project", "Map the stakeholders", "What are the business constraints". Scope: Identifies decision makers, sponsors, end users, and operators; captures budget, timeline, compliance obligations (GDPR/HIPAA/SOC2/PCI), and political context. Produces a stakeholder matrix and constraint log.
+### Cross-Phase Impact: Phase 1 (Brainstorm) needs stakeholder clarity to run client_discovery effectively. Phase 4 (Secure) needs compliance context to know which standards apply. Phase 6 (Handoff) needs decision-maker info for sign-off workflows.
+
+================================================================
+
+## Finding: Missing Performance Baseline Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: The phase has codebase_health_audit (code quality, security, deps, tests, docs) and system_design_review (scalability, fault tolerance, consistency) and infrastructure_audit (infra topology, cost). But none of these specifically mandate capturing a performance BASELINE — p50/p95/p99 latencies for critical endpoints, throughput ceilings, cold start times. system_design_review Section 7 references performance characteristics but only as part of an architectural review, not as a standalone, time-stamped baseline artifact. Without a baseline captured at context time, later phases have no reference point to measure regression.
+### Proposed Resolution: Add explicit "Performance Baseline Capture" as a required step within system_design_review, or create a standalone `performance_baseline` skill. Trigger: "Capture performance baseline", "Benchmark the system", "Measure current latency". Scope: Captures p50/p95/p99 for critical paths, throughput limits, DB query times, and stores as a timestamped artifact for comparison in Phase 5 (Ship) and Phase 7 (Maintenance).
+### Cross-Phase Impact: Phase 5 (Ship) has no reference to compare performance against. Phase 7 (Maintenance) cannot detect degradation without baseline.
+
+================================================================
+
+## Finding: Missing Compliance & Regulatory Context Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Infrastructure_audit mentions "compliance requirements: SOC2, HIPAA, GDPR, PCI-DSS and their infrastructure implications" but only as one checkbox item in step 7 (Security Posture). No skill in Phase 0 comprehensively inventories the regulatory regime the system operates under. A new developer joining a HIPAA-covered healthcare system or a PCI-DSS payment processor needs to understand compliance obligations IMMEDIATELY — not buried in an infrastructure audit. No skill asks: What data classifications exist? What are the audit trail requirements? What are the breach notification obligations? What certifications must be maintained?
+### Proposed Resolution: New skill — `compliance_context` (Phase 0). Trigger: "What compliance requirements apply", "Map regulatory obligations", "Document data classification". Scope: Identifies applicable regulatory frameworks, data classification schema, audit requirements, breach notification obligations, and current certification status. Produces a compliance fact sheet as input to Phase 4 (Secure).
+### Cross-Phase Impact: CRITICAL impact on Phase 4 (Secure) — without compliance context, security reviews are generic rather than targeted. Phase 5 (Ship) deployment checklists cannot include compliance gates without this context.
+
+================================================================
+
+## Finding: documentation_framework Skill Is Reference Catalog, Not Action Protocol
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: The documentation_framework skill is a lookup table of document types — essentially a menu of "here are docs that exist." It lists PRD, Tech Spec, API Contract, Security Model, etc. but does NOT provide a process for inventorying what documentation currently EXISTS vs what is MISSING for a given project. A new developer joining a project needs to know: "Which of these document types do we have? Which are outdated? Which are missing?" The skill has an "APPEND-ONLY RULE" and a reference table but no audit process. The closest equivalent is codebase_health_audit section 6 (Documentation Health) but it only grades README/API docs/inline comments — not the full document type inventory.
+### Proposed Resolution: Add a "Documentation Inventory" mode to documentation_framework: a checklist-based process that walks through each document category and grades it as: Missing / Outdated (>6 months) / Draft / Current. Output is a Documentation Gap Report with the top 3 missing-but-needed documents prioritized for creation in Phase 2 (Design).
+### Cross-Phase Impact: Phase 2 (Design) assumes certain upstream docs exist (PRD, Tech Spec). If Phase 0 doesn't surface what's missing, Phase 1/2 may duplicate work or make incorrect assumptions.
+
+================================================================
+
+## Finding: codebase_navigation Is NestJS/React Opinionated
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: The codebase_navigation skill's Part 2 (Trace a Request) shows NestJS/TypeScript specific code. Part 3 (Auth Flow) references jwt.strategy.ts. Part 6 (Codebase Map Template) gives NestJS backend + React frontend as the only templates. Part 4 (Team Conventions) references package.json exclusively. This skill would confuse a developer onboarding to a Django+React, Rails+Vue, Go microservices, or Java Spring Boot project. The skill claims to be universal ("any codebase") but is functionally only useful for the NestJS/React stack.
+### Proposed Resolution: Generalize codebase_navigation to be framework-agnostic. Add language/framework detection step (Step 0). Replace NestJS-specific examples with parameterized templates that adapt to Python/Django, Ruby/Rails, Go, Java/Spring, and generic REST API patterns. Add mobile app (React Native, Flutter) and CLI tool variants.
+### Cross-Phase Impact: Phase 3 (Build) coding patterns assume different stacks. If Phase 0 navigation assumes NestJS, developers on other stacks get no onboarding structure.
+
+================================================================
+
+## Finding: search_first Is Misclassified in Phase 0
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: LOW
+### Evidence: The search_first skill is a "before writing code, check if a library exists" workflow. It belongs in Phase 3 (Build) as a pre-implementation check. In Phase 0 (Context), its value is minimal — you cannot meaningfully search for existing solutions when you haven't yet defined what you're building. Its "Integration Points" section even acknowledges this by saying the planner should invoke researcher "before Phase 1 (Architecture Review)" and the architect should consult it for "Technology stack decisions." This suggests it belongs at Phase 1-2, not Phase 0.
+### Proposed Resolution: Move search_first to Phase 1 (Brainstorm) or Phase 2 (Design) as a pre-implementation research gate. Replace it in Phase 0 with a more contextually appropriate skill. Alternatively, clarify that search_first in Phase 0 is specifically for "researching the domain and existing solutions BEFORE even brainstorming your own approach."
+### Cross-Phase Impact: LOW — search_first is useful regardless of where it lives. Misclassification causes navigational confusion but not functional failure.
+
+================================================================
+[Loop 1 ends]
+================================================================
+
+================================================================
+[Loop 2] [Architect] [T0] 2026-02-25T08:30:00Z
+================================================================
+
+## Skill Coverage Grading Against First-Principles Inventory
+
+Reading gaps.log from Loop 1: Found 5 findings. Identified 10 categories (A-J)
+of atomic responsibilities. Now grading each existing skill and mapping gaps.
+
+### SKILL DEPTH GRADES
+
+| Skill | Coverage Categories | Grade | Notes |
+|---|---|---|---|
+| architecture_recovery | B2-B4, C1-C5, E2 | THOROUGH | 8-step process, ADR generation, Mermaid diagrams. Strong. |
+| codebase_health_audit | D1-D3, D6, B5-B6 | THOROUGH | A-F grading, severity triage, 8 categories. Strong. |
+| codebase_navigation | B1-B4, G1 | ADEQUATE | NestJS-opinionated (Loop 1 finding). Good structure for NestJS. |
+| documentation_framework | G2 | SURFACE | Reference menu only. No audit protocol (Loop 1 finding). |
+| incident_history_review | E1, F2 | THOROUGH | MTTD/MTTR, pattern analysis, runbook completeness. Excellent. |
+| infrastructure_audit | F1-F5, G5 | THOROUGH | 9-step, cost analysis, DR, monitoring, security. Strong. |
+| legacy_modernization | E4 | THOROUGH | 8-step, strangler fig, parallel run, risk analysis. Strong. |
+| new_project | I1-I4 | ADEQUATE | Good skeleton but missing security baseline, quality gates, and ADR scaffolding. |
+| project_context | A1-A2 | SURFACE | AI-onboarding template only. No stakeholder/business context (Loop 1 finding). |
+| project_guidelines | G1, B1 | ADEQUATE | Example-only skill. Framework-specific. Useful as template. |
+| search_first | J1 | SURFACE | Misclassified in Phase 0. Pre-build tool not pre-context tool (Loop 1). |
+| ssot_structure | G2 | ADEQUATE | Business SSoT structure, not software-project focused. Scope mismatch. |
+| system_design_review | C1-C6, D5 | THOROUGH | 8-step, scalability/fault/consistency/API/state. Performance covered but not baseline-artifact-focused. |
+| team_knowledge_transfer | H1-H4, E3 | THOROUGH | Bus factor, shadow sessions, oral tradition, runbooks. Excellent. |
+| tech_debt_assessment | D1, D4 | THOROUGH | RICE scoring, debt register, 8-step. Strong. |
+
+### FIRST-PRINCIPLES COVERAGE HEATMAP
+
+| Category | Covered? | Skill(s) | Gap? |
+|---|---|---|---|
+| A1. Project mission/purpose | PARTIAL | project_context (AI-onboarding only) | YES — no stakeholder-grade |
+| A2. Health snapshot | YES | codebase_health_audit | NO |
+| A3. Dev velocity | NO | None | MISSING |
+| A4. Business constraints | NO | None | MISSING |
+| A5. Stakeholder map | NO | None | MISSING |
+| B1-B6. Codebase structure | YES | codebase_navigation, architecture_recovery | Partial (NestJS bias) |
+| C1-C6. Architecture | YES | architecture_recovery, system_design_review | NO |
+| D1-D3. Quality metrics | YES | codebase_health_audit, tech_debt_assessment | NO |
+| D4. Tech debt | YES | tech_debt_assessment | NO |
+| D5. Performance baseline | PARTIAL | system_design_review (step 7) | YES — no baseline artifact |
+| D6. Doc coverage | PARTIAL | codebase_health_audit (step 6) | YES — no full doc type audit |
+| E1. Incident history | YES | incident_history_review | NO |
+| E2. ADRs | PARTIAL | architecture_recovery (discovery ADRs) | YES — no living ADR process |
+| E3. Tribal knowledge | YES | team_knowledge_transfer | NO |
+| E4. Legacy boundaries | YES | legacy_modernization | NO |
+| E5. Bus factor | YES | team_knowledge_transfer | NO |
+| F1-F5. Infrastructure | YES | infrastructure_audit | NO |
+| G1. Team conventions | PARTIAL | codebase_navigation, project_guidelines | YES — no enforcement/verification |
+| G2. Doc governance | PARTIAL | ssot_structure, documentation_framework | YES — business-SSoT focused, not dev-project |
+| G3. Definition of Done | NO | None | MISSING |
+| G4. Change management | NO | None | MISSING |
+| G5. Compliance/regulatory | PARTIAL | infrastructure_audit (one step) | YES — deserves own skill |
+| H1-H4. Knowledge transfer | YES | team_knowledge_transfer | NO |
+| I1-I4. New project setup | YES | new_project | Adequate |
+| J1. Search before building | YES | search_first | Misclassified |
+| J2-J4. Market/domain | NO | None in Phase 0 | MISSING (belongs in Phase 1) |
+
+---
+
+## Finding: Development Velocity & Team Health Context Gap
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: No skill in Phase 0 captures the CURRENT STATE of the team's development process: how fast are they shipping? What is the PR cycle time? What is the deployment frequency? What is the current sprint/backlog state? A developer joining a team that is in a fire-fighting crisis needs to know this immediately — it changes everything about how they orient. DORA metrics (deployment frequency, lead time for changes, MTTR, change failure rate) are industry-standard indicators of team health that no Phase 0 skill captures. The codebase_health_audit grades the CODE but not the TEAM PROCESS.
+### Proposed Resolution: Add a "Team Velocity & DORA Metrics" section to either codebase_health_audit or project_context. Alternatively, create a lightweight `team_health_snapshot` skill. Trigger: "What is the team's current velocity", "Check DORA metrics", "How fast is this team shipping". Scope: Collects deployment frequency, PR cycle time, MTTR, change failure rate, sprint health, and current backlog state. 1-page snapshot output.
+### Cross-Phase Impact: Phase 1 (Brainstorm) prioritization frameworks need velocity context to set realistic timelines. Phase 5 (Ship) DORA metrics baseline requires knowing the starting point.
+
+================================================================
+
+## Finding: Definition of Done & Contribution Process Gap
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: No skill in Phase 0 documents the team's Definition of Done or contribution process. What does "done" mean on this team? Do PRs require tests? Code review from 2 people? QA sign-off? Design review? Documentation updates? A developer joining without this knowledge will either under-deliver (skip things the team expects) or over-deliver (waste time on things they don't). The codebase_navigation skill notes "Team Conventions" and "Read recent PRs" but does not produce a formal Definition of Done artifact. project_guidelines is an example-only template, not a process for DISCOVERING the existing conventions.
+### Proposed Resolution: Add a "Contribution Process Discovery" step to codebase_navigation or project_guidelines. Document: branch naming, PR size expectations, required reviewers, test requirements, CI gate requirements, and merge strategy (squash/rebase/merge). Output: a Contribution Guide artifact stored in `.agent/docs/0-context/`.
+### Cross-Phase Impact: Phase 3 (Build) assumes developers know how to contribute correctly. Phase 4 (Secure) review processes must align with contribution process.
+
+================================================================
+
+## Finding: ssot_structure Is Business-Operations Focused, Wrong Scope for Software Dev
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: The ssot_structure skill defines a 10-system business knowledge architecture (Strategy, Sales & Marketing, Client Delivery, Product Modules, Internal Operations, Product & Service Catalog). This is appropriate for business operations knowledge management, not for software project knowledge management. A software team's SSoT should cover: architecture docs, ADRs, API contracts, runbooks, incident history, onboarding guides, and test strategies — not "Sales Enablement" and "CRM & Pipeline." The skill is from a different domain (business consulting) and has been placed in a software dev framework without adaptation.
+### Proposed Resolution: Either (a) replace ssot_structure with a software-project-specific knowledge architecture skill, or (b) add a complementary `project_knowledge_architecture` skill that maps the software-specific knowledge graph: where do ADRs live? where do runbooks live? where do API contracts live? How are they versioned and kept current? Output: a knowledge map for the specific project.
+### Cross-Phase Impact: Every phase that produces documents needs to know WHERE those documents go. Without a software-project-appropriate SSoT structure, documents get scattered.
+
+================================================================
+[Loop 2 ends]
+================================================================
+
+================================================================
+[Loop 3] [Architect] [T0] 2026-02-25T09:00:00Z
+================================================================
+
+## Handoff Analysis: Phase 0 → Phase 1 (Brainstorm) and Phase 0 ← None
+
+Reading gaps.log: 8 findings logged. Now analyzing what falls through the cracks
+at phase boundaries. Phase 0 is the ENTRY POINT — no upstream, only downstream.
+
+### WHAT PHASE 1 (BRAINSTORM) ASSUMES PHASE 0 PROVIDED
+
+Examining Phase 1 skills and what they implicitly require from Phase 0:
+
+**client_discovery** assumes:
+- The developer knows WHO the client is and has access to them
+- There is a qualified lead or business contact (not just a codebase)
+- Business context (problem, users, budget) can be elicited
+- Phase 0 GAP: No skill ensures the business context is captured if there's NO client call possible (inherited codebase with no business owner available)
+
+**idea_to_spec** assumes:
+- The developer understands the existing system well enough to know what's feasible
+- They know the data model (to fill in the "Data" section of the spec)
+- They know API patterns (to propose endpoints consistent with existing conventions)
+- Phase 0 GAP: If architecture_recovery hasn't been run, idea_to_spec produces specs that may be architecturally incompatible with the existing system
+
+**competitive_analysis** assumes:
+- The developer knows what market/domain the product is in
+- Phase 0 GAP: No skill in Phase 0 documents the product's market positioning or domain context
+
+**product_metrics** assumes:
+- There is an existing baseline to compare against
+- The North Star metric can be defined
+- Phase 0 GAP: No skill captures the EXISTING metrics instrumentation — what is currently measured and what tool tracks it (Mixpanel? Amplitude? Custom?)
+
+**user_research** assumes:
+- User segments are identified
+- Phase 0 GAP: No skill in Phase 0 identifies the user persona segments that exist and their characteristics. user_research in Phase 1 starts from scratch each time.
+
+**prioritization_frameworks** assumes:
+- Team velocity is known (to estimate capacity)
+- Tech debt backlog is available (to balance against new features)
+- Phase 0 GAP: tech_debt_assessment exists but its output format is not explicitly designed to feed into prioritization_frameworks in Phase 1
+
+**user_story_standards** assumes:
+- Development conventions (including story format) are already documented
+- Phase 0 GAP: No skill in Phase 0 explicitly captures the team's existing user story format or backlog management tool conventions
+
+---
+
+## Finding: Missing Phase 0 → Phase 1 Handoff Artifact
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence: Phase 0 has 15 skills that each produce their own artifacts (health report, architecture diagrams, debt register, incident history, infrastructure map, etc.). But there is NO skill that SYNTHESIZES these into a Phase 0 Exit Artifact — a single document that Phase 1 can consume. Phase 1 skills (client_discovery, idea_to_spec, competitive_analysis) each assume certain context exists, but they have no standardized input from Phase 0. The transition from "understanding the system" to "brainstorming what to build next" has no bridge. A developer finishing Phase 0 has 5-10 separate documents and no clear summary of "here's what we know, here's where we stand, here are the constraints on what we can build."
+### Proposed Resolution: Create a `phase_exit_summary` skill or add a mandatory "Phase 0 Exit Checklist" template that synthesizes key findings into: (1) System health score, (2) Top 3 risks, (3) Business constraints, (4) Technical constraints, (5) Team velocity baseline, (6) Recommended next actions. This artifact is the explicit INPUT to Phase 1.
+### Cross-Phase Impact: Without a Phase 0 exit artifact, Phase 1 brainstorming is unanchored. Teams may brainstorm features that contradict existing technical constraints or underestimate the debt burden.
+
+================================================================
+
+## Finding: Missing Existing Metrics Instrumentation Inventory
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: Phase 1's product_metrics skill asks teams to define their North Star metric and AARRR framework. But it never asks: "What metrics are ALREADY being tracked? What analytics platform is in use? What events are already instrumented?" A team joining a project may discover in Phase 1 that they are designing a metrics strategy for a system that already has Mixpanel, 200 custom events, and a defined North Star — they just didn't know it. Phase 0 has NO skill that inventories existing analytics/metrics instrumentation. infrastructure_audit covers monitoring (Datadog, CloudWatch) but not product analytics (Mixpanel, Amplitude, PostHog, Segment).
+### Proposed Resolution: Add an "Analytics & Metrics Instrumentation" section to either codebase_health_audit or infrastructure_audit. Document: analytics platform in use, events currently tracked, dashboards that exist, who owns the analytics configuration. Output feeds directly into Phase 1's product_metrics skill.
+### Cross-Phase Impact: Phase 1 product_metrics will waste time designing metrics that already exist. Phase 5 (Ship) metrics verification has no baseline.
+
+================================================================
+
+## Finding: User Persona Context Missing from Phase 0
+
+### Gap Type: MISSING_HANDOFF
+### Severity: MEDIUM
+### Evidence: Phase 1's user_research skill starts each research cycle from scratch — defining user segments, recruitment criteria, and assumptions. But for an EXISTING product, user personas likely already exist (in old PRDs, customer support tickets, marketing docs, or just in team members' heads). Phase 0 has no skill that extracts and documents existing user persona knowledge. When team_knowledge_transfer interviews departing developers, it focuses on system knowledge — not user/customer knowledge. The "oral tradition capture" in team_knowledge_transfer doesn't explicitly surface user mental models or customer segment definitions.
+### Proposed Resolution: Add a "User & Customer Context" section to team_knowledge_transfer or project_context. Capture: existing user segments, known pain points, customer success patterns, support ticket themes, and any existing persona documentation. This directly populates Phase 1's user_research baseline.
+### Cross-Phase Impact: Phase 1 user_research will repeatedly rediscover knowledge that the team already had. Phase 1 client_discovery skips this if working on existing products.
+
+================================================================
+
+## Finding: No Skill Ensures Local Dev Environment Readiness
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: codebase_navigation mentions "Can a new dev build in <30 minutes?" as one item in codebase_health_audit step 5 (Build Health). But no skill ACTUALLY WALKS THROUGH the local development environment setup and verifies it works. A new developer cannot use ANY other Phase 0 skill (architecture_recovery, codebase_health_audit, system_design_review) if they cannot run the project locally. This is the most immediate practical blocker and it is buried as a single checkbox in a 105-line audit skill. There is no "Developer Environment Setup" skill that: checks prerequisites, walks through setup steps, identifies common failure points, and verifies the environment is working.
+### Proposed Resolution: Create a `dev_environment_setup` skill (Phase 0). Trigger: "Set up local development", "Get the project running", "New developer setup". Scope: Prerequisites check, dependency installation, environment variables setup (.env.example walkthrough), database seeding, test run verification, and common failure points with solutions. This is the FIRST skill any new developer should run.
+### Cross-Phase Impact: Blocking for ALL other Phase 0 skills. A developer who cannot run the project locally cannot audit health, recover architecture, or assess tech debt with confidence.
+
+================================================================
+[Loop 3 ends]
+================================================================
+
+================================================================
+[Loop 4] [Detective] [T0] 2026-02-25T09:30:00Z
+================================================================
+
+## Reverse Thinking: What MUST Have Happened if Phase 0 Completed Perfectly?
+
+Reading gaps.log: 12 findings logged across 3 loops. Now reverse-engineering
+from the ideal end-state. If a project completed Phase 0 perfectly, what artifacts
+and knowledge states MUST exist? Comparing against what existing skills produce.
+
+### IDEAL END-STATE: "Phase 0 Perfectly Complete"
+
+A developer (or AI agent) completing Phase 0 perfectly would produce:
+
+1. **System Map** — Every component, dependency, integration documented
+2. **Health Report Card** — Code quality, security, tests, docs, build: A-F grades
+3. **Architecture Decision Log** — Why the system is built the way it is
+4. **Risk Register** — Technical risks, known failure modes, blast radii
+5. **Performance Baseline** — Timestamped p50/p95/p99 for critical endpoints
+6. **Infrastructure Inventory** — Where everything runs, what it costs, DR posture
+7. **Compliance Fact Sheet** — What regulatory regime applies, current status
+8. **Stakeholder Matrix** — Who decides, who uses, who operates
+9. **Team Health Snapshot** — DORA metrics, velocity, bus factor scores
+10. **Knowledge Base** — Tribal knowledge, runbooks, oral history
+11. **Debt Register** — Prioritized tech debt with RICE scores
+12. **Local Dev Guide** — Step-by-step verified setup instructions
+13. **Phase 0 Exit Summary** — Single synthesis doc feeding Phase 1
+
+### DELTA: What Skills Actually Produce vs What Should Exist
+
+| Required Artifact | Produced By | Quality | Gap? |
+|---|---|---|---|
+| System Map | architecture_recovery | THOROUGH | NO |
+| Health Report Card | codebase_health_audit | THOROUGH | NO |
+| Architecture Decision Log | architecture_recovery (step 7) | ADEQUATE | YES — only retrospective, no living ADR process |
+| Risk Register | system_design_review (partial) | SURFACE | YES — no consolidated risk register skill |
+| Performance Baseline | system_design_review (step 7) | SURFACE | YES — not a timestamped artifact |
+| Infrastructure Inventory | infrastructure_audit | THOROUGH | NO |
+| Compliance Fact Sheet | infrastructure_audit (one step) | SURFACE | YES — buried, not standalone |
+| Stakeholder Matrix | NONE | MISSING | YES — complete gap |
+| Team Health Snapshot | NONE | MISSING | YES — complete gap |
+| Knowledge Base | team_knowledge_transfer | THOROUGH | NO |
+| Debt Register | tech_debt_assessment | THOROUGH | NO |
+| Local Dev Guide | NONE | MISSING | YES — complete gap |
+| Phase 0 Exit Summary | NONE | MISSING | YES — complete gap |
+
+---
+
+## Finding: No Consolidated Risk Register Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: "Risk" appears across multiple Phase 0 skills but is never consolidated into a single artifact. system_design_review finds SPOFs and scalability risks. codebase_health_audit finds critical/high/medium/low severity findings. incident_history_review finds failure patterns. tech_debt_assessment finds blast-radius risks. infrastructure_audit finds security and DR risks. legacy_modernization finds migration risks. But no skill produces a CONSOLIDATED RISK REGISTER — a single-source list of all risks across all dimensions, ranked by likelihood x impact, with mitigation status. This means a team finishing Phase 0 has risks scattered across 6 different documents with no unified view of "what could kill this project."
+### Proposed Resolution: Create a `risk_register` skill (Phase 0) or add a "Risk Consolidation" step as the final step of a Phase 0 exit checklist. Trigger: "Consolidate project risks", "Create risk register", "What are the top risks". Scope: Collects risks from health audit, system review, incident history, debt assessment, and infrastructure audit. Scores each as Likelihood (1-5) x Impact (1-5). Produces a prioritized risk register with mitigation owners. This directly feeds Phase 1 prioritization_frameworks.
+### Cross-Phase Impact: Phase 1 prioritization_frameworks cannot properly weight risk against features without a risk register. Phase 4 (Secure) security planning must reference risk context. Phase 5 (Ship) deployment decisions depend on known risk profile.
+
+================================================================
+
+## Finding: Architecture Decision Records Have No Living Process
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: architecture_recovery step 7 generates ADRs retroactively by analyzing existing code. But there is no skill that establishes a LIVING ADR PROCESS going forward. The difference matters: retroactive ADR generation (what architecture_recovery does) documents decisions that were already made. A living ADR process documents decisions AS THEY ARE BEING MADE, preventing knowledge loss and enabling architectural consistency. No Phase 0 skill asks: "Does this project have an ADR format and location already?" or "How should new ADRs be created as new decisions arise in Phases 1-7?" The architecture_recovery skill treats ADRs as a Phase 0 deliverable but they need to persist across all phases.
+### Proposed Resolution: Add an "ADR Process Setup" step to either architecture_recovery or new_project. Define: ADR template, storage location, numbering convention, when ADRs are required (before implementing significant technical choices), and review process. Link from Phase 2 (Design) and Phase 3 (Build) as required checkpoints.
+### Cross-Phase Impact: Phases 2, 3, and 4 routinely make architectural decisions (technology choices, security patterns, data models) with no ADR requirement. By Phase 6 (Handoff), the system once again has undocumented decisions — the exact problem Phase 0 architecture_recovery tries to solve.
+
+================================================================
+
+## Finding: new_project Skill Lacks Security & Quality Baseline Scaffolding
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: The new_project skill initializes a project with: git init, Vite frontend, NestJS backend, and an `.agent` folder. It does NOT scaffold: (1) a .github/workflows/ CI pipeline, (2) an .eslintrc and .prettierrc, (3) a pre-commit hook setup (husky/lint-staged), (4) a .env.example with required vars, (5) a SECURITY.md, (6) a test setup, or (7) a Dockerfile for reproducible dev environments. A greenfield project that skips these will accumulate the very technical debt and security gaps that Phase 0 audit skills are designed to detect. The new_project skill points to a "Blueprint Selection" system but does not specify what security/quality baselines those blueprints must include.
+### Proposed Resolution: Expand new_project to include mandatory scaffolding steps: CI pipeline template, linting/formatting config, pre-commit hooks, .env.example with documented vars, test framework setup, basic Dockerfile, and SECURITY.md. Add a "Project Quality Gates" checklist that must be checked before the first commit. Link to codebase_health_audit to verify the scaffold passes an initial health audit.
+### Cross-Phase Impact: Phase 3 (Build) assumes CI/CD exists. Phase 4 (Secure) assumes security baseline exists. Phase 5 (Ship) assumes the deployment pipeline exists. All of these are Phase 0 responsibilities for greenfield projects that new_project currently skips.
+
+================================================================
+
+## Finding: Phase 0 Has No Sequencing or Skill Selection Guide
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: Phase 0 has 15 skills covering very different scenarios: new greenfield projects (new_project), inherited legacy systems (architecture_recovery, legacy_modernization), operational takeovers (infrastructure_audit), and developer transitions (team_knowledge_transfer). But there is NO skill or guide that helps a developer decide WHICH Phase 0 skills to run and in WHAT ORDER for their specific situation. A developer joining a legacy monolith needs a very different Phase 0 sequence than one starting a greenfield SaaS. Currently, all 15 skills are presented equally with no "Phase 0 Playbook" to guide selection. The new_project skill has "When to Use" (new project) and so does each skill individually, but there is no meta-level guide.
+### Proposed Resolution: Create a `phase_0_playbook` or "Phase 0 Entry Guide" document/skill. Defines 4 scenarios: (A) Greenfield new project, (B) Joining existing codebase, (C) Legacy modernization, (D) Operational/DevOps takeover. For each, lists the recommended skill sequence in order, estimated time investment, and required outputs before proceeding to Phase 1. This is the FIRST thing any developer reads when entering Phase 0.
+### Cross-Phase Impact: Without a sequencing guide, developers either run all 15 skills (wasteful) or guess which to run (risky). This affects the quality and completeness of Phase 0 before any other phase begins.
+
+================================================================
+[Loop 4 ends]
+================================================================
+
+================================================================
+[Loop 5] [Detective] [T0] 2026-02-25T10:00:00Z
+================================================================
+
+## Failure Mode Analysis: What Goes Wrong When Context Changes
+
+Reading gaps.log: 16 findings across 4 loops. Now stress-testing each existing skill
+against different contexts: different stacks, team sizes, compliance regimes, scales.
+NOT duplicating prior findings — only surfacing NEW failure modes.
+
+### SKILL STRESS TEST MATRIX
+
+**architecture_recovery** — Failure modes:
+- SOLO DEVELOPER with no git history: Step 7 (ADR from git blame) fails completely — no PR history, no blame context. The skill assumes a team with git history.
+- MONOREPO with 50+ services: The "module-level dependency graph" instruction becomes impractical. No guidance on how to handle monorepo-specific tooling (Nx, Turborepo, Lerna).
+- COMPILED BINARY with no source: The skill assumes source code availability. Inherited compiled systems (enterprise legacy) have no source to recover from.
+- GRAPHQL API: Step 4 (Data Flow Mapping) assumes REST request/response flow. No mention of GraphQL resolvers, subscription flows, or schema introspection.
+
+**codebase_health_audit** — Failure modes:
+- POLYGLOT CODEBASE (Python + Go + Rust): Lint tool guidance is per-language but there's no guidance on aggregating scores across languages. What's the overall grade when Python is A but Go is D?
+- STARTUP WITH NO CI: Step 5 (Build Health) asks to "verify CI runs on every PR" — but many startups have no CI. The skill gives a grade but no remediation path for "CI doesn't exist yet."
+- MONOREPO: No guidance on whether to audit the monorepo as a whole or each package separately.
+
+**incident_history_review** — Failure modes:
+- BRAND NEW PRODUCT with no incidents: The skill has no "no incidents yet" mode. For a new product, this skill is not applicable but there's no guidance on what to do instead (proactive failure mode analysis, chaos engineering planning).
+- STARTUP with no monitoring tools: The skill references PagerDuty, OpsGenie, Datadog, Sentry — if none of these exist, incident collection (step 1) fails. No guidance on alternative sources.
+- HIGHLY REGULATED environment (healthcare): Incident records may be in compliance systems (not Slack), access may require legal approval, and disclosure constraints apply. No guidance for this.
+
+**infrastructure_audit** — Failure modes:
+- ON-PREMISES only (no cloud): The skill is cloud-centric (AWS, GCS, ECS, Lambda). No guidance for bare-metal servers, VMware clusters, or co-located data centers.
+- SERVERLESS-ONLY (all Lambda/Cloud Functions): Step 3 (Compute Resources) assumes instances and containers. Serverless has fundamentally different characteristics (cold starts, function size limits, per-request billing).
+- MULTI-CLOUD (AWS + GCP + Azure simultaneously): No guidance on how to audit across multiple cloud consoles or how to handle cross-cloud networking.
+- EDGE COMPUTING / CDN-first architecture: Skills does not cover edge function deployments (Cloudflare Workers, Lambda@Edge).
+
+**legacy_modernization** — Failure modes:
+- DATA MIGRATION COMPLEXITY: Step 4 (Migration Plan) mentions "data migration risks" but gives no specific guidance on zero-downtime data migration, dual-write patterns, or backfill strategies for schema changes. This is often the hardest part.
+- THIRD-PARTY DEPENDENCY with no replacement: If the legacy system depends on a vendor that is EOL and there is no modern replacement, "strategy selection" has no answer. The skill assumes a migration path exists.
+- LEGAL/IP CONSTRAINTS: Legacy code may have licensing that prevents the new system from replicating certain behaviors. The skill does not cover IP/licensing implications of modernization.
+
+**team_knowledge_transfer** — Failure modes:
+- REMOTE ASYNC TEAM: The skill assumes structured interview sessions and shadow/pair programming. For globally distributed async teams with no overlap hours, these cannot happen synchronously. No async-friendly alternative.
+- ALREADY DEPARTED developer: The skill is designed for extracting knowledge FROM someone who is still available. If the developer already left, step 2 (Structured Interview) is impossible. No forensic alternative beyond git archaeology.
+- NON-TECHNICAL stakeholders as primary knowledge holders: If business rules exist in an Excel spreadsheet owned by a non-technical product manager, the developer-interview-centric approach misses this.
+
+---
+
+## Finding: Missing Multi-Cloud & Hybrid Infrastructure Patterns
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence: infrastructure_audit is built around single-cloud (AWS-centric) deployments. The skill references ECS, Lambda, S3, EBS, CloudFormation — AWS terminology exclusively. In 2026, hybrid (on-prem + cloud) and multi-cloud architectures are common in enterprise contexts. Additionally, edge computing deployments (Cloudflare Workers, Vercel Edge, Lambda@Edge) and serverless-native architectures require fundamentally different audit approaches. A developer auditing a Cloudflare Workers + Durable Objects + R2 stack using the infrastructure_audit skill would find ~40% of the skill irrelevant and have no guidance for the other 60%.
+### Proposed Resolution: Add deployment topology variants to infrastructure_audit: (A) Single-cloud (current), (B) Multi-cloud, (C) Hybrid on-prem+cloud, (D) Serverless-native, (E) Edge-native. Each variant should have adapted checklists for its specific resources and cost models.
+### Cross-Phase Impact: Phase 5 (Ship) deployment patterns assume cloud infrastructure exists. Phase 7 (Maintenance) monitoring assumes cloud-native monitoring tools.
+
+================================================================
+
+## Finding: Forensic Archaeology Mode Missing from team_knowledge_transfer
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: team_knowledge_transfer's step 3 (Decision Archaeology) via git blame is the only mechanism for extracting knowledge when the original developer has ALREADY LEFT. But the skill is structured as "do this during the handoff period" — implying the developer is present. When inheriting a project with no handoff (departed team, acquired company, abandoned open source project), the structured interview (step 2) and shadow sessions (step 5) are impossible. The skill needs a "Dead Team Archaeology" mode that relies entirely on: git history forensics, issue tracker analysis, PR description archaeology, commit message analysis, and documentation recovery. Currently, only step 3 partially addresses this.
+### Proposed Resolution: Add a "Forensic Mode" variant to team_knowledge_transfer. Trigger: "The original team is gone", "No one to interview", "Inherited with no handoff". Process: (1) Git forensics (blame, log, bisect), (2) Issue tracker archaeology, (3) PR description mining, (4) Slack/email archive search (if accessible), (5) External artifact search (blog posts, conference talks, Stack Overflow answers by team members). Output: reconstructed decision log and tribal knowledge document.
+### Cross-Phase Impact: This is the most common real-world scenario for "joining an existing project" and the current skill handles it poorly.
+
+================================================================
+
+## Finding: No Skill Covers Open Source Contribution Onboarding
+
+### Gap Type: MISSING_SKILL
+### Severity: LOW
+### Evidence: All Phase 0 skills assume the developer OWNS or is EMPLOYED by the project. For open source contribution scenarios (developer contributing to someone else's open source project), the context is fundamentally different: the developer cannot access deployment infrastructure, cannot interview team members, cannot run codebase_health_audit comprehensively without production credentials, and must follow external contribution guidelines. codebase_navigation mentions "reviewing an open-source project before contributing" in its When to Use list but provides no adapted process for this context. The skills assume internal access that OSS contributors don't have.
+### Proposed Resolution: Add an "OSS Contributor Mode" to codebase_navigation or create a dedicated variant. Key differences: read-only analysis (no infra access), contribution guidelines discovery (CONTRIBUTING.md), good-first-issue selection, local test setup without prod credentials, community norm discovery (Discord/GitHub Discussions/Matrix).
+### Cross-Phase Impact: LOW — specialized use case. But codebase_navigation's claim to cover OSS contribution is currently hollow.
+
+================================================================
+
+## Finding: No Skill Addresses Multi-Repo (Polyrepo) Architecture
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence: All Phase 0 navigation and architecture skills assume a SINGLE REPOSITORY. architecture_recovery's dependency graph works within one repo. codebase_navigation's "First 30 Minutes" process starts at a single README. But many enterprise systems are polyrepo: the backend API is one repo, the frontend is another, infrastructure-as-code is a third, shared libraries are in a fourth. A developer onboarding to this system needs to: identify all the repos that constitute "the system", understand cross-repo dependency management (npm packages, git submodules, artifact registries), and map the full system across multiple codebases. No skill addresses how to navigate or audit a multi-repo system.
+### Proposed Resolution: Add a "Multi-Repo System Mapping" step to architecture_recovery. When multiple repos are detected: (1) Identify all repos that form the system, (2) Map cross-repo dependencies (APIs, shared packages, event contracts), (3) Identify the "system of record" repo for infrastructure and deployment. Produce a cross-repo architecture map.
+### Cross-Phase Impact: Phase 3 (Build) changes may require coordinated changes across multiple repos. Phase 5 (Ship) deployment may require coordinated releases. Without a cross-repo map, this coordination fails.
+
+================================================================
+[Loop 5 ends]
+================================================================
+
+================================================================
+[Loop 6] [Detective] [T0] 2026-02-25T10:30:00Z
+================================================================
+
+## Industry Standards Comparison: What Phase 0 Ignores
+
+Reading gaps.log: 20 findings across 5 loops. Now comparing Phase 0 against:
+DORA metrics, OWASP, SRE practices, ISO 27001, SOC2, NIST, CIS benchmarks,
+TOGAF, and software engineering research. NOT duplicating existing findings.
+
+### STANDARDS MAPPING
+
+**DORA (DevOps Research & Assessment) Four Key Metrics**
+- Deployment Frequency: infrastructure_audit mentions "deployment frequency metrics" as one item but no skill mandates measuring the DORA baseline at context time. Loop 2 finding (team velocity) partially covers this.
+- Lead Time for Changes: No skill measures this.
+- Change Failure Rate: No skill measures this.
+- MTTR (Mean Time to Restore): incident_history_review calculates MTTD/MTTR per category. PARTIAL.
+- GAP: DORA metrics are the industry gold standard for software delivery performance. Only MTTR is partially covered.
+
+**OWASP Top 10 (2025)**
+- codebase_health_audit step 2 (Security Scan) mentions "OWASP Top 10 patterns" but only enumerates: SQL injection, XSS, CSRF, insecure deserialization. The 2025 OWASP Top 10 includes: Broken Access Control (A01), Cryptographic Failures (A02), Injection (A03), Insecure Design (A04 — NEW), Security Misconfiguration (A05), Vulnerable Components (A06), Auth failures (A07), SSRF (A10 — NEW). Insecure Design and SSRF are not mentioned anywhere in Phase 0 skills.
+
+**OWASP API Security Top 10 (2023)**
+- No Phase 0 skill specifically audits API-level security. codebase_health_audit references "OWASP Top 10" generically but the API Security Top 10 (BOLA, Broken Authentication, Object-Level Auth, Unrestricted Resource Consumption, SSRF, Security Misconfiguration) requires a dedicated API security review. Phase 0 has no skill for this.
+
+**SRE (Site Reliability Engineering) Practices (Google SRE Book)**
+- SLO/SLA definitions: infrastructure_audit mentions "SLO/SLA definitions and whether they are tracked" as one item. SURFACE coverage.
+- Error budget: No skill in Phase 0 captures whether an error budget policy exists or what the current budget burn rate is.
+- Toil inventory: No skill measures operational toil (manual, repetitive work that automation should replace). SRE practice mandates toil inventory as part of system context.
+- Service Level Objectives: No skill helps teams define SLOs for a system that has none.
+
+**ISO 27001 (Information Security Management)**
+- ISO 27001 requires: Information asset inventory, risk assessment, access control review, incident management, business continuity, supplier security assessment.
+- Phase 0 partial coverage: infrastructure_audit covers access control and incident management partially. codebase_health_audit covers security scanning.
+- Gap: No Phase 0 skill performs an Information Asset Inventory (classifying all data assets by sensitivity). No skill assesses supplier/third-party security.
+
+**CIS Benchmarks (Center for Internet Security)**
+- CIS provides hardening benchmarks for specific technologies (Linux servers, Docker, Kubernetes, AWS, PostgreSQL). infrastructure_audit covers general security posture but does not reference CIS benchmarks by name or process.
+- Gap: No Phase 0 skill checks CIS benchmark compliance for the actual technologies in use. This is a CRITICAL gap for security-conscious organizations.
+
+**NIST SP 800-53 / NIST Cybersecurity Framework**
+- NIST CSF has 5 functions: Identify, Protect, Detect, Respond, Recover.
+- Phase 0 skills map to: Identify (infrastructure_audit, codebase_health_audit — PARTIAL), Protect (codebase_health_audit security scan — SURFACE), Detect (incident_history_review — PARTIAL), Respond (incident_history_review runbooks — PARTIAL), Recover (infrastructure_audit DR section — PARTIAL).
+- Gap: No skill performs a NIST CSF maturity assessment. No skill rates the organization's maturity on the NIST framework (Partial/Risk Informed/Repeatable/Adaptive).
+
+**TOGAF (The Open Group Architecture Framework)**
+- TOGAF mandates capturing: Current Architecture (Baseline), Target Architecture, Gap Analysis, Migration Planning.
+- Phase 0 captures Baseline (architecture_recovery, infrastructure_audit) but has NO Target Architecture or Gap Analysis skills.
+- Note: Target Architecture is Phase 2 (Design) territory. But TOGAF also mandates understanding the Architecture Vision (what the business wants the architecture to become) at the BEGINNING. No Phase 0 skill asks about architectural vision or desired end-state.
+
+---
+
+## Finding: OWASP API Security Top 10 Not Covered
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: codebase_health_audit step 2 references "OWASP Top 10" for web application security but does not mention the OWASP API Security Top 10 (2023), which is the relevant standard for REST/GraphQL API-heavy applications. The API Security Top 10 includes: BOLA (Broken Object Level Authorization), Broken Authentication, Broken Object Property Level Authorization, Unrestricted Resource Consumption, Broken Function Level Authorization, Unrestricted Access to Sensitive Business Flows, Server-Side Request Forgery (SSRF), Security Misconfiguration, Improper Inventory Management (undocumented APIs), and Unsafe Consumption of APIs. These are endemic to modern API-first architectures and are absent from Phase 0.
+### Proposed Resolution: Add "API Security Audit" as a dedicated step in codebase_health_audit or create a standalone `api_security_baseline` skill. Map the top-10 OWASP API risks to code-level patterns that can be checked statically or through API testing. Flag all BOLA patterns (does each API endpoint verify the caller owns the object?), check for undocumented endpoints, and verify rate limiting.
+### Cross-Phase Impact: Phase 4 (Secure) security reviews will miss API-specific vulnerabilities if Phase 0 doesn't establish the API security baseline. Phase 3 (Build) will implement endpoints with unchecked BOLA patterns.
+
+================================================================
+
+## Finding: SRE Error Budget & Toil Inventory Missing
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence: Google SRE practices (now industry standard for reliability-focused teams) mandate: (1) Service Level Objectives with error budgets, (2) Toil inventory and reduction targets, (3) Production readiness reviews before launch. infrastructure_audit mentions "SLO/SLA definitions and whether they are tracked" as one of nine steps, but does not: help define SLOs from scratch, calculate error budget consumption, or measure current toil levels. No Phase 0 skill asks: "How much operational toil does this system generate per week?" or "What is the current error budget burn rate?" For teams adopting SRE practices, this is critical baseline information.
+### Proposed Resolution: Add an "SRE Baseline" section to infrastructure_audit covering: (1) SLO inventory (do they exist? what are they?), (2) Error budget policy (how much downtime is acceptable? what's the burn rate?), (3) Toil inventory (manual tasks that should be automated), (4) Production readiness criteria. This is especially important before Phase 5 (Ship) where production readiness is evaluated.
+### Cross-Phase Impact: Phase 5 (Ship) Production Readiness depends on knowing SLOs. Phase 7 (Maintenance) SLO tracking requires a baseline established in Phase 0.
+
+================================================================
+
+## Finding: No Supply Chain Security Assessment
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: Following Log4Shell (2021), XZ Utils (2024), and increasing supply chain attacks, NIST SP 800-161, CISA guidance, and the OpenSSF Scorecard all mandate software supply chain security assessments. codebase_health_audit step 3 (Dependency Health) checks for "unmaintained packages" and CVEs via `npm audit` / `pip audit`, but does NOT assess: (1) SBOM (Software Bill of Materials) existence, (2) Transitive dependency provenance, (3) Code signing and artifact integrity verification, (4) Dependency confusion attack surface (private packages resolvable from public registries), (5) Build pipeline integrity (are GitHub Actions pinned by hash?), (6) OpenSSF Scorecard metrics. Post-2024, supply chain security is a table stakes audit item that Phase 0 skips.
+### Proposed Resolution: Add a "Supply Chain Security" step to codebase_health_audit or create a `supply_chain_audit` skill. Cover: SBOM generation (SPDX/CycloneDX format), dependency confusion check, GitHub Actions pin-by-hash audit, code signing verification, and OpenSSF Scorecard run. Flag any unsigned artifacts or unhashed Actions pins as HIGH severity.
+### Cross-Phase Impact: Phase 4 (Secure) will miss supply chain attack vectors. Phase 5 (Ship) CI/CD pipeline security is unverified without this baseline.
+
+================================================================
+
+## Finding: No Privacy Engineering Baseline (GDPR/CCPA/PIPEDA)
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: Phase 0 has no skill that performs a Privacy Engineering baseline — understanding what PII/personal data the system processes, how it's stored, how long it's retained, how data subjects can exercise rights (access, deletion, portability), and whether consent management exists. infrastructure_audit step 7 mentions "GDPR" once in a list of compliance requirements but does not provide any GDPR-specific audit process. With GDPR fines reaching hundreds of millions of euros and US state privacy laws (CCPA, VCDPA, CTDPA) proliferating, a developer joining ANY product that processes personal data needs a privacy engineering baseline BEFORE they touch the code. Loop 1 found compliance_context as missing — this is the specific privacy engineering dimension.
+### Proposed Resolution: Expand the proposed compliance_context skill to include a "Privacy Engineering Baseline" section: (1) Personal data inventory (what PII is collected, stored, shared), (2) Legal basis for processing, (3) Data retention policies and automated deletion, (4) Data subject rights implementation (DSAR process), (5) Consent management, (6) Data breach notification procedures. This is distinct from general security and deserves explicit coverage.
+### Cross-Phase Impact: Phase 3 (Build) features that collect data will be built without privacy-by-design principles if Phase 0 doesn't establish the baseline. Phase 4 (Secure) must know the privacy posture. Phase 6 (Handoff) documentation must include privacy obligations.
+
+================================================================
+
+## Finding: No Accessibility (WCAG) Baseline Assessment
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence: For any product with a user interface, WCAG 2.1/2.2 compliance is a legal requirement in the EU (European Accessibility Act 2025), UK (PSBAR), Canada (ACA), and increasingly the US (ADA). No Phase 0 skill includes an accessibility audit or baseline. codebase_health_audit covers code quality, security, and docs — but not accessibility. A developer joining a product with a UI should know: What is the current WCAG conformance level (A/AA/AAA)? Are there known accessibility failures? Is there an accessibility testing process? This is especially critical if the product serves public sector or enterprise customers in the EU.
+### Proposed Resolution: Add an "Accessibility Baseline" step to codebase_health_audit. Check: automated accessibility scanner results (axe, Lighthouse, WAVE), keyboard navigability, screen reader compatibility (tested with NVDA/VoiceOver), color contrast ratios, and aria label coverage. Grade as A/AA/AAA or "Non-Conformant." Flag any WCAG 2.1 AA failures.
+### Cross-Phase Impact: Phase 2 (Design) must make accessibility a design constraint if the baseline is known. Phase 3 (Build) component development must include accessibility from the start, not as a retrofit.
+
+================================================================
+[Loop 6 ends]
+================================================================
+
+================================================================
+[Loop 7] [Builder] [T0] 2026-02-25T11:00:00Z
+================================================================
+
+## Solution Specifications for All Confirmed Gaps
+
+Reading gaps.log: 25 findings across 6 loops. Now speccing solutions.
+Referencing specific loops: L1=Loop1, L2=Loop2, etc.
+
+### PRIORITIZED GAP RESOLUTION PLAN
+
+---
+
+### SOLUTION 1: dev_environment_setup (NEW SKILL)
+**References**: L3-Finding-4 (No skill ensures local dev readiness)
+**Phase**: 0-context
+**Priority**: P0 — CRITICAL (blocking for all other Phase 0 skills)
+**Trigger Commands**:
+- "Set up local development environment"
+- "Get this project running locally"
+- "New developer setup"
+- "I just cloned the repo, what do I do?"
+
+**Scope** (3 sentences): A step-by-step guided process that takes a developer from a fresh clone to a fully operational local development environment. Covers prerequisite verification (Node/Python/Go/Rust version, Docker, databases), dependency installation, environment variable setup from .env.example with explanations, database seeding, and a verification step that runs the test suite to confirm everything works. Includes a troubleshooting guide for the 10 most common setup failures (port conflicts, missing env vars, database connection errors, version mismatches) and tracks a "time to first green build" metric for future improvement.
+
+**Type**: New SKILL.md
+**Estimated Effort**: M (half-day to write)
+
+---
+
+### SOLUTION 2: phase_0_playbook (NEW SKILL — META)
+**References**: L4-Finding-4 (No sequencing or skill selection guide)
+**Phase**: 0-context (entry point)
+**Priority**: P0 — CRITICAL (enables correct Phase 0 navigation)
+**Trigger Commands**:
+- "I'm starting Phase 0"
+- "New project Phase 0"
+- "Joining a project, where to start"
+- "Phase 0 entry"
+- "What Phase 0 skills do I need"
+
+**Scope** (3 sentences): A meta-skill that determines the correct Phase 0 skill sequence based on project scenario — defining four archetypes: Greenfield (new project from scratch), Inherit (existing codebase, original team available), Archaeological (existing codebase, original team gone), and Operational Takeover (taking over DevOps/infra ownership). For each archetype, specifies an ordered skill sequence, estimated time investment per skill, and required artifacts before Phase 1 can begin. Functions as the Phase 0 "entry point" — the first thing read before any other skill is activated.
+
+**Type**: New SKILL.md (top-level in 0-context, perhaps `00_PLAYBOOK.md`)
+**Estimated Effort**: S (1-2 hours)
+
+---
+
+### SOLUTION 3: stakeholder_map (NEW SKILL)
+**References**: L1-Finding-1 (Missing business context & stakeholder mapping)
+**Phase**: 0-context
+**Priority**: P1 — HIGH
+**Trigger Commands**:
+- "Who owns this project"
+- "Map the stakeholders"
+- "What are the business constraints"
+- "Who decides what we build"
+- "Document decision makers"
+
+**Scope** (3 sentences): Identifies and documents all parties with decision-making authority, funding, operational responsibility, and end-user representation for the project — producing a stakeholder matrix with name, role, contact, and decision scope. Captures business constraints: budget envelope, fixed deadline commitments, compliance obligations (GDPR/HIPAA/SOC2/PCI), and political constraints that affect what can be changed. Produces a one-page Stakeholder & Constraints Fact Sheet that is an explicit input to Phase 1 client_discovery and Phase 4 compliance planning.
+
+**Type**: New SKILL.md
+**Estimated Effort**: S (1-2 hours)
+
+---
+
+### SOLUTION 4: compliance_context (NEW SKILL — includes Privacy Engineering)
+**References**: L1-Finding-3 (Missing compliance context), L6-Finding-4 (Privacy Engineering baseline)
+**Phase**: 0-context
+**Priority**: P1 — HIGH
+**Trigger Commands**:
+- "What compliance requirements apply to this project"
+- "Map regulatory obligations"
+- "Document data classification"
+- "Privacy engineering baseline"
+- "GDPR audit"
+- "What data do we process"
+
+**Scope** (3 sentences): Inventories all applicable regulatory frameworks (GDPR, CCPA, HIPAA, PCI-DSS, SOC2, ISO 27001, FedRAMP) based on product type, geography, and customer segment — producing a Compliance Fact Sheet with certification status, audit schedule, and breach notification obligations. Performs a Personal Data Inventory (what PII is collected, stored, retained, shared, and deleted), documents the legal basis for processing, and verifies consent management and data subject rights implementation (DSAR process). Produces a compliance posture score (Compliant/Partial/Non-Compliant) per framework that directly feeds Phase 4 (Secure) security requirements and Phase 5 (Ship) deployment checklists.
+
+**Type**: New SKILL.md
+**Estimated Effort**: L (full day — compliance is complex)
+
+---
+
+### SOLUTION 5: risk_register (NEW SKILL)
+**References**: L4-Finding-1 (No consolidated risk register skill)
+**Phase**: 0-context
+**Priority**: P1 — HIGH
+**Trigger Commands**:
+- "Consolidate project risks"
+- "Create risk register"
+- "What are the top risks for this project"
+- "Risk assessment"
+- "What could kill this project"
+
+**Scope** (3 sentences): Aggregates risks from all other Phase 0 skill outputs (health audit findings, system design SPOFs, incident patterns, debt items, infrastructure gaps) into a single, scored risk register — rating each risk on Likelihood (1-5) x Impact (1-5) x Velocity (time-sensitive vs slow-moving). Assigns each risk to a category (Technical, Security, Compliance, Operational, Business, Team) with a mitigation status (Unmitigated, Partial, Mitigated) and an owner. Produces a Risk Heat Map and a Top 5 Priority Risks list that is the primary input to Phase 1 prioritization_frameworks when deciding what to build vs what to fix.
+
+**Type**: New SKILL.md
+**Estimated Effort**: M (half-day)
+
+---
+
+### SOLUTION 6: phase_exit_summary (NEW SKILL)
+**References**: L3-Finding-1 (Missing Phase 0 → Phase 1 handoff artifact)
+**Phase**: 0-context (final step)
+**Priority**: P1 — HIGH
+**Trigger Commands**:
+- "Complete Phase 0"
+- "Phase 0 exit summary"
+- "Summarize context findings"
+- "Prepare Phase 1 handoff"
+- "What did we learn in Phase 0"
+
+**Scope** (3 sentences): A synthesis skill that reads all Phase 0 artifacts and produces a single "Phase 0 Exit Brief" — a 1-2 page document covering: (1) System health score and top findings, (2) Top 3 technical risks with mitigation status, (3) Business constraints that affect Phase 1 scope, (4) Team velocity baseline (DORA metrics if available), (5) Recommended first actions for Phase 1, (6) Phase 0 skills completed and skills deliberately skipped with rationale. This document IS the formal handoff from Phase 0 to Phase 1 — Phase 1 skills that need context (idea_to_spec, competitive_analysis, prioritization_frameworks) reference it as their input. Without this artifact, Phase 0 completion is undefined.
+
+**Type**: New SKILL.md
+**Estimated Effort**: S (1-2 hours)
+
+---
+
+### SOLUTION 7: supply_chain_audit (NEW SKILL)
+**References**: L6-Finding-3 (No supply chain security assessment)
+**Phase**: 0-context
+**Priority**: P1 — HIGH (post-2024 table-stakes security)
+**Trigger Commands**:
+- "Audit supply chain security"
+- "Generate SBOM"
+- "Check dependency provenance"
+- "Software composition analysis"
+- "OpenSSF scorecard"
+
+**Scope** (3 sentences): Performs a software supply chain security assessment covering: SBOM generation in SPDX or CycloneDX format, dependency confusion attack surface analysis (private package names resolvable from public registries), GitHub Actions/CI pipeline hash-pinning verification, code signing and artifact integrity check, and OpenSSF Scorecard execution with score interpretation. Flags any unhashed CI Actions references as HIGH, any dependency confusion risks as CRITICAL, and produces a Supply Chain Security Score (0-10) aligned with OpenSSF Scorecard methodology. This skill complements codebase_health_audit (which does CVE scanning) by focusing on provenance, integrity, and build pipeline security rather than vulnerability content.
+
+**Type**: New SKILL.md
+**Estimated Effort**: M (half-day)
+
+---
+
+### SOLUTION 8: Enhancements to Existing Skills (Grouped)
+
+**8a. codebase_navigation — Framework-Agnostic Generalization**
+**References**: L1-Finding-5 (NestJS-opinionated)
+**Priority**: P2 — MEDIUM
+**Change**: Add "Step 0: Language & Framework Detection" before all existing steps. Replace NestJS-specific code examples with multi-language examples (NestJS, Django, Rails, Go/Gin, Spring Boot). Add framework-specific sub-templates for the Codebase Map section. Add mobile and CLI variants.
+**Type**: Edit existing SKILL.md
+**Estimated Effort**: M (half-day)
+
+**8b. documentation_framework — Add Documentation Audit Mode**
+**References**: L1-Finding-4 (Reference catalog vs action protocol)
+**Priority**: P2 — MEDIUM
+**Change**: Add a "Documentation Inventory" section before the reference catalog. Checklist walks through each document type and grades it: Missing / Outdated / Draft / Current. Output is a Documentation Gap Report identifying top 3 needed documents. Add "Audit Existing Docs" as a trigger command.
+**Type**: Edit existing SKILL.md
+**Estimated Effort**: S (1-2 hours)
+
+**8c. new_project — Security & Quality Baseline Scaffolding**
+**References**: L4-Finding-3 (Lacks security/quality scaffolding)
+**Priority**: P1 — HIGH
+**Change**: Add mandatory scaffolding steps after git init: CI pipeline template (.github/workflows/ci.yml), linting config (.eslintrc / pyproject.toml), pre-commit hooks (husky or pre-commit), .env.example with ALL required vars documented, test framework config, basic Dockerfile, SECURITY.md template, and LICENSE file. Add "Project Quality Gates" checklist before first commit.
+**Type**: Edit existing SKILL.md
+**Estimated Effort**: M (half-day)
+
+**8d. codebase_health_audit — OWASP API Security & Supply Chain Updates**
+**References**: L6-Finding-1 (OWASP API Security not covered), L6-Finding-3 (supply chain)
+**Priority**: P1 — HIGH
+**Change**: Add OWASP API Security Top 10 checklist to step 2. Add SSRF and Insecure Design to the existing OWASP reference. Add a supply chain mini-check (SBOM existence, CI pin verification) — full supply chain audit defers to supply_chain_audit skill.
+**Type**: Edit existing SKILL.md
+**Estimated Effort**: S (1-2 hours)
+
+**8e. codebase_health_audit — Accessibility Baseline**
+**References**: L6-Finding-5 (No WCAG baseline)
+**Priority**: P2 — MEDIUM
+**Change**: Add "Accessibility Health" as a category in the Health Dashboard. Check automated tools (axe, Lighthouse a11y score), keyboard navigability, ARIA usage. Grade A (WCAG 2.1 AA), B (mostly conformant), C (known failures), D (no accessibility), F (blocking barriers).
+**Type**: Edit existing SKILL.md
+**Estimated Effort**: S (1-2 hours)
+
+**8f. team_knowledge_transfer — Forensic Mode**
+**References**: L5-Finding-2 (Forensic archaeology mode missing)
+**Priority**: P1 — HIGH
+**Change**: Add "Forensic Mode" variant triggered by "original team gone" / "no one to interview". Process: git log forensics with `git log --all --oneline --graph`, issue tracker archaeology, PR description mining, external artifact search (blog posts, conference talks). Produces reconstructed decision log without live interviews.
+**Type**: Edit existing SKILL.md
+**Estimated Effort**: S (1-2 hours)
+
+**8g. infrastructure_audit — Multi-Cloud & Serverless Variants**
+**References**: L5-Finding-1 (Multi-cloud/hybrid infrastructure gaps)
+**Priority**: P2 — MEDIUM
+**Change**: Add topology detection step (Single-cloud/Multi-cloud/Hybrid/Serverless/Edge). For each topology, provide adapted audit sections. Add Serverless-specific items (function inventory, cold start measurement, per-request cost model) and Edge-specific items (Worker deployment, KV/Durable Objects, Cache API).
+**Type**: Edit existing SKILL.md
+**Estimated Effort**: M (half-day)
+
+**8h. infrastructure_audit — SRE Error Budget & Toil Inventory**
+**References**: L6-Finding-2 (SRE error budget missing)
+**Priority**: P2 — MEDIUM
+**Change**: Add "SRE Baseline" section: SLO inventory, error budget policy (budget consumed in last 30/90 days), toil inventory (list recurring manual tasks > 30 min/week). Add as step 6.5 between monitoring and security posture.
+**Type**: Edit existing SKILL.md
+**Estimated Effort**: S (1-2 hours)
+
+**8i. architecture_recovery — Living ADR Process**
+**References**: L4-Finding-2 (ADRs have no living process)
+**Priority**: P2 — MEDIUM
+**Change**: Add step 9 (after diagram generation): "ADR Process Establishment." Define: ADR template location (.agent/docs/decisions/NNNN-title.md), numbering convention, trigger criteria (any decision that would surprise a new developer), review process, and link back to this step from Phase 2 and Phase 3 skill headers.
+**Type**: Edit existing SKILL.md
+**Estimated Effort**: S (1-2 hours)
+
+**8j. project_context — User & Customer Context Section**
+**References**: L3-Finding-3 (User persona context missing)
+**Priority**: P2 — MEDIUM
+**Change**: Add "User & Customer Context" section to the context template: existing user segments, known pain points, customer support ticket themes, persona documentation location, and key customer success patterns. This populates Phase 1 user_research baseline.
+**Type**: Edit existing SKILL.md
+**Estimated Effort**: S (1-2 hours)
+
+---
+
+### SOLUTION 9: ssot_structure — Scope Clarification or Replacement
+**References**: L2-Finding-3 (Business SSoT wrong scope for software dev)
+**Priority**: P3 — LOW
+**Change**: Either (a) rename/scope the skill as "Business Operations SSoT" and add a companion `project_knowledge_architecture` skill that maps software project knowledge (ADRs, runbooks, API contracts, incident history, onboarding), or (b) update ssot_structure to include a software project variant alongside the business variant.
+**Type**: Edit existing SKILL.md + optional new companion
+**Estimated Effort**: M (half-day if new companion added)
+
+================================================================
+[Loop 7 ends]
+================================================================
+
+================================================================
+[Loop 8] [Builder] [T0] 2026-02-25T11:30:00Z
+================================================================
+
+## Dependency Mapping, Complexity Classification & Infrastructure Requirements
+
+Reading gaps.log: Solutions 1-9 specified in Loop 7. Now mapping dependencies
+between solutions, classifying build complexity, and identifying which need
+framework infrastructure vs standalone SKILL.md.
+
+### DEPENDENCY GRAPH FOR PROPOSED SOLUTIONS
+
+The following diagram shows which solutions DEPEND ON others being implemented first:
+
+```
+phase_0_playbook (S2)
+    └── depends on: all other solutions being defined (write last)
+
+dev_environment_setup (S1)
+    └── no dependencies — foundational, write first
+    └── ENABLES: all other Phase 0 skills (blocking blocker)
+
+stakeholder_map (S3)
+    └── no dependencies
+    └── OUTPUT feeds: compliance_context (S4), phase_exit_summary (S6)
+
+compliance_context (S4)
+    └── depends on: stakeholder_map (S3) for business context
+    └── OUTPUT feeds: risk_register (S5), phase_exit_summary (S6)
+
+risk_register (S5)
+    └── depends on: codebase_health_audit outputs, system_design_review outputs,
+                   incident_history_review outputs, tech_debt_assessment outputs
+    └── depends on: compliance_context (S4) for compliance risks
+    └── OUTPUT feeds: phase_exit_summary (S6), Phase 1 prioritization_frameworks
+
+phase_exit_summary (S6)
+    └── depends on: all other Phase 0 skills completing
+    └── depends on: risk_register (S5) as primary input
+    └── depends on: stakeholder_map (S3) for constraints
+    └── OUTPUT: handoff to Phase 1 (final artifact)
+
+supply_chain_audit (S7)
+    └── depends on: codebase_health_audit (conceptually — same tooling ecosystem)
+    └── no blocking dependencies — standalone skill
+
+Existing skill edits (S8a-S8j, S9):
+    └── no inter-dependencies (each targets a specific skill)
+    └── S8d (codebase_health_audit OWASP update) should incorporate S7 reference
+    └── S8i (architecture_recovery ADR process) should cross-link to phase_0_playbook
+```
+
+### RECOMMENDED IMPLEMENTATION SEQUENCE
+
+**Week 1 — Foundations (P0 items)**
+1. `dev_environment_setup` (S1) — standalone, no deps, highest ROI, P0
+2. `phase_0_playbook` (S2) — write last in Week 1 after other skills are defined
+
+**Week 2 — High Impact New Skills (P1 items)**
+3. `stakeholder_map` (S3) — no deps, feeds downstream
+4. `supply_chain_audit` (S7) — no deps, standalone, industry-required
+5. `team_knowledge_transfer` Forensic Mode (S8f) — most common real scenario
+6. `new_project` scaffold expansion (S8c) — high ROI for greenfield projects
+7. `codebase_health_audit` OWASP+supply chain updates (S8d)
+
+**Week 3 — Integration Skills (P1 completion)**
+8. `compliance_context` (S4) — depends on S3 being done
+9. `risk_register` (S5) — depends on S4 and existing audit skills
+10. `phase_exit_summary` (S6) — depends on S3, S4, S5 being defined
+
+**Week 4 — Enhancement Backlog (P2 items)**
+11. `codebase_navigation` generalization (S8a)
+12. `documentation_framework` audit mode (S8b)
+13. `infrastructure_audit` multi-cloud (S8g)
+14. `infrastructure_audit` SRE baseline (S8h)
+15. `codebase_health_audit` accessibility (S8e)
+16. `architecture_recovery` living ADR process (S8i)
+17. `project_context` user context section (S8j)
+
+**Backlog (P3 items)**
+18. `ssot_structure` scope clarification (S9)
+19. OSS contributor mode (mentioned in L5, low priority)
+
+---
+
+### COMPLEXITY CLASSIFICATION TABLE
+
+| Solution | Type | Complexity | Infra Needed? | Standalone SKILL.md? |
+|---|---|---|---|---|
+| dev_environment_setup | New SKILL | M (half-day) | No | Yes |
+| phase_0_playbook | New SKILL | S (1-2hrs) | No | Yes (meta-skill) |
+| stakeholder_map | New SKILL | S (1-2hrs) | No | Yes |
+| compliance_context | New SKILL | L (full day) | No | Yes |
+| risk_register | New SKILL | M (half-day) | No | Yes |
+| phase_exit_summary | New SKILL | S (1-2hrs) | No | Yes |
+| supply_chain_audit | New SKILL | M (half-day) | No | Yes |
+| 8a: nav generalization | Edit existing | M (half-day) | No | No — edit only |
+| 8b: doc framework audit | Edit existing | S (1-2hrs) | No | No — edit only |
+| 8c: new_project scaffold | Edit existing | M (half-day) | No | No — edit only |
+| 8d: health audit OWASP | Edit existing | S (1-2hrs) | No | No — edit only |
+| 8e: health audit a11y | Edit existing | S (1-2hrs) | No | No — edit only |
+| 8f: forensic mode | Edit existing | S (1-2hrs) | No | No — edit only |
+| 8g: infra multi-cloud | Edit existing | M (half-day) | No | No — edit only |
+| 8h: infra SRE baseline | Edit existing | S (1-2hrs) | No | No — edit only |
+| 8i: ADR living process | Edit existing | S (1-2hrs) | No | No — edit only |
+| 8j: project context UX | Edit existing | S (1-2hrs) | No | No — edit only |
+| 9: ssot scope clarify | Edit existing | M (half-day) | No | Companion optional |
+
+**Total Estimated Effort**:
+- New SKILL.md files: 7 new skills = ~3 full days
+- Existing skill edits: 10 edits = ~1.5 full days
+- **Total: ~4.5 full days** to close all confirmed gaps
+
+**Infrastructure Notes**: None of the proposed solutions require new agent types, new command infrastructure, or framework changes. All are standalone SKILL.md files or edits to existing ones. The `phase_0_playbook` meta-skill is unique — it should be named `00_PLAYBOOK.md` or referenced in the Phase 0 README to ensure it is discovered first.
+
+---
+
+## Finding: Missing Phase 0 README / Discovery Mechanism
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: Reviewing the implementation sequence above reveals a meta-gap: even if phase_0_playbook is created, there is no guaranteed mechanism for a developer to discover it FIRST. The skills directory `0-context/` has 15 folders, all equal-weight, no README. A developer who lands in this directory has no guide pointing them to start with phase_0_playbook rather than, say, architecture_recovery or codebase_navigation. Without a README or index in the 0-context directory itself, the playbook is just one of N equal-weight files. The framework has a top-level `.agent/skills/README.md` but does not specify per-phase entry points.
+### Proposed Resolution: Create a `README.md` in `.agent/skills/0-context/` that: (1) Lists the four Phase 0 archetypes, (2) Points to phase_0_playbook as the entry point, (3) Shows the skill dependency graph, (4) Documents which skills produce which artifacts. This is a documentation artifact, not a SKILL.md. Cost: S (1 hour). Alternatively, name phase_0_playbook as `START_HERE.md` to make it immediately discoverable.
+### Cross-Phase Impact: Affects discoverability of all Phase 0 improvements. Without it, new skills get created but may never be discovered.
+
+================================================================
+
+## FINAL SUMMARY: 8-LOOP AGE ANALYSIS — PHASE 0 CONTEXT
+
+### Confirmed Gap Count by Type
+| Gap Type | Count | Examples |
+|---|---|---|
+| MISSING_SKILL | 9 | dev_environment_setup, stakeholder_map, compliance_context, risk_register, phase_exit_summary, supply_chain_audit, phase_0_playbook, team_health_snapshot, phase_0_README |
+| SHALLOW_COVERAGE | 8 | documentation_framework (catalog not audit), codebase_navigation (NestJS-only), new_project (missing scaffold), ssot_structure (wrong domain), ADR (no living process), new_project (no security baseline), architecture_recovery (no multi-repo), codebase_health_audit (no OWASP API or a11y) |
+| MISSING_HANDOFF | 3 | No Phase 0→Phase 1 exit artifact, no user persona handoff, no metrics instrumentation handoff |
+| FAILURE_MODE_UNCOVERED | 4 | Multi-cloud infra, forensic archaeology, OSS contribution, multi-repo systems |
+| INDUSTRY_DEVIATION | 5 | OWASP API Security, SRE error budgets, supply chain (SBOM), privacy engineering, WCAG accessibility |
+
+### Priority Summary
+| Priority | Count | Items |
+|---|---|---|
+| P0 CRITICAL | 2 | dev_environment_setup, phase_0_playbook |
+| P1 HIGH | 8 | stakeholder_map, compliance_context, risk_register, phase_exit_summary, supply_chain_audit, new_project scaffold, forensic mode, OWASP API update |
+| P2 MEDIUM | 8 | nav generalization, doc audit mode, multi-cloud infra, SRE baseline, ADR living process, accessibility, project context UX, multi-repo mapping |
+| P3 LOW | 2 | ssot_structure scope, OSS contributor mode |
+
+### Top 3 Highest-Impact Improvements
+1. **dev_environment_setup** — Unblocks ALL other Phase 0 work. The most immediate practical gap.
+2. **phase_exit_summary** — Creates the bridge to Phase 1 that currently doesn't exist. Phase 0 has no defined "done state."
+3. **risk_register** — Consolidates scattered risk findings into Phase 1-ready input. Currently, teams complete Phase 0 with risks in 6 separate documents.
+
+================================================================
+[Loop 8 ends]
+================================================================
+
+## AGE ANALYSIS COMPLETE — T0 CONTEXT PHASE
+## Total Findings: 25+ | New Skills Proposed: 7 | Skill Edits Proposed: 10
+## Logged: 2026-02-25T08:00:00Z — 2026-02-25T11:30:00Z
+================================================================
+
+
+

@@ -285,4 +285,81 @@ Is this query vulnerable to injection?
 
 ---
 
-*Skill Version: 2.0 | Merged from: bug_troubleshoot + claude_verification | Updated: January 26, 2026*
+---
+
+## Agent Automation
+
+> Use the **code-reviewer** agent (`.agent/agents/code-reviewer.md`) for automated reviews.
+> Invoke via: `/code-review`
+
+### Severity Classification Matrix
+
+When reviewing code, classify issues by severity:
+
+| Severity | Description | Action |
+|----------|-------------|--------|
+| CRITICAL | Security vulnerability, data loss risk | Block merge |
+| HIGH | Bug, performance regression, missing test | Must fix before merge |
+| MEDIUM | Code smell, style violation, missing docs | Should fix, can defer |
+| LOW | Nitpick, naming suggestion, optional improvement | Optional |
+
+### Confidence Filtering
+
+Only report issues with confidence > 0.7. For lower-confidence observations, prefix with "Consider:" rather than stating as a definite issue.
+
+### Coding Standards Quick Reference
+
+These principles should be applied during every code review:
+
+#### Code Quality Principles
+
+- **Readability First**: Code is read more than written. Clear names, self-documenting code preferred over comments.
+- **KISS**: Simplest solution that works. No premature optimization. Easy to understand > clever code.
+- **DRY**: Extract common logic into functions. Share utilities across modules.
+- **YAGNI**: Don't build features before they're needed. Add complexity only when required.
+
+#### TypeScript Patterns to Enforce
+
+```typescript
+// Enforce immutability — use spread operator, not mutation
+const updated = { ...original, name: 'New' }  // GOOD
+original.name = 'New'                          // BAD
+
+// Enforce parallel async when independent
+const [a, b, c] = await Promise.all([fetchA(), fetchB(), fetchC()])  // GOOD
+
+// Enforce proper types — reject 'any'
+function process(input: string): Result { }  // GOOD
+function process(input: any): any { }        // BAD
+
+// Enforce named constants over magic numbers
+const MAX_RETRIES = 3;                       // GOOD
+if (retryCount > 3) { }                      // BAD
+```
+
+#### React Patterns to Enforce
+
+- Functional components with typed props interfaces
+- `useMemo` / `useCallback` for expensive computations and callbacks
+- Functional state updates: `setState(prev => prev + 1)` not `setState(count + 1)`
+- Avoid ternary hell in JSX — use `&&` for conditional rendering
+- Lazy load heavy components with `React.lazy()` + `Suspense`
+
+#### Code Smell Thresholds
+
+| Smell | Threshold | Action |
+|-------|-----------|--------|
+| Long function | > 50 lines | Extract methods |
+| Deep nesting | > 3 levels | Early returns |
+| God class | > 300 lines, 10+ methods | Split into focused services |
+| Duplicate code | Same logic in 2+ places | Extract shared utility |
+
+#### Comment Standards
+
+- Comment **WHY**, never **WHAT** — the code shows what, comments explain intent
+- Use JSDoc with `@param`, `@returns`, `@throws`, `@example` for public APIs
+- Flag deliberate deviations: `// Deliberately using mutation here for performance`
+
+---
+
+*Skill Version: 2.1 | Merged from: bug_troubleshoot + claude_verification + ECC coding-standards | Updated: February 2026*

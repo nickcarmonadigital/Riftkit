@@ -28,23 +28,67 @@
 | `/audit` | Security/quality review |
 | `/handoff` | Session end or AI handoff |
 
-See `.agent/workflows/README.md` for details.
+See `.agent/workflows/WORKFLOWS_README.md` for details.
 
-### 100 Skills
+### 13 Agents (Automated Subagents)
+
+Specialized AI agents that automate development tasks. Each has an optimal model and tool set.
+
+| Agent | Model | What It Does | Invoke Via |
+|-------|-------|--------------|------------|
+| `planner` | Opus | Creates detailed implementation plans | `/plan` |
+| `architect` | Opus | Designs system architecture | `/plan` |
+| `code-reviewer` | Sonnet | Automated code review with severity scoring | `/code-review` |
+| `security-reviewer` | Opus | Deep security analysis | manual |
+| `tdd-guide` | Sonnet | Test-driven development coaching | `/tdd` |
+| `build-error-resolver` | Sonnet | Diagnoses and fixes build errors | `/build-fix` |
+| `e2e-runner` | Sonnet | Executes end-to-end tests | `/e2e` |
+| `doc-updater` | Haiku | Updates documentation | `/update-docs` |
+| `refactor-cleaner` | Sonnet | Dead code removal, cleanup | `/refactor-clean` |
+| `database-reviewer` | Sonnet | Database query and schema review | manual |
+| `go-reviewer` | Sonnet | Go code review | `/go-review` |
+| `go-build-resolver` | Sonnet | Go build error resolution | `/go-build` |
+| `python-reviewer` | Sonnet | Python code review | `/python-review` |
+
+See `.agent/agents/README.md` for full details.
+
+### 32 Slash Commands
+
+Commands for Claude Code automation — planning, testing, reviewing, learning, and multi-agent orchestration.
+
+**Key Commands**: `/plan` `/tdd` `/code-review` `/build-fix` `/e2e` `/verify` `/checkpoint` `/eval` `/learn` `/evolve` `/orchestrate` `/multi-execute` `/refactor-clean` `/test-coverage` `/sessions`
+
+See `.agent/commands/README.md` for the complete list.
+
+### 25 Coding Rules
+
+Always-follow guidelines organized by language:
+- **Common** (9): coding-style, git-workflow, testing, performance, patterns, hooks, agents, security, development-workflow
+- **TypeScript** (5) | **Python** (5) | **Go** (5) | **Swift** (5)
+
+See `.agent/rules/README.md` for details.
+
+### 9 Hooks & Automation Scripts
+
+Event-driven automations: session lifecycle management, post-edit formatting/typechecking, console.log detection, compaction suggestions, and session evaluation.
+
+See `.agent/hooks/README.md` for details.
+
+### ~130 Skills
 
 | Category | Skills |
 |----------|--------|
-| **Context (5)** | `new_project`, `project_context`, `documentation_framework`, `ssot_structure`, `codebase_navigation` |
+| **Context (7)** | `new_project`, `project_context`, `documentation_framework`, `ssot_structure`, `codebase_navigation`, `search_first`, `project_guidelines` |
 | **Brainstorm (9)** | `client_discovery`, `idea_to_spec`, `proposal_generator`, `smb_launchpad`, `prioritization_frameworks`, `user_story_standards`, `competitive_analysis`, `product_metrics`, `user_research` |
 | **Design (4)** | `atomic_reverse_architecture`, `feature_architecture`, `deployment_modes`, `schema_standards` |
-| **Build (34)** | `spec_build`, `bug_troubleshoot`, `website_build`, `observability`, `code_review`, `ui_polish`, `code_changelog`, `sprint_planning`, `stakeholder_communication`, `retrospective`, `cost_estimation`, `git_workflow`, `api_design`, `error_handling`, `auth_implementation`, `docker_development`, `environment_setup`, `refactoring`, `code_review_response`, `database_optimization`, `notification_systems` + 13 domain-specific |
-| **Secure (9)** | `security_audit`, `e2e_testing`, `ip_protection`, `unit_testing`, `integration_testing`, `accessibility_testing`, `performance_testing` + 2 domain |
-| **Ship (10)** | `infrastructure_as_code`, `db_migrations`, `website_launch`, `ci_cd_pipeline`, `legal_compliance`, `seed_data` + 4 domain |
+| **Build (50)** | `spec_build`, `bug_troubleshoot`, `website_build`, `observability`, `code_review`, `ui_polish`, `code_changelog`, `sprint_planning`, `stakeholder_communication`, `retrospective`, `cost_estimation`, `git_workflow`, `api_design`, `error_handling`, `auth_implementation`, `docker_development`, `environment_setup`, `refactoring`, `code_review_response`, `database_optimization`, `notification_systems` + 13 domain-specific + `backend_patterns`, `frontend_patterns`, `golang_patterns`, `python_patterns`, `cpp_coding_standards`, `java_coding_standards`, `jpa_patterns`, `springboot_patterns`, `django_patterns`, `swift_actor_persistence`, `swift_protocol_di_testing`, `swift_concurrency`, `liquid_glass_design`, `clickhouse_io`, `content_hash_cache`, `regex_vs_llm` |
+| **Secure (21)** | `security_audit`, `e2e_testing`, `ip_protection`, `unit_testing`, `integration_testing`, `accessibility_testing`, `performance_testing` + 2 domain + `tdd_workflow`, `verification_loop`, `eval_harness`, `golang_testing`, `python_testing`, `cpp_testing`, `springboot_tdd`, `springboot_verification`, `springboot_security`, `django_security`, `django_tdd`, `django_verification` |
+| **Ship (11)** | `infrastructure_as_code`, `db_migrations`, `website_launch`, `ci_cd_pipeline`, `legal_compliance`, `seed_data` + 4 domain + `deployment_patterns` |
 | **Alpha Ops (5)** | `error_tracking`, `health_checks`, `env_validation`, `qa_playbook`, `backup_strategy` |
 | **Beta Ops (6)** | `product_analytics`, `feedback_system`, `email_templates`, `error_boundaries`, `rate_limiting`, `feature_flags` |
 | **Handoff (6)** | `api_reference`, `feature_walkthrough`, `doc_reorganize`, `user_documentation`, `disaster_recovery`, `community_management` |
-| **Maintenance (5)** | `ssot_update`, `documentation_standards`, `sop_standards`, `wi_standards`, `dependency_management` |
-| **Toolkit (6)** | `video_research`, `content_creation`, `content_waterfall`, `personal_brand`, `ceo_brain`, `ai_tool_orchestration` |
+| **Maintenance (6)** | `ssot_update`, `documentation_standards`, `sop_standards`, `wi_standards`, `dependency_management`, `continuous_learning` |
+| **Toolkit (9)** | `video_research`, `content_creation`, `content_waterfall`, `personal_brand`, `ceo_brain`, `ai_tool_orchestration`, `strategic_compact`, `iterative_retrieval`, `cost_aware_llm_pipeline` |
 
 See `.agent/skills-index.md` for full skill descriptions.
 
@@ -54,26 +98,34 @@ See `.agent/skills-index.md` for full skill descriptions.
 
 Your Builder AI automatically detects which skill to use based on **keywords** in your message:
 
-| Your Message Contains | Skill Used |
-|----------------------|------------|
-| "bug", "broken", "error", "not working", "fix" | `bug_troubleshoot` |
+| Your Message Contains | Skill / Command Used |
+|----------------------|----------------------|
+| "bug", "broken", "error", "not working", "fix" | `bug_troubleshoot` or `/build-fix` (agent) |
 | "new feature", "add", "want to build", "brain dump" | `idea_to_spec` |
+| "plan", "implementation plan", "design" | `/plan` (planner agent) |
 | "API", "endpoint", "REST", "route" | `api_design` |
 | "auth", "login", "JWT", "OAuth", "permissions" | `auth_implementation` |
 | "branch", "commit", "PR", "merge", "rebase" | `git_workflow` |
-| "Docker", "container", "compose", "deploy" | `docker_development` or `infrastructure_as_code` |
+| "Docker", "container", "compose", "deploy" | `docker_development` or `deployment_patterns` |
 | "migration", "schema change", "add column" | `db_migrations` |
-| "slow query", "index", "N+1", "optimize" | `database_optimization` |
-| "test", "Playwright", "e2e", "coverage" | `e2e_testing` or `unit_testing` |
-| "review", "check this code", "security" | `code_review` or `security_audit` |
-| "refactor", "clean up", "tech debt" | `refactoring` |
+| "slow query", "index", "N+1", "optimize" | `database_optimization` (database-reviewer agent) |
+| "test", "TDD", "red-green-refactor" | `/tdd` (tdd-guide agent) |
+| "test", "Playwright", "e2e", "coverage" | `/e2e` (e2e-runner agent) or `unit_testing` |
+| "review", "check this code" | `/code-review` (code-reviewer agent) |
+| "security", "audit", "vulnerabilities" | `security_audit` (security-reviewer agent) |
+| "refactor", "clean up", "tech debt", "dead code" | `/refactor-clean` (refactor-cleaner agent) |
 | "setup", "environment", "ESLint", "config" | `environment_setup` |
 | "new project", "starting fresh", "create new app" | `new_project` |
 | "update context", "document what we did" | `project_context` |
-| "navigate codebase", "understand this project" | `codebase_navigation` |
+| "navigate codebase", "understand this project" | `codebase_navigation` or `search_first` |
 | "error handling", "exception", "error response" | `error_handling` |
 | "monitoring", "logging", "metrics", "alerts" | `observability` |
-| "Swagger", "API docs", "OpenAPI" | `api_reference` |
+| "Swagger", "API docs", "OpenAPI" | `api_reference` or `/update-docs` (doc-updater agent) |
+| "Go", "golang", "go build" | `golang_patterns` or `/go-review` / `/go-build` |
+| "Python", "django", "flask" | `python_patterns` or `/python-review` |
+| "Spring Boot", "JPA", "Java" | `springboot_patterns` or `java_coding_standards` |
+| "Swift", "SwiftUI", "concurrency" | `swift_concurrency` or `swift_actor_persistence` |
+| "token", "context window", "cost" | `strategic_compact` or `cost_aware_llm_pipeline` |
 
 **Pro tip**: To ensure a specific skill is used, reference it directly:
 > "Using bug_troubleshoot skill: the login button is broken..."
@@ -266,6 +318,16 @@ For games, replace "Frontend Pages" with:
 ```
 your-project/
 └── .agent/
+    ├── install.sh             ← Global installer (copies to ~/.claude/)
+    ├── agents/                ← 13 specialized AI subagents
+    ├── commands/              ← 32 slash commands
+    ├── rules/                 ← 25 coding rules (common + 4 languages)
+    ├── hooks/                 ← Event-driven automations
+    ├── contexts/              ← Dynamic system prompts (dev/review/research)
+    ├── scripts/               ← Node.js utilities (hooks, CI, lib)
+    ├── schemas/               ← JSON validation schemas
+    ├── examples/              ← 6 CLAUDE.md project templates
+    ├── mcp-configs/           ← MCP server integration configs
     ├── docs/
     │   ├── 0-context/             ← Start here (Onboarding & Guide)
     │   ├── 1-brainstorm/          ← Templates for planning
@@ -274,17 +336,18 @@ your-project/
     │   ├── 4-secure/              ← Audit Reports
     │   ├── 5-ship/                ← Compliance & Launch
     │   ├── 6-handoff/             ← Manuals & Handbooks
-    │   └── toolkit/               ← Protocols
-    └── skills/
-        ├── 0-context/             ← Project setup & context
-        ├── 1-brainstorm/          ← Requirements & Planning
-        ├── 2-design/              ← Architecture & Schemas
-        ├── 3-build/               ← Construction & Code
-        ├── 4-secure/              ← Verification & Security
-        ├── 5-ship/                ← Delivery
-        ├── 6-handoff/             ← Final Docs
-        ├── 7-maintenance/         ← Updates & Standards
-        └── toolkit/               ← Content & Growth
+    │   └── toolkit/               ← Protocols + Token Optimization
+    ├── skills/
+    │   ├── 0-context/             ← Project setup & context (7)
+    │   ├── 1-brainstorm/          ← Requirements & Planning (9)
+    │   ├── 2-design/              ← Architecture & Schemas (4)
+    │   ├── 3-build/               ← Construction & Code (50)
+    │   ├── 4-secure/              ← Verification & Security (21)
+    │   ├── 5-ship/                ← Delivery (11)
+    │   ├── 6-handoff/             ← Final Docs (6)
+    │   ├── 7-maintenance/         ← Updates & Standards (6)
+    │   └── toolkit/               ← Content, Growth & Optimization (9)
+    └── workflows/             ← 18 workflow definitions
 ```
 
 ---
@@ -312,10 +375,10 @@ your-project/
 │   │      │                                                           │   │
 │   │      ▼                                                           │   │
 │   │   Builder AI (Builds using spec_build / api_design)              │   │
-│   │      │                                                           │   │
+│   │      │  🤖 /tdd (tdd-guide) · /build-fix (build-error-resolver) │   │
 │   │      ▼                                                           │   │
-│   │   Review (code_review / security_audit / e2e_testing)            │   │
-│   │      │                                                           │   │
+│   │   Review (/code-review · /e2e · security-reviewer agent)         │   │
+│   │      │  🤖 code-reviewer · e2e-runner · security-reviewer        │   │
 │   │      ▼                                                           │   │
 │   │   Builder AI (Fixes issues if any)                               │   │
 │   │      │                                                           │   │
@@ -471,28 +534,37 @@ your-project/
 
 ## ⚡ Quick Reference
 
-| I want to... | Use this skill... |
-|--------------|-------------------|
+| I want to... | Use this skill / command... |
+|--------------|----------------------------|
 | Start new project | `new_project` + `environment_setup` |
-| Navigate a new codebase | `codebase_navigation` |
+| Navigate a new codebase | `codebase_navigation` or `search_first` |
+| Plan an implementation | `/plan` (planner + architect agents) |
 | Add a feature | `idea_to_spec` → `feature_architecture` → `spec_build` |
 | Design an API | `api_design` |
 | Implement auth | `auth_implementation` |
-| Fix a bug | `bug_troubleshoot` |
+| Fix a bug | `bug_troubleshoot` or `/build-fix` (agent) |
 | Handle errors properly | `error_handling` |
-| Review code | `code_review` |
+| Review code | `/code-review` (code-reviewer agent) |
 | Respond to a code review | `code_review_response` |
-| Write tests | `unit_testing`, `e2e_testing`, `integration_testing` |
-| Set up Docker | `docker_development` |
+| Write tests (TDD) | `/tdd` (tdd-guide agent) |
+| Run E2E tests | `/e2e` (e2e-runner agent) |
+| Write unit tests | `unit_testing` |
+| Set up Docker | `docker_development` + `deployment_patterns` |
 | Run a database migration | `db_migrations` |
-| Optimize queries | `database_optimization` |
-| Refactor code | `refactoring` |
+| Optimize queries | `database_optimization` (database-reviewer agent) |
+| Refactor / clean up code | `/refactor-clean` (refactor-cleaner agent) |
 | Set up monitoring | `observability` |
 | Work with Git / PRs | `git_workflow` |
-| Security review | `security_audit` |
+| Security review | `security_audit` (security-reviewer agent) |
 | Deploy to production | `infrastructure_as_code` + `ci_cd_pipeline` |
-| Document an API | `api_reference` |
+| Document an API | `api_reference` or `/update-docs` (doc-updater agent) |
 | Update docs after changes | `project_context` |
+| Review Go code | `/go-review` (go-reviewer agent) |
+| Review Python code | `/python-review` (python-reviewer agent) |
+| Multi-agent workflow | `/orchestrate` or `/multi-execute` |
+| Manage context window | `strategic_compact` or `/checkpoint` |
+| Optimize token costs | `cost_aware_llm_pipeline` |
+| Learn from session | `/learn` → `/evolve` |
 | Start new AI session | Copy from your onboarding doc |
 
 ---

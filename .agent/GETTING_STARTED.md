@@ -31,7 +31,7 @@ your-project/
 
 ## Step 2: Understand the Structure
 
-### Skills (100 Reusable Workflows)
+### Skills (~130 Reusable Workflows)
 
 Each skill is a step-by-step instruction set:
 
@@ -40,12 +40,51 @@ Each skill is a step-by-step instruction set:
 ├── idea_to_spec/SKILL.md         ← Convert ideas to specs
 ├── bug_troubleshoot/SKILL.md     ← Structured debugging
 ├── security_audit/SKILL.md       ← Security checklist
-├── git_workflow/SKILL.md         ← Branch, commit, PR workflow
-├── auth_implementation/SKILL.md  ← JWT, RBAC, OAuth patterns
-└── ... (100 total)
+├── tdd_workflow/SKILL.md         ← Test-driven development
+├── golang_patterns/SKILL.md      ← Go best practices
+└── ... (~130 total, organized by lifecycle phase)
 ```
 
-### Docs (67 Templates & References)
+### Agents (13 AI Subagents)
+
+Specialized agents that automate development tasks:
+
+```
+.agent/agents/
+├── planner.md           ← Implementation planning (Opus)
+├── code-reviewer.md     ← Automated code review (Sonnet)
+├── security-reviewer.md ← Security analysis (Opus)
+├── tdd-guide.md         ← Test-driven development (Sonnet)
+└── ... (13 total)
+```
+
+### Commands (32 Slash Commands)
+
+Invoke agents and workflows from Claude Code:
+
+```
+.agent/commands/
+├── plan.md              ← /plan — Create implementation plan
+├── tdd.md               ← /tdd — Test-driven development
+├── code-review.md       ← /code-review — Automated review
+├── build-fix.md         ← /build-fix — Fix build errors
+└── ... (32 total)
+```
+
+### Rules (25 Coding Guidelines)
+
+Always-follow rules organized by language:
+
+```
+.agent/rules/
+├── common/              ← 9 language-agnostic rules
+├── typescript/          ← 5 TypeScript rules
+├── python/              ← 5 Python rules
+├── golang/              ← 5 Go rules
+└── swift/               ← 5 Swift rules
+```
+
+### Docs (70+ Templates & References)
 
 Ready-to-use templates and reference guides:
 
@@ -53,9 +92,8 @@ Ready-to-use templates and reference guides:
 .agent/docs/
 ├── 0-context/full-stack-developer-foundation.md  ← WHY everything matters
 ├── 0-context/enterprise-development-guide.md     ← Enterprise patterns
-├── proposal-template.md                          ← Client proposals
-├── development-workflow.md                       ← Dev process guide
-└── ... (67 total)
+├── toolkit/token-optimization.md                 ← Token management
+└── ... (70+ total)
 ```
 
 ---
@@ -193,14 +231,37 @@ Use the project_context skill pattern to help me continue."
 
 ---
 
+## Install Globally (Optional)
+
+To use agents, commands, rules, and hooks in **any** project:
+
+```bash
+# Run the install script
+cd your-project/.agent
+chmod +x install.sh
+./install.sh
+```
+
+This copies agents, commands, rules, hooks, and scripts to `~/.claude/` for global access. You can also copy individual components:
+
+```bash
+# Just agents and commands
+cp -r .agent/agents/*.md ~/.claude/agents/
+cp -r .agent/commands/*.md ~/.claude/commands/
+```
+
+---
+
 ## Next Steps
 
 1. ✅ Read [full-stack-developer-foundation.md](./docs/0-context/full-stack-developer-foundation.md) to understand the WHY
-2. ✅ Explore the [skills-index.md](./skills-index.md) for the full list of 100 skills
+2. ✅ Explore the [skills-index.md](./skills-index.md) for the full list of ~130 skills
 3. ✅ Try `idea_to_spec` on your next feature idea
-4. ✅ Set up `project_context` for your codebase
-5. ✅ Use `codebase_navigation` when joining an existing project
-6. ✅ Run `security_audit` before your next deploy
+4. ✅ Try `/plan` and `/tdd` slash commands
+5. ✅ Set up `project_context` for your codebase
+6. ✅ Use `codebase_navigation` when joining an existing project
+7. ✅ Run `security_audit` before your next deploy
+8. ✅ Explore [agents](./agents/README.md) and [commands](./commands/README.md) for automation
 
 ---
 

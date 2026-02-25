@@ -264,6 +264,189 @@ docker image prune -a            # Remove all unused images
 
 ---
 
+---
+
+## PART 8: CONTAINER SECURITY HARDENING
+
+### Dockerfile Security Practices
+
+```dockerfile
+# 1. Use specific image tags — NEVER :latest
+FROM node:22.12-alpine3.20
+
+# 2. Run as non-root user
+RUN addgroup -g 1001 -S app && adduser -S app -u 1001
+USER app
+
+# 3. Add a HEALTHCHECK to the production image
+HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost:3000/health || exit 1
+```
+
+### Compose Security Options
+
+```yaml
+services:
+  app:
+    security_opt:
+      - no-new-privileges:true      # Prevent privilege escalation
+    read_only: true                  # Read-only root filesystem
+    tmpfs:
+      - /tmp                         # Writable tmp
+      - /app/.cache                  # Writable cache
+    cap_drop:
+      - ALL                          # Drop all Linux capabilities
+    cap_add:
+      - NET_BIND_SERVICE             # Only add what's needed
+```
+
+### Secret Management in Docker
+
+```yaml
+# GOOD: Use .env files (gitignored) — injected at runtime
+services:
+  app:
+    env_file:
+      - .env
+    environment:
+      - API_KEY                      # Inherits from host env
+
+# GOOD: Docker secrets (Swarm mode)
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+
+services:
+  db:
+    secrets:
+      - db_password
+
+# BAD: Hardcoded in image layer — NEVER DO THIS
+# ENV API_KEY=sk-proj-xxxxx
+```
+
+---
+
+## PART 9: NETWORKING PATTERNS
+
+### Custom Networks for Isolation
+
+```yaml
+services:
+  frontend:
+    networks:
+      - frontend-net
+
+  api:
+    networks:
+      - frontend-net
+      - backend-net
+
+  db:
+    networks:
+      - backend-net                  # Only reachable from API, not frontend
+
+networks:
+  frontend-net:
+  backend-net:
+```
+
+### Expose Only What's Needed
+
+```yaml
+services:
+  db:
+    ports:
+      - "127.0.0.1:5432:5432"       # Only accessible from host, not network
+    # Omit ports entirely in production — accessible only within Docker network
+```
+
+### Debugging Network Issues
+
+```bash
+# Check DNS resolution inside container
+docker compose exec app nslookup db
+
+# Check connectivity between services
+docker compose exec app wget -qO- http://api:3000/health
+
+# Inspect the Docker network
+docker network ls
+docker network inspect <project>_default
+```
+
+---
+
+## PART 10: OVERRIDE FILES & RESOURCE LIMITS
+
+### Development vs Production Overrides
+
+```yaml
+# docker-compose.override.yml (auto-loaded, dev-only settings)
+services:
+  app:
+    environment:
+      - DEBUG=app:*
+      - LOG_LEVEL=debug
+    ports:
+      - "9229:9229"                   # Node.js debugger
+
+# docker-compose.prod.yml (explicit for production)
+services:
+  app:
+    build:
+      target: production
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+```
+
+```bash
+# Development (auto-loads override)
+docker compose up
+
+# Production (explicit file composition)
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+
+### Useful Additional Services
+
+```yaml
+  mailpit:                            # Local email testing
+    image: axllent/mailpit
+    ports:
+      - "8025:8025"                   # Web UI
+      - "1025:1025"                   # SMTP
+```
+
+---
+
+## PART 11: ANTI-PATTERNS
+
+```
+BAD: Using docker compose in production without orchestration
+     → Use Kubernetes, ECS, or Docker Swarm for production multi-container workloads
+
+BAD: Storing data in containers without volumes
+     → Containers are ephemeral — all data lost on restart without volumes
+
+BAD: Running as root
+     → Always create and use a non-root user
+
+BAD: Using :latest tag
+     → Pin to specific versions for reproducible builds
+
+BAD: One giant container with all services
+     → Separate concerns: one process per container
+
+BAD: Putting secrets in docker-compose.yml
+     → Use .env files (gitignored) or Docker secrets
+```
+
+---
+
 ## ✅ Exit Checklist
 
 - [ ] Multi-stage Dockerfile for backend (deps → build → production)
@@ -271,6 +454,11 @@ docker image prune -a            # Remove all unused images
 - [ ] docker-compose.yml with all services (backend, frontend, postgres, redis)
 - [ ] Volume mounts for hot reload in development
 - [ ] Named volume for node_modules (architecture isolation)
-- [ ] Health checks on database
+- [ ] Health checks on database and application containers
 - [ ] .dockerignore excludes unnecessary files
 - [ ] Non-root user in production image
+- [ ] Security options applied (no-new-privileges, cap_drop, read_only)
+- [ ] Custom networks isolate frontend from database
+- [ ] Secrets managed via env files or Docker secrets (never hardcoded)
+- [ ] Specific image tags pinned (no `:latest`)
+- [ ] Override files separate dev and production configs

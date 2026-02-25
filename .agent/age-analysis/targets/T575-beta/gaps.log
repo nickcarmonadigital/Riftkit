@@ -1,0 +1,619 @@
+================================================================
+[Loop 1] [Architect] [T575] 2026-02-25T08:00:00Z
+================================================================
+
+## Finding: Beta Graduation Criteria Are Completely Absent
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: The six Beta phase skills (email_templates, error_boundaries, feature_flags, feedback_system, product_analytics, rate_limiting) collectively implement useful capabilities, but none defines or enforces what constitutes successful Beta completion. A Beta phase without objective exit criteria is not a phase — it is an indefinite holding pattern. First-principles analysis: a Beta must have defined success gates (error rate thresholds, retention minimums, latency SLAs, user satisfaction scores, adoption metrics) before it can graduate to GA. None of the six skills specifies these gates. The feature_flags skill has a rollout table (1%→10%→50%→100%) but no criteria for when to advance. The product_analytics skill has funnel templates but no defined threshold that constitutes "Beta passed." The feedback_system collects reports but has no resolution-rate graduation gate.
+### Proposed Resolution: New skill `beta_graduation_criteria` (Phase 5.75): Defines measurable exit gates — error rate < X%, P0 feedback resolution rate ≥ Y%, 7-day retention ≥ Z%, p95 API latency < Nms, at least M users from at least K organizations completing core activation funnel, zero open P0 bugs. Trigger: "define beta exit criteria", "beta graduation checklist", "GA readiness assessment."
+### Cross-Phase Impact: Without this, Phase 6 (Handoff) has no signal that Beta is actually done. Phase 6 skills (user_documentation, feature_walkthrough) assume a stable, complete product — they inherit debt if Beta was never formally closed. Disaster recovery (Phase 6) SLAs cannot be defined without knowing the GA quality bar.
+
+================================================================
+
+## Finding: A/B Testing Has No Statistical Rigor Framework
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: The feature_flags skill mentions A/B testing and recommends "at least 1,000 users per variant" and "statistical significance" before deciding, but provides zero implementation of statistical significance testing. No p-value calculation, no power analysis, no minimum detectable effect (MDE) guidance, no sample size calculator reference, no stopping rules (to prevent peeking bias), no Bayesian alternative. The product_analytics skill tracks conversion events but has no methodology for determining whether observed differences are real or noise. A team following these skills could run an A/B test for two weeks, see a 3% lift, declare it a win, and be completely wrong 40% of the time due to underpowered tests or early stopping.
+### Proposed Resolution: New skill `ab_testing_rigor` (Phase 5.75): Provides a pre-experiment checklist (hypothesis, primary metric, MDE, required sample size via formula or calculator), a during-experiment protocol (no peeking rule, Bonferroni correction for multiple metrics), and a post-experiment decision tree (statistical significance check, practical significance check, segment analysis). Includes worked examples with real numbers. Trigger: "validate A/B test results", "experiment design", "statistical significance check."
+### Cross-Phase Impact: Phase 6 community_management and user_documentation will describe features that won A/B tests — if those wins were false positives, the docs describe the wrong thing. Product analytics dashboards (5.75) will show misleading conversion data.
+
+================================================================
+
+## Finding: User Cohort Management for Beta Has No Coverage
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Beta testing requires structured cohort management: which users are in closed beta, open beta, or GA? Who was invited vs. who signed up organically? Which cohort is exposed to which feature flag combination? The feature_flags skill provides a user-to-rollout hashing function but has no concept of named cohorts, allowlists, denylist exclusions, or beta program enrollment. The feedback_system has no way to segment feedback by cohort (internal team vs. design partners vs. public beta). The product_analytics skill identifies users and organizations but has no cohort tracking for beta program membership. Real-world Beta programs need: invite-only enrollment, cohort-tagged analytics, per-cohort feedback routing, and cohort-aware rate limits.
+### Proposed Resolution: New skill `beta_cohort_management` (Phase 5.75): Prisma model for BetaCohort and BetaEnrollment, invitation flow with token-gated signup, cohort property attached to every analytics event, cohort-aware feedback routing, and admin dashboard for cohort progression. Trigger: "manage beta users", "beta invitations", "cohort tracking."
+### Cross-Phase Impact: Without cohort management, product_analytics metrics conflate internal testing traffic with real user behavior, corrupting all dashboards. feature_flags rollout percentages have no way to target specific beta cohort members. Phase 6 community_management cannot distinguish beta testers from general users.
+
+================================================================
+
+## Finding: Email Deliverability Monitoring Is Absent
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: The email_templates skill configures SPF/DKIM/DMARC DNS records (good) and uses Resend (good), but provides zero monitoring of actual deliverability: no bounce rate tracking, no spam complaint rate tracking, no domain reputation monitoring, no delivery webhook processing from Resend. Resend provides webhooks for email.bounced, email.complained, email.delivered events. Without processing these, a degraded sending domain could silently cause all emails to land in spam for weeks. Industry standard: bounce rate > 2% or spam rate > 0.1% triggers sending domain suspension. The skill also has no email queue with retry logic — if Resend is temporarily down, the current fire-and-forget send() returns null and the email is lost forever.
+### Proposed Resolution: Extend email_templates skill OR create `email_observability` skill (Phase 5.75): Resend webhook handler for delivery events, bounce/complaint rate tracking in database, alerting when bounce > 1% or complaint > 0.08%, email retry queue using Bull/BullMQ, and dead-letter queue for permanently failed sends. Trigger: "monitor email deliverability", "email bounce tracking", "email queue setup."
+### Cross-Phase Impact: Lost emails during Beta (password resets, team invitations) are the most common cause of user abandonment. Phase 6 user_documentation will describe email flows that silently don't work for some users. disaster_recovery has no Email Service runbook for silent deliverability failure (only for provider outages).
+
+================================================================
+
+## Finding: Privacy Consent and Data Processing Agreement for Beta Are Missing
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: The product_analytics skill mentions GDPR opt-in/opt-out for PostHog and "store email consent timestamp" in the email_templates compliance section, but there is no skill covering the full consent management infrastructure required before running a Beta with real users: cookie consent banners (GDPR Article 6), explicit analytics consent capture and storage, beta participant data processing agreements (DPA), right-to-erasure workflows covering PostHog data, right-to-access for collected feedback, data retention policies for beta feedback data. Running a Beta that collects product analytics and feedback without a compliant consent flow exposes the project to GDPR enforcement. Under GDPR, collecting behavioral analytics without consent is a violation even during Beta with small user numbers.
+### Proposed Resolution: New skill `privacy_consent_management` (Phase 5.75 or cross-cutting): Cookie/consent banner component, consent storage in database with timestamps and version, PostHog opt-in/opt-out tied to consent, right-to-erasure endpoint that deletes user data from PostHog AND feedback database, DPA template for beta participants. Trigger: "GDPR consent", "cookie banner", "privacy compliance", "right to erasure."
+### Cross-Phase Impact: Directly feeds Phase 6 (Handoff) community_management legal posture and user_documentation privacy section. Retroactively invalidates all product analytics data collected without consent.
+
+================================================================
+
+## Finding: Load Testing at Beta Scale Has No Coverage
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: The rate_limiting skill protects against individual user abuse but has no concept of load testing to discover where the system breaks under Beta-scale concurrent load. The 5.5-Alpha qa_playbook has a "performance spot-check" (manual, 5 cases) but no load test. Before a Beta with any meaningful user count, the team needs to know: what is the maximum concurrent users before p95 latency exceeds 500ms? What is the database connection pool exhaustion point? What happens to rate-limit Redis when it is under load? Which endpoints are the bottlenecks? The disaster_recovery skill references load testing in its prevention section for Scenario 8 (performance degradation) but no skill provides the actual load testing methodology or tooling.
+### Proposed Resolution: New skill `load_testing` (Phase 5.75): k6 or Artillery script templates for the core user journeys (login → dashboard → primary action → API call), guidance on ramping profiles (steady state vs. spike), acceptance criteria (p95 < 500ms, p99 < 2s, error rate < 0.1% at target RPS), database connection pool sizing guidance, and Redis capacity planning for rate-limit storage. Trigger: "load test the API", "performance testing", "stress test before beta."
+### Cross-Phase Impact: Without load testing, Beta will discover performance problems in production under user load, generating P0/P1 feedback that overwhelms the feedback_system. Phase 6 disaster_recovery SLAs (SEV1 recovery time targets) cannot be set without knowing actual system capacity.
+
+================================================================
+================================================================
+[Loop 2] [Architect] [T575] 2026-02-25T08:30:00Z
+================================================================
+
+## Finding: Feature Flags and Product Analytics Are Siloed — Integration Gap
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: Reading Loop 1 findings alongside the skill files: the feature_flags skill and the product_analytics skill both exist in Phase 5.75 but operate completely independently. The feature_flags skill's PostHog integration section in product_analytics (isFeatureEnabled) is mentioned in passing, but there is no explicit instruction to: (1) automatically tag every analytics event with which flag variants the user is currently enrolled in, (2) create PostHog cohort definitions from flag assignments, (3) compare funnel metrics between flag variants to validate rollout decisions, (4) auto-pause a rollout when analytics detect a metric regression. Without this wiring, the gradual rollout table in feature_flags is unactionable — the team has no systematic way to confirm whether advancing from 10% to 50% is safe, because the analytics system does not surface per-variant data.
+### Proposed Resolution: Extend feature_flags skill with a "Flag Analytics Integration" section: every capture() call includes active_flags: {flagName: variantValue} in standard properties. PostHog cohort definitions auto-generated from flag state. Rollout advancement decision tied to comparing funnel metrics between flag-on and flag-off cohorts. Alternatively, create a `feature_analytics_bridge` skill. Trigger: "analyze feature flag impact", "variant metrics."
+### Cross-Phase Impact: Affects all downstream feature graduation decisions. If Phase 6 documents a feature as GA, but the Beta rollout data was never properly analyzed, the feature may have degraded metrics for 30% of users that nobody noticed.
+
+================================================================
+
+## Finding: Feedback System Has No Closure Loop Back to Users
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: The feedback_system skill has a full triage workflow (NEW → TRIAGED → IN_PROGRESS → RESOLVED → CLOSED) and admin dashboard, but zero mechanism for notifying the submitting user that their feedback was acted upon. The skill's status workflow is entirely internal. When a user submits a P1 bug and it gets resolved, they receive no email, no in-app notification, no "here's what we did" message. During Beta, feedback loop closure is the primary driver of user engagement and trust. Beta testers who report bugs and never hear back stop reporting bugs — exactly the opposite of what Beta needs. The email_templates skill has 8 templates but no "your feedback was resolved" template.
+### Proposed Resolution: Extend feedback_system skill with a "User Notification" section: add a FeedbackUpdate email template to the email_templates skill, trigger it on status transitions to RESOLVED/CLOSED, include admin notes (sanitized) in the notification, and add a public changelog of resolved items to close the loop at scale. Trigger: "notify user on feedback resolution", "feedback closure email."
+### Cross-Phase Impact: Low feedback closure rate → low Beta engagement → insufficient data for graduation criteria → delayed Phase 6. Also affects user_documentation in Phase 6 which should describe how the feedback process works.
+
+================================================================
+
+## Finding: Error Boundaries Skill Grades: ADEQUATE — But Missing Async Boundary Coverage
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: The error_boundaries skill grades ADEQUATE for React class-based boundaries and toast system. The gap: React Error Boundaries do NOT catch errors thrown in async event handlers, Promise rejections, or setTimeout/setInterval callbacks. The skill covers this via "ASYNC ERROR HANDLING RULES" section with try/catch patterns, but there is no global unhandled promise rejection handler (window.addEventListener('unhandledrejection')), no global uncaught error handler (window.addEventListener('error')), and no integration with Sentry for these global handlers. A user could trigger an async operation that throws, bypass all error boundaries, produce no toast, send nothing to Sentry, and leave the app in a broken state with no logging. The skill's exit checklist checks for try/catch in useEffect and event handlers but does not enforce global handlers.
+### Proposed Resolution: Extend error_boundaries skill with a "Global Error Handlers" section: window.addEventListener('unhandledrejection') and window.addEventListener('error') that both call Sentry.captureException and toast.error. Add this to the exit checklist. Trigger: existing error boundary triggers.
+### Cross-Phase Impact: Unhandled async errors are the most common source of "silent failures" that generate user frustration without Sentry alerts. Upstream error_tracking (5.5-Alpha) set up Sentry but this gap means async errors on the frontend bypass the tracking entirely.
+
+================================================================
+
+## Finding: Rate Limiting Has No User-Facing Quota Dashboard
+
+### Gap Type: MISSING_SKILL
+### Severity: MEDIUM
+### Evidence: The rate_limiting skill implements plan-based limits (free: 30/min, pro: 120/min, enterprise: 600/min) and returns X-RateLimit-Remaining headers, but provides no user-facing display of quota consumption. Users on the free plan cannot see how many AI requests they have used, how close they are to their limit, or when the window resets. The email_templates skill has a sendUsageWarning() method (triggered at 75%/90%), but there is no dashboard component, no real-time usage meter, and no proactive API endpoint that returns current quota status per resource. Without quota visibility, users hit 429 responses unexpectedly, which degrades trust during Beta. The rate_limiting skill's custom 429 response includes retryAfter but no explanation of the user's quota tier.
+### Proposed Resolution: New skill `usage_quota_dashboard` (Phase 5.75) OR extension of rate_limiting: QuotaStatusEndpoint (GET /quota) returning current usage per resource per window, a React QuotaMeter component showing usage bars per resource (similar to the usage warning email's progress bar), and integration with the email_templates sendUsageWarning. Trigger: "show usage quota", "quota dashboard", "API usage meter."
+### Cross-Phase Impact: Quota visibility is required for Phase 6 user_documentation ("How to track your API usage") and community_management (support questions about limits). Without it, the Beta generates high support ticket volume from confused users hitting 429s.
+
+================================================================
+
+## Finding: Skill Depth Audit — email_templates Grades: ADEQUATE with One Critical Gap
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: MEDIUM
+### Evidence: email_templates is well-executed for template content, but the `sendPlanChange()` method contains a logic bug: `const direction = toPlan > fromPlan ? 'upgraded' : 'changed'` — this string comparison only works if plan names happen to sort alphabetically in ascending order (e.g., 'free' < 'pro' < 'starter'). If plan names are 'starter', 'growth', 'enterprise', the alphabetical comparison produces wrong results. More importantly, the skill has no email for: beta invitation (distinct from team invitation), beta graduation notice to users ("You're moving from Beta to GA!"), account suspension/warning emails, or security alert emails (new login from unrecognized device). These are Beta-phase critical emails.
+### Proposed Resolution: Fix the plan comparison logic (use a plan tier map, not string comparison). Add to email_templates checklist: beta invitation template, security alert template (new device login), account suspension warning template. These are table-stakes for a Beta program. Trigger: existing email template triggers.
+### Cross-Phase Impact: The missing beta invitation email means the beta_cohort_management skill (proposed in Loop 1) has no delivery mechanism. Security alert emails are referenced as a prevention measure in Phase 6 disaster_recovery (Scenario 6: Security Breach) but the template does not exist.
+
+================================================================
+================================================================
+[Loop 3] [Architect] [T575] 2026-02-25T09:00:00Z
+================================================================
+
+## Finding: Critical Handoff Gap — Alpha QA Playbook Has No Beta Regression Suite
+
+### Gap Type: MISSING_HANDOFF
+### Severity: CRITICAL
+### Evidence: Phase 5.5-Alpha's qa_playbook provides a solid manual testing framework with structured test cases (TC-AUTH, TC-CRUD, TC-ERR, TC-PERF, TC-SEC, TC-BILL). Phase 5.75-Beta adds six new capabilities but has ZERO corresponding test cases for them: no test case for feature flag toggling and rollback, no test case for feedback submission and status workflow, no test case for rate limit enforcement and 429 response format, no test case for email template rendering and deliverability, no test case for error boundary catch-and-recover behavior, no test case for analytics event capture verification. Beta ships features (feature flags, feedback, rate limiting) that can silently malfunction without observable user-facing symptoms. The QA playbook from Alpha does not extend forward; the Beta skills do not extend backward. There is a clean handoff gap between them.
+### Proposed Resolution: New skill `beta_qa_extension` (Phase 5.75): Beta-specific test case suite appended to the Alpha qa_playbook structure. TC-FLAG (feature flag toggling, rollout percentage, kill switch), TC-FEED (feedback submission, screenshot capture, triage workflow), TC-RATE (rate limit trigger, 429 format, header presence, plan tier verification), TC-EMAIL (template rendering, DNS record check, deliverability test), TC-ANALYTIC (event captured in PostHog, identify on login, group analytics). Trigger: "QA beta features", "test feature flags", "beta regression tests."
+### Cross-Phase Impact: Without Beta QA tests, the Phase 6 Handoff assumes a tested Beta that was never formally verified. Phase 6's disaster_recovery runbooks reference "test critical user flows manually" — impossible without a test specification. Phase 6 user_documentation describes flows that may not have been validated.
+
+================================================================
+
+## Finding: Upstream Assumption Gap — Beta Assumes Error Tracking Is Operational
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence: The error_boundaries skill references Sentry in componentDidCatch and the API interceptor assumes Sentry is window.Sentry. The product_analytics skill's PostHogService implements OnModuleDestroy but has no guard against PostHog being unavailable. Phase 5.5-Alpha's error_tracking skill sets up Sentry — but Phase 5.75-Beta's error_boundaries skill contains a conditional check: `if (typeof window !== 'undefined' && (window as any).Sentry)` which gracefully degrades, but the product_analytics PostHogService constructor throws if POSTHOG_API_KEY is not set (`process.env.POSTHOG_API_KEY!` with non-null assertion). No skill in Phase 5.75 validates that the Alpha phase's Sentry and health checks are operational before Beta features are activated. This assumption creates a silent failure mode: Beta runs with no error tracking if Alpha's error_tracking skill was skipped or misconfigured.
+### Proposed Resolution: Add a "Beta Preconditions" section to the Phase 5.75 skills or create a `beta_readiness_check` skill: validates that error_tracking DSN is set and reachable, health_checks endpoint is returning healthy, env_validation has run without errors, backup_strategy has been verified. This is a meta-skill that checks upstream Alpha phase completion before Beta begins. Trigger: "check beta readiness", "verify alpha prerequisites."
+### Cross-Phase Impact: If error tracking is not operational during Beta, all error boundary catches, all API 500s, and all unhandled rejections are invisible. The Beta generates no Sentry data. When Phase 6 disaster_recovery references "check Sentry dashboard," there is no data.
+
+================================================================
+
+## Finding: Downstream Gap — Phase 6 Disaster Recovery Cannot Be Written Without Beta Load Data
+
+### Gap Type: MISSING_HANDOFF
+### Severity: HIGH
+### Evidence: Phase 6's disaster_recovery skill contains Scenario 8 (Performance Degradation) with "Recovery Time Target: 30 minutes (mitigation)" and "Prevention: Load testing done before launch." However, no Phase 5.75-Beta skill produces the load test data that would inform the disaster recovery runbook's capacity thresholds. The disaster_recovery skill is written as a template to fill in — but without Beta load testing, the team has no actual numbers to fill in (what RPS causes degradation, what memory threshold triggers OOM, what query takes > 500ms). The Phase 6 handoff to maintenance receives an incomplete runbook with placeholder thresholds.
+### Proposed Resolution: The `load_testing` skill proposed in Loop 1 must produce a structured output artifact (load-test-results.md) that feeds directly into the disaster_recovery runbook template. This creates an explicit data dependency between Beta and Handoff phases. Trigger: load testing results should have a handoff artifact template.
+### Cross-Phase Impact: Affects Phase 6 disaster_recovery quality and Phase 7 maintenance SLA definitions. An on-call engineer responding to a 3am performance incident with placeholder thresholds in the runbook is operating blind.
+
+================================================================
+
+## Finding: Downstream Gap — Phase 6 Feature Walkthrough Has No Beta Feature Inventory
+
+### Gap Type: MISSING_HANDOFF
+### Severity: MEDIUM
+### Evidence: Phase 6's feature_walkthrough skill (not fully read but in the skill list) presumably documents product features. Phase 5.75-Beta introduces feature flags as a production mechanism, meaning some features may be behind flags at GA. There is no handoff artifact from Beta that inventories which flags are still active at Beta graduation, which flags have been cleaned up, and which flags are permanent (permission flags for plan-gating). Without this inventory, the Phase 6 feature documentation describes features inconsistently — some documented as always-on when they are actually plan-gated, some documented as GA when they are still behind a 50% rollout flag.
+### Proposed Resolution: Require the feature_flags skill to produce a "Flag Registry" artifact at Beta graduation: a table of all active flags with type (release/experiment/ops/permission), current rollout %, expected cleanup date, and GA status. This feeds directly into Phase 6 feature_walkthrough and user_documentation. Trigger: "export flag registry", "beta flag status."
+### Cross-Phase Impact: Phase 6 user_documentation will inaccurately describe feature availability if some features are still flag-gated. Phase 6 api_reference may document endpoints that are behind feature flags without indicating the flag requirement.
+
+================================================================
+
+## Finding: Beta-to-GA Migration Path Is Entirely Absent
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: There is no skill, checklist, or procedure for migrating from Beta to GA. Beta-to-GA migration involves: removing all beta-only rate limit overrides, cleaning up all temporary feature flags, migrating beta user accounts to GA plan structures, archiving beta feedback data and producing a summary report, disabling beta-only email templates (beta invitations), enabling production-grade monitoring thresholds, switching from beta pricing to GA pricing, communicating the transition to beta users via email. The Phase 5.75-Beta skills collectively produce a running Beta but have no exit procedure. The Phase 6-Handoff skills assume GA is already achieved. The gap between them is the actual migration step — which is fully uncovered.
+### Proposed Resolution: New skill `beta_to_ga_migration` (Phase 5.75, exit boundary): Step-by-step migration checklist covering flag cleanup, account migration, data archival, monitoring threshold changes, pricing activation, and user communication. Produces a migration runbook artifact. Trigger: "migrate beta to GA", "graduate to production", "beta exit migration."
+### Cross-Phase Impact: This is the most operationally critical gap. Without it, the transition from Phase 5.75 to Phase 6 is undefined. Teams will improvise this migration under time pressure, leading to data inconsistencies, user confusion, and monitoring gaps at exactly the moment when they are most vulnerable.
+
+================================================================
+================================================================
+[Loop 4] [Detective] [T575] 2026-02-25T09:30:00Z
+================================================================
+
+## Finding: Reverse-Think — A Successful Beta Must Have Produced Metered Billing Data, But No Skill Covers Billing/Metering
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Reasoning backward from ideal end-state: if a project successfully completed Phase 5.75-Beta, it would have: (1) charged beta users on their plan tier, (2) tracked usage against plan limits for billing purposes, (3) produced invoice data reflecting actual usage, (4) handled billing upgrades and downgrades during the beta period. The rate_limiting skill enforces plan-based limits (free/pro/enterprise) and the email_templates skill sends payment receipts and plan change notifications — but there is NO skill covering how usage is metered for billing, how Stripe subscription usage records are updated based on rate-limit consumption, how overages are handled, or how a beta user transitions from a discounted beta price to GA pricing. The rate limits are enforced but their usage is not recorded for billing purposes. This creates a situation where the plan-based guard exists but the monetization engine behind it does not.
+### Proposed Resolution: New skill `usage_metering_billing` (Phase 5.75): Stripe usage-based billing integration (Stripe Meters API or subscription items with usage), metering service that increments usage counters per user per billing period, usage summary endpoint, overage notification workflow, and beta-to-GA price migration procedure. Trigger: "set up usage billing", "meter API usage", "Stripe metered billing."
+### Cross-Phase Impact: Without metering, the rate_limiting plan tiers are a courtesy, not a revenue mechanism. Phase 6 Handoff expects a product ready for commercial GA — but there is no billing infrastructure to support it. This is the most revenue-critical gap in the phase.
+
+================================================================
+
+## Finding: Reverse-Think — A Successful Beta Must Have Processed and Acted on Aggregate Feedback, But No Skill Covers Feedback Analytics
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: Working backward: if Phase 5.75-Beta was completed successfully, the team would have a report showing: how many P0/P1/P2/P3 bugs were filed and resolved, resolution time by severity, most-reported feature areas, NPS score trend across the beta period, feature request frequency distribution, beta tester satisfaction trajectory. The feedback_system skill creates a database of individual feedback items and a triage workflow, but has no aggregation layer: no weekly digest generation, no trend analysis, no resolution SLA compliance reporting, no categorization/tagging system for themes, and no NPS or CSAT score collection (only raw feedback descriptions). The admin dashboard section describes filtering but not analytics. A team using only this skill ends with a pile of individual feedback items — not the structured insights needed to make Beta graduation decisions.
+### Proposed Resolution: Extend feedback_system with a "Feedback Analytics" section: weekly digest generation (cron job that aggregates NEW items by severity/type), resolution SLA tracking (days to RESOLVED per severity vs. target), theme tagging (freeform or AI-assisted), CSAT/NPS widget as a separate feedback form for satisfaction scoring (separate from bug reporting). Trigger: "generate feedback report", "analyze beta feedback trends."
+### Cross-Phase Impact: The beta_graduation_criteria skill (proposed Loop 1) needs input from feedback analytics. Phase 6 community_management needs the Beta feedback summary to understand user sentiment entering GA. Phase 6 user_documentation priority is informed by most-reported confusion areas.
+
+================================================================
+
+## Finding: Reverse-Think — A Successful Beta Must Have Had SLA Commitments to Beta Testers, But No Skill Defines Beta SLAs
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Reasoning from end-state: if Beta was successful, beta testers would have operated under known expectations: what uptime was promised? What is the response time for P0 bugs? What is the data retention guarantee during beta? What happens to their data if the product shuts down? The disaster_recovery skill (Phase 6) defines SEV levels and recovery time targets as if they apply to GA, but Beta has different SLA commitments. Typically Beta SLAs are explicitly lower than GA ("we target 99% uptime, beta is best-effort"). Without defined Beta SLAs: beta testers have unrealistic expectations, the team has no objective standard against which to measure incidents, and the feedback_system gets flooded with "the app was down" reports that are classified as P0 when they are actually within Beta's expected parameters.
+### Proposed Resolution: New skill `beta_sla_definition` (Phase 5.75) or section within beta_graduation_criteria: Beta SLA document template covering uptime target, data retention during beta, bug response time commitments by severity, feature freeze policy before graduation, data portability/export right for beta testers. Trigger: "define beta SLAs", "beta terms of service", "beta commitment document."
+### Cross-Phase Impact: Beta SLAs inform the disaster_recovery skill's SEV definitions for beta context. Without beta SLAs, the feedback_system severity classifications (P0 = "app unusable") conflict with beta expectations — everything becomes a P0 from the user's perspective.
+
+================================================================
+
+## Finding: Reverse-Think — A Successful Beta Must Have Validated Compliance Pre-GA, But No Skill Covers Compliance Validation
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Working backward from a successful GA launch: the product would have passed a compliance validation sweep before exiting Beta — GDPR data mapping complete, SOC2 controls in place (if applicable), CCPA privacy policy published, CAN-SPAM compliance for all email types confirmed, accessibility (WCAG 2.1 AA) spot-check completed. The email_templates skill has a CAN-SPAM compliance checklist and GDPR considerations, but these are checkboxes inside the email skill, not a phase-level compliance gate. The product_analytics skill mentions GDPR opt-out but does not address CCPA (California Consumer Privacy Act) which requires different consent mechanics. No Phase 5.75 skill validates the full compliance picture before GA. Phase 4 (Secure) may have covered security but compliance validation — the pre-GA legal readiness check — is absent.
+### Proposed Resolution: New skill `compliance_validation_beta` (Phase 5.75): Pre-GA compliance checklist aggregating: GDPR (consent, DPA, right-to-erasure), CCPA (do-not-sell, data inventory), CAN-SPAM (email compliance), accessibility (WCAG 2.1 AA keyboard navigation and screen reader spot check), cookie consent audit, privacy policy and terms of service version check. Trigger: "pre-GA compliance check", "legal readiness", "compliance audit beta."
+### Cross-Phase Impact: Without compliance validation, Phase 6 Handoff may market a product that is non-compliant. Community management in Phase 6 will face legal questions from users that the team cannot answer. If GDPR non-compliance is discovered post-GA, it invalidates all collected analytics data.
+
+================================================================
+================================================================
+[Loop 5] [Detective] [T575] 2026-02-25T10:00:00Z
+================================================================
+
+## Finding: Failure Mode — Feature Flags With Database Backend Create Race Conditions at Scale
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: HIGH
+### Evidence: The feature_flags skill's "Approach 2: Database Config Table" calls `db.featureFlag.findUnique()` on every request to check flag state. The skill correctly notes "adds database queries" as a con but does not address the caching requirement. At Beta scale (hundreds of concurrent users), uncached flag checks add a database round-trip to every API call. More critically: the skill's `isUserInRollout()` function uses a hash that is re-computed on each request — this is fine — but the rollout_percentage field is fetched from the database each time, meaning a flag change during a request burst can cause some requests in the same user session to see flag-on and others to see flag-off, creating inconsistent UI state. The skill provides no caching layer (Redis TTL, in-memory LRU), no consistency guarantee within a session, and no guidance on flag evaluation latency budgets.
+### Proposed Resolution: Add to feature_flags skill: a "Flag Caching" section with Redis TTL-based caching (TTL: 30 seconds for ops flags, 5 minutes for release flags), in-memory LRU fallback for Redis outage, session-sticky flag evaluation (evaluate once per request context, not per check), and a flag evaluation latency budget (< 5ms, not a full DB round-trip). Trigger: existing feature flag triggers.
+### Cross-Phase Impact: At Beta scale, uncached flag checks will show up in load test results as database hotspots. This failure mode would not be caught until the load_testing skill (proposed) reveals it. If not caught in Beta, it becomes a production incident at GA.
+
+================================================================
+
+## Finding: Failure Mode — Analytics Events Fired Before User Consent Creates GDPR Violations in Different Stacks
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: CRITICAL
+### Evidence: The product_analytics skill initializes PostHog in a useEffect at app mount: `posthog.init(...)` with `capture_pageview: true`. This means a pageview event is captured for every user who lands on the app, including users who have not yet accepted analytics cookies. Under GDPR's "legitimate interest" interpretation debate, capturing analytics without consent during a Beta is higher-risk than during GA because beta testers are identifiable individuals who have not necessarily agreed to analytics. The skill's GDPR section shows `opt_out_capturing_by_default: false` as the default — meaning tracking is ON by default, opt-out later. In GDPR jurisdictions, opt-in is required for analytics. The `handleCookieConsent` function is shown but is not connected to `posthog.init()` — PostHog is already initialized and capturing before consent is checked. This is a real GDPR violation pattern, not a theoretical one.
+### Proposed Resolution: Fix product_analytics skill: PostHog must be initialized with `opt_out_capturing_by_default: true` in all cases, and `posthog.opt_in_capturing()` must be called only after explicit user consent. The `PostHogProvider` must not call `posthog.init()` until consent state is loaded from storage. Add a consent gate to the PostHogProvider. This is not a new skill but a correction to the existing skill.
+### Cross-Phase Impact: CRITICAL: All analytics data collected during Beta without proper consent is legally tainted and may need to be deleted. This affects all PostHog dashboards, all funnel analyses, all A/B test data, and all graduation criteria metrics built on this data. The privacy_consent_management skill proposed in Loop 1 must be a prerequisite to product_analytics initialization.
+
+================================================================
+
+## Finding: Failure Mode — Rate Limiting By IP Fails for Users Behind NAT/Corporate Proxies
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence: The rate_limiting skill's `getTracker()` method falls back to `req.ip` for unauthenticated users. In corporate environments (common for B2B SaaS beta testers), hundreds of users may share a single public IP address behind a NAT gateway or corporate proxy. This means: (1) all users in the same office share a rate limit bucket, (2) a single high-frequency user can trigger rate limiting for the entire office, (3) the 429 response gives no indication that the user is sharing an IP-based limit. The skill also does not handle the X-Forwarded-For header correctly — it uses `req.ip` which may be the load balancer IP rather than the actual client IP, depending on the hosting configuration. NestJS ThrottlerGuard's default IP extraction behavior depends on whether `app.set('trust proxy', true)` is set.
+### Proposed Resolution: Add to rate_limiting skill: guidance on configuring `trust proxy` in NestJS for correct IP extraction, X-Forwarded-For header parsing, warning about shared IP scenarios in corporate environments with recommendation to always prefer user-ID-based tracking for authenticated endpoints (the skill already does this, but should explicitly warn about the unauthenticated case and recommend a soft limit for IP-based tracking with a higher threshold). Trigger: existing rate limiting triggers.
+### Cross-Phase Impact: B2B Beta testers from enterprise customers will experience 429 errors collectively, which they will report as bugs. The feedback_system will be flooded with "rate limit" P1 reports that are actually configuration issues.
+
+================================================================
+
+## Finding: Failure Mode — Error Boundaries Do Not Handle React 18 Concurrent Mode Suspense Boundaries
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence: The error_boundaries skill implements React class-based Error Boundaries. In React 18 with concurrent features (Suspense, useDeferredValue, useTransition), errors thrown during concurrent rendering can behave differently from synchronous rendering errors. Specifically: a Suspense boundary that wraps a lazy-loaded component interacts with Error Boundaries — if the lazy load fails, the error must propagate through both a Suspense boundary and an Error Boundary. The skill does not show how to compose ErrorBoundary with React.Suspense for lazy-loaded routes. The router setup uses ErrorBoundary but not React.Suspense, meaning code-split chunks that fail to load will crash through to the top-level error boundary with no loading fallback. This is a React 18 patterns gap, not a fundamental flaw, but it is a failure mode for any app using dynamic imports or lazy routing.
+### Proposed Resolution: Add to error_boundaries skill: a "React 18 Concurrent Mode" section showing the correct composition of ErrorBoundary + Suspense for lazy-loaded routes: `<ErrorBoundary><Suspense fallback={<PageSkeleton />}><LazyPage /></Suspense></ErrorBoundary>`. Also add `React.lazy` + `React.Suspense` to the router setup example. Trigger: existing error boundary triggers.
+### Cross-Phase Impact: Missing lazy route loading pattern means the frontend bundle is not code-split, which increases initial load time — impacting the performance spot-check test (TC-PERF-001) from the Alpha qa_playbook.
+
+================================================================
+
+## Finding: Failure Mode — Feedback Screenshot Capture Violates Content Security Policy
+
+### Gap Type: FAILURE_MODE_UNCOVERED
+### Severity: MEDIUM
+### Evidence: The feedback_system skill uses `html2canvas` for screenshot capture: `html2canvas(document.body, ...)`. The `html2canvas` library works by re-rendering the DOM to a canvas element. This process is blocked by Content Security Policy (CSP) directives that restrict `img-src` or `script-src` to specific origins, which is a standard security hardening step from Phase 4 (Secure). Additionally, html2canvas cannot capture cross-origin iframes or images served from CDNs without CORS headers. The skill does not warn about CSP interaction, does not provide fallback for CSP-blocked screenshots, and does not mention that screenshots will be blank for any cross-origin embedded content. In a Beta app that embeds third-party widgets (analytics, intercom, etc.), the screenshot will silently exclude important context.
+### Proposed Resolution: Add to feedback_system skill: a "CSP Compatibility" section warning that html2canvas requires `img-src 'self' data:` in CSP, and providing a fallback path (user can upload a manual screenshot file if auto-capture fails). Also add a capability detection check before calling html2canvas. Trigger: existing feedback system triggers.
+### Cross-Phase Impact: If Phase 4 (Secure) enforced strict CSP headers, the feedback screenshot feature silently breaks during Beta, reducing the quality of bug reports submitted by beta testers.
+
+================================================================
+================================================================
+[Loop 6] [Detective] [T575] 2026-02-25T10:30:00Z
+================================================================
+
+## Finding: Industry Deviation — DORA Metrics Are Not Defined or Tracked for Beta Phase
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: DORA (DevOps Research and Assessment) defines four key metrics for high-performing software teams: Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Mean Time to Recovery (MTTR). None of the six Beta skills define, track, or reference these metrics. The product_analytics skill tracks user behavior; it does not track engineering delivery metrics. The error_tracking skill (Alpha, upstream) captures errors but does not compute Change Failure Rate (percentage of deployments causing a production incident). The feedback_system tracks user-reported bugs but not deployment-triggered regressions. Industry standard: teams graduating from Beta to GA should demonstrate Elite DORA performance (deployment frequency: multiple times/day, lead time: < 1 hour, change failure rate: < 5%, MTTR: < 1 hour). Without tracking these, Beta graduation has no engineering performance benchmark.
+### Proposed Resolution: New skill or addition to beta_graduation_criteria (Loop 1 proposed): DORA metrics tracking setup — deployment frequency via CI/CD pipeline event logging, lead time from PR open to production via GitHub API, change failure rate via correlation of deployments with error spikes in Sentry, MTTR via incident open-to-close timestamps. Target: reach Elite tier before GA graduation. Trigger: "track DORA metrics", "engineering performance metrics."
+### Cross-Phase Impact: Phase 6 disaster_recovery runbooks include MTTR targets (30 min for backend outage, 15 min for frontend rollback) — but without MTTR tracking in Beta, there is no baseline. Phase 7 (Maintenance) presumably monitors these metrics; Beta should establish them.
+
+================================================================
+
+## Finding: Industry Deviation — SOC2 Trust Criteria Are Unaddressed for Beta With Real User Data
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: SOC2 Type I/II compliance is increasingly required for B2B SaaS, especially when handling business data during a Beta that may include paying customers. SOC2's five Trust Service Criteria (Security, Availability, Processing Integrity, Confidentiality, Privacy) map directly to Beta phase activities: Security — covered partially by Phase 4 skills; Availability — no SLA defined (Loop 5 Finding); Processing Integrity — no data validation skill; Confidentiality — no DLP controls; Privacy — partially covered by analytics consent (Loop 5 Finding). The rate_limiting skill enforces availability indirectly, but no skill defines or tracks uptime percentage, no skill implements audit logging for all data access (required for SOC2 CC7), and no skill covers the evidence collection process needed for SOC2 readiness. Beta with enterprise customers who contractually require SOC2 cannot proceed without this foundation.
+### Proposed Resolution: New skill `soc2_readiness_beta` (Phase 5.75) or addition to compliance_validation_beta (Loop 4 proposed): SOC2 control mapping for Beta phase — audit log table (who accessed what data, when), uptime tracking, incident log with timeline evidence, change management record (feature flag changes logged), access control review. Not a full SOC2 implementation, but a readiness foundation that makes future SOC2 audit achievable. Trigger: "SOC2 readiness", "audit logging", "compliance controls."
+### Cross-Phase Impact: Phase 6 community_management will engage enterprise prospects who ask "are you SOC2 compliant?" Without audit logging foundations laid in Beta, the answer is no — which blocks enterprise sales. The disaster_recovery skill's security breach scenario (Scenario 6) references audit logs as an investigation tool, but no skill creates them.
+
+================================================================
+
+## Finding: Industry Deviation — SRE Error Budgets Not Defined for Beta
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence: Google's SRE practices define error budgets: if a service's SLO is 99.9% uptime, the error budget is 0.1% downtime per month (~43 minutes). When the error budget is exhausted, new feature deployments stop until reliability is restored. Phase 5.75-Beta has no SLO definition, no error budget calculation, and no mechanism to halt deployments when reliability is degraded. The rate_limiting skill protects against abuse but not against self-inflicted reliability degradation from frequent Beta deployments. The error_tracking skill (Alpha) sends Sentry alerts, but there is no aggregation of error rate into an error budget that gates further Beta feature releases. Industry standard for Beta phases with real users: define a relaxed SLO (e.g., 99.5%), track error budget consumption, and enforce a deployment freeze when budget is 50% exhausted.
+### Proposed Resolution: Add to beta_graduation_criteria (Loop 1 proposed) or create `slo_error_budget` skill: SLO definition template (uptime %, error rate %, latency p95), error budget calculation, budget burn rate monitoring (PostHog or custom dashboard), deployment gate (CI check that blocks deployment if error budget is < X% remaining). Trigger: "define error budget", "SLO tracking", "deployment gate on reliability."
+### Cross-Phase Impact: Phase 6 disaster_recovery defines recovery time targets without knowing the SLO baseline. Phase 7 Maintenance presumably operates against SLOs established in earlier phases — Beta should establish them.
+
+================================================================
+
+## Finding: Industry Deviation — CIS Benchmark Hardening Not Applied to Beta Infrastructure
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: MEDIUM
+### Evidence: CIS (Center for Internet Security) Benchmarks define hardening standards for cloud infrastructure, container runtimes, and Kubernetes clusters. The Phase 5.75-Beta skills assume the backend runs somewhere (Railway/Render/Docker/k8s) but no skill verifies CIS Level 1 controls are applied to the hosting environment before real Beta users access it. Specific gaps: the rate_limiting skill configures Redis for throttle storage but does not specify that Redis must have authentication enabled (`requirepass`) and TLS in transit — CIS Redis Benchmark requirement. The email_templates skill's Resend configuration does not mention that RESEND_API_KEY must have IP allowlist restrictions if the hosting provider supports them. PostHog's Personal API Key (phx_...) is a write-capable secret that should have IP restrictions. No skill in Phase 5.75 performs an infrastructure security posture check before opening Beta to real users.
+### Proposed Resolution: Add a "Infrastructure Security Preconditions" section to a Beta readiness skill (beta_readiness_check proposed Loop 3): Redis auth enabled, Redis TLS in transit, all third-party API keys have minimum necessary scopes, API keys with IP allowlist where provider supports it, TLS 1.2+ enforced on all endpoints, HTTP security headers (HSTS, X-Content-Type-Options, X-Frame-Options) verified. Reference CIS Benchmark Level 1 as the standard. Trigger: "security hardening check", "beta infrastructure audit."
+### Cross-Phase Impact: Phase 4 (Secure) presumably covered application-level security. Beta introduces new third-party integrations (PostHog, Resend, Redis) that each have their own hardening requirements. Phase 6 disaster_recovery Scenario 6 (Security Breach) requires prior hardening to be meaningful.
+
+================================================================
+
+## Finding: Industry Deviation — OWASP API Security Top 10 Not Validated for New Beta APIs
+
+### Gap Type: INDUSTRY_DEVIATION
+### Severity: HIGH
+### Evidence: Phase 5.75-Beta introduces several new API endpoints: POST /feedback (file upload, multipart), GET/PATCH /feedback (admin operations), and rate-limit-exempt webhooks. OWASP API Security Top 10 (2023) specifically calls out: API1 (Broken Object Level Authorization) — the feedback GET endpoint returns all feedback without filtering by organization, meaning User A can read User B's feedback if they know the ID; API3 (Broken Object Property Level Authorization) — the PATCH /feedback endpoint's UpdateFeedbackDto exposes adminNotes and assignedTo to all authenticated users, not just admins; API4 (Unrestricted Resource Consumption) — the screenshot upload in the feedback POST has no explicit file size limit in the controller, only browser-side validation. The rate_limiting skill applies throttling but not payload size limits. API8 (Security Misconfiguration) — the @SkipThrottle() on webhooks means any endpoint mistakenly decorated with this is permanently unprotected. These are concrete, exploitable gaps in the Beta's new APIs.
+### Proposed Resolution: Extend feedback_system skill with: org-scoped GET /feedback query (add orgId filter), admin-only guard on PATCH /feedback (role check), server-side file size limit in the NestJS FileInterceptor (limits: { fileSize: 5 * 1024 * 1024 }). Extend rate_limiting skill with a warning about @SkipThrottle() abuse and a recommendation to use an allowlist pattern instead of decorator-based exemptions. Trigger: "OWASP API security check", "feedback API security review."
+### Cross-Phase Impact: API1 (Broken Object Level Authorization) in the feedback endpoint means any beta user can read all other users' feedback, including internal team notes — a privacy violation. This would be a P0 finding in a Phase 4 security audit, but since the feedback_system was added in Phase 5.75 after the security phase, it is not covered.
+
+================================================================
+================================================================
+[Loop 7] [Builder] [T575] 2026-02-25T11:00:00Z
+================================================================
+
+## Finding: Solution Spec — beta_graduation_criteria Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Confirmed by Loop 1 (no exit criteria), Loop 3 (no Beta-to-Phase 6 handoff trigger), Loop 4 (no SLA commitments), Loop 6 (no DORA metrics, no SLO error budget).
+### Proposed Resolution:
+**Name**: beta_graduation_criteria
+**Phase**: 5.75-beta
+**Trigger Commands**: "define beta exit criteria", "beta graduation checklist", "GA readiness assessment", "is beta ready to graduate"
+**Scope**: This skill defines the objective measurement gates that must pass before Beta graduates to GA. It specifies: (1) quantitative thresholds — error rate < 0.5% over 7 days, p95 API latency < 500ms, 7-day retention >= 40%, P0 bug resolution rate 100%, P1 resolution rate >= 95%; (2) DORA Elite tier confirmation — deployment frequency, lead time, change failure rate, MTTR all at target; (3) SLO error budget not exhausted in final 14 days of Beta; (4) required artifact checklist — load test results, flag registry, compliance validation sign-off, feedback analytics summary, beta SLA retrospective. Produces a GA_READINESS_REPORT.md artifact.
+**Priority**: P0 — CRITICAL. Without this, the Beta phase has no defined end.
+### Cross-Phase Impact: Directly gates Phase 6 entry. Feeds disaster_recovery SLA baseline and user_documentation scope definition.
+
+================================================================
+
+## Finding: Solution Spec — beta_cohort_management Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Confirmed by Loop 1 (no cohort tracking), Loop 2 (analytics metrics conflate internal and real users), Loop 3 (feature flags cannot target beta cohort members specifically).
+### Proposed Resolution:
+**Name**: beta_cohort_management
+**Phase**: 5.75-beta
+**Trigger Commands**: "manage beta users", "beta invitations", "cohort tracking", "beta enrollment", "invite beta testers"
+**Scope**: This skill provides the full Beta user enrollment infrastructure: Prisma BetaCohort and BetaEnrollment models, invite-token-gated signup endpoint (POST /beta/invite, POST /beta/enroll), cohort property (beta_cohort: string) attached to every PostHog event via PostHog's $set_once person property, cohort-aware feedback routing (feedback from 'internal' cohort routed differently from 'design_partner' cohort), and an admin dashboard panel showing cohort composition, activation rates per cohort, and cohort progression timeline. Produces cohort-tagged analytics data as a prerequisite for beta_graduation_criteria metrics.
+**Priority**: P1 — HIGH.
+### Cross-Phase Impact: Required by feature_flags (can target specific cohorts), product_analytics (per-cohort funnel metrics), feedback_system (cohort-aware triage), and email_templates (beta invitation template).
+
+================================================================
+
+## Finding: Solution Spec — Corrections and Extensions to Existing Skills (Non-New Skills)
+
+### Gap Type: SHALLOW_COVERAGE
+### Severity: HIGH
+### Evidence: Multiple loops confirmed shallow coverage issues requiring corrections to existing skills rather than new skills.
+### Proposed Resolution:
+**Changes Required to Existing Skills:**
+
+1. **product_analytics** (P0 CRITICAL — Loop 5 GDPR violation):
+   - Change `opt_out_capturing_by_default` to `true` by default
+   - Gate `posthog.init()` behind consent state check
+   - Add consent integration example showing how privacy_consent_management ties to PostHog initialization
+   - This is a correction, not an enhancement
+
+2. **feedback_system** (P1 HIGH — Loop 6 OWASP API1/API3):
+   - Add orgId filter to GET /feedback (currently returns ALL feedback without org scope)
+   - Add admin role guard to PATCH /feedback (currently any authenticated user can update admin fields)
+   - Add server-side file size limit to FileInterceptor: `limits: { fileSize: 5 * 1024 * 1024 }`
+   - Add user notification on RESOLVED/CLOSED status transition (email to submitter)
+
+3. **feature_flags** (P1 HIGH — Loop 5 race conditions, Loop 2 analytics gap):
+   - Add Redis caching section for flag values (TTL 30s-5min depending on flag type)
+   - Add PostHog event property standard: include active_flags object in every event
+   - Add Flag Registry artifact template for Beta graduation
+
+4. **error_boundaries** (P2 MEDIUM — Loop 5 async gaps, Loop 5 React 18):
+   - Add global unhandledrejection and error window event handlers wired to Sentry
+   - Add React 18 Suspense + ErrorBoundary composition example for lazy routes
+
+5. **rate_limiting** (P2 MEDIUM — Loop 5 NAT/proxy failure mode):
+   - Add trust proxy configuration guidance
+   - Warn about IP-based rate limiting in corporate proxy environments
+   - Recommend higher threshold for unauthenticated IP-based limits
+
+6. **email_templates** (P2 MEDIUM — Loop 2 plan comparison bug):
+   - Fix sendPlanChange() direction logic: replace string comparison with plan tier map
+   - Add beta invitation email template
+   - Add security alert (new device login) email template
+
+**Priority**: P0 for product_analytics GDPR correction, P1 for feedback_system security fixes.
+### Cross-Phase Impact: GDPR correction affects all Beta analytics data validity. Feedback security fixes prevent data exposure during Beta.
+
+================================================================
+
+## Finding: Solution Spec — load_testing Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: HIGH
+### Evidence: Confirmed by Loop 1 (no load test), Loop 3 (disaster_recovery cannot set thresholds without load data), Loop 4 (MTTR targets ungrounded without baseline capacity data).
+### Proposed Resolution:
+**Name**: load_testing
+**Phase**: 5.75-beta
+**Trigger Commands**: "load test the API", "performance testing", "stress test before beta", "k6 test", "benchmark API"
+**Scope**: This skill provides k6 load test scripts for the core Beta user journeys (authentication, primary CRUD operations, AI endpoints, file upload), a ramping profile generator (steady state: target RPS for 5 min; spike: 3x target for 2 min; soak: target RPS for 30 min), acceptance criteria table (p95 latency < 500ms at target RPS, error rate < 0.1%, no memory growth > 20% over soak test), database connection pool sizing guidance based on load results, Redis capacity planning for rate-limit storage (keys-per-second calculation), and a LOAD_TEST_RESULTS.md output artifact that feeds into the disaster_recovery runbook and beta_graduation_criteria.
+**Priority**: P1 — HIGH.
+### Cross-Phase Impact: Required by disaster_recovery (Scenario 8 thresholds), beta_graduation_criteria (performance gate), and rate_limiting (Redis capacity).
+
+================================================================
+
+## Finding: Solution Spec — usage_metering_billing Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Confirmed by Loop 4 (no billing metering despite plan-based rate limits), Loop 3 (beta-to-GA pricing migration undefined).
+### Proposed Resolution:
+**Name**: usage_metering_billing
+**Phase**: 5.75-beta
+**Trigger Commands**: "set up usage billing", "meter API usage", "Stripe metered billing", "usage-based pricing", "track API consumption"
+**Scope**: This skill bridges the rate_limiting plan tiers with actual Stripe billing: Stripe Meters API setup for metered billing (or subscription item quantity updates for simpler cases), a MeteringService that increments Stripe usage records when rate-limited resources are consumed, a UsageSummary endpoint (GET /billing/usage) returning current period consumption per resource, an overage alert system (trigger email when 80% of paid quota reached), and a beta-to-GA price migration procedure (updating Stripe subscription items from beta pricing to GA pricing during the beta_to_ga_migration). Requires Stripe's customer portal integration for self-service plan management.
+**Priority**: P0 — CRITICAL. Revenue cannot flow without this.
+### Cross-Phase Impact: Required by email_templates (sendUsageWarning needs actual data source), rate_limiting (limits must be enforced for billing purposes, not just for API protection), and Phase 6 Handoff (GA requires commercial billing infrastructure).
+
+================================================================
+
+## Finding: Solution Spec — beta_to_ga_migration Skill
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Confirmed by Loop 3 (complete absence of migration path), Loop 4 (reverse-think: migration must exist for Beta to have ended).
+### Proposed Resolution:
+**Name**: beta_to_ga_migration
+**Phase**: 5.75-beta (exit boundary, executed last)
+**Trigger Commands**: "migrate beta to GA", "graduate to production", "beta exit migration", "launch GA", "exit beta"
+**Scope**: This skill provides the step-by-step procedure for migrating from Beta to GA: (1) Flag cleanup — run flag registry audit, remove all release flags at 100%, archive experiment flags with results; (2) Account migration — update BetaEnrollment records to GA status, apply GA pricing in Stripe; (3) Data archival — export and archive beta feedback data, generate Beta Summary Report; (4) Monitoring threshold update — switch from beta-relaxed SLOs to GA SLOs in alerting; (5) Rate limit update — remove any beta-period overrides, enforce GA plan limits; (6) User communication — send "You're now on GA" email to all beta users (requires new email template); (7) Status page and changelog update. Produces BETA_EXIT_REPORT.md. Requires beta_graduation_criteria gate to have passed before execution.
+**Priority**: P0 — CRITICAL. Without this, Phase 5.75 never actually ends.
+### Cross-Phase Impact: This is the trigger event for Phase 6 to begin. Phase 6 community_management, user_documentation, and api_reference are all GA-targeted and should not begin until this skill completes.
+
+================================================================
+================================================================
+[Loop 8] [Builder] [T575] 2026-02-25T11:30:00Z
+================================================================
+
+## Finding: Dependency Map and Build Complexity for All Proposed Solutions
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: Loop 7 proposed 5 new skills and corrections to 6 existing skills. This final loop defines inter-dependencies, build complexity, and infrastructure requirements for each.
+### Proposed Resolution:
+
+**DEPENDENCY GRAPH (must execute in order):**
+
+```
+Phase 5.5-Alpha Prerequisites (must be verified first):
+  error_tracking → [provides Sentry DSN]
+  env_validation → [provides validated env]
+  health_checks → [provides /health endpoint]
+  backup_strategy → [provides data safety]
+  qa_playbook → [provides test framework]
+         ↓
+Phase 5.75-Beta Execution Order:
+
+TIER 1 — Fixes to existing skills (correct before new skills build on them):
+  [CORRECTION] product_analytics (GDPR consent gate)
+    Complexity: S (1-2 hours) — change opt_out default, add consent gate wrapper
+    Infrastructure: None new — modifies existing PostHogProvider
+    Standalone: Yes
+
+  [CORRECTION] feedback_system (OWASP security + user notification)
+    Complexity: S (1-2 hours) — add orgId filter, admin guard, file size limit
+    Infrastructure: None new — modifies existing controller/service
+    Standalone: Yes
+
+  [CORRECTION] feature_flags (Redis cache + analytics bridge)
+    Complexity: M (half-day) — add Redis caching layer, add flag property to events
+    Infrastructure: Requires Redis (likely already present for rate_limiting)
+    Dependency: rate_limiting (Redis already provisioned)
+
+  [CORRECTION] error_boundaries (global handlers + React 18 patterns)
+    Complexity: S (1-2 hours) — add two event listeners, update router example
+    Infrastructure: None new
+    Standalone: Yes
+
+  [CORRECTION] rate_limiting (trust proxy + NAT warning)
+    Complexity: S (1 hour) — documentation + trust proxy config addition
+    Infrastructure: None new
+    Standalone: Yes
+
+  [CORRECTION] email_templates (plan comparison fix + new templates)
+    Complexity: S (1-2 hours) — fix logic bug, add 2 templates
+    Infrastructure: None new
+    Standalone: Yes
+
+TIER 2 — New prerequisite skills (must exist before Tier 3 can run):
+  beta_cohort_management
+    Complexity: L (full day) — new Prisma models, invite flow, cohort-tagged events
+    Infrastructure: Requires new Prisma migration, PostHog group analytics
+    Dependency: product_analytics (TIER 1 correction), email_templates (TIER 1 correction for beta invitation template)
+    Standalone: No — requires product_analytics and email_templates
+
+  load_testing
+    Complexity: M (half-day) — k6 scripts, acceptance criteria, output artifact
+    Infrastructure: Requires k6 installed in CI, test environment that mirrors production
+    Dependency: rate_limiting (to understand limits to test against), health_checks (as baseline check)
+    Standalone: Partially — can write scripts independently, execution requires running Beta environment
+
+TIER 3 — New operational skills (require Tier 2 outputs):
+  usage_metering_billing
+    Complexity: L (full day) — Stripe Meters API, MeteringService, UsageSummary endpoint
+    Infrastructure: Requires Stripe account with Meters API enabled, Redis for usage accumulator
+    Dependency: rate_limiting (plan tier definitions), email_templates (sendUsageWarning), beta_cohort_management (to know which users are in which plan)
+    Standalone: No — deeply coupled to rate_limiting and billing infrastructure
+
+  compliance_validation_beta (proposed Loop 4)
+    Complexity: M (half-day) — checklist generation, audit sweep
+    Infrastructure: None new — audit tooling only
+    Dependency: product_analytics TIER 1 correction (GDPR consent must be fixed first), email_templates (CAN-SPAM checklist)
+    Standalone: Partially — checklist can be written, execution requires fixes in place
+
+  beta_sla_definition (proposed Loop 4)
+    Complexity: S (1-2 hours) — document template with thresholds
+    Infrastructure: None new
+    Dependency: load_testing (SLA thresholds must be grounded in measured capacity)
+    Standalone: Template yes, thresholds no
+
+TIER 4 — Graduation and exit skills (execute last):
+  beta_graduation_criteria
+    Complexity: M (half-day) — threshold definitions, GA_READINESS_REPORT template, CI gate script
+    Infrastructure: Requires PostHog API access (to pull retention metrics), Sentry API (error rate), load_testing results artifact
+    Dependency: ALL Tier 1-3 skills, load_testing (performance gate data), compliance_validation_beta (compliance sign-off), beta_sla_definition (SLA retrospective), beta_cohort_management (cohort activation metrics), usage_metering_billing (billing readiness)
+    Standalone: No — aggregates outputs from all other Beta skills
+
+  beta_to_ga_migration
+    Complexity: L (full day) — migration runbook, flag cleanup automation, Stripe migration, user communication
+    Infrastructure: Requires Stripe account access, PostHog admin API, feature flag registry artifact from feature_flags correction
+    Dependency: beta_graduation_criteria (gate must pass first), ALL corrected existing skills (clean state), usage_metering_billing (GA pricing activation), email_templates (GA announcement template)
+    Standalone: No — final integration of all Beta outputs
+```
+
+**TOTAL COMPLEXITY ESTIMATE:**
+- Tier 1 corrections: 6 x S/M = ~2-3 days total
+- Tier 2 new skills: 2 x M/L = ~1.5 days
+- Tier 3 new skills: 3 x S/M = ~1.5 days
+- Tier 4 graduation skills: 2 x M/L = ~1.5 days
+- **Total: ~7-9 working days of skill authoring to fill all gaps**
+
+**FRAMEWORK INFRASTRUCTURE REQUIREMENTS:**
+- New agent needed: None — all proposed skills are standalone SKILL.md files with some requiring a shared `beta-artifacts/` output directory for inter-skill artifact passing (LOAD_TEST_RESULTS.md, FLAG_REGISTRY.md, GA_READINESS_REPORT.md, BETA_EXIT_REPORT.md)
+- New command needed: `/beta-status` — reads all artifact files and produces a Beta phase completion dashboard showing which graduation criteria are met
+- New workflow needed: Beta CI gate — a GitHub Actions workflow that checks the beta_graduation_criteria gates before allowing any Phase 6 skill triggers
+
+**PRIORITY MATRIX (which to build first):**
+| Skill | Priority | Build First? | Blocker? |
+|-------|----------|--------------|----------|
+| product_analytics GDPR fix | P0 | YES | Blocks all analytics validity |
+| feedback_system OWASP fix | P0 | YES | Active security risk |
+| beta_graduation_criteria | P0 | YES | Phase has no exit without it |
+| beta_to_ga_migration | P0 | YES | Phase 6 cannot start without it |
+| usage_metering_billing | P0 | YES | Revenue blocked |
+| load_testing | P1 | YES | Beta cannot open without capacity knowledge |
+| beta_cohort_management | P1 | NO | Enhances quality, not safety |
+| compliance_validation_beta | P1 | NO | Should complete before GA |
+| feature_flags corrections | P1 | NO | Performance issue, not safety |
+| ab_testing_rigor | P2 | NO | Quality improvement |
+| privacy_consent_management | P1 | YES (tied to P0 GDPR fix) | Legal risk |
+| error_boundaries corrections | P2 | NO | Edge case improvement |
+| rate_limiting corrections | P2 | NO | Documentation improvement |
+| email_templates corrections | P2 | NO | Bug fix + new templates |
+| beta_sla_definition | P2 | NO | Governance improvement |
+| soc2_readiness_beta | P2 | NO | Enterprise-track only |
+| beta_qa_extension | P1 | NO | Required before Beta opens |
+
+================================================================
+
+## Finding: Summary — Total Gap Inventory for T575-Beta Phase
+
+### Gap Type: MISSING_SKILL
+### Severity: CRITICAL
+### Evidence: 8-loop analysis complete. Full inventory of confirmed gaps:
+
+**P0 CRITICAL (must fix before Beta opens to real users):**
+1. product_analytics GDPR consent gate (analytics collecting without consent — active legal violation)
+2. feedback_system OWASP API1/API3 authorization (any user can read/modify all feedback)
+3. Beta graduation criteria (no defined exit — Beta runs indefinitely)
+4. Beta-to-GA migration (no defined transition procedure)
+5. Usage metering and billing (plan limits enforced but revenue not captured)
+
+**P1 HIGH (must fix before Beta is declared successful):**
+6. A/B testing statistical rigor (false positives invalidate feature decisions)
+7. Beta cohort management (analytics conflate user types)
+8. Email deliverability monitoring (silent deliverability failures)
+9. Privacy consent management (GDPR, CCPA consent infrastructure)
+10. Load testing (no capacity baseline before real users)
+11. Feedback loop closure to users (beta testers stop reporting bugs)
+12. Beta QA extension (no test cases for any Beta feature)
+13. Beta readiness check (no validation that Alpha prerequisites are met)
+14. DORA metrics tracking (no engineering performance baseline)
+15. SOC2 readiness foundation (required for enterprise Beta customers)
+16. OWASP API security validation for new Beta endpoints
+
+**P2 MEDIUM (quality improvements):**
+17. Feature flags analytics bridge (flags and analytics are siloed)
+18. Usage quota dashboard (users hit 429 without quota visibility)
+19. Error boundaries global async handlers
+20. Error boundaries React 18 Suspense composition
+21. Rate limiting trust proxy and NAT guidance
+22. Email templates plan comparison bug fix
+23. Email templates missing Beta templates (invitation, security alert, GA announcement)
+24. Feature flags Redis caching (performance failure at scale)
+25. Beta SLA definition document
+26. Flag registry artifact for Phase 6 handoff
+27. Feedback analytics and weekly digest
+28. Feature flags analytics event property standard
+
+**TOTAL: 28 confirmed gaps across 6 existing skills (corrections) and 8-10 proposed new skills**
+### Cross-Phase Impact: Phase 6 (Handoff) is blocked at the entry by gaps 3 and 4 (no graduation criteria, no migration path). Phase 7 (Maintenance) inherits incorrect SLA baselines without gaps 9-10. The entire analytics foundation of the product is legally compromised by gap 1.
+
+================================================================

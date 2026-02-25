@@ -542,6 +542,134 @@ After running this skill, create: `.agent/docs/4-secure/security-audit-[date].md
 
 ---
 
+---
+
+## Agent Automation
+
+> Use the **security-reviewer** agent (`.agent/agents/security-reviewer.md`) for automated security analysis.
+> Invoke via: `/code-review` with security focus
+
+### Automated Scan Commands
+
+```bash
+# Secret detection
+grep -rn "password\|secret\|api_key\|token\|private_key" --include="*.ts" --include="*.js" --include="*.env" .
+
+# Dependency vulnerabilities
+npm audit --json | jq '.vulnerabilities | to_entries[] | select(.value.severity == "critical" or .value.severity == "high")'
+
+# Docker security scan
+docker scout cves <image>
+```
+
+### AgentShield Configuration Scan
+
+Scan your Claude Code configuration for security misconfigurations:
+
+```bash
+# Full scan of .claude/ directory
+npx ecc-agentshield scan
+
+# JSON output for CI/CD integration
+npx ecc-agentshield scan --format json
+
+# Auto-fix safe issues (replaces hardcoded secrets with env var refs, tightens wildcards)
+npx ecc-agentshield scan --fix
+
+# Adversarial deep analysis (requires ANTHROPIC_API_KEY)
+npx ecc-agentshield scan --opus --stream
+```
+
+| Grade | Score | Meaning |
+|-------|-------|---------|
+| A | 90-100 | Secure configuration |
+| B | 75-89 | Minor issues |
+| C | 60-74 | Needs attention |
+| D | 40-59 | Significant risks |
+| F | 0-39 | Critical vulnerabilities |
+
+### CSRF Protection Patterns
+
+```typescript
+// CSRF token validation on state-changing operations
+export async function POST(request: Request) {
+  const token = request.headers.get('X-CSRF-Token');
+  if (!csrf.verify(token)) {
+    return NextResponse.json({ error: 'Invalid CSRF token' }, { status: 403 });
+  }
+  // Process request
+}
+
+// SameSite cookies
+res.setHeader('Set-Cookie',
+  `session=${sessionId}; HttpOnly; Secure; SameSite=Strict`);
+```
+
+### File Upload Security
+
+```typescript
+function validateFileUpload(file: File) {
+  // Size check
+  const maxSize = 5 * 1024 * 1024; // 5MB
+  if (file.size > maxSize) throw new Error('File too large (max 5MB)');
+
+  // Type check (whitelist, not blacklist)
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+  if (!allowedTypes.includes(file.type)) throw new Error('Invalid file type');
+
+  // Extension check (double validation)
+  const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif'];
+  const extension = file.name.toLowerCase().match(/\.[^.]+$/)?.[0];
+  if (!extension || !allowedExtensions.includes(extension)) {
+    throw new Error('Invalid file extension');
+  }
+}
+```
+
+### Automated Security Tests
+
+```typescript
+// Test authentication enforcement
+test('requires authentication', async () => {
+  const response = await fetch('/api/protected');
+  expect(response.status).toBe(401);
+});
+
+// Test authorization enforcement
+test('requires admin role', async () => {
+  const response = await fetch('/api/admin', {
+    headers: { Authorization: `Bearer ${userToken}` }
+  });
+  expect(response.status).toBe(403);
+});
+
+// Test rate limiting
+test('enforces rate limits', async () => {
+  const requests = Array(101).fill(null).map(() => fetch('/api/endpoint'));
+  const responses = await Promise.all(requests);
+  const tooManyRequests = responses.filter(r => r.status === 429);
+  expect(tooManyRequests.length).toBeGreaterThan(0);
+});
+```
+
+### Claude Code Configuration Security
+
+| File | What to Check |
+|------|--------------|
+| `CLAUDE.md` | Hardcoded secrets, auto-run instructions, prompt injection patterns |
+| `settings.json` | Overly permissive allow lists, missing deny lists, dangerous bypass flags |
+| `mcp.json` | Risky MCP servers, hardcoded env secrets, npx supply chain risks |
+| `hooks/` | Command injection via interpolation, data exfiltration, silent error suppression |
+| `agents/*.md` | Unrestricted tool access, prompt injection surface, missing model specs |
+
+**Critical findings to fix immediately:**
+- Hardcoded API keys or tokens in config files
+- `Bash(*)` in the allow list (unrestricted shell access)
+- Command injection in hooks via `${file}` interpolation
+- Shell-running MCP servers without sandboxing
+
+---
+
 ## ✅ EXIT CHECKLIST
 
 - [ ] All injection vectors checked
@@ -550,10 +678,14 @@ After running this skill, create: `.agent/docs/4-secure/security-audit-[date].md
 - [ ] Secrets management audited
 - [ ] AI-specific risks addressed
 - [ ] Dependencies scanned
+- [ ] CSRF protection on state-changing operations
+- [ ] File upload validation implemented
+- [ ] Security tests written for auth/authz/rate-limiting
+- [ ] Claude Code configuration scanned (AgentShield)
 - [ ] Third-party vendors evaluated (if applicable)
 - [ ] Findings documented
 - [ ] Remediation plan created
 
 ---
 
-*Skill Version: 1.0 | Created: January 2026*
+*Skill Version: 1.1 | Updated: February 2026 | Merged with ECC security-review + security-scan*
