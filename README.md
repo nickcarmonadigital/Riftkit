@@ -1,6 +1,6 @@
 # AI Development Workflow Framework
 
-> **228 Skills** | **13 Agents** | **32 Commands** | **25 Rules** | **70+ Docs** | **18 Workflows** | **Zero Fluff**
+> **298 Skills** | **13 Agents** | **32 Commands** | **25 Rules** | **70+ Docs** | **18 Workflows** | **Zero Fluff**
 
 AI assistants write great code but lack process discipline -- they skip architecture reviews, forget security audits, and never write migration runbooks. This framework gives them structured skills, automated agents, and slash commands for every phase of development, from first brainstorm through production maintenance.
 
@@ -10,7 +10,7 @@ AI assistants write great code but lack process discipline -- they skip architec
 
 Every AI coding assistant shares the same blind spot: it optimizes for the task in front of it. Ask it to build a feature and it will happily write code without a spec, skip threat modeling, deploy without a rollback plan, and move on to the next prompt. The result is software that works today and breaks tomorrow.
 
-This framework fills the gap with 228 skills that encode real engineering process -- architecture decomposition, test strategies, compliance checklists, deployment runbooks, post-launch observability, and everything in between. Each skill is a standalone Markdown file the AI reads on demand, so it knows not just *what* to build but *how* to build it responsibly.
+This framework fills the gap with 298 skills that encode real engineering process -- architecture decomposition, test strategies, compliance checklists, deployment runbooks, post-launch observability, and everything in between. Each skill is a standalone Markdown file the AI reads on demand, so it knows not just *what* to build but *how* to build it responsibly.
 
 On top of the skills sits an automation layer: 13 specialized agents that handle code review, security scanning, documentation updates, and build-error resolution; 32 slash commands that invoke those agents and skills from the CLI; and 9 event-driven hooks that enforce formatting, type-checking, and changelog discipline without you lifting a finger.
 

@@ -74,7 +74,7 @@ Event-driven automations: session lifecycle management, post-edit formatting/typ
 
 See `.agent/hooks/README.md` for details.
 
-### ~130 Skills
+### 228 Skills
 
 | Category | Skills |
 |----------|--------|

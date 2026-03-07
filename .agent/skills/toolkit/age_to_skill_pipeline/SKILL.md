@@ -1,24 +1,25 @@
 ---
-name: AGE-to-Skill Pipeline
-description: Converts AGE analysis gap findings into production-ready skills through triage, scoping, authoring, review, and verification.
+name: ATOM-to-Skill Pipeline
+description: Converts ATOM analysis gap findings into production-ready skills through triage, scoping, authoring, review, and verification.
 ---
 
-# AGE-to-Skill Pipeline Skill
+# ATOM-to-Skill Pipeline Skill
 
-**Purpose**: Bridges the gap between AGE analysis output (gaps.log, synthesized-gaps.md) and shipped framework skills. This skill defines the full pipeline from gap triage and prioritization, through skill scoping and authoring, to peer review, registry registration, and post-deployment verification that the original gap is actually closed.
+**Purpose**: Bridges the gap between ATOM analysis output (gaps.log, synthesized-gaps.md, causal-model.md, epistemic-map.md) and shipped framework skills. This skill defines the full pipeline from gap triage and prioritization, through skill scoping and authoring, to peer review, registry registration, and post-deployment verification that the original gap is actually closed.
 
 ## TRIGGER COMMANDS
 
 ```text
 "Convert gaps to skills"
-"AGE implementation pipeline"
+"ATOM implementation pipeline"
 "Build skill from gap finding"
-"Triage AGE findings"
+"Triage ATOM findings"
 "Verify gap closure for [skill]"
+"AGE to skill pipeline"
 ```
 
 ## When to Use
-- After an AGE analysis completes and produces synthesized-gaps.md
+- After an ATOM analysis completes and produces synthesized-gaps.md
 - When prioritizing which gaps to address first
 - When authoring a new SKILL.md from a gap finding
 - After deploying new skills to verify the original gap is resolved
@@ -32,7 +33,7 @@ description: Converts AGE analysis gap findings into production-ready skills thr
 Read `synthesized-gaps.md` and classify every finding:
 
 ```markdown
-## Gap Triage — [AGE Target Name] — [Date]
+## Gap Triage — [ATOM Target Name] — [Date]
 
 ### Priority Classification
 | # | Gap Finding | Priority | Complexity | Phase | Disposition |
@@ -43,11 +44,17 @@ Read `synthesized-gaps.md` and classify every finding:
 | 4 | [finding] | P3 | S/M/L | [phase] | Defer |
 ```
 
-Priority definitions:
-- **P0**: Framework is broken or misleading without this. Ship this week.
-- **P1**: Significant gap that affects workflow quality. Ship this sprint.
-- **P2**: Nice to have, improves completeness. Ship when convenient.
-- **P3**: Marginal value or very niche. Defer indefinitely.
+Priority definitions (informed by ATOM FMEA RPN and Bayesian confidence):
+- **P0**: RPN > 150 AND P(real) > 0.8. Framework is broken or misleading without this. Ship this week.
+- **P1**: RPN 100-150 OR P(real) 0.6-0.8. Significant gap that affects workflow quality. Ship this sprint.
+- **P2**: RPN 50-100 AND P(real) > 0.5. Nice to have, improves completeness. Ship when convenient.
+- **P3**: RPN < 50 OR P(real) < 0.5. Marginal value or very niche. Defer indefinitely.
+
+Additional ATOM triage inputs:
+- **Causal DAG position**: Root cause gaps (causal parents) get +1 priority level bump. Symptom gaps (causal children) stay or get -1 if root cause is being addressed.
+- **Falsification status**: EXECUTED_CONFIRMED gaps get +1 confidence. NOT_EXECUTABLE (unfalsifiable) gaps are reclassified as "assumptions" and triaged separately.
+- **MAP-Elites coverage**: Gaps in empty Morphological cells get +1 priority (coverage diversity).
+- **Constitutional compliance**: Gaps that failed any Constitutional Article in Phase 3 are automatically P3 or Won't Fix.
 
 Disposition options:
 - **New Skill**: Gap requires a brand-new SKILL.md
@@ -62,7 +69,7 @@ For each gap marked "New Skill", write a 3-sentence scope:
 ```markdown
 ## Skill Scope: [Proposed Skill Name]
 
-**Source Gap**: [Gap finding from AGE, verbatim]
+**Source Gap**: [Gap finding from ATOM, verbatim]
 **Phase**: [target phase directory]
 **Priority**: [P0/P1/P2]
 
@@ -116,6 +123,10 @@ Before merging, the skill must pass review:
 | Review Criterion | Pass/Fail | Notes |
 |-----------------|-----------|-------|
 | Addresses the original gap finding | | |
+| Source gap passed all 8 ATOM Constitutional Articles | | |
+| Source gap FMEA RPN and Bayesian P(real) justify priority | | |
+| Causal DAG position considered (root cause vs symptom) | | |
+| Falsification status is EXECUTED_CONFIRMED or EXECUTABLE | | |
 | Follows SKILL.md format exactly | | |
 | Line count 80-150 | | |
 | No overlap with existing skills | | |
@@ -138,14 +149,14 @@ After review passes:
 ```markdown
 ## Gap Closure Verification: [Skill Name]
 
-**Original Gap**: [verbatim from AGE]
+**Original Gap**: [verbatim from ATOM]
 **Skill Deployed**: [date]
 **Verification Date**: [date]
 
 ### Verification Questions
 - [ ] Does the skill directly address the gap finding? (re-read both)
 - [ ] Has the skill been invoked at least once?
-- [ ] Would a new AGE analysis still surface this gap?
+- [ ] Would a new ATOM analysis still surface this gap?
 - [ ] Did the skill require any hotfixes or corrections since deployment?
 
 ### Verdict
@@ -158,7 +169,7 @@ After review passes:
 
 ## CHECKLIST
 
-- [ ] All AGE findings triaged with priority, complexity, and disposition
+- [ ] All ATOM findings triaged with priority, complexity, and disposition
 - [ ] P0 gaps have skill scopes written within 48 hours
 - [ ] Skill scopes are exactly 3 sentences (not more, not less)
 - [ ] Authored skills pass the quality checklist (structure + quality + consistency)

@@ -7,6 +7,8 @@ description: Scheduled failure injection testing with gameday runbooks to valida
 
 **Purpose**: Proactively discover system weaknesses by injecting controlled failures before they happen in production. This skill defines a chaos engineering protocol covering failure injection scenarios, gameday runbooks, chaos test result analysis, and DR runbook validation. Phase 4 runs pre-production chaos experiments; Phase 7 extends to scheduled production experiments.
 
+---
+
 ## TRIGGER COMMANDS
 
 ```text
@@ -15,14 +17,30 @@ description: Scheduled failure injection testing with gameday runbooks to valida
 "Resilience testing"
 "Gameday"
 "What happens when [dependency] goes down?"
+"Using chaos_engineering skill: [task]"
 ```
 
+---
+
 ## When to Use
+
 - Validating that circuit breakers, retries, and fallbacks work under real failure conditions
 - Running a pre-production gameday before a major release
 - Verifying disaster recovery runbooks actually work
 - Testing graceful degradation when a dependency becomes unavailable
 - Building confidence in system resilience after implementing resiliency patterns
+
+---
+
+## Chaos Engineering Maturity Model
+
+| Level | Description | Blast Radius | Environment |
+|-------|-------------|-------------|-------------|
+| 0 - Manual | Ad-hoc `docker kill`, `kubectl delete pod` | Single container | Dev/staging |
+| 1 - Scripted | Automated scripts with abort conditions | Single service | Staging |
+| 2 - Tooled | Chaos toolkit (LitmusChaos, Chaos Mesh) | Multi-service | Pre-prod |
+| 3 - Gameday | Structured team exercises with runbooks | AZ/Region | Production |
+| 4 - Continuous | Automated chaos in CI/CD, always-on | Controlled % | Production |
 
 ---
 
@@ -62,10 +80,12 @@ Prioritize experiments by likelihood and impact:
 | DNS failure | iptables, CoreDNS mutation | Service discovery | P1 |
 | Memory pressure | stress-ng | Single container | P2 |
 | Clock skew | chrony manipulation | Distributed systems | P2 |
+| Certificate expiry | Short-lived TLS certs | mTLS services | P2 |
+| AZ failure | Network partition | Multi-AZ | P3 |
 
 ### Step 3: Set Up Chaos Tools
 
-**Toxiproxy (dependency failure simulation):**
+#### Toxiproxy (dependency failure simulation)
 
 ```bash
 # Install Toxiproxy
@@ -84,7 +104,7 @@ toxiproxy-cli toggle postgres
 toxiproxy-cli toxic remove postgres -t latency
 ```
 
-**Docker-based failure injection:**
+#### Docker-based failure injection
 
 ```bash
 # Kill a container (test restart resilience)
@@ -99,7 +119,7 @@ docker network connect app-network app-service
 docker update --memory=64m --cpus=0.25 app-service
 ```
 
-**Kubernetes chaos (using kubectl):**
+#### Kubernetes chaos (using kubectl)
 
 ```bash
 # Delete a pod (test self-healing)
@@ -128,6 +148,85 @@ spec:
 EOF
 ```
 
+#### Chaos Mesh (Kubernetes-native)
+
+```yaml
+# Pod kill experiment
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: pod-kill-test
+  namespace: chaos-testing
+spec:
+  action: pod-kill
+  mode: one
+  selector:
+    namespaces:
+      - production
+    labelSelectors:
+      app: api-server
+  duration: "30s"
+  scheduler:
+    cron: "@every 2h"
+```
+
+```yaml
+# Network delay experiment
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: network-delay-test
+  namespace: chaos-testing
+spec:
+  action: delay
+  mode: all
+  selector:
+    namespaces:
+      - production
+    labelSelectors:
+      app: api-server
+  delay:
+    latency: "500ms"
+    jitter: "100ms"
+    correlation: "50"
+  direction: to
+  target:
+    selector:
+      namespaces:
+        - production
+      labelSelectors:
+        app: postgres
+    mode: all
+  duration: "5m"
+```
+
+#### LitmusChaos
+
+```yaml
+apiVersion: litmuschaos.io/v1alpha1
+kind: ChaosEngine
+metadata:
+  name: api-server-chaos
+  namespace: production
+spec:
+  appinfo:
+    appns: production
+    applabel: app=api-server
+    appkind: deployment
+  chaosServiceAccount: litmus-admin
+  experiments:
+    - name: pod-cpu-hog
+      spec:
+        components:
+          env:
+            - name: CPU_CORES
+              value: "2"
+            - name: TOTAL_CHAOS_DURATION
+              value: "300"
+            - name: CPU_LOAD
+              value: "90"
+```
+
 ### Step 4: Gameday Runbook
 
 Execute chaos experiments as a structured team exercise:
@@ -141,6 +240,7 @@ Execute chaos experiments as a structured team exercise:
 - [ ] All participants identified (facilitator, operator, observer, oncall)
 - [ ] Rollback procedures tested in staging
 - [ ] Incident channel created (#gameday-YYYY-MM-DD)
+- [ ] Stakeholders notified (customer support, SRE on-call)
 
 ### During Gameday
 - [ ] Announce gameday start in incident channel
@@ -156,12 +256,14 @@ Execute chaos experiments as a structured team exercise:
   7. Verify recovery to steady state
   8. Document: hypothesis confirmed/denied, surprises
 - [ ] Abort if any abort condition is triggered
+- [ ] Maintain timeline log of all actions and observations
 
 ### Post-Gameday (within 48 hours)
 - [ ] Compile experiment results into report
 - [ ] File tickets for unexpected failures
 - [ ] Update DR runbooks with learnings
 - [ ] Schedule follow-up for unresolved findings
+- [ ] Share learnings in team retrospective
 ```
 
 ### Step 5: Chaos Test Automation in CI
@@ -215,6 +317,12 @@ jobs:
             -d '{"type":"latency","attributes":{"latency":3000}}'
           npm run test:chaos:degraded
 
+      - name: Inject connection failure and retest
+        run: |
+          curl -s -X POST http://localhost:8474/proxies/postgres/toxics \
+            -d '{"type":"limit_data","attributes":{"bytes":0}}'
+          npm run test:chaos:down || true
+
       - name: Upload chaos report
         uses: actions/upload-artifact@v4
         if: always()
@@ -251,7 +359,63 @@ jobs:
 
 ---
 
-## CHECKLIST
+## Resilience Patterns to Validate
+
+| Pattern | What to Test | Expected Behavior |
+|---------|-------------|-------------------|
+| Circuit breaker | Dependency failure | Opens after N failures, half-opens after timeout |
+| Retry with backoff | Transient errors | Retries with exponential delay, stops at max |
+| Bulkhead | Resource exhaustion | Isolates failure, other services unaffected |
+| Timeout | Slow dependency | Fails fast instead of hanging |
+| Fallback | Primary unavailable | Returns cached/default response |
+| Rate limiting | Traffic spike | Rejects excess requests with 429 |
+| Health check | Pod failure | Unhealthy pod removed from load balancer |
+| Graceful shutdown | SIGTERM | Drains connections, completes in-flight requests |
+
+---
+
+## Monitoring During Chaos
+
+### Key Metrics Dashboard
+
+| Metric | Steady State | Abort Threshold |
+|--------|-------------|----------------|
+| Error rate | < 0.1% | > 5% |
+| p99 latency | < 500ms | > 5000ms |
+| p50 latency | < 100ms | > 1000ms |
+| Throughput | > 100 req/s | < 50 req/s |
+| CPU utilization | < 60% | > 95% |
+| Memory utilization | < 70% | > 95% |
+| Active connections | < 80% pool | 100% pool |
+| Queue depth | < 100 | > 10000 |
+
+### Prometheus Queries
+
+```promql
+# Error rate
+sum(rate(http_requests_total{status=~"5.."}[5m]))
+/ sum(rate(http_requests_total[5m]))
+
+# P99 latency
+histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket[5m])) by (le))
+
+# Circuit breaker state (if instrumented)
+circuit_breaker_state{service="payment-service"}
+# 0=closed, 1=open, 0.5=half-open
+```
+
+---
+
+## Cross-References
+
+- `3-build/service_mesh_patterns` - Fault injection via Istio VirtualService
+- `3-build/kubernetes_operations` - K8s self-healing and pod disruption budgets
+- `4-secure/infrastructure_testing` - Policy-as-code for infrastructure validation
+- `3-build/caching_strategies` - Cache fallback behavior under failure
+
+---
+
+## EXIT CHECKLIST
 
 - [ ] Chaos experiment cards documented with hypothesis and abort conditions
 - [ ] Toxiproxy or equivalent failure injection tool configured
@@ -265,5 +429,10 @@ jobs:
 - [ ] DR runbooks updated with gameday learnings
 - [ ] Lightweight chaos tests automated in weekly CI schedule
 - [ ] Chaos test results stored as resilience evidence
+- [ ] Monitoring dashboards validated during chaos experiments
+- [ ] Graceful shutdown behavior verified (SIGTERM handling)
+- [ ] Abort conditions clearly defined and enforced
 
-*Skill Version: 1.0 | Created: February 2026*
+---
+
+*Skill Version: 1.1 | Updated: March 2026*

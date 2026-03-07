@@ -1,91 +1,1954 @@
 ---
-name: Adversarial Gap Engine (AGE)
-description: A 25-Loop "Ralph Wiggum" protocol for exhaustive adversarial gap analysis using First Principles and Reverse Thinking.
+name: "ATOM Protocol"
+description: "Axiomatic Thinking for Omnidirectional Meta-analysis — A 37-Loop, 35-Method Universal Discovery Engine for Systematic Gap Analysis"
+triggers:
+  - "/atom"
+  - "/age"
+  - "/gap-analysis"
+  - "/adversarial-audit"
+  - "/discovery"
 ---
 
-# Adversarial Gap Engine (AGE)
+# ATOM — Axiomatic Thinking for Omnidirectional Meta-analysis
 
-> "I'm a unit tester!" - Ralph Wiggum
+*Named for Atom from Pluto — the AI that transcends its programming to achieve genuine understanding.*
 
-## 🧠 The Philosophy (Ralph Wiggum Loops)
-
-The **Adversarial Gap Engine** is not a single smart agent. It is a **process** of 25 independent, isolated iterations (loops).
-
-**The Golden Rule**: *Every loop starts with 0 context.*
-Like Ralph Wiggum, the AI forgets everything that happened 5 minutes ago. It only knows what is written in the gap log.
-
-## 🔄 The 25-Loop Protocol
-
-Run this loop 25 times. For each iteration `N` (1 to 25):
-
-### Step 1: 🧠 RESET CONTEXT
-
-* **Action**: Completely clear the chat history. Forget all previous instructions.
-* **Input**: Read `memory/gaps.log` (The only persistent memory).
-
-### Step 2: 🎭 DETERMINE ROLE
-
-Based on the Loop Number `N`:
-
-* **Loops 1-8 (The Architect)**: Deconstruct the Topic.
-  * *Goal*: Identify atomic "First Principles".
-* **Loops 9-16 (The Detective)**: Find the invisible gaps.
-  * *Goal*: Use **Reverse Thinking (RT-ICA)**. If the system works, what *must* have happened before?
-* **Loops 17-25 (The Builder)**: Define the solution.
-  * *Goal*: Generate the specific Agent/Workflow spec to fix the gap.
-
-### Step 3: 📝 EXECUTE & LOG
-
-* Run the selected Agent Persona.
-* **Output**: Append the finding to `memory/gaps.log`.
-* *Format*: `[Loop N] [Role] -> {Finding}`
+> "I'm a unit tester!" — Ralph Wiggum
+>
+> Every loop starts stupid. That is the point.
+> The protocol does not trust your memory. It does not trust your confidence.
+> It trusts only what survives 37 independent attempts to destroy it.
 
 ---
 
-## 🏁 The CEO Synthesis (Loop 26)
+## Philosophy
 
-Once 25 loops are complete:
+### The Ralph Wiggum Protocol
 
-1. **Deduplicate** inputs.
-2. **Prioritize** by Risk.
-3. **Group** into logical "Teams".
-4. **Output**: Write `synthesized-gaps.md`.
+Every loop in ATOM begins with zero context. The AI forgets everything — every prior
+conclusion, every assumption, every intermediate finding. It reads only one thing: the
+gap log. This is not a limitation. It is the core design principle.
 
-## 📊 Logic Visualization
+Why? Because intelligent systems fail in predictable ways. They anchor on early findings.
+They confirm their own hypotheses. They build elaborate structures on unverified
+foundations. Ralph Wiggum does none of this. He walks into the room fresh every time and
+says something that either reveals a new truth or confirms an old one.
 
-```mermaid
-graph TD
-    Start(["🚀 Start Request"]) --> Init["Initialize Log"]
-    Init --> LoopCheck{"Loop (N)"}
+### Why 35 Methods from 3 Domains
 
-    subgraph "Ralph Wiggum Loop (Fresh Context)"
-        LoopCheck --> Reset["🧠 FORGET EVERYTHING"]
-        Reset --> Read["📖 Read Log"]
-        Read --> Phase{"Phase?"}
-        
-        Phase -- "1-8" --> Architect["Architect (Deconstruct)"]
-        Phase -- "9-16" --> Detective["Detective (Reverse Think)"]
-        Phase -- "17-25" --> Builder["Builder (Spec Solution)"]
-        
-        Architect --> Append["📝 Append to Log"]
-        Detective --> Append
-        Builder --> Append
-        Append --> Next["N + 1"]
-        Next --> LoopCheck
-    end
+ATOM draws from three distinct intellectual traditions:
 
-    LoopCheck -- "N > 25" --> CEO["CEO (Synthesis)"]
-    CEO --> Final["📄 synthesized-gaps.md"]
+- **AI/ML Research (~50%)**: 15 methods from peer-reviewed papers (NeurIPS, ICML, ICLR,
+  ACL, EMNLP). These are the sharpest tools — chain-of-thought variants, self-consistency,
+  multi-agent debate, reflexion, and self-play bootstrapping.
+- **Philosophical Reasoning (~30%)**: 10 methods rooted in 2,400 years of systematic
+  thought — from Aristotle's first principles to Popper's falsification to Pearl's causal
+  calculus. These catch the failures that pure computation misses.
+- **Engineering Frameworks (~20%)**: 10 methods drawn from systems engineering, quality
+  assurance, and industrial design — FMEA, TRIZ, Theory of Constraints, morphological
+  analysis. These ensure practical completeness.
+
+Each method addresses a DIFFERENT failure mode. Self-Discover catches reasoning gaps.
+Falsification catches unfounded claims. FMEA catches severity blindness. No single method
+covers all failure modes. Together, they form a near-complete net.
+
+### The "Axiomatic" in ATOM
+
+Everything starts from irreducible truths. Loop 1 is always First Principles Decomposition.
+Before any gap hunting, before any verification, the protocol demands: what are the
+foundational truths about this system that cannot be decomposed further? Every subsequent
+loop builds on — and challenges — these axioms.
+
+### Multi-Method as Insurance
+
+The protocol is deliberately redundant. If method A misses a gap, methods B through Z will
+catch it. If a gap survives all 35 methods, it is real. If it does not survive, it was
+noise. This is not efficiency — it is thoroughness weaponized.
+
+### Adversarial Verification
+
+Discovery is not enough. Phases 1-2 generate candidate gaps. Phase 3 tries to DESTROY
+them. Every gap must survive falsification testing, dialectical debate, causal inference
+auditing, step-aware verification, and constitutional rigor checks. Gaps that cannot
+survive attack are not real gaps — they are artifacts of the discovery process.
+
+### Self-Improvement
+
+ATOM is not static. Loops 35-37 (Phase 7: EVOLVE) turn the protocol on itself. Reflexion
+extracts lessons from the current run. CRITIC evaluates quantitative metrics. Absolute Zero
+generates adversarial challenges the protocol failed to anticipate. Each run makes the
+next run better.
+
+### Method Composition
+
+The 35 methods are not applied randomly. They follow a deliberate sequence:
+
+1. AXIOMS (Loops 1-4): Establish irreducible foundations
+2. HUNT (Loops 5-16): Discover gaps using 12 diverse methods
+3. VALIDATE (Loops 17-24): Verify gaps using 8 adversarial methods
+4. SOLVE (Loops 25-30): Architect solutions
+5. SYNTHESIZE (Loops 31-33): Merge, deduplicate, report
+6. CACHE (Loop 34): Extract reusable knowledge
+7. EVOLVE (Loops 35-37): Self-improve the protocol
+
+---
+
+## Research Foundations
+
+### Tier 1 — AI/ML Research Methods (15)
+
+| # | Method | Source | What It Does |
+|---|--------|--------|--------------|
+| 1 | Self-Discover | Zhou et al. (2024), NeurIPS, arXiv:2402.03620 | Auto-select reasoning modules per gap type (32% improvement over CoT) |
+| 2 | Step-Back Prompting | Zheng et al. (2023), arXiv:2310.06117 | Abstract to high-level principles BEFORE diving into details |
+| 3 | RT-ICA Reverse Thinking | arXiv:2512.10273 (2024) | Work backward from ideal end-state (+27% missing info detection) |
+| 4 | Contrastive Chain-of-Thought | Chia et al. (2023), arXiv:2311.09277 | Learn from valid AND invalid examples to reduce false positives |
+| 5 | Cumulative Reasoning | Zhang et al. (2023), TMLR, arXiv:2308.04371 | Build DAG of verified propositions; Proposer then Verifier then Reporter |
+| 6 | Graph of Thoughts | Besta et al. (2023), AAAI/ICLR 2024, arXiv:2308.09687 | Model gaps as directed graph with dependencies, merges, cycles |
+| 7 | Chain of Verification | Dhuliawala et al. (Meta 2023), ACL 2024, arXiv:2309.11495 | Generate independent verification questions (50-70% hallucination reduction) |
+| 8 | DiVeRSe Step-Aware Verification | Li et al. (2022), ACL 2023, arXiv:2206.02336 | Verify each STEP in reasoning chain, not just final claim |
+| 9 | Multi-Agent Debate | Du et al. (2023), ICML 2024, arXiv:2305.14325 | Parallel instances debate adversarially to improve factual accuracy |
+| 10 | Faithful Chain-of-Thought | Lyu et al. (2023), IJCNLP, arXiv:2301.13379 | Symbolic verification — reasoning traces are not post-hoc fabrication |
+| 11 | Constitutional Self-Critique | Bai et al. (Anthropic 2022), arXiv:2212.08073 | Principle-based self-evaluation for every claim |
+| 12 | Reasoning via Planning (RAP) | Hao et al. (2023), EMNLP, arXiv:2305.14992 | MCTS-guided search over solution space (33% improvement over CoT) |
+| 13 | Buffer of Thoughts | Yang et al. (2024), NeurIPS Spotlight, arXiv:2406.04271 | Cache reasoning templates; retrieve and adapt across runs |
+| 14 | Reflexion | Shinn et al. (NeurIPS 2023), arXiv:2303.11366 | Verbal RL — learn from previous runs via episodic memory |
+| 15 | Absolute Zero | Zhao et al. (NeurIPS 2025), arXiv:2505.03335 | Self-play bootstrapping — self-generate challenges, learn from execution |
+
+### Tier 2 — Philosophical Reasoning Foundations (10)
+
+| # | Method | Source | What It Does |
+|---|--------|--------|--------------|
+| 16 | First Principles Decomposition | Aristotle, "first basis from which a thing is known" | Decompose to irreducible truths, then rebuild from survivors |
+| 17 | Abductive Reasoning | Peirce; arXiv:2307.10250, arXiv:2601.02771 | Inference to best explanation — generate hypotheses for observed gaps |
+| 18 | Falsificationism | Popper; arXiv:2502.09858, arXiv:2601.02380 | Every claim must be falsifiable; design experiments to disprove |
+| 19 | Dialectical Synthesis | Hegel; arXiv:2501.14917 (Microsoft Research) | Thesis then Antithesis then SYNTHESIS across multiple rounds |
+| 20 | Socratic Elenchus | Plato; arXiv:2303.08769 (Chang 2023) | Guided questioning that exposes hidden contradictions |
+| 21 | Bayesian Updating | Bayes; Nature Communications 2025, arXiv:2503.17523 | Probabilistic confidence — update priors with evidence |
+| 22 | Causal Inference | Pearl's do-calculus; arXiv:2410.16676, NAACL 2025 | Separate correlation from causation using the three rungs |
+| 23 | Analogical Transfer | arXiv:2310.01714, ACM CHI 2023 | Cross-domain knowledge transfer — what failed elsewhere |
+| 24 | Second-Order Effects | Systems thinking, consequence scanning | Cascade analysis — what happens AFTER the first impact |
+| 25 | Emergence Detection | Complexity Journal 2017, BKB framework | System-level properties invisible at component level |
+
+### Tier 3 — Engineering and Systems Frameworks (10)
+
+| # | Method | Source | What It Does |
+|---|--------|--------|--------------|
+| 26 | Morphological Analysis | Zwicky (1969), General Morphology | Exhaustive dimension grid — enumerate all combinations |
+| 27 | Pre-Mortem Projection | Gary Klein (HBR 2007) | Assume failure, then explain why (+30% failure mode discovery) |
+| 28 | Negative Space Analysis | Art theory applied to engineering | Find gaps by examining what is structurally ABSENT |
+| 29 | TRIZ Contradiction Matrix | Altshuller (2M+ patents analyzed) | Resolve engineering contradictions using inventive principles |
+| 30 | FMEA Criticality Scoring | MIL-STD-1629A, ISO 31010 | Risk Priority Number = Severity x Occurrence x Detection |
+| 31 | Industry Standards Scan | OWASP, DORA, ISO 27001, NIST, SLSA, CIS | Benchmark against established frameworks and standards |
+| 32 | Theory of Constraints | Goldratt (1984), The Goal | Find THE single bottleneck that limits system throughput |
+| 33 | MAP-Elites Coverage Grid | Mouret & Clune (2015), Nature | Quality-diversity coverage — ensure all niches are explored |
+| 34 | Self-Consistency Decoding | Wang et al. (ICLR 2023), arXiv:2203.11171 | Sample multiple interpretations, majority vote for consensus |
+| 35 | CRITIC Tool-Interactive | Gou et al. (2023), arXiv:2305.11738 | External tool validation — verify claims against real data |
+
+---
+
+## Architecture Overview
+
 ```
+============================================================================
+  ATOM PROTOCOL — 37 Loops, 7 Phases, 35 Methods
+============================================================================
+
+  PHASE 1: AXIOMS     (Loops 1-4)    -- First Principles Foundation
+  PHASE 2: HUNT       (Loops 5-16)   -- Multi-Method Gap Discovery
+  PHASE 3: VALIDATE   (Loops 17-24)  -- Adversarial Verification
+  PHASE 4: SOLVE      (Loops 25-30)  -- Solution Architecture
+  PHASE 5: SYNTHESIZE (Loops 31-33)  -- Merge, Deduplicate, Report
+  PHASE 6: CACHE      (Loop 34)      -- Knowledge Extraction
+  PHASE 7: EVOLVE     (Loops 35-37)  -- Self-Improvement
+
+============================================================================
+
+  Flow:
+
+  [AXIOMS] --> [HUNT] --> [VALIDATE] --> [SOLVE] --> [SYNTHESIZE]
+                                                          |
+                                                     [CACHE] --> [EVOLVE]
+                                                                    |
+                                                          (feeds next run)
+
+============================================================================
+```
+
+For each loop:
+1. RESET CONTEXT — forget everything, read only the gap log
+2. EXECUTE the method assigned to that loop number
+3. APPEND findings to `memory/gaps.log`
+4. Format: `[Loop N] [Method Name] -> {Finding}`
+
+---
+
+## Phase 1: AXIOMS (Loops 1-4) — First Principles Foundation
+
+The foundation phase. Before hunting for gaps, establish what is irreducibly true
+about the target system. Every subsequent loop builds on these axioms.
+
+### Loop 1: First Principles Decomposition (Aristotle)
+
+**Method**: First Principles Decomposition (#16)
+**Source**: Aristotle — "the first basis from which a thing is known"
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Ask: "What does 'complete coverage' ACTUALLY mean for this target?"
+
+Execute three steps:
+
+Step 1 — List every assumption. Write down every single thing you are assuming about
+the target system. Include assumptions about its purpose, its users, its architecture,
+its constraints, its environment, its dependencies, and its failure modes. Be exhaustive.
+Aim for 15-30 assumptions.
+
+Step 2 — Challenge each assumption. For every assumption, ask: "Is this actually true,
+or am I inheriting this belief from convention, documentation, or habit?" Mark each
+assumption as VERIFIED (has evidence), ASSUMED (no evidence but plausible), or
+UNFOUNDED (no evidence and possibly wrong).
+
+Step 3 — Rebuild from survivors. Take only the VERIFIED assumptions. These are your
+axioms — the irreducible truths. Everything else is a potential gap.
+
+**The SpaceX Analogy**: Elon Musk asked "Why do rockets cost $65M?" and decomposed
+to raw materials ($200K). The gap between axiom (materials cost) and reality
+(total cost) revealed the actual problem: process overhead, not physics. Apply the
+same logic to your target.
+
+**Output**: AXIOM SET — a numbered list of irreducible truths about the target system,
+plus a list of challenged assumptions that may represent gaps.
+
+```
+[Loop 1] [First Principles] -> AXIOM SET:
+  A1: {irreducible truth}
+  A2: {irreducible truth}
+  ...
+  CHALLENGED ASSUMPTIONS:
+  C1: {assumption} — Status: ASSUMED/UNFOUNDED — Potential gap: {description}
+```
+
+### Loop 2: Step-Back Abstraction (Zheng et al. 2023)
+
+**Method**: Step-Back Prompting (#2)
+**Source**: Zheng et al. (2023), arXiv:2310.06117
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Before diving into specifics, step back and abstract to high-level principles.
+
+Ask: "What are the 5 fundamental principles this system embodies?"
+
+For each principle:
+1. Name it (e.g., "Separation of Concerns", "Fail-Safe Defaults", "Least Privilege")
+2. Explain WHY this principle matters for this specific system
+3. Assess whether the system actually follows this principle or merely claims to
+4. Identify where violations of this principle would create gaps
+
+The step-back is critical because detail-first analysis misses structural problems.
+You cannot see the forest when you are counting bark patterns on individual trees.
+
+**Output**: PRINCIPLE SET — 5 fundamental principles with violation analysis.
+
+```
+[Loop 2] [Step-Back Abstraction] -> PRINCIPLE SET:
+  P1: {principle} — Adherence: {full/partial/violated} — Gap risk: {description}
+  P2: {principle} — Adherence: {full/partial/violated} — Gap risk: {description}
+  ...
+```
+
+### Loop 3: Self-Discover Module Selection (Zhou et al. 2024)
+
+**Method**: Self-Discover (#1)
+**Source**: Zhou et al. (2024), NeurIPS, arXiv:2402.03620
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Auto-select which reasoning modules are most relevant for THIS specific target.
+
+Available modules (select 5-8 most relevant):
+- Critical Thinking: evaluate claims, identify biases
+- Systems Thinking: understand interconnections and feedback loops
+- Causal Reasoning: distinguish cause from correlation
+- Adversarial Thinking: think like an attacker or hostile user
+- Probabilistic Reasoning: assess likelihoods and uncertainties
+- Analogical Reasoning: transfer knowledge from similar domains
+- Temporal Reasoning: consider time-dependent behaviors and sequences
+- Constraint Analysis: identify limits, boundaries, and edge cases
+- Stakeholder Analysis: consider different user perspectives
+- Failure Mode Analysis: systematic enumeration of how things break
+- Integration Analysis: focus on boundaries between components
+- Compliance Analysis: check against standards and regulations
+
+For each selected module:
+1. Explain why it is relevant to this target
+2. Define what specific gaps it will help find
+3. Assign it a priority (primary, secondary, supporting)
+
+**Output**: REASONING BLUEPRINT — the selected modules and their assignments.
+
+```
+[Loop 3] [Self-Discover] -> REASONING BLUEPRINT:
+  Module 1: {name} — Priority: {primary/secondary/supporting} — Focus: {description}
+  Module 2: {name} — Priority: {primary/secondary/supporting} — Focus: {description}
+  ...
+```
+
+### Loop 4: Morphological Space Enumeration (Zwicky 1969)
+
+**Method**: Morphological Analysis (#26)
+**Source**: Zwicky (1969), General Morphology
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Define the dimensions of the analysis space and enumerate all combinations.
+
+Dimension 1 — Layer: What are the architectural layers of the target?
+(e.g., UI, API, Business Logic, Data, Infrastructure, External Dependencies)
+
+Dimension 2 — Quality Attribute: What qualities matter?
+(e.g., Security, Performance, Reliability, Scalability, Maintainability, Usability,
+Observability, Compliance, Cost, Data Integrity)
+
+Dimension 3 — Lifecycle Phase: When do gaps manifest?
+(e.g., Design, Build, Test, Deploy, Operate, Decommission)
+
+Dimension 4 — Stakeholder: Who is affected?
+(e.g., End User, Developer, Operator, Auditor, Attacker)
+
+Generate the combinatorial grid: Layer x Quality x Lifecycle x Stakeholder.
+Flag any cells that are obviously under-explored or completely unaddressed.
+
+**Output**: COVERAGE GRID — the morphological grid with flagged empty cells.
+
+```
+[Loop 4] [Morphological Analysis] -> COVERAGE GRID:
+  Dimensions: {N} layers x {N} qualities x {N} phases x {N} stakeholders
+  Total cells: {N}
+  Populated: {N}
+  Empty (potential gaps): {N}
+  Flagged cells:
+    - {Layer} x {Quality} x {Phase} x {Stakeholder}: No coverage
+    ...
+```
+
+---
+
+## Phase 2: HUNT (Loops 5-16) — Multi-Method Gap Discovery
+
+The discovery phase. Twelve methods from three domains systematically hunt for gaps.
+Each method attacks the problem from a different angle, ensuring that gaps missed by
+one method are caught by another.
+
+### Loop 5: RT-ICA Reverse Thinking (arXiv:2512.10273)
+
+**Method**: RT-ICA Reverse Thinking (#3)
+**Source**: arXiv:2512.10273 (2024), +27% missing information detection
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Work BACKWARD from the ideal end-state.
+
+Step 1: Define the ideal. "If this system were perfect in every way, what would be true?"
+Write 10-15 statements about the ideal end-state.
+
+Step 2: Trace backward. For each ideal statement, ask: "For this to be true, what MUST
+have happened before it? What preconditions are required?" Chain backward 3-5 steps.
+
+Step 3: Find the breaks. Compare the backward chain to reality. Where does the chain
+break? Each break point is a gap.
+
+The power of reverse thinking: forward analysis follows the path the designers intended.
+Backward analysis reveals the paths they forgot.
+
+**Output**: 5-10 gaps discovered by tracing backward from the ideal state.
+
+```
+[Loop 5] [RT-ICA Reverse Thinking] -> BACKWARD GAPS:
+  Ideal: {statement}
+  Chain: {ideal} <- {precondition} <- {precondition} <- BREAK: {gap}
+  ...
+```
+
+### Loop 6: Abductive Hypothesis Generation (Peirce)
+
+**Method**: Abductive Reasoning (#17)
+**Source**: Peirce; arXiv:2307.10250, arXiv:2601.02771
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Inference to the best explanation. Look at the existing gap log and the target system.
+Generate hypotheses about WHY these gaps exist.
+
+For each existing gap (or cluster of gaps):
+1. What is the most likely explanation for this gap's existence?
+2. What organizational, technical, or conceptual root cause would produce this gap?
+3. If that root cause exists, what OTHER gaps should we expect to find?
+
+Then generate 3-5 NEW hypotheses about gaps that SHOULD exist but have not been found yet,
+based on the root causes you identified.
+
+**Output**: Root cause hypotheses and predicted gaps.
+
+```
+[Loop 6] [Abductive Reasoning] -> HYPOTHESES:
+  H1: Root cause: {explanation} -> Predicts gaps: {gap1, gap2, gap3}
+  H2: Root cause: {explanation} -> Predicts gaps: {gap1, gap2}
+  ...
+```
+
+### Loop 7: Socratic Assumption Excavation (Plato)
+
+**Method**: Socratic Elenchus (#20)
+**Source**: Plato; arXiv:2303.08769 (Chang 2023)
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Use guided questioning to expose hidden contradictions. For the target system,
+ask the following 5 questions and pursue each to its logical conclusion:
+
+1. "What does this system assume will NEVER happen?" — List 5+ impossibility assumptions.
+   For each, ask: "But what if it DID happen?"
+2. "What does this system assume will ALWAYS be true?" — List 5+ invariant assumptions.
+   For each, ask: "Under what conditions would this stop being true?"
+3. "Where does this system trust input it should not trust?" — Trace every trust boundary.
+4. "What happens when two correct components interact incorrectly?" — Examine integration
+   points for emergent failures.
+5. "Who benefits from this system failing, and how would they cause that failure?" —
+   Adversarial stakeholder analysis.
+
+Each question that produces a contradiction or reveals an unhandled case is a gap.
+
+**Output**: Contradictions and unhandled cases from Socratic questioning.
+
+```
+[Loop 7] [Socratic Elenchus] -> CONTRADICTIONS:
+  Q1 (Never happens): {assumption} — BUT: {scenario} -> GAP: {description}
+  Q2 (Always true): {invariant} — BREAKS WHEN: {condition} -> GAP: {description}
+  ...
+```
+
+### Loop 8: Pre-Mortem Projection (Klein 2007)
+
+**Method**: Pre-Mortem Projection (#27)
+**Source**: Gary Klein (HBR 2007), +30% failure mode discovery
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Assume the system has catastrophically failed. It is 6 months from now and everything
+has gone wrong. Write 5-7 failure narratives:
+
+For each narrative:
+1. Describe the failure in concrete, specific terms. What happened? What broke?
+2. Explain the chain of events that led to the failure. Be specific about triggers.
+3. Identify which gap (existing or new) would have prevented this failure if addressed.
+4. Rate the narrative's plausibility: HIGH (has happened in similar systems),
+   MEDIUM (plausible but uncommon), LOW (extreme edge case).
+
+Focus on failures that would be embarrassing, costly, or dangerous — not just
+inconvenient. The pre-mortem is most powerful when it surfaces failures that nobody
+wants to think about.
+
+**Output**: 5-7 failure narratives with associated gaps.
+
+```
+[Loop 8] [Pre-Mortem] -> FAILURE NARRATIVES:
+  F1: {narrative title} — Plausibility: {HIGH/MEDIUM/LOW}
+     Chain: {trigger} -> {event} -> {event} -> {catastrophe}
+     Gap: {description}
+  ...
+```
+
+### Loop 9: Negative Space + Emergence Detection
+
+**Method**: Negative Space Analysis (#28) + Emergence Detection (#25)
+**Source**: Art theory applied to engineering; Complexity Journal 2017, BKB framework
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Two complementary analyses in one loop:
+
+Part A — Negative Space: Examine what is ABSENT from the system.
+1. What documentation does NOT exist but should?
+2. What tests are NOT written but should be?
+3. What error handling is NOT implemented but should be?
+4. What monitoring is NOT in place but should be?
+5. What user workflows are NOT supported but should be?
+The absence of something is often more revealing than its presence.
+
+Part B — Emergence Detection: Look for system-level properties that are invisible
+at the component level.
+1. What behaviors emerge only when components interact?
+2. What properties exist at the system level that no single component provides?
+3. What failure modes exist only at scale or under load?
+4. What security properties depend on the correct composition of individually secure parts?
+
+**Output**: Structural absences and emergent properties.
+
+```
+[Loop 9] [Negative Space + Emergence] ->
+  ABSENCES: {list of things that should exist but do not}
+  EMERGENT PROPERTIES: {list of system-level behaviors not visible at component level}
+```
+
+### Loop 10: Contrastive Gap Analysis (Chia et al. 2023)
+
+**Method**: Contrastive Chain-of-Thought (#4)
+**Source**: Chia et al. (2023), arXiv:2311.09277
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Learn from both valid AND invalid examples to reduce false positives.
+
+Step 1: Identify 3-5 similar systems or projects that SUCCEEDED. What did they have
+that this system might be missing?
+
+Step 2: Identify 3-5 similar systems or projects that FAILED. What gaps did they have
+that this system might share?
+
+Step 3: Contrast. For each gap in the current analysis, ask:
+- "Would a successful comparable system have this gap?" If yes, maybe it is not a real gap.
+- "Did a failed comparable system have this gap?" If yes, it is almost certainly real.
+
+The contrastive approach prevents two failure modes: false positives (flagging non-gaps)
+and false negatives (missing real gaps because they seem normal).
+
+**Output**: Contrastive analysis with validated and invalidated gaps.
+
+```
+[Loop 10] [Contrastive Analysis] ->
+  VALIDATED (present in failed systems): {gap list}
+  INVALIDATED (present in successful systems too): {gap list}
+  NEW (present in successful systems, absent here): {gap list}
+```
+
+### Loop 11: Analogical Transfer (Cross-Domain)
+
+**Method**: Analogical Transfer (#23)
+**Source**: arXiv:2310.01714, ACM CHI 2023
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Transfer knowledge from analogous domains to discover gaps invisible from within.
+
+Step 1: Identify 3 domains that face structurally similar challenges to the target.
+(e.g., if analyzing a deployment pipeline, consider: supply chain logistics, surgical
+procedures, space mission launch sequences)
+
+Step 2: For each analogous domain, ask:
+- "What failures are well-known in this domain?"
+- "What safety practices are standard in this domain?"
+- "What monitoring and verification is considered essential?"
+
+Step 3: Map findings back. For each insight from an analogous domain, ask:
+"Does our target system have an equivalent protection? If not, should it?"
+
+**Output**: Cross-domain insights mapped to potential gaps.
+
+```
+[Loop 11] [Analogical Transfer] ->
+  Domain: {analogous domain}
+  Known failure: {description} -> Maps to: {potential gap in target}
+  Standard practice: {description} -> Missing from target: {yes/no}
+  ...
+```
+
+### Loop 12: TRIZ Contradiction Mapping (Altshuller)
+
+**Method**: TRIZ Contradiction Matrix (#29)
+**Source**: Altshuller (2M+ patents analyzed)
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Identify engineering contradictions in the target system — places where improving one
+quality degrades another.
+
+Step 1: List all quality pairs that are in tension:
+(e.g., Security vs. Usability, Performance vs. Reliability, Flexibility vs. Simplicity)
+
+Step 2: For each contradiction, classify it:
+- TECHNICAL CONTRADICTION: Improving parameter A degrades parameter B
+- PHYSICAL CONTRADICTION: A component must have property X AND property NOT-X
+
+Step 3: For each contradiction, apply TRIZ inventive principles (see Quick Reference):
+- What principle resolves this contradiction?
+- Has this contradiction been resolved in the current system?
+- If not, the unresolved contradiction is a gap.
+
+**Output**: Contradictions and their resolution status.
+
+```
+[Loop 12] [TRIZ Contradiction] ->
+  TC1: {param A} vs {param B} — Resolved: {yes/no} — Principle: {TRIZ principle}
+  PC1: {component} must be {X} AND {not-X} — Resolved: {yes/no}
+  ...
+```
+
+### Loop 13: Industry Standards Scan
+
+**Method**: Industry Standards Scan (#31)
+**Source**: OWASP, DORA, ISO 27001, NIST CSF, SLSA, CIS Benchmarks
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Benchmark the target against relevant industry standards and frameworks.
+
+For each applicable standard:
+1. List the relevant requirements or controls
+2. Assess the target's compliance: COMPLIANT, PARTIAL, NON-COMPLIANT, NOT APPLICABLE
+3. For PARTIAL and NON-COMPLIANT items, document the specific gap
+
+Standards to consider (select those relevant to the target):
+- OWASP Top 10 / ASVS (web security)
+- DORA metrics (deployment frequency, lead time, MTTR, change failure rate)
+- ISO 27001 (information security management)
+- NIST Cybersecurity Framework (identify, protect, detect, respond, recover)
+- SLSA (supply chain levels for software artifacts)
+- CIS Benchmarks (system hardening)
+- SOC 2 Trust Principles (security, availability, processing integrity, confidentiality, privacy)
+- WCAG (accessibility)
+- GDPR/CCPA (data privacy)
+
+**Output**: Standards compliance gaps.
+
+```
+[Loop 13] [Industry Standards] ->
+  Standard: {name}
+  Control: {ID} {description} — Status: {COMPLIANT/PARTIAL/NON-COMPLIANT}
+  Gap: {description of what is missing}
+  ...
+```
+
+### Loop 14: Failure Mode Enumeration + Handoff Analysis
+
+**Method**: FMEA Criticality Scoring (#30) — discovery phase (scoring in Loop 17)
+**Source**: MIL-STD-1629A, ISO 31010
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Systematically enumerate every way the target system can fail. Focus especially on
+HANDOFF points — the boundaries between components, teams, or processes.
+
+Part A — Failure Modes:
+For each component or subsystem, list:
+1. What can go wrong? (failure mode)
+2. What is the effect? (local effect, system effect, end-user effect)
+3. What is the current detection mechanism? (how would you know?)
+
+Part B — Handoff Analysis:
+For each boundary between components:
+1. What data crosses this boundary?
+2. What assumptions does the receiver make about the sender's output?
+3. What happens when those assumptions are violated?
+4. Is there a contract (API spec, schema, protocol) or is it implicit?
+
+Every implicit handoff is a potential gap.
+
+**Output**: Failure modes and handoff gaps.
+
+```
+[Loop 14] [Failure Modes + Handoffs] ->
+  FAILURE MODES:
+    FM1: Component: {name} — Mode: {description} — Effect: {description} — Detection: {mechanism}
+  HANDOFF GAPS:
+    HG1: Boundary: {A -> B} — Assumption: {description} — Contract: {explicit/implicit} — Gap: {description}
+  ...
+```
+
+### Loop 15: Second-Order Cascade Analysis (Systems Thinking)
+
+**Method**: Second-Order Effects (#24)
+**Source**: Systems thinking, consequence scanning
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+For every gap found so far, trace the cascade of consequences to at least 3 orders.
+
+For each significant gap in the gap log:
+
+First-order effect: What happens immediately when this gap is exploited or manifests?
+Second-order effect: What happens as a consequence of the first-order effect?
+Third-order effect: What happens as a consequence of the second-order effect?
+Fourth-order effect (if applicable): Continue the chain.
+
+Look for:
+- Amplification: Does the impact grow at each order?
+- Convergence: Do multiple gaps cascade into the same failure?
+- Feedback loops: Does a later-order effect worsen the original gap?
+- Hidden dependencies: Does a gap in component A cascade to component B in non-obvious ways?
+
+**Output**: Cascade chains for the most significant gaps.
+
+```
+[Loop 15] [Second-Order Cascade] ->
+  Gap: {description}
+    1st order: {effect}
+    2nd order: {effect}
+    3rd order: {effect}
+    Amplification: {yes/no} — Convergence with: {other gaps} — Feedback loop: {yes/no}
+  ...
+```
+
+### Loop 16: Cumulative Evidence Assembly + Bayesian Updating
+
+**Method**: Cumulative Reasoning (#5) + Bayesian Updating (#21)
+**Source**: Zhang et al. (2023), TMLR, arXiv:2308.04371; Bayes; Nature Comms 2025
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+This is the final HUNT loop. Assemble all evidence from Loops 1-15 into a cumulative
+evidence graph using the Proposer-Verifier-Reporter pattern with Bayesian updating.
+
+Step 1 — PROPOSER: Review the entire gap log. Propose a consolidated list of all
+unique gaps found across all previous loops. For each gap, list every loop that
+independently discovered it (convergent evidence).
+
+Step 2 — VERIFIER: For each proposed gap, assess the evidence:
+- How many independent loops found this gap? (convergence count)
+- What is the prior probability this is a real gap? Start at P=0.5 (maximum uncertainty).
+- Update with each piece of evidence using Bayesian reasoning:
+  - Independent discovery by a second method: P increases
+  - Contradicted by another method: P decreases
+  - Supported by standards scan: P increases
+  - Supported by analogical evidence: P increases slightly
+- Assign a posterior probability P(real) to each gap.
+
+Step 3 — REPORTER: Generate the active learning list. What are the gaps with
+P(real) between 0.3 and 0.7? These are the uncertain ones that need the most
+attention in Phase 3 (VALIDATE).
+
+**Output**: Cumulative evidence summary with Bayesian confidence scores.
+
+```
+[Loop 16] [Cumulative Evidence + Bayesian] ->
+  CONSOLIDATED GAPS:
+    G1: {description} — Found by: Loops {N, N, N} — P(real): {0.XX}
+    G2: {description} — Found by: Loops {N, N} — P(real): {0.XX}
+  UNCERTAIN (needs validation): {list of gaps with 0.3 < P < 0.7}
+  HIGH CONFIDENCE (P > 0.7): {list}
+  LOW CONFIDENCE (P < 0.3): {list — consider dropping}
+```
+
+---
+
+## Phase 3: VALIDATE (Loops 17-24) — Adversarial Verification
+
+Discovery is the easy part. Validation separates real gaps from noise. Eight adversarial
+methods systematically attack every gap found in Phase 2. Gaps that survive are real.
+Gaps that do not survive are discarded.
+
+### Loop 17: FMEA Criticality Scoring
+
+**Method**: FMEA Criticality Scoring (#30)
+**Source**: MIL-STD-1629A, ISO 31010
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Score every gap using the FMEA Risk Priority Number formula:
+
+**RPN = Severity (S) x Occurrence (O) x Detection (D)**
+
+Scoring scales (1-10 for each):
+
+Severity (S) — Impact if the gap manifests:
+- 1-2: Negligible impact, cosmetic issue
+- 3-4: Minor degradation, workaround exists
+- 5-6: Moderate impact, significant functionality loss
+- 7-8: High impact, system partially unusable
+- 9-10: Critical/catastrophic, data loss or security breach
+
+Occurrence (O) — Likelihood the gap will manifest:
+- 1-2: Extremely unlikely, requires extraordinary circumstances
+- 3-4: Low probability, unusual but possible
+- 5-6: Moderate probability, happens occasionally
+- 7-8: High probability, happens regularly
+- 9-10: Near certain, happens every time
+
+Detection (D) — How hard it is to detect BEFORE it causes harm:
+- 1-2: Certain detection, automated monitoring catches it immediately
+- 3-4: High detection, regular checks would catch it
+- 5-6: Moderate detection, requires investigation to find
+- 7-8: Low detection, easily missed in normal operations
+- 9-10: Undetectable, no current mechanism to find it
+
+**Thresholds**:
+- RPN >= 200: SHOWSTOPPER — must be fixed before anything else
+- RPN 100-199: CRITICAL — fix in current cycle
+- RPN 50-99: HIGH — plan to fix soon
+- RPN 25-49: MEDIUM — fix when convenient
+- RPN < 25: LOW — accept the risk or defer
+
+**Output**: FMEA scoring table for all gaps.
+
+```
+[Loop 17] [FMEA Scoring] ->
+  | Gap | S | O | D | RPN | Priority |
+  |-----|---|---|---|-----|----------|
+  | {description} | {1-10} | {1-10} | {1-10} | {RPN} | {SHOWSTOPPER/CRITICAL/HIGH/MEDIUM/LOW} |
+  ...
+```
+
+### Loop 18: Chain of Verification (Meta 2023)
+
+**Method**: Chain of Verification (#7)
+**Source**: Dhuliawala et al. (Meta 2023), ACL 2024, arXiv:2309.11495
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+For each gap with RPN >= 50, generate 3 independent verification questions. These
+questions must be answerable WITHOUT reference to the original gap analysis — they
+must stand on their own.
+
+For each gap:
+1. Verification Question 1: A factual question that, if answered NO, would disprove the gap.
+2. Verification Question 2: A question about evidence — "What concrete evidence exists
+   that this gap is real?"
+3. Verification Question 3: A counterfactual — "What would the system look like if this
+   gap did NOT exist?"
+
+Answer each question independently. If 2 of 3 answers support the gap, it survives.
+If fewer than 2 support it, downgrade its priority by one level.
+
+This method reduces hallucinated gaps by 50-70%.
+
+**Output**: Verification results for each high-priority gap.
+
+```
+[Loop 18] [Chain of Verification] ->
+  Gap: {description}
+    VQ1: {question} — Answer: {yes/no} — Supports gap: {yes/no}
+    VQ2: {question} — Answer: {evidence} — Supports gap: {yes/no}
+    VQ3: {question} — Answer: {description} — Supports gap: {yes/no}
+    Verdict: {SURVIVES / DOWNGRADED}
+  ...
+```
+
+### Loop 19: DiVeRSe Step-Aware Verification (Li et al. 2022)
+
+**Method**: DiVeRSe Step-Aware Verification (#8)
+**Source**: Li et al. (2022), ACL 2023, arXiv:2206.02336
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+For each high-priority gap, verify each STEP in the reasoning chain that identified it.
+
+For each gap:
+1. Reconstruct the reasoning chain that led to this gap being identified. Break it into
+   3-5 discrete steps.
+2. For each step, ask: "Is this step logically valid? Does it follow from the previous step?"
+3. Identify the weakest step in the chain. If the weakest step is invalid, the entire
+   gap finding may be invalid.
+
+A gap is only as strong as the weakest step in its reasoning chain. This method prevents
+gaps that seem compelling in summary but rest on a single flawed inference.
+
+**Output**: Step-aware verification for each gap.
+
+```
+[Loop 19] [Step-Aware Verification] ->
+  Gap: {description}
+    Step 1: {reasoning step} — Valid: {yes/no}
+    Step 2: {reasoning step} — Valid: {yes/no}
+    Step 3: {reasoning step} — Valid: {yes/no}
+    Weakest step: {N} — Overall validity: {VALID / QUESTIONABLE / INVALID}
+  ...
+```
+
+### Loop 20: Dialectical Debate (Hegel)
+
+**Method**: Dialectical Synthesis (#19)
+**Source**: Hegel; arXiv:2501.14917 (Microsoft Research)
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+For each controversial or uncertain gap, conduct a 3-round dialectical debate:
+
+Round 1 — THESIS: Present the strongest possible argument that this gap is real,
+critical, and must be fixed immediately.
+
+Round 2 — ANTITHESIS: Present the strongest possible argument that this gap is
+not real, is insignificant, or is already mitigated by existing controls.
+
+Round 3 — SYNTHESIS: Reconcile the thesis and antithesis. What is the nuanced
+truth? Is the gap real but less severe than claimed? Is it real but already
+partially mitigated? Is it actually a symptom of a deeper gap?
+
+The synthesis must be MORE nuanced than either the thesis or antithesis alone.
+If the synthesis simply agrees with one side, the debate was insufficient.
+
+**Output**: Dialectical debate results.
+
+```
+[Loop 20] [Dialectical Debate] ->
+  Gap: {description}
+    THESIS: {argument for reality/severity}
+    ANTITHESIS: {argument against reality/severity}
+    SYNTHESIS: {nuanced reconciliation}
+    Revised assessment: {description of updated understanding}
+  ...
+```
+
+### Loop 21: Falsification Testing (Popper)
+
+**Method**: Falsificationism (#18)
+**Source**: Popper; arXiv:2502.09858, arXiv:2601.02380
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+The bullshit filter. For every gap that has survived to this point, attempt to
+DISPROVE it.
+
+For each gap:
+1. State the gap as a falsifiable claim: "There exists a gap in X such that Y."
+2. Design a falsification experiment: "If we did Z, and the result was W, then
+   this gap would be disproved."
+3. Mentally execute the experiment. What is the most likely result?
+4. If the gap cannot be falsified — if there is NO conceivable experiment that
+   could disprove it — then it is not a meaningful gap. It is unfalsifiable and
+   must be either reformulated or discarded.
+
+Popper's criterion is ruthless but necessary. A gap that cannot be disproved
+cannot be proved either. It is metaphysics, not engineering.
+
+**Output**: Falsification test results.
+
+```
+[Loop 21] [Falsification Testing] ->
+  Gap: {description}
+    Claim: {falsifiable statement}
+    Experiment: {falsification test}
+    Result: {SURVIVES — could not be disproved / DISPROVED — evidence against /
+             UNFALSIFIABLE — reformulate or discard}
+  ...
+```
+
+### Loop 22: Causal Inference Audit (Pearl)
+
+**Method**: Causal Inference (#22)
+**Source**: Pearl's do-calculus; arXiv:2410.16676, NAACL 2025
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Audit every causal claim in the gap log using Pearl's three rungs of causation:
+
+Rung 1 — Association (seeing): "Gaps X and Y co-occur."
+This is the weakest form of evidence. Co-occurrence does not imply causation.
+
+Rung 2 — Intervention (doing): "If we fix gap X, gap Y will also be fixed."
+This requires understanding the causal mechanism. Ask: "What is the mechanism
+by which fixing X would fix Y?"
+
+Rung 3 — Counterfactual (imagining): "If gap X had never existed, gap Y would
+never have appeared."
+This is the strongest form of evidence. It requires understanding what WOULD have
+happened in an alternative world.
+
+For each causal claim in the gap log:
+1. What rung does the evidence support?
+2. If only Rung 1, the claim needs more investigation before it can be trusted.
+3. Build a causal DAG showing the actual dependency structure between gaps.
+
+**Output**: Causal audit results.
+
+```
+[Loop 22] [Causal Inference Audit] ->
+  Causal claim: {description}
+    Evidence level: Rung {1/2/3}
+    Mechanism: {description or NONE}
+    Causal DAG edge: {Gap A} -> {Gap B} (confidence: {HIGH/MEDIUM/LOW})
+  ...
+```
+
+### Loop 23: Faithful CoT + Self-Consistency
+
+**Method**: Faithful Chain-of-Thought (#10) + Self-Consistency Decoding (#34)
+**Source**: Lyu et al. (2023), arXiv:2301.13379; Wang et al. (ICLR 2023), arXiv:2203.11171
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Two complementary verification methods:
+
+Part A — Faithful CoT: For each high-priority gap, translate the reasoning into
+symbolic logic. This prevents post-hoc rationalization.
+
+For each gap:
+1. Express the gap claim as a logical proposition: P -> Q
+2. Express the evidence as premises: P1, P2, P3
+3. Check: Do the premises logically entail the conclusion?
+4. If the symbolic chain is broken, the reasoning is unfaithful — the conclusion
+   does not actually follow from the evidence.
+
+Part B — Self-Consistency: Re-analyze the top 10 gaps from scratch, 3 independent times.
+For each re-analysis, deliberately take a different interpretation of ambiguous evidence.
+
+Count how many of the 3 analyses reach the same conclusion:
+- 3/3: Strong consistency — gap is robust
+- 2/3: Moderate consistency — gap is likely real but details may vary
+- 1/3 or 0/3: Weak consistency — gap finding is fragile, may be an artifact
+
+**Output**: Symbolic logic verification and consistency scores.
+
+```
+[Loop 23] [Faithful CoT + Self-Consistency] ->
+  Gap: {description}
+    Symbolic: {P1 AND P2 -> Q} — Valid: {yes/no}
+    Consistency: {3/3, 2/3, 1/3} — Assessment: {ROBUST / LIKELY / FRAGILE}
+  ...
+```
+
+### Loop 24: Constitutional Rigor Check
+
+**Method**: Constitutional Self-Critique (#11)
+**Source**: Bai et al. (Anthropic 2022), arXiv:2212.08073
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Apply all 8 articles of the ATOM Constitution (see Constitution section below) to
+every gap that has survived to this point.
+
+For each gap, check ALL 8 articles:
+
+1. EVIDENCE: Is this gap supported by concrete evidence, not speculation?
+2. QUANTIFICATION: Does it have FMEA RPN scores AND Bayesian probability?
+3. FAITHFUL REASONING: Is the reasoning chain logically valid (symbolic check)?
+4. ACTIONABILITY: Can this gap be resolved with a specific, implementable solution?
+5. UNIQUENESS: Is this gap distinct from all other gaps, or is it a duplicate?
+6. CROSS-IMPACT: Has the causal relationship to other gaps been mapped?
+7. ADVERSARIAL SURVIVAL: Has this gap survived at least 3 adversarial methods?
+8. FALSIFIABILITY: Is the gap claim falsifiable, and has a falsification test been run?
+
+A gap must pass ALL 8 articles to be included in the final report. Gaps that fail
+any article must be either remediated (additional analysis) or discarded.
+
+**Output**: Constitutional compliance for each gap.
+
+```
+[Loop 24] [Constitutional Rigor Check] ->
+  Gap: {description}
+    Art 1 EVIDENCE: {PASS/FAIL — reason}
+    Art 2 QUANTIFICATION: {PASS/FAIL — reason}
+    Art 3 FAITHFUL REASONING: {PASS/FAIL — reason}
+    Art 4 ACTIONABILITY: {PASS/FAIL — reason}
+    Art 5 UNIQUENESS: {PASS/FAIL — reason}
+    Art 6 CROSS-IMPACT: {PASS/FAIL — reason}
+    Art 7 ADVERSARIAL SURVIVAL: {PASS/FAIL — reason}
+    Art 8 FALSIFIABILITY: {PASS/FAIL — reason}
+    Verdict: {CONSTITUTIONAL / REMEDIATE / DISCARD}
+  ...
+```
+
+---
+
+## Phase 4: SOLVE (Loops 25-30) — Solution Architecture
+
+For every gap that survived Phase 3, architect a concrete solution. No vague
+recommendations. Every solution must be specific, implementable, and testable.
+
+### Loop 25: Solution Spec — New Skills
+
+**Method**: Solution architecture for gaps requiring NEW capabilities
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+For each validated gap that requires a NEW skill, agent, tool, or capability:
+
+1. Skill Name: What is the new skill called?
+2. Purpose: What gap does it address? (reference by gap ID)
+3. Trigger: How is it invoked?
+4. Inputs: What does it need to operate?
+5. Outputs: What does it produce?
+6. Dependencies: What other skills or systems does it require?
+7. Acceptance Criteria: How do you verify it works? (3-5 testable criteria)
+8. Estimated Complexity: S/M/L/XL
+
+**Output**: New skill specifications.
+
+```
+[Loop 25] [Solution — New Skills] ->
+  Skill: {name}
+    Addresses gap: {ID}
+    Trigger: {invocation method}
+    Inputs: {list}
+    Outputs: {list}
+    Dependencies: {list}
+    Acceptance criteria:
+      - {criterion 1}
+      - {criterion 2}
+      - {criterion 3}
+    Complexity: {S/M/L/XL}
+  ...
+```
+
+### Loop 26: Solution Spec — Modified Skills
+
+**Method**: Solution architecture for gaps requiring MODIFICATIONS to existing capabilities
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+For each validated gap that can be addressed by modifying an EXISTING skill or component:
+
+1. Target: What existing skill/component needs modification?
+2. Current behavior: What does it do now?
+3. Required change: What must change?
+4. Gap addressed: Which gap ID does this fix?
+5. Breaking changes: Does this modification break any existing behavior?
+6. Migration path: If breaking, how do consumers adapt?
+7. Acceptance criteria: How do you verify the modification works?
+
+**Output**: Modification specifications.
+
+```
+[Loop 26] [Solution — Modified Skills] ->
+  Modification: {target skill/component}
+    Current: {behavior}
+    Change: {description}
+    Gap addressed: {ID}
+    Breaking: {yes/no}
+    Migration: {description or N/A}
+    Acceptance criteria:
+      - {criterion 1}
+      - {criterion 2}
+  ...
+```
+
+### Loop 27: Solution Spec — Agents, Commands, and Workflows
+
+**Method**: Solution architecture for gaps requiring new agents, commands, or workflows
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+For each validated gap that requires new orchestration — a new agent, command, workflow,
+or process:
+
+1. Type: Agent / Command / Workflow / Process
+2. Name: What is it called?
+3. Gap addressed: Which gap ID does this fix?
+4. Responsibility: What does it own?
+5. Interactions: What does it communicate with?
+6. Trigger conditions: When does it activate?
+7. Success criteria: How do you know it worked?
+8. Error handling: What happens when it fails?
+9. Monitoring: How do you observe its health?
+
+**Output**: Agent/command/workflow specifications.
+
+```
+[Loop 27] [Solution — Agents/Commands/Workflows] ->
+  Type: {Agent/Command/Workflow/Process}
+    Name: {name}
+    Gap addressed: {ID}
+    Responsibility: {description}
+    Interactions: {list of systems/agents}
+    Trigger: {conditions}
+    Success criteria: {list}
+    Error handling: {description}
+    Monitoring: {description}
+  ...
+```
+
+### Loop 28: Graph of Thoughts Solution Branching (Besta et al. 2023)
+
+**Method**: Graph of Thoughts (#6)
+**Source**: Besta et al. (2023), AAAI/ICLR 2024, arXiv:2308.09687
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Model the solution space as a directed graph. For each high-priority gap:
+
+1. Generate 3 alternative solution approaches (branches)
+2. For each branch, generate 2 sub-approaches (deeper branches)
+3. Evaluate each leaf node on: Feasibility, Impact, Cost, Risk
+4. Identify merge opportunities — can two solutions address multiple gaps?
+5. Identify cycles — does any solution create new gaps?
+6. Select the optimal path through the graph
+
+The graph structure prevents tunnel vision. Linear thinking finds one solution.
+Graph thinking finds the BEST solution from a space of alternatives.
+
+**Output**: Solution graph with evaluated branches.
+
+```
+[Loop 28] [Graph of Thoughts] ->
+  Gap: {description}
+    Branch A: {approach} -> A1: {sub-approach}, A2: {sub-approach}
+    Branch B: {approach} -> B1: {sub-approach}, B2: {sub-approach}
+    Branch C: {approach} -> C1: {sub-approach}, C2: {sub-approach}
+    Optimal path: {selected approach}
+    Merges with: {other gaps this solution also addresses}
+    Creates new gaps: {yes/no — description}
+  ...
+```
+
+### Loop 29: RAP/MCTS + Second-Order Solution Search (Hao et al. 2023)
+
+**Method**: Reasoning via Planning (#12) + Second-Order Effects (#24)
+**Source**: Hao et al. (2023), EMNLP, arXiv:2305.14992
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Use MCTS-guided search to explore the solution space more deeply than Graph of Thoughts.
+
+For the top 5 highest-RPN gaps:
+
+Step 1 — EXPAND: Generate 5+ possible solution actions (not just 3).
+Step 2 — SIMULATE: For each action, mentally simulate the full implementation.
+What happens? What side effects occur?
+Step 3 — EVALUATE: Score each simulation on:
+- Primary impact: How well does it fix the gap?
+- Second-order impact: What new problems does it create?
+- Third-order impact: What cascade effects does it trigger?
+Step 4 — BACKPROPAGATE: Update the value of each action based on simulation results.
+Step 5 — SELECT: Choose the action with the highest value after backpropagation.
+
+This method is 33% more effective than standard chain-of-thought for solution search.
+
+**Output**: MCTS search results with second-order analysis.
+
+```
+[Loop 29] [RAP/MCTS + Second-Order] ->
+  Gap: {description}
+    Action 1: {description} — Primary: {score} — 2nd order: {effect} — 3rd order: {effect}
+    Action 2: {description} — Primary: {score} — 2nd order: {effect} — 3rd order: {effect}
+    ...
+    Selected: Action {N} — Rationale: {why}
+  ...
+```
+
+### Loop 30: Theory of Constraints + Dependency Mapping (Goldratt)
+
+**Method**: Theory of Constraints (#32)
+**Source**: Goldratt (1984), The Goal
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Find THE bottleneck. Among all gaps and their proposed solutions, which single gap
+constrains the entire system's improvement?
+
+Step 1 — IDENTIFY: Which gap, if left unfixed, would prevent all other fixes from
+having their intended effect?
+
+Step 2 — EXPLOIT: How can the bottleneck gap be addressed with maximum efficiency
+using existing resources?
+
+Step 3 — SUBORDINATE: How should all other work be organized around fixing the
+bottleneck first?
+
+Step 4 — ELEVATE: If existing resources are insufficient, what additional resources
+are needed to break the bottleneck?
+
+Step 5 — DEPENDENCY MAP: Create the full dependency graph of solutions. Which solutions
+must be implemented before which others? What is the critical path?
+
+**Output**: Bottleneck identification and dependency map.
+
+```
+[Loop 30] [Theory of Constraints] ->
+  BOTTLENECK: {gap description}
+    Why it constrains everything: {explanation}
+    Exploit: {efficiency plan}
+    Subordinate: {ordering}
+    Elevate: {additional resources needed}
+  CRITICAL PATH: {Gap A} -> {Gap B} -> {Gap C} -> ... (in implementation order)
+  PARALLEL TRACKS: {gaps that can be fixed independently}
+```
+
+---
+
+## Phase 5: SYNTHESIZE (Loops 31-33) — Merge, Deduplicate, Report
+
+The consolidation phase. All findings from 30 loops are merged into a single,
+actionable report.
+
+### Loop 31: Deduplicate and Merge (CEO Synthesis)
+
+**Method**: CEO-level synthesis
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+You are the CEO. You have 30 loops of analysis in front of you. Your job:
+
+1. DEDUPLICATE: Many loops found the same gap expressed differently. Merge duplicates
+   into a single canonical gap. Preserve the strongest evidence from each duplicate.
+
+2. CLUSTER: Group related gaps into logical clusters (e.g., "Authentication Gaps",
+   "Observability Gaps", "Data Integrity Gaps").
+
+3. PRIORITIZE: Within each cluster, order by RPN score (from Loop 17).
+
+4. ASSIGN OWNERSHIP: For each cluster, identify the team or role best suited to fix it.
+
+5. ESTIMATE EFFORT: For each gap, estimate effort as T-shirt size (S/M/L/XL) based
+   on the solution specs from Loops 25-30.
+
+**Output**: Deduplicated, clustered, prioritized gap list.
+
+```
+[Loop 31] [CEO Synthesis] ->
+  Cluster: {name}
+    Gap 1: {description} — RPN: {score} — Effort: {S/M/L/XL} — Owner: {team/role}
+    Gap 2: {description} — RPN: {score} — Effort: {S/M/L/XL} — Owner: {team/role}
+  ...
+```
+
+### Loop 32: MAP-Elites Coverage Report
+
+**Method**: MAP-Elites Coverage Grid (#33)
+**Source**: Mouret & Clune (2015), Nature
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Generate the quality-diversity coverage report. Using the Morphological Grid from
+Loop 4, fill in every cell with the gaps found (or mark as "No gaps found").
+
+For each cell in the grid (Layer x Quality Attribute):
+- Count the number of gaps found
+- Note the highest-severity gap
+- Mark cells with no gaps as either "VERIFIED CLEAN" (actively investigated, no gaps)
+  or "UNEXPLORED" (never investigated — potential blind spot)
+
+Calculate the coverage score:
+- Total cells in the grid
+- Cells with gaps found
+- Cells verified clean
+- Cells unexplored
+- Coverage = (Cells with gaps + Cells verified clean) / Total cells
+
+A coverage score below 70% indicates the analysis has significant blind spots.
+
+**Output**: MAP-Elites coverage grid and score.
+
+```
+[Loop 32] [MAP-Elites Coverage] ->
+  See Coverage Grid Template below for format.
+  Coverage score: {N}%
+  Blind spots: {list of unexplored cells}
+```
+
+### Loop 33: Final Prioritized Report
+
+**Method**: Final synthesis
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Generate the final report: `synthesized-gaps.md`
+
+The report must contain:
+
+1. EXECUTIVE SUMMARY: 3-5 sentences. What is the overall state? How many gaps total?
+   How many showstoppers?
+
+2. SHOWSTOPPERS (RPN >= 200): Detailed findings with full gap log format (see template).
+
+3. CRITICAL (RPN 100-199): Detailed findings with full gap log format.
+
+4. HIGH (RPN 50-99): Summarized findings.
+
+5. MEDIUM (RPN 25-49): Summarized findings.
+
+6. LOW (RPN < 25): Listed but not detailed.
+
+7. COVERAGE REPORT: MAP-Elites grid from Loop 32.
+
+8. DEPENDENCY MAP: Critical path from Loop 30.
+
+9. EPISTEMIC HUMILITY: Known unknowns and unexplored areas.
+
+10. METHODOLOGY NOTE: Which loops were run, how many gaps were found, how many survived
+    validation, and the protocol version.
+
+**Output**: `memory/synthesized-gaps.md` — the final deliverable.
+
+---
+
+## Phase 6: CACHE (Loop 34) — Knowledge Extraction
+
+### Loop 34: Buffer of Thoughts Template Extraction
+
+**Method**: Buffer of Thoughts (#13)
+**Source**: Yang et al. (2024), NeurIPS Spotlight, arXiv:2406.04271
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Extract reusable discovery templates from this run for use in future runs.
+
+For each gap that was successfully discovered:
+1. What METHOD found it most effectively?
+2. What PATTERN does it represent? (e.g., "missing error handling at trust boundary",
+   "no monitoring for cascade failure", "implicit contract between components")
+3. Can this pattern be generalized? Write a one-sentence template:
+   "Check for {pattern} at {location type} when {condition}."
+
+Store templates in `memory/atom-templates.md` with the following format:
+
+```
+## Discovery Templates (from {target} run, {date})
+
+### Template 1: {pattern name}
+- Pattern: {generalized description}
+- Where to look: {location type}
+- When to apply: {condition}
+- Source method: {method that found it}
+- Example: {concrete example from this run}
+```
+
+Templates accumulate across runs. Each new run can use templates from previous runs
+to accelerate discovery (the Buffer of Thoughts advantage).
+
+**Output**: Reusable templates written to `memory/atom-templates.md`.
+
+---
+
+## Phase 7: EVOLVE (Loops 35-37) — Self-Improvement
+
+The protocol improves itself. These loops turn ATOM's methods inward.
+
+### Loop 35: Reflexion — Verbal Reinforcement Learning
+
+**Method**: Reflexion (#14)
+**Source**: Shinn et al. (NeurIPS 2023), arXiv:2303.11366
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Conduct verbal reinforcement learning on the completed ATOM run.
+
+Step 1 — EXPERIENCE REPLAY: Review the gap log chronologically. For each loop:
+- What was attempted?
+- What was found?
+- What was missed (that a later loop found)?
+
+Step 2 — REFLECTION: Answer these questions:
+- Which methods were most productive? (found the most surviving gaps)
+- Which methods were least productive? (found gaps that were later invalidated)
+- Which methods found UNIQUE gaps? (gaps no other method found)
+- Where did the protocol waste effort?
+- What types of gaps were hardest to find?
+
+Step 3 — EPISODIC MEMORY UPDATE: Write a reflection summary to
+`memory/atom-reflexion.md` for use in future runs:
+- "Next time, spend more time on {method} because {reason}"
+- "Next time, skip or reduce {method} because {reason}"
+- "Next time, add a new check for {pattern} because {reason}"
+
+**Output**: Reflexion summary written to `memory/atom-reflexion.md`.
+
+```
+[Loop 35] [Reflexion] ->
+  Most productive methods: {list}
+  Least productive methods: {list}
+  Unique-finding methods: {list}
+  Wasted effort: {description}
+  Recommendations for next run: {list}
+```
+
+### Loop 36: CRITIC Self-Critique — Quantitative Metrics
+
+**Method**: CRITIC Tool-Interactive (#35)
+**Source**: Gou et al. (2023), arXiv:2305.11738
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Evaluate the ATOM run using quantitative metrics:
+
+1. DISCOVERY RATE: Total gaps found / Total morphological cells explored
+2. SURVIVAL RATE: Gaps surviving validation / Total gaps found
+3. FALSE POSITIVE RATE: Gaps invalidated in Phase 3 / Total gaps found
+4. COVERAGE SCORE: From MAP-Elites (Loop 32)
+5. METHOD EFFICIENCY: For each method, gaps found / time invested
+6. CONVERGENCE: Average number of methods that independently found each surviving gap
+7. CONSTITUTIONAL COMPLIANCE: Percentage of surviving gaps that pass all 8 articles
+
+Benchmark targets:
+- Discovery rate > 0.3 (at least 1 gap per 3 cells explored)
+- Survival rate > 0.5 (at least half of found gaps are real)
+- False positive rate < 0.3 (less than 30% of found gaps are noise)
+- Coverage score > 0.7 (at least 70% of the grid explored)
+- Convergence > 2.0 (each real gap found by at least 2 methods on average)
+- Constitutional compliance > 0.9 (90%+ of gaps pass all articles)
+
+If any metric falls below its benchmark, diagnose the cause and recommend a fix
+for the next run.
+
+**Output**: Quantitative metrics and benchmark comparison.
+
+```
+[Loop 36] [CRITIC Metrics] ->
+  Discovery rate: {value} — Target: >0.3 — {PASS/FAIL}
+  Survival rate: {value} — Target: >0.5 — {PASS/FAIL}
+  False positive rate: {value} — Target: <0.3 — {PASS/FAIL}
+  Coverage score: {value} — Target: >0.7 — {PASS/FAIL}
+  Convergence: {value} — Target: >2.0 — {PASS/FAIL}
+  Constitutional compliance: {value} — Target: >0.9 — {PASS/FAIL}
+  Diagnosis: {if any metric fails, explain why and recommend fix}
+```
+
+### Loop 37: Absolute Zero Self-Play
+
+**Method**: Absolute Zero (#15)
+**Source**: Zhao et al. (NeurIPS 2025), arXiv:2505.03335
+**Ralph Wiggum Reset**: Clear all context. Read only `memory/gaps.log`.
+
+**Instructions**:
+
+Self-play bootstrapping. The protocol generates adversarial challenges for itself.
+
+Step 1 — GENERATE CHALLENGES: Create 5 scenarios that this ATOM run would have
+FAILED to detect:
+- "What type of gap would be invisible to ALL 35 methods?"
+- "What assumption does the protocol itself make that could be wrong?"
+- "What if the gap log itself was corrupted or incomplete?"
+- "What if two individually-valid gaps combine to create a third, undetected gap?"
+- "What if the target system changes during the analysis?"
+
+Step 2 — ATTEMPT SOLUTIONS: For each challenge, propose a modification to the
+ATOM protocol that would catch this failure mode in future runs.
+
+Step 3 — VALIDATE SOLUTIONS: For each proposed modification, ask: "Does this
+add enough value to justify the additional complexity?" Only keep modifications
+that pass this test.
+
+**Output**: Self-play challenges and protocol improvements.
+
+```
+[Loop 37] [Absolute Zero Self-Play] ->
+  Challenge 1: {scenario that would defeat the protocol}
+    Proposed fix: {modification}
+    Worth adding: {yes/no — rationale}
+  ...
+  Protocol improvements for next version: {list of accepted modifications}
+```
+
+---
+
+## The ATOM Constitution
+
+Eight articles that every gap must satisfy before inclusion in the final report.
+These are not guidelines — they are hard requirements.
+
+### Article 1: EVIDENCE
+
+Every gap must be supported by concrete, verifiable evidence. Speculation,
+intuition, and "it seems like" are not evidence.
+
+**Machine-verifiable test**: The gap entry contains at least one of:
+- A specific code reference (file, line, function)
+- A specific configuration or documentation reference
+- A reproducible test case
+- A reference to an industry standard or known vulnerability class
+
+FAIL condition: The gap entry contains only subjective assessment with no
+concrete reference.
+
+### Article 2: QUANTIFICATION
+
+Every gap must have quantified severity using BOTH:
+- FMEA RPN score (Severity x Occurrence x Detection, each 1-10)
+- Bayesian posterior probability P(real) from cumulative evidence
+
+**Machine-verifiable test**: The gap entry contains:
+- Three numeric scores (S, O, D) and their product (RPN)
+- A probability value between 0 and 1
+
+FAIL condition: Either the RPN or Bayesian probability is missing.
+
+### Article 3: FAITHFUL REASONING
+
+The reasoning chain that identified this gap must be logically valid.
+No post-hoc rationalization. No "it just seems wrong."
+
+**Machine-verifiable test**: The gap entry contains a symbolic logic chain
+(P1 AND P2 -> Q) and the chain is valid.
+
+FAIL condition: No symbolic chain exists, or the chain contains a logical fallacy.
+
+### Article 4: ACTIONABILITY
+
+Every gap must have a specific, implementable resolution. "Improve security"
+is not actionable. "Add rate limiting to /api/auth endpoint with 10 req/min
+per IP" is actionable.
+
+**Machine-verifiable test**: The proposed resolution contains:
+- A specific action (add, modify, remove, configure)
+- A specific target (component, file, endpoint, process)
+- Measurable acceptance criteria
+
+FAIL condition: The resolution is vague or contains no specific target.
+
+### Article 5: UNIQUENESS
+
+Every gap must be distinct from all other gaps in the report. Duplicates
+waste attention and inflate severity counts.
+
+**Machine-verifiable test**: No other gap in the report addresses the same
+root cause AND the same component AND the same quality attribute.
+
+FAIL condition: Another gap exists with the same root cause, component, and
+quality attribute.
+
+### Article 6: CROSS-IMPACT
+
+Every gap must have its causal relationship to other gaps explicitly mapped.
+Gaps do not exist in isolation.
+
+**Machine-verifiable test**: The gap entry contains at least one of:
+- "Causes: {other gap IDs}"
+- "Caused by: {other gap IDs}"
+- "Independent of: all other gaps" (with explanation)
+
+FAIL condition: No cross-impact information exists.
+
+### Article 7: ADVERSARIAL SURVIVAL
+
+Every gap must have survived at least 3 adversarial verification methods
+from Phase 3 (Loops 17-24).
+
+**Machine-verifiable test**: The gap entry lists at least 3 verification
+methods and their outcomes, with at least 3 PASS results.
+
+FAIL condition: Fewer than 3 adversarial methods applied, or fewer than
+3 PASS results.
+
+### Article 8: FALSIFIABILITY
+
+Every gap claim must be falsifiable. There must exist a conceivable
+experiment or observation that could disprove the gap's existence.
+
+**Machine-verifiable test**: The gap entry contains:
+- A falsifiable claim statement
+- A described falsification experiment
+- The result of the experiment (SURVIVES, not UNFALSIFIABLE)
+
+FAIL condition: The gap is marked UNFALSIFIABLE or no falsification
+experiment is described.
+
+---
+
+## Enhanced Gap Log Format
+
+Every gap in the final report must use this complete template:
+
+```
+### [GAP-{ID}] {Finding Title}
+
+**Gap Type**: [ ] Missing Feature  [ ] Incomplete Implementation  [ ] Security Vulnerability
+              [ ] Performance Risk  [ ] Reliability Risk  [ ] Compliance Gap
+              [ ] Architectural Flaw  [ ] Process Gap  [ ] Observability Gap
+              [ ] Data Integrity Risk  [ ] Integration Gap  [ ] Documentation Gap
+
+**FMEA Scoring**:
+| Dimension | Score (1-10) | Justification |
+|-----------|-------------|---------------|
+| Severity  | {S}         | {why}         |
+| Occurrence| {O}         | {why}         |
+| Detection | {D}         | {why}         |
+| **RPN**   | **{SxOxD}** | **{SHOWSTOPPER/CRITICAL/HIGH/MEDIUM/LOW}** |
+
+**Bayesian Probability**: P(real) = {0.XX}
+  - Prior: 0.50
+  - Evidence updates: {list of evidence that increased or decreased P}
+
+**Evidence**:
+  - {concrete evidence 1 — code reference, config reference, or standard}
+  - {concrete evidence 2}
+  - {concrete evidence 3}
+
+**Root Cause Hypothesis**:
+  {abductive explanation — WHY does this gap exist?}
+
+**Faithful Reasoning Chain**:
+  Premise 1: {P1}
+  Premise 2: {P2}
+  Premise 3: {P3}
+  Conclusion: {P1 AND P2 AND P3 -> Q}
+  Validity: {VALID / INVALID — reason}
+
+**Falsification Experiment**:
+  Claim: {falsifiable statement}
+  Experiment: {what would disprove this}
+  Result: {SURVIVES / DISPROVED / UNFALSIFIABLE}
+
+**Causal Structure (Pearl's 3 Rungs)**:
+  Rung 1 (Association): {what co-occurs with this gap}
+  Rung 2 (Intervention): {what fixing this gap would change}
+  Rung 3 (Counterfactual): {what would be true if this gap never existed}
+
+**Second-Order Cascade**:
+  1st order: {immediate effect}
+  2nd order: {consequence of 1st order}
+  3rd order: {consequence of 2nd order}
+  Amplification: {yes/no}
+  Feedback loop: {yes/no}
+
+**Analogical Precedent**:
+  Domain: {analogous domain}
+  Precedent: {what happened there}
+  Lesson: {what it means for this system}
+
+**Verification Status**:
+  - [ ] FMEA Scored (Loop 17)
+  - [ ] Chain of Verification passed (Loop 18)
+  - [ ] Step-Aware Verification passed (Loop 19)
+  - [ ] Dialectical Debate completed (Loop 20)
+  - [ ] Falsification survived (Loop 21)
+  - [ ] Causal Inference audited (Loop 22)
+  - [ ] Faithful CoT + Self-Consistency checked (Loop 23)
+  - [ ] Constitutional Rigor passed (Loop 24)
+  Methods passed: {N}/8
+
+**Proposed Resolution**:
+  Action: {specific action — add/modify/remove/configure}
+  Target: {specific component/file/endpoint}
+  Acceptance criteria:
+    - {testable criterion 1}
+    - {testable criterion 2}
+    - {testable criterion 3}
+  Effort: {S/M/L/XL}
+
+**Graph Edges**:
+  Causes: {list of gap IDs this gap causes}
+  Caused by: {list of gap IDs that cause this gap}
+  Blocks solution of: {list of gap IDs}
+  Blocked by solution of: {list of gap IDs}
+
+**Constitutional Compliance**:
+  Art 1 EVIDENCE: {PASS/FAIL}
+  Art 2 QUANTIFICATION: {PASS/FAIL}
+  Art 3 FAITHFUL REASONING: {PASS/FAIL}
+  Art 4 ACTIONABILITY: {PASS/FAIL}
+  Art 5 UNIQUENESS: {PASS/FAIL}
+  Art 6 CROSS-IMPACT: {PASS/FAIL}
+  Art 7 ADVERSARIAL SURVIVAL: {PASS/FAIL}
+  Art 8 FALSIFIABILITY: {PASS/FAIL}
+  Overall: {CONSTITUTIONAL (8/8) / NON-COMPLIANT ({N}/8)}
+```
+
+---
+
+## TRIZ Quick Reference — Top 15 Inventive Principles for Software
+
+| # | Principle | Application |
+|---|-----------|-------------|
+| 1 | Segmentation | Break monolith into microservices or modules |
+| 2 | Taking Out | Extract a problematic component into its own service |
+| 3 | Local Quality | Apply different configs per environment or tenant |
+| 5 | Merging | Combine related functions to reduce integration points |
+| 10 | Prior Action | Pre-compute, cache, warm pools, pre-provisioning |
+| 13 | The Other Way Around | Invert control flow (IoC, event-driven, pull vs push) |
+| 15 | Dynamization | Feature flags, runtime configuration, hot reloading |
+| 17 | Another Dimension | Add caching layer, read replicas, CDN, async queues |
+| 22 | Blessing in Disguise | Turn errors into features (graceful degradation) |
+| 24 | Intermediary | Add proxy, gateway, adapter, or middleware |
+| 25 | Self-Service | Automate manual processes, self-healing infrastructure |
+| 28 | Mechanics Substitution | Replace polling with webhooks, cron with event triggers |
+| 32 | Color Changes | Add observability (metrics, traces, logs, status pages) |
+| 35 | Parameter Changes | Tune timeouts, retries, batch sizes, pool sizes |
+| 40 | Composite Structures | Combine patterns (circuit breaker + retry + fallback) |
+
+---
+
+## Morphological Grid Template
+
+```
+                    | Security | Performance | Reliability | Scalability | Maintainability | Observability | Compliance | Data Integrity |
+--------------------|----------|-------------|-------------|-------------|-----------------|---------------|------------|----------------|
+UI / Frontend       |          |             |             |             |                 |               |            |                |
+API / Gateway       |          |             |             |             |                 |               |            |                |
+Business Logic      |          |             |             |             |                 |               |            |                |
+Data / Storage      |          |             |             |             |                 |               |            |                |
+Infrastructure      |          |             |             |             |                 |               |            |                |
+External Deps       |          |             |             |             |                 |               |            |                |
+CI/CD Pipeline      |          |             |             |             |                 |               |            |                |
+Auth / Identity     |          |             |             |             |                 |               |            |                |
+
+Legend:
+  [S] = Showstopper gap found (RPN >= 200)
+  [C] = Critical gap found (RPN 100-199)
+  [H] = High gap found (RPN 50-99)
+  [M] = Medium gap found (RPN 25-49)
+  [L] = Low gap found (RPN < 25)
+  [.] = Investigated, no gaps found (verified clean)
+  [ ] = Not yet investigated (blind spot)
+```
+
+---
+
+## MAP-Elites Coverage Template
+
+```
+                    | Showstopper | Critical | High | Medium | Low | Clean | Unexplored | Total |
+--------------------|-------------|----------|------|--------|-----|-------|------------|-------|
+UI / Frontend       |             |          |      |        |     |       |            |       |
+API / Gateway       |             |          |      |        |     |       |            |       |
+Business Logic      |             |          |      |        |     |       |            |       |
+Data / Storage      |             |          |      |        |     |       |            |       |
+Infrastructure      |             |          |      |        |     |       |            |       |
+External Deps       |             |          |      |        |     |       |            |       |
+CI/CD Pipeline      |             |          |      |        |     |       |            |       |
+Auth / Identity     |             |          |      |        |     |       |            |       |
+--------------------|-------------|----------|------|--------|-----|-------|------------|-------|
+TOTALS              |             |          |      |        |     |       |            |       |
+
+Coverage Score = (Cells with gaps + Cells verified clean) / Total cells = {N}%
+
+Target: >= 70% coverage
+Below 70%: Analysis has significant blind spots — consider additional loops
+```
+
+---
+
+## Epistemic Humility Template
+
+Every ATOM analysis must end with an honest assessment of what it does NOT know.
+
+### Known Knowns
+Gaps confirmed with high confidence (P(real) > 0.7, survived 3+ adversarial methods):
+- {list}
+
+### Known Unknowns
+Areas investigated but inconclusive (0.3 < P(real) < 0.7, mixed verification results):
+- {list}
+- Recommended follow-up: {specific investigation for each}
+
+### Unknown Unknowns
+Morphological cells never explored, analogous domain gaps not investigated, scenarios
+not considered:
+- {list of unexplored cells from MAP-Elites}
+- {list of analogous domains not consulted}
+- This section is inherently incomplete — if we knew what was here, it would be a Known Unknown.
+
+---
+
+## Exit Checklist
+
+Before declaring an ATOM analysis complete, verify ALL of the following:
+
+- [ ] All 37 loops executed (or explicitly skipped with documented rationale)
+- [ ] Every surviving gap passes all 8 Constitutional articles
+- [ ] FMEA RPN scores assigned to every gap
+- [ ] Bayesian probabilities assigned to every gap
+- [ ] Falsification experiments run on every gap
+- [ ] Causal DAG constructed showing gap dependencies
+- [ ] MAP-Elites coverage score calculated and reported
+- [ ] Coverage score >= 70% (or blind spots documented)
+- [ ] Epistemic Humility section completed
+- [ ] Critical path / dependency map generated
+- [ ] Solution specs written for all SHOWSTOPPER and CRITICAL gaps
+- [ ] Buffer of Thoughts templates extracted
+- [ ] Reflexion summary written
+- [ ] CRITIC metrics calculated and benchmarked
+- [ ] Final report written to `memory/synthesized-gaps.md`
+- [ ] Gap log preserved in `memory/gaps.log`
+
+---
+
+## Research Citations
+
+Brief citation list for all 35 methods:
+
+1. Zhou et al. "Self-Discover: Large Language Models Self-Compose Reasoning Structures." NeurIPS 2024. arXiv:2402.03620
+2. Zheng et al. "Take a Step Back: Evoking Reasoning via Abstraction." arXiv:2310.06117 (2023)
+3. RT-ICA Reverse Thinking. arXiv:2512.10273 (2024)
+4. Chia et al. "Contrastive Chain-of-Thought Prompting." arXiv:2311.09277 (2023)
+5. Zhang et al. "Cumulative Reasoning with Large Language Models." TMLR. arXiv:2308.04371 (2023)
+6. Besta et al. "Graph of Thoughts: Solving Elaborate Problems with Large Language Models." AAAI/ICLR 2024. arXiv:2308.09687
+7. Dhuliawala et al. "Chain-of-Verification Reduces Hallucination." Meta AI. ACL 2024. arXiv:2309.11495
+8. Li et al. "Making Language Models Better Reasoners with Step-Aware Verifier." ACL 2023. arXiv:2206.02336
+9. Du et al. "Improving Factuality and Reasoning in Language Models through Multiagent Debate." ICML 2024. arXiv:2305.14325
+10. Lyu et al. "Faithful Chain-of-Thought Reasoning." IJCNLP. arXiv:2301.13379 (2023)
+11. Bai et al. "Constitutional AI: Harmlessness from AI Feedback." Anthropic. arXiv:2212.08073 (2022)
+12. Hao et al. "Reasoning with Language Model is Planning with World Model." EMNLP. arXiv:2305.14992 (2023)
+13. Yang et al. "Buffer of Thoughts: Thought-Augmented Reasoning with Large Language Models." NeurIPS Spotlight. arXiv:2406.04271 (2024)
+14. Shinn et al. "Reflexion: Language Agents with Verbal Reinforcement Learning." NeurIPS 2023. arXiv:2303.11366
+15. Zhao et al. "Absolute Zero: Reinforced Self-play Reasoning with Zero Data." NeurIPS 2025. arXiv:2505.03335
+16. Aristotle. "Metaphysics." First Principles — "the first basis from which a thing is known."
+17. Peirce, C.S. "Abduction and Induction." arXiv:2307.10250, arXiv:2601.02771
+18. Popper, K. "The Logic of Scientific Discovery." Falsificationism. arXiv:2502.09858, arXiv:2601.02380
+19. Hegel, G.W.F. "Phenomenology of Spirit." Dialectical method. arXiv:2501.14917 (Microsoft Research)
+20. Plato. "Meno", "Theaetetus." Socratic Elenchus. arXiv:2303.08769 (Chang 2023)
+21. Bayes, T. "An Essay towards solving a Problem in the Doctrine of Chances." Nature Comms 2025. arXiv:2503.17523
+22. Pearl, J. "Causality: Models, Reasoning, and Inference." do-calculus. arXiv:2410.16676, NAACL 2025
+23. Analogical Transfer. arXiv:2310.01714, ACM CHI 2023
+24. Second-Order Effects. Systems thinking and consequence scanning frameworks.
+25. Emergence Detection. Complexity Journal 2017. BKB framework.
+26. Zwicky, F. "Discovery, Invention, Research through the Morphological Approach." (1969)
+27. Klein, G. "Performing a Project Premortem." Harvard Business Review (2007)
+28. Negative Space Analysis. Art theory applied to engineering gap detection.
+29. Altshuller, G. "The Innovation Algorithm: TRIZ." Analysis of 2M+ patents.
+30. FMEA. MIL-STD-1629A. ISO 31010. Risk Priority Number methodology.
+31. Industry Standards: OWASP, DORA, ISO 27001, NIST CSF, SLSA, CIS Benchmarks.
+32. Goldratt, E. "The Goal: A Process of Ongoing Improvement." Theory of Constraints (1984).
+33. Mouret & Clune. "Illuminating Search Spaces by Mapping Elites." Nature (2015).
+34. Wang et al. "Self-Consistency Improves Chain of Thought Reasoning." ICLR 2023. arXiv:2203.11171
+35. Gou et al. "CRITIC: Large Language Models Can Self-Correct with Tool-Interactive Critiquing." arXiv:2305.11738 (2023)
+
+---
 
 ## Usage with Claude Code Agent Teams
 
-This skill maps perfectly to **Claude Code Agent Teams**:
+ATOM maps naturally to Claude Code Agent Teams with 4+ agents:
 
 ```
-Create an agent team with 4 teammates for an AGE analysis:
-- 1 Architect teammate: deconstruct the problem into first principles
-- 1 Detective teammate: use reverse thinking to find hidden gaps  
-- 1 Builder teammate: spec solutions for each gap found
-- 1 CEO teammate: synthesize all findings into a prioritized report
+Team Configuration for ATOM Analysis:
+
+Agent 1 — Axiom Agent:
+  Runs Loops 1-4 (Phase 1: AXIOMS)
+  Establishes first principles, step-back abstractions, reasoning blueprint, morphological grid
+
+Agent 2 — Hunter Agent:
+  Runs Loops 5-16 (Phase 2: HUNT)
+  Executes all 12 discovery methods in parallel where possible
+
+Agent 3 — Validator Agent:
+  Runs Loops 17-24 (Phase 3: VALIDATE)
+  Adversarial verification — FMEA scoring, falsification, dialectical debate
+
+Agent 4 — Architect Agent:
+  Runs Loops 25-30 (Phase 4: SOLVE)
+  Solution specifications, graph of thoughts, dependency mapping
+
+Lead Agent — CEO:
+  Runs Loops 31-37 (Phases 5-7: SYNTHESIZE + CACHE + EVOLVE)
+  Deduplication, final report, knowledge extraction, self-improvement
 ```
+
+Shared state: All agents read from and write to `memory/gaps.log`. The gap log
+is the ONLY shared memory. This preserves the Ralph Wiggum property — each loop
+starts with zero context except what is in the log.
+
+To run: `/atom {target description}` or `/age {target description}`

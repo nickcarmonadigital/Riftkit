@@ -31,7 +31,7 @@ your-project/
 
 ## Step 2: Understand the Structure
 
-### Skills (~130 Reusable Workflows)
+### Skills (228 Reusable Workflows)
 
 Each skill is a step-by-step instruction set:
 
@@ -255,7 +255,7 @@ cp -r .agent/commands/*.md ~/.claude/commands/
 ## Next Steps
 
 1. ✅ Read [full-stack-developer-foundation.md](./docs/0-context/full-stack-developer-foundation.md) to understand the WHY
-2. ✅ Explore the [skills-index.md](./skills-index.md) for the full list of ~130 skills
+2. ✅ Explore the [skills-index.md](./skills-index.md) for the full list of 228 skills
 3. ✅ Try `idea_to_spec` on your next feature idea
 4. ✅ Try `/plan` and `/tdd` slash commands
 5. ✅ Set up `project_context` for your codebase

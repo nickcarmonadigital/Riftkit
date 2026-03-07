@@ -2,7 +2,7 @@
 
 ## From Confused to Confident: A Structured Approach to Inheriting Code You Did Not Write
 
-> **Part of the AI Development Workflow Framework** (`~138 Skills | 13 Agents | 32 Commands | 25 Rules | 70+ Docs | 18 Workflows`)
+> **Part of the AI Development Workflow Framework** (`228 Skills | 13 Agents | 33 Commands | 30 Rules | 70+ Docs | 18 Workflows`)
 >
 > Developed through a 25-loop AGE (Adversarial Gap Engine) analysis that identified 8 critical skill gaps in the "existing project onboarding" use case.
 

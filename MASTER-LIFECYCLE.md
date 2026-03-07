@@ -511,4 +511,4 @@ ai-dev-workflow-framework/
 
 ---
 
-*Framework v9.0 — 228 Skills | 13 Agents | 32 Commands | 25 Rules | 18 Workflows | 70+ Docs*
+*Framework v10.0 — 298 Skills | 13 Agents | 39 Commands | 25 Rules | 18 Workflows | 70+ Docs*
