@@ -1,6 +1,6 @@
 # AI Development Workflows
 
-The AI Development Workflow Framework is designed to guide you through the entire software development lifecycle, from raw idea to client handoff. It consists of a **Golden Path** (Core Lifecycle) and a **Toolkit** (Specialized Workflows).
+riftkit is designed to guide you through the entire software development lifecycle, from raw idea to client handoff. It consists of a **Golden Path** (Core Lifecycle) and a **Toolkit** (Specialized Workflows).
 
 ## 📊 Workflow Ecosystem
 

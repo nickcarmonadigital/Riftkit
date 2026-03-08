@@ -248,5 +248,5 @@ Ask these at every roadmap review:
 ---
 
 *Created: February 14, 2026*
-*Part of the AI Development Workflow Framework v6.0*
+*Part of riftkit*
 *Related skills: sprint_planning, prioritization_frameworks, stakeholder_communication, cost_estimation*

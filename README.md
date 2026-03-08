@@ -1,6 +1,6 @@
-# AI Development Workflow Framework
+# riftkit
 
-> **298 Skills** | **13 Agents** | **32 Commands** | **25 Rules** | **70+ Docs** | **18 Workflows** | **Zero Fluff**
+> **298 Skills** | **19 Agents** | **39 Commands** | **25 Rules** | **70+ Docs** | **25 Workflows** | **Zero Fluff**
 
 AI assistants write great code but lack process discipline -- they skip architecture reviews, forget security audits, and never write migration runbooks. This framework gives them structured skills, automated agents, and slash commands for every phase of development, from first brainstorm through production maintenance.
 
@@ -10,9 +10,9 @@ AI assistants write great code but lack process discipline -- they skip architec
 
 Every AI coding assistant shares the same blind spot: it optimizes for the task in front of it. Ask it to build a feature and it will happily write code without a spec, skip threat modeling, deploy without a rollback plan, and move on to the next prompt. The result is software that works today and breaks tomorrow.
 
-This framework fills the gap with 298 skills that encode real engineering process -- architecture decomposition, test strategies, compliance checklists, deployment runbooks, post-launch observability, and everything in between. Each skill is a standalone Markdown file the AI reads on demand, so it knows not just *what* to build but *how* to build it responsibly.
+riftkit fills the gap with 298 skills that encode real engineering process -- architecture decomposition, test strategies, compliance checklists, deployment runbooks, post-launch observability, and everything in between. Each skill is a standalone Markdown file the AI reads on demand, so it knows not just *what* to build but *how* to build it responsibly.
 
-On top of the skills sits an automation layer: 13 specialized agents that handle code review, security scanning, documentation updates, and build-error resolution; 32 slash commands that invoke those agents and skills from the CLI; and 9 event-driven hooks that enforce formatting, type-checking, and changelog discipline without you lifting a finger.
+On top of the skills sits an automation layer: 19 specialized agents that handle code review, security scanning, documentation updates, and build-error resolution; 39 slash commands that invoke those agents and skills from the CLI; and 9 event-driven hooks that enforce formatting, type-checking, and changelog discipline without you lifting a finger.
 
 ---
 
@@ -20,8 +20,8 @@ On top of the skills sits an automation layer: 13 specialized agents that handle
 
 ```bash
 # Clone and copy to your project
-git clone https://github.com/nickcarmonadigital/ai-dev-framework.git
-cp -r ai-dev-workflow-framework/.agent ./your-project/
+git clone https://github.com/nickcarmonadigital/riftkit.git
+cp -r riftkit/.agent ./your-project/
 ```
 
 Your AI assistant will automatically detect and use these skills.
@@ -29,7 +29,7 @@ Your AI assistant will automatically detect and use these skills.
 **Global install** (available in every project):
 
 ```bash
-cd ai-dev-workflow-framework/.agent
+cd riftkit/.agent
 bash install.sh
 ```
 
@@ -77,7 +77,7 @@ Full phase-by-phase reference with every skill mapped to its phase: [MASTER-LIFE
 
 ## What's Inside
 
-### Skills (228)
+### Skills (298)
 
 The skill library covers the entire development lifecycle. Each skill is a self-contained Markdown file with trigger commands, step-by-step process, and a completion checklist.
 
@@ -94,7 +94,7 @@ The skill library covers the entire development lifecycle. Each skill is a self-
 | **Maintenance (6)** | `ssot_update`, `documentation_standards`, `dependency_management`, `continuous_learning` |
 | **Toolkit (9)** | `content_waterfall`, `personal_brand`, `ceo_brain`, `ai_tool_orchestration`, `strategic_compact` |
 
-### Agents (13)
+### Agents (19)
 
 Specialized AI subagents that handle focused tasks autonomously. See [.agent/agents/README.md](.agent/agents/README.md) for full documentation.
 
@@ -113,8 +113,14 @@ Specialized AI subagents that handle focused tasks autonomously. See [.agent/age
 | `go-reviewer` | Go-specific code review and idiom checks | `/go-review` |
 | `go-build-resolver` | Resolves Go build and module errors | `/go-build` |
 | `python-reviewer` | Python-specific code review and lint checks | `/python-review` |
+| `brainstorm-agent` | Brainstorm and ideation facilitation | manual |
+| `compliance-agent` | Compliance review and audit | `/compliance-check` |
+| `framework-router` | Route requests to correct skills and agents | automatic |
+| `security-agent` | Security-focused analysis and review | `/security-audit` |
+| `ship-agent` | Deployment and shipping operations | `/deploy` |
+| `sre-agent` | SRE practices and reliability engineering | manual |
 
-### Commands (32)
+### Commands (39)
 
 Slash commands give you one-step access to skills and agents from the Claude Code CLI. See [.agent/commands/README.md](.agent/commands/README.md).
 
@@ -199,9 +205,9 @@ AI: [Creates documentation explaining how it works]
 └── .agent/
     ├── GETTING_STARTED.md     # 5-minute setup guide
     ├── install.sh             # Global installer (copies to ~/.claude/)
-    ├── skills/                # 228 skill folders (organized by phase)
-    ├── agents/                # 13 specialized AI subagents
-    ├── commands/              # 32 slash commands
+    ├── skills/                # 298 skill folders (organized by phase)
+    ├── agents/                # 19 specialized AI subagents
+    ├── commands/              # 39 slash commands
     ├── rules/                 # 25 coding rules (common + 4 languages)
     ├── hooks/                 # Event-driven automations
     ├── blueprints/            # 50+ project type starter templates

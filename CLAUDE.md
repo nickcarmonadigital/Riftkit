@@ -1,6 +1,6 @@
-# AI Development Workflow Framework
+# riftkit
 
-A phase-based software development framework with 298 skills, 19 agents, 39 commands, 25+ workflows, and 40 rules.
+A phase-based software development framework with 298 skills, 19 agents, 39 commands, 25 workflows, and 40 rules.
 Skills live in `.agent/skills/{phase}/`, agents in `.agent/agents/`, commands in `.agent/commands/`.
 
 ---
@@ -430,7 +430,7 @@ Skills live in `.agent/skills/{phase}/`, agents in `.agent/agents/`, commands in
 
 ---
 
-## Commands (33)
+## Commands (39)
 
 Invoke with `/command-name`. Read full docs at `.agent/commands/{name}.md`.
 
@@ -440,9 +440,12 @@ Invoke with `/command-name`. Read full docs at `.agent/commands/{name}.md`.
 | `/checkpoint` | Save a project checkpoint |
 | `/claw` | OpenClaw integration commands |
 | `/code-review` | Run automated code review |
+| `/compliance-check` | Run compliance checks |
+| `/deploy` | Deploy to environment |
 | `/e2e` | Execute end-to-end tests |
 | `/eval` | Run evaluation harness |
 | `/evolve` | Evolve skills via AGE |
+| `/incident` | Incident response workflow |
 | `/go-build` | Fix Go build errors |
 | `/go-review` | Go-specific code review |
 | `/go-test` | Run Go tests |
@@ -456,11 +459,14 @@ Invoke with `/command-name`. Read full docs at `.agent/commands/{name}.md`.
 | `/multi-frontend` | Multi-frontend operations |
 | `/multi-plan` | Plan across multiple services |
 | `/multi-workflow` | Run multi-service workflows |
+| `/observe` | Observability setup |
 | `/orchestrate` | Orchestrate complex multi-step tasks |
 | `/plan` | Create implementation plan |
 | `/pm2` | PM2 process management |
 | `/python-review` | Python-specific code review |
+| `/release` | Release management |
 | `/refactor-clean` | Refactor and clean code |
+| `/security-audit` | Security audit workflow |
 | `/sessions` | Manage development sessions |
 | `/setup-pm` | Set up project management |
 | `/skill-create` | Create a new framework skill |
@@ -472,7 +478,7 @@ Invoke with `/command-name`. Read full docs at `.agent/commands/{name}.md`.
 
 ---
 
-## Agents (13)
+## Agents (19)
 
 Agents are specialized AI personas. Read full docs at `.agent/agents/{name}.md`.
 
@@ -480,37 +486,56 @@ Agents are specialized AI personas. Read full docs at `.agent/agents/{name}.md`.
 |---|---|
 | `planner` | Project planning, task breakdown, roadmaps |
 | `architect` | System architecture, design decisions, trade-offs |
+| `brainstorm-agent` | Brainstorm and ideation facilitation |
 | `code-reviewer` | Code quality, patterns, best practices review |
+| `compliance-agent` | Compliance review and audit |
 | `security-reviewer` | Security-focused code and config review |
 | `tdd-guide` | Test-driven development guidance and coaching |
 | `build-error-resolver` | Build error diagnosis, dependency resolution |
 | `e2e-runner` | End-to-end test execution and debugging |
+| `framework-router` | Route requests to correct skills and agents |
 | `doc-updater` | Documentation generation and maintenance |
 | `refactor-cleaner` | Code refactoring, dead code removal |
 | `database-reviewer` | Schema design, query optimization, migration review |
 | `go-reviewer` | Go-specific code review and idioms |
 | `go-build-resolver` | Go build and module error resolution |
 | `python-reviewer` | Python-specific code review and patterns |
+| `security-agent` | Security-focused analysis and review |
+| `ship-agent` | Deployment and shipping operations |
+| `sre-agent` | SRE practices and reliability engineering |
 
 ---
 
-## Workflows
+## Workflows (25)
 
 Multi-step orchestrated processes at `.agent/workflows/`.
 
 | Workflow | File | What it does |
 |---|---|---|
+| Context | `0-context.md` | Context gathering workflow |
+| Brainstorm | `1-brainstorm.md` | Brainstorm and ideation workflow |
+| Design | `2-design.md` | Design phase workflow |
+| Build | `3-build.md` | Build phase workflow |
+| Secure | `4-secure.md` | Security and testing workflow |
 | Ship | `5-ship.md` | Full deployment workflow |
-| Alpha Release | `alpha-release.md` | Alpha release process |
-| Beta Release | `beta-release.md` | Beta release process |
 | Handoff | `6-handoff.md` | Project handoff workflow |
 | Maintenance | `7-maintenance.md` | Ongoing maintenance workflow |
 | ATOM Commission | `age-commission.md` | Commission ATOM discovery analysis |
-| New Project | `toolkit/new-project.md` | New project bootstrap |
-| Launch | `toolkit/launch.md` | Full launch workflow |
-| Design Review | `toolkit/design-review.md` | Design review process |
-| Observability | `toolkit/observability.md` | Observability setup workflow |
+| Alpha Release | `alpha-release.md` | Alpha release process |
+| Beta Release | `beta-release.md` | Beta release process |
+| Compliance Audit | `compliance-audit.md` | Compliance audit workflow |
+| Hotfix Critical | `hotfix-critical.md` | Critical hotfix workflow |
+| Incident Response | `incident-response.md` | Incident response workflow |
+| Migration Upgrade | `migration-upgrade.md` | Migration and upgrade workflow |
+| Onboarding | `onboarding-new-dev.md` | New developer onboarding |
+| Performance Optimization | `performance-optimization.md` | Performance optimization workflow |
+| Security Hardening | `security-hardening.md` | Security hardening workflow |
 | Content Production | `toolkit/content_production.md` | Content production pipeline |
+| Debug | `toolkit/debug.md` | Debug workflow |
+| Design Review | `toolkit/design-review.md` | Design review process |
+| Launch | `toolkit/launch.md` | Full launch workflow |
+| New Project | `toolkit/new-project.md` | New project bootstrap |
+| Observability | `toolkit/observability.md` | Observability setup workflow |
 | Post-Task | `toolkit/post-task.md` | Post-task retrospective |
 
 ---

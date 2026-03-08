@@ -1,4 +1,4 @@
-# AI Development Workflow Framework — Master Lifecycle
+# riftkit — Master Lifecycle
 
 The definitive reference for the framework's development lifecycle, mapping every skill, agent, command, and document to its correct phase. This is the document you read to understand how the pieces fit together. For installation and quick-start, see `README.md`. For blueprint selection, see `BLUEPRINT_GUIDE.md`. For onboarding to an existing codebase, see `EXISTING_PROJECT_GUIDE.md`. For client-facing project workflows, see `CLIENT_LIFECYCLE_GUIDE.md`.
 
@@ -456,7 +456,7 @@ Each blueprint category adds domain-specific skills on top of the core lifecycle
 ## Framework Structure
 
 ```
-ai-dev-workflow-framework/
+riftkit/
 ├── MASTER-LIFECYCLE.md          <- This file
 ├── README.md
 ├── CLIENT_LIFECYCLE_GUIDE.md

@@ -396,5 +396,5 @@ The goal isn't to memorize 168 triggers. It's to internalize the **four detectio
 ---
 
 *Created: February 14, 2026*
-*Part of the AI Development Workflow Framework v6.0*
+*Part of riftkit*
 *Purpose: Bridge the gap between "the framework teaches process" and "AI handles implementation"*

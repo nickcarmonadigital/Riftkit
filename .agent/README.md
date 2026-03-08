@@ -1,6 +1,6 @@
-# AI Development Workflow Framework
+# riftkit
 
-> **298 Skills** | **13 Agents** | **39 Commands** | **25 Rules** | **70+ Docs** | **18 Workflows** | **Zero Fluff**
+> **298 Skills** | **19 Agents** | **39 Commands** | **25 Rules** | **70+ Docs** | **25 Workflows** | **Zero Fluff**
 
 A battle-tested toolkit for AI-assisted development. Drop the `.agent` folder into any project and supercharge your workflow — now with automated agents, slash commands, coding rules, and hooks from [Everything Claude Code](https://github.com/affaan-m/everything-claude-code).
 
@@ -10,8 +10,8 @@ A battle-tested toolkit for AI-assisted development. Drop the `.agent` folder in
 
 ```bash
 # Clone and copy to your project
-git clone https://github.com/YOUR_USERNAME/ai-dev-workflow-framework.git
-cp -r ai-dev-workflow-framework/.agent ./your-project/
+git clone https://github.com/nickcarmonadigital/riftkit.git
+cp -r riftkit/.agent ./your-project/
 ```
 
 Your AI assistant will automatically detect and use these skills.
@@ -38,7 +38,7 @@ Your AI assistant will automatically detect and use these skills.
 | **Maintenance (6)** | `ssot_update` `documentation_standards` `sop_standards` `wi_standards` `dependency_management` `continuous_learning` |
 | **Toolkit (9)** | `video_research` `content_creation` `content_waterfall` `personal_brand` `ceo_brain` `ai_tool_orchestration` `strategic_compact` `iterative_retrieval` `cost_aware_llm_pipeline` |
 
-### Agents (13)
+### Agents (19)
 
 Specialized AI subagents for automated workflows. See [agents/README.md](./agents/README.md).
 
@@ -58,7 +58,7 @@ Specialized AI subagents for automated workflows. See [agents/README.md](./agent
 | `go-build-resolver` | Sonnet | 3-build |
 | `python-reviewer` | Sonnet | 3-build |
 
-### Commands (32)
+### Commands (39)
 
 Slash commands for Claude Code automation. See [commands/README.md](./commands/README.md).
 
@@ -150,13 +150,13 @@ description: What this skill does
 ├── README.md              # You are here
 ├── GETTING_STARTED.md     # 5-minute setup guide
 ├── install.sh             # Global installer (copies to ~/.claude/)
-├── skills/                # ~130 skill folders (organized by phase)
+├── skills/                # 298 skill folders (organized by phase)
 │   ├── 0-context/         #   7 skills
 │   ├── 3-build/           #   50 skills
 │   ├── 4-secure/          #   21 skills
 │   └── ...
-├── agents/                # 13 specialized AI subagents
-├── commands/              # 32 slash commands
+├── agents/                # 19 specialized AI subagents
+├── commands/              # 39 slash commands
 ├── rules/                 # 25 coding rule files (common + 4 languages)
 ├── hooks/                 # Event-driven automations
 ├── contexts/              # Dynamic system prompts (dev/review/research)

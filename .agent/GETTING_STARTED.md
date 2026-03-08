@@ -31,7 +31,7 @@ your-project/
 
 ## Step 2: Understand the Structure
 
-### Skills (228 Reusable Workflows)
+### Skills (298 Reusable Workflows)
 
 Each skill is a step-by-step instruction set:
 
@@ -42,10 +42,10 @@ Each skill is a step-by-step instruction set:
 ├── security_audit/SKILL.md       ← Security checklist
 ├── tdd_workflow/SKILL.md         ← Test-driven development
 ├── golang_patterns/SKILL.md      ← Go best practices
-└── ... (~130 total, organized by lifecycle phase)
+└── ... (298 total, organized by lifecycle phase)
 ```
 
-### Agents (13 AI Subagents)
+### Agents (19 AI Subagents)
 
 Specialized agents that automate development tasks:
 
@@ -55,10 +55,10 @@ Specialized agents that automate development tasks:
 ├── code-reviewer.md     ← Automated code review (Sonnet)
 ├── security-reviewer.md ← Security analysis (Opus)
 ├── tdd-guide.md         ← Test-driven development (Sonnet)
-└── ... (13 total)
+└── ... (19 total)
 ```
 
-### Commands (32 Slash Commands)
+### Commands (39 Slash Commands)
 
 Invoke agents and workflows from Claude Code:
 
@@ -68,7 +68,7 @@ Invoke agents and workflows from Claude Code:
 ├── tdd.md               ← /tdd — Test-driven development
 ├── code-review.md       ← /code-review — Automated review
 ├── build-fix.md         ← /build-fix — Fix build errors
-└── ... (32 total)
+└── ... (39 total)
 ```
 
 ### Rules (25 Coding Guidelines)
@@ -255,7 +255,7 @@ cp -r .agent/commands/*.md ~/.claude/commands/
 ## Next Steps
 
 1. ✅ Read [full-stack-developer-foundation.md](./docs/0-context/full-stack-developer-foundation.md) to understand the WHY
-2. ✅ Explore the [skills-index.md](./skills-index.md) for the full list of 228 skills
+2. ✅ Explore the [skills-index.md](./skills-index.md) for the full list of 298 skills
 3. ✅ Try `idea_to_spec` on your next feature idea
 4. ✅ Try `/plan` and `/tdd` slash commands
 5. ✅ Set up `project_context` for your codebase
