@@ -468,13 +468,15 @@ riftkit/
 │   ├── README.md
 │   ├── skills-index.md
 │   ├── install.sh
-│   ├── agents/                  (13 agents)
-│   ├── commands/                (32 commands)
-│   ├── rules/                   (25 rules)
+│   ├── agents/                  (19 agents)
+│   ├── commands/                (39 commands)
+│   ├── rules/                   (39 rules)
 │   │   ├── common/              (9 rules)
 │   │   ├── typescript/          (5 rules)
 │   │   ├── python/              (5 rules)
 │   │   ├── golang/              (5 rules)
+│   │   ├── java/                (5 rules)
+│   │   ├── rust/                (5 rules)
 │   │   └── swift/               (5 rules)
 │   ├── hooks/                   (hooks.json + scripts)
 │   ├── contexts/                (3 dynamic contexts)
@@ -511,4 +513,4 @@ riftkit/
 
 ---
 
-*Framework v10.0 — 298 Skills | 13 Agents | 39 Commands | 25 Rules | 18 Workflows | 70+ Docs*
+*riftkit — 298 Skills | 19 Agents | 39 Commands | 39 Rules | 26 Workflows | 61 Docs*

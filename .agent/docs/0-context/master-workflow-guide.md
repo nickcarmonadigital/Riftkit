@@ -13,7 +13,7 @@
 | `0-context/ai-onboarding-starter-template.md` | Single source of truth - onboards any AI to your project |
 | `0-context/master-workflow-guide.md` | This file - explains how everything works |
 
-### 18 Workflows
+### 26 Workflows
 
 | Workflow | Purpose |
 |----------|---------|
@@ -30,7 +30,7 @@
 
 See `.agent/workflows/WORKFLOWS_README.md` for details.
 
-### 13 Agents (Automated Subagents)
+### 19 Agents (Automated Subagents)
 
 Specialized AI agents that automate development tasks. Each has an optimal model and tool set.
 
@@ -52,7 +52,7 @@ Specialized AI agents that automate development tasks. Each has an optimal model
 
 See `.agent/agents/README.md` for full details.
 
-### 32 Slash Commands
+### 39 Slash Commands
 
 Commands for Claude Code automation — planning, testing, reviewing, learning, and multi-agent orchestration.
 
@@ -60,11 +60,11 @@ Commands for Claude Code automation — planning, testing, reviewing, learning, 
 
 See `.agent/commands/README.md` for the complete list.
 
-### 25 Coding Rules
+### 39 Coding Rules
 
 Always-follow guidelines organized by language:
 - **Common** (9): coding-style, git-workflow, testing, performance, patterns, hooks, agents, security, development-workflow
-- **TypeScript** (5) | **Python** (5) | **Go** (5) | **Swift** (5)
+- **TypeScript** (5) | **Python** (5) | **Go** (5) | **Swift** (5) | **Java** (5) | **Rust** (5)
 
 See `.agent/rules/README.md` for details.
 
@@ -74,7 +74,7 @@ Event-driven automations: session lifecycle management, post-edit formatting/typ
 
 See `.agent/hooks/README.md` for details.
 
-### 228 Skills
+### 298 Skills
 
 | Category | Skills |
 |----------|--------|

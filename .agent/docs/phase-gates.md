@@ -1,6 +1,6 @@
 # Phase Gate Contracts -- Entry & Exit Criteria
 
-This document defines machine-checkable entry and exit criteria for all 10 phase transitions in the AI Dev Workflow Framework. Each gate specifies required artifacts, quality bars, and approval requirements. Gate rigor is adjustable by team scale (see governance_framework skill).
+This document defines machine-checkable entry and exit criteria for all 10 phase transitions in riftkit. Each gate specifies required artifacts, quality bars, and approval requirements. Gate rigor is adjustable by team scale (see governance_framework skill).
 
 **Usage**: Reference this document when running `/gate-check [from-phase] [to-phase]`. The phase_gate_contracts skill provides the process for evaluating these gates.
 

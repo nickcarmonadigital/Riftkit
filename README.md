@@ -1,6 +1,6 @@
 # riftkit
 
-> **298 Skills** | **19 Agents** | **39 Commands** | **25 Rules** | **70+ Docs** | **25 Workflows** | **Zero Fluff**
+> **298 Skills** | **19 Agents** | **39 Commands** | **39 Rules** | **61 Docs** | **26 Workflows** | **Zero Fluff**
 
 AI assistants write great code but lack process discipline -- they skip architecture reviews, forget security audits, and never write migration runbooks. This framework gives them structured skills, automated agents, and slash commands for every phase of development, from first brainstorm through production maintenance.
 

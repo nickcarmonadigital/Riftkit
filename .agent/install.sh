@@ -1,5 +1,5 @@
 #!/bin/bash
-# install.sh — Install AI Dev Workflow Framework components globally
+# install.sh — Install riftkit components globally
 # Copies agents, commands, rules, and hooks to ~/.claude/ for use in any project
 
 set -euo pipefail
@@ -7,7 +7,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="${HOME}/.claude"
 
-echo "=== AI Dev Workflow Framework Installer ==="
+echo "=== riftkit Installer ==="
 echo ""
 echo "Source: ${SCRIPT_DIR}"
 echo "Target: ${CLAUDE_DIR}"
@@ -39,7 +39,7 @@ echo "  ✓ $(ls "${SCRIPT_DIR}/commands/"*.md 2>/dev/null | wc -l) command file
 
 # Copy rules
 echo "Installing rules..."
-for lang_dir in common typescript python golang swift; do
+for lang_dir in common typescript python golang swift java rust; do
   if [ -d "${SCRIPT_DIR}/rules/${lang_dir}" ]; then
     cp -r "${SCRIPT_DIR}/rules/${lang_dir}/"*.md "${CLAUDE_DIR}/rules/${lang_dir}/" 2>/dev/null || true
   fi

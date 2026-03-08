@@ -185,4 +185,4 @@ The framework includes **13 specialized agents** and **32 slash commands** that 
 
 ---
 
-*Agentic Framework v3.0 — Enhanced with Everything Claude Code*
+*riftkit — 298 Skills | 19 Agents | 39 Commands | 39 Rules | 26 Workflows | 61 Docs*

@@ -1,6 +1,6 @@
 # riftkit
 
-> **298 Skills** | **19 Agents** | **39 Commands** | **25 Rules** | **70+ Docs** | **25 Workflows** | **Zero Fluff**
+> **298 Skills** | **19 Agents** | **39 Commands** | **39 Rules** | **61 Docs** | **26 Workflows** | **Zero Fluff**
 
 A battle-tested toolkit for AI-assisted development. Drop the `.agent` folder into any project and supercharge your workflow — now with automated agents, slash commands, coding rules, and hooks from [Everything Claude Code](https://github.com/affaan-m/everything-claude-code).
 

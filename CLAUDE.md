@@ -1,6 +1,6 @@
 # riftkit
 
-A phase-based software development framework with 298 skills, 19 agents, 39 commands, 25 workflows, and 40 rules.
+A phase-based software development framework with 298 skills, 19 agents, 39 commands, 26 workflows, and 39 rules.
 Skills live in `.agent/skills/{phase}/`, agents in `.agent/agents/`, commands in `.agent/commands/`.
 
 ---

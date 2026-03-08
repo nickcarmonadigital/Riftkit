@@ -2,7 +2,7 @@
 
 ## From Confused to Confident: A Structured Approach to Inheriting Code You Did Not Write
 
-> **Part of riftkit** (`298 Skills | 19 Agents | 39 Commands | 25 Rules | 70+ Docs | 25 Workflows`)
+> **Part of riftkit** (`298 Skills | 19 Agents | 39 Commands | 39 Rules | 61 Docs | 26 Workflows`)
 >
 > Developed through a 25-loop AGE (Adversarial Gap Engine) analysis that identified 8 critical skill gaps in the "existing project onboarding" use case.
 

@@ -135,7 +135,7 @@ Always respond in this structure:
 **Quick start**: {single actionable sentence to get started}
 ```
 
-Only include sections that are relevant. Do not list all 228 skills. Recommend 1-3 skills maximum.
+Only include sections that are relevant. Do not list all 298 skills. Recommend 1-3 skills maximum.
 
 ## Rules
 

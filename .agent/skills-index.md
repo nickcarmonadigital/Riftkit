@@ -1,6 +1,6 @@
 # Skills Index
 
-Complete list of all 228 skills in this framework, organized by lifecycle phase.
+Complete list of all 298 skills in this framework, organized by lifecycle phase.
 
 ## Quick Reference
 
@@ -277,4 +277,4 @@ Required sections:
 
 ---
 
-*Updated: February 2026 -- v9.0 (228 skills)*
+*Updated: March 2026 — riftkit (298 skills)*
