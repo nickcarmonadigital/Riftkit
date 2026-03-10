@@ -23,7 +23,7 @@ description: Post-task checklist that MUST run after every feature, fix, or task
 
 ### 1. Feature Walkthrough (REQUIRED for features)
 
-**Skill**: `.agent/skills/3-build/feature_walkthrough/SKILL.md`
+**Skill**: `.agent/skills/6-handoff/feature_walkthrough/SKILL.md`
 **Output**: `.agent/docs/6-handoff/walkthroughs/[feature]-walkthrough.md`
 
 - [ ] Plain English explanation

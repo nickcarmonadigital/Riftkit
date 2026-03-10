@@ -1,5 +1,5 @@
 ---
-name: Feature Flags
+name: Feature Flag Implementation
 description: Comprehensive feature flag lifecycle from creation through rollout to cleanup.
 ---
 

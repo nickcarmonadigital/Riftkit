@@ -264,5 +264,5 @@ go test -race -cover ./...
 
 ## Related
 
-- Skill: `skills/golang-testing/`
-- Skill: `skills/tdd-workflow/`
+- Skill: `skills/4-secure/golang_testing/`
+- Skill: `skills/4-secure/tdd_workflow/`

@@ -22,7 +22,7 @@ Exports instincts to a shareable format. Perfect for:
 
 ## What to Do
 
-1. Read instincts from `.agent/homunculus/instincts/personal/`
+1. Read instincts from `.agent/skills/learned/instincts/personal/`
 2. Filter based on flags
 3. Strip sensitive information:
    - Remove session IDs

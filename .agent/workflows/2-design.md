@@ -18,8 +18,8 @@ description: Plan a feature from vision docs using first principles decompositio
 // turbo
 
 ```bash
-view_file .agent/skills/atomic_reverse_architecture/SKILL.md
-view_file .agent/skills/idea_to_spec/SKILL.md
+view_file .agent/skills/2-design/atomic_reverse_architecture/SKILL.md
+view_file .agent/skills/1-brainstorm/idea_to_spec/SKILL.md
 ```
 
 ---

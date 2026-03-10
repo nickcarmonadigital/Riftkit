@@ -41,58 +41,76 @@ Use glob patterns to check quickly:
 
 ## Framework Inventory
 
-### Skills (228 total)
+### Skills (298 total)
 Located at `.agent/skills/{phase}/{skill}/SKILL.md` across 11 phase directories:
-- `0-context` (22 skills) - Project understanding, audits, setup
+- `0-context` (23 skills) - Project understanding, audits, setup
 - `1-brainstorm` (14 skills) - Ideas, specs, PRDs, research
-- `2-design` (17 skills) - Architecture, API contracts, schemas
-- `3-build` (80+ skills) - Implementation, patterns, debugging
-- `4-secure` (20+ skills) - Security, testing, compliance
-- `5-ship` (20+ skills) - CI/CD, deployment, release
-- `5.5-alpha` / `5.75-beta` - Pre-release workflows
-- `6-handoff` (10+ skills) - Documentation, knowledge transfer
-- `7-maintenance` (15+ skills) - Updates, monitoring, incident response
-- `toolkit` - Cross-phase utility skills
+- `2-design` (24 skills) - Architecture, API contracts, schemas
+- `3-build` (93 skills) - Implementation, patterns, debugging
+- `4-secure` (40 skills) - Security, testing, compliance
+- `5-ship` (23 skills) - CI/CD, deployment, release
+- `5.5-alpha` (10 skills) - Error tracking, health checks, QA
+- `5.75-beta` (13 skills) - Analytics, feedback, rate limiting
+- `6-handoff` (14 skills) - Documentation, knowledge transfer
+- `7-maintenance` (13 skills) - Updates, monitoring, incident response
+- `toolkit` (31 skills) - Cross-phase utility skills
 
-Read `.agent/skills-index.md` for the full skill list with trigger examples.
+Read `CLAUDE.md` for the authoritative skill list organized by phase.
 
-### Agents (13 total)
+### Agents (19 total)
 Located at `.agent/agents/*.md`:
 - `planner` - Implementation planning for complex features
 - `architect` - System design and architecture decisions
+- `brainstorm-agent` - Brainstorm and ideation facilitation
 - `code-reviewer` - Code review and quality checks
+- `compliance-agent` - Compliance review and audit
 - `security-reviewer` - Security-focused review
 - `tdd-guide` - Test-driven development guidance
 - `build-error-resolver` - Fix build and compilation errors
 - `e2e-runner` - End-to-end test execution
+- `framework-router` - Route requests to correct skills and agents
 - `doc-updater` - Documentation updates
 - `refactor-cleaner` - Code cleanup and refactoring
 - `database-reviewer` - Database schema and query review
 - `go-reviewer` - Go-specific code review
 - `go-build-resolver` - Go build error resolution
 - `python-reviewer` - Python-specific code review
+- `security-agent` - Security-focused analysis and review
+- `ship-agent` - Deployment and shipping operations
+- `sre-agent` - SRE practices and reliability engineering
 
-### Commands (33 total)
+### Commands (39 total)
 Located at `.agent/commands/*.md`. Key commands:
 - `/build-fix` - Fix build errors
 - `/code-review` - Run code review
 - `/checkpoint` - Save progress checkpoint
+- `/claw` - OpenClaw integration
 - `/e2e` - Run end-to-end tests
 - `/eval` - Evaluate code quality
 - `/evolve` - Evolve architecture
 - `/learn` - Learn from codebase patterns
 - `/go-build`, `/go-review`, `/go-test` - Go-specific commands
 - `/multi-plan`, `/multi-execute`, `/multi-frontend`, `/multi-backend` - Multi-step workflows
-- `/ship`, `/release`, `/retro` - Shipping and retrospective
-- `/security-audit`, `/security-review` - Security commands
+- `/release` - Release management
+- `/security-audit` - Security commands
 - `/tdd` - Test-driven development
+- `/refactor-clean` - Refactor and clean code
+- `/verify` - Run verification checks
 
-### Workflows (13 total)
+### Workflows (25 total)
 Located at `.agent/workflows/*.md`:
-- `0-context.md` through `7-maintenance.md` - Phase-specific workflows
-- `age-commission.md` - Agent commissioning
+- `0-context.md` through `7-maintenance.md` - Phase-specific workflows (8)
+- `age-commission.md` - ATOM discovery analysis
 - `alpha-release.md` - Alpha release process
 - `beta-release.md` - Beta release process
+- `compliance-audit.md` - Compliance audit workflow
+- `hotfix-critical.md` - Critical hotfix workflow
+- `incident-response.md` - Incident response workflow
+- `migration-upgrade.md` - Migration and upgrade workflow
+- `onboarding-new-dev.md` - New developer onboarding
+- `performance-optimization.md` - Performance optimization workflow
+- `security-hardening.md` - Security hardening workflow
+- Toolkit workflows: content production, debug, design review, launch, new project, observability, post-task
 
 ## Routing Logic
 

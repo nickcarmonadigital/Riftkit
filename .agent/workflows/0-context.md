@@ -99,8 +99,8 @@ Once confirmed, transition to the appropriate workflow:
 // turbo
 
 ```bash
-view_file .agent/skills/idea_to_spec/SKILL.md
-view_file .agent/skills/project_context/SKILL.md
+view_file .agent/skills/1-brainstorm/idea_to_spec/SKILL.md
+view_file .agent/skills/0-context/project_context/SKILL.md
 ```
 
 ---

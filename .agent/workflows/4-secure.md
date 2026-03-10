@@ -35,8 +35,8 @@ description: Run security and quality audit on a feature or project
 // turbo
 
 ```bash
-view_file .agent/skills/security_audit/SKILL.md
-view_file .agent/skills/code_review/SKILL.md
+view_file .agent/skills/4-secure/security_audit/SKILL.md
+view_file .agent/skills/3-build/code_review/SKILL.md
 ```
 
 ---

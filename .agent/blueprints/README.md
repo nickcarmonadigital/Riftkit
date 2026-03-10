@@ -11,14 +11,17 @@ This directory contains started templates ("Blueprints") for common project type
 ## 📂 Categories
 
 * **`01-web-and-apps`**: SaaS, Static Sites, Mobile Apps
-* **`02-games`**: Unity, Unreal, WebGL, Godot
-* **`03-trading-and-finance`**: Bots, Algo-trading, DeFi Dashboards
-* **`04-web3-and-blockchain`**: Smart Contracts, dApps, Tokens
 * **`05-ai-and-ml`**: RAG Pipelines, Model Training, Agents
-* **`06-hardware-and-iot`**: Embedded Systems, Robotics
-* **`07-automation-and-devops`**: CI/CD Pipelines, Infrastructure as Code
 * **`08-plugins-and-extensions`**: VS Code Extensions, Chrome Plugins
-* **`09-data-and-analytics`**: ETL Pipelines, Dashboards
+
+### Planned (not yet available)
+
+* `02-games`: Unity, Unreal, WebGL, Godot
+* `03-trading-and-finance`: Bots, Algo-trading, DeFi Dashboards
+* `04-web3-and-blockchain`: Smart Contracts, dApps, Tokens
+* `06-hardware-and-iot`: Embedded Systems, Robotics
+* `07-automation-and-devops`: CI/CD Pipelines, Infrastructure as Code
+* `09-data-and-analytics`: ETL Pipelines, Dashboards
 
 ## 🚀 How to Use
 

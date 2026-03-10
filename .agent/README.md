@@ -1,6 +1,6 @@
 # riftkit
 
-> **298 Skills** | **19 Agents** | **39 Commands** | **39 Rules** | **61 Docs** | **26 Workflows** | **Zero Fluff**
+> **298 Skills** | **19 Agents** | **39 Commands** | **39 Rules** | **61 Docs** | **25 Workflows** | **Zero Fluff**
 
 A battle-tested toolkit for AI-assisted development. Drop the `.agent` folder into any project and supercharge your workflow — now with automated agents, slash commands, coding rules, and hooks from [Everything Claude Code](https://github.com/affaan-m/everything-claude-code).
 
@@ -22,21 +22,21 @@ Your AI assistant will automatically detect and use these skills.
 
 ## 📚 What's Included
 
-### Skills (~130)
+### Skills (298)
 
-| Category | Skills |
-|----------|--------|
-| **Context (7)** | `new_project` `project_context` `documentation_framework` `ssot_structure` `codebase_navigation` `search_first` `project_guidelines` |
-| **Brainstorm (9)** | `client_discovery` `idea_to_spec` `proposal_generator` `smb_launchpad` `prioritization_frameworks` `user_story_standards` `competitive_analysis` `product_metrics` `user_research` |
-| **Design (4)** | `atomic_reverse_architecture` `feature_architecture` `deployment_modes` `schema_standards` |
-| **Build (50)** | `spec_build` `bug_troubleshoot` `website_build` `observability` `code_review` `ui_polish` `code_changelog` `sprint_planning` `stakeholder_communication` `retrospective` `cost_estimation` `git_workflow` `api_design` `error_handling` `auth_implementation` `docker_development` `environment_setup` `refactoring` `code_review_response` `database_optimization` `notification_systems` + 11 domain-specific + `backend_patterns` `frontend_patterns` `golang_patterns` `python_patterns` `cpp_coding_standards` `java_coding_standards` `jpa_patterns` `springboot_patterns` `django_patterns` `swift_actor_persistence` `swift_protocol_di_testing` `swift_concurrency` `liquid_glass_design` `clickhouse_io` `content_hash_cache` `regex_vs_llm` |
-| **Secure (21)** | `security_audit` `e2e_testing` `ip_protection` `unit_testing` `integration_testing` `accessibility_testing` `performance_testing` + 2 domain + `tdd_workflow` `verification_loop` `eval_harness` `golang_testing` `python_testing` `cpp_testing` `springboot_tdd` `springboot_verification` `springboot_security` `django_security` `django_tdd` `django_verification` |
-| **Ship (11)** | `infrastructure_as_code` `db_migrations` `website_launch` `ci_cd_pipeline` `legal_compliance` `seed_data` + 4 domain + `deployment_patterns` |
-| **Alpha Ops (5)** | `error_tracking` `health_checks` `env_validation` `qa_playbook` `backup_strategy` |
-| **Beta Ops (6)** | `product_analytics` `feedback_system` `email_templates` `error_boundaries` `rate_limiting` `feature_flags` |
-| **Handoff (6)** | `api_reference` `feature_walkthrough` `doc_reorganize` `user_documentation` `disaster_recovery` `community_management` |
-| **Maintenance (6)** | `ssot_update` `documentation_standards` `sop_standards` `wi_standards` `dependency_management` `continuous_learning` |
-| **Toolkit (9)** | `video_research` `content_creation` `content_waterfall` `personal_brand` `ceo_brain` `ai_tool_orchestration` `strategic_compact` `iterative_retrieval` `cost_aware_llm_pipeline` |
+| Category | Count | Examples |
+|----------|-------|---------|
+| **Context** | 23 | `new_project` `project_context` `codebase_health_audit` `architecture_recovery` `risk_register` `stakeholder_map` |
+| **Brainstorm** | 14 | `idea_to_spec` `prd_generator` `client_discovery` `competitive_analysis` `user_research` `prioritization_frameworks` |
+| **Design** | 24 | `atomic_reverse_architecture` `feature_architecture` `api_contract_design` `c4_architecture_diagrams` `schema_standards` |
+| **Build** | 93 | `spec_build` `bug_troubleshoot` `code_review` `api_design` `backend_patterns` `frontend_patterns` `golang_patterns` `python_patterns` `ai_agent_development` `rag_advanced_patterns` |
+| **Secure** | 40 | `security_audit` `tdd_workflow` `e2e_testing` `unit_testing` `chaos_engineering` `container_security` `sast_scanning` |
+| **Ship** | 23 | `ci_cd_pipeline` `deployment_patterns` `infrastructure_as_code` `db_migrations` `gitops_workflow` `mlops_pipeline` |
+| **Alpha Ops** | 10 | `error_tracking` `health_checks` `env_validation` `qa_playbook` `backup_strategy` `alpha_telemetry` |
+| **Beta Ops** | 13 | `product_analytics` `feedback_system` `rate_limiting` `feature_flags` `load_testing` `usage_metering_billing` |
+| **Handoff** | 14 | `api_reference` `feature_walkthrough` `disaster_recovery` `user_documentation` `monitoring_handoff` |
+| **Maintenance** | 13 | `incident_response_operations` `dependency_management` `slo_sla_management` `documentation_standards` |
+| **Toolkit** | 31 | `age` `content_creation` `sre_foundations` `responsible_ai_framework` `dora_metrics_tracking` |
 
 ### Agents (19)
 
@@ -46,17 +46,23 @@ Specialized AI subagents for automated workflows. See [agents/README.md](./agent
 |-------|-------|-------|
 | `planner` | Opus | 2-design, 3-build |
 | `architect` | Opus | 2-design |
+| `brainstorm-agent` | Sonnet | 1-brainstorm |
 | `code-reviewer` | Sonnet | 3-build, 4-secure |
+| `compliance-agent` | Sonnet | 4-secure |
 | `security-reviewer` | Opus | 4-secure |
 | `tdd-guide` | Sonnet | 3-build, 4-secure |
 | `build-error-resolver` | Sonnet | 3-build |
 | `e2e-runner` | Sonnet | 4-secure |
+| `framework-router` | Sonnet | All phases |
 | `doc-updater` | Haiku | 6-handoff |
 | `refactor-cleaner` | Sonnet | 3-build, 7-maintenance |
 | `database-reviewer` | Sonnet | 3-build |
 | `go-reviewer` | Sonnet | 3-build |
 | `go-build-resolver` | Sonnet | 3-build |
 | `python-reviewer` | Sonnet | 3-build |
+| `security-agent` | Sonnet | 4-secure |
+| `ship-agent` | Sonnet | 5-ship |
+| `sre-agent` | Sonnet | 7-maintenance |
 
 ### Commands (39)
 
@@ -151,9 +157,12 @@ description: What this skill does
 ├── GETTING_STARTED.md     # 5-minute setup guide
 ├── install.sh             # Global installer (copies to ~/.claude/)
 ├── skills/                # 298 skill folders (organized by phase)
-│   ├── 0-context/         #   7 skills
-│   ├── 3-build/           #   50 skills
-│   ├── 4-secure/          #   21 skills
+│   ├── 0-context/         #   23 skills
+│   ├── 1-brainstorm/      #   14 skills
+│   ├── 2-design/          #   24 skills
+│   ├── 3-build/           #   93 skills
+│   ├── 4-secure/          #   40 skills
+│   ├── 5-ship/            #   23 skills
 │   └── ...
 ├── agents/                # 19 specialized AI subagents
 ├── commands/              # 39 slash commands
@@ -164,7 +173,7 @@ description: What this skill does
 ├── schemas/               # JSON validation schemas
 ├── examples/              # 6 CLAUDE.md project templates
 ├── mcp-configs/           # MCP server integration configs
-├── workflows/             # 18 workflow definitions
+├── workflows/             # 25 workflow definitions
 └── docs/                  # 70+ reference guides + templates
 ```
 

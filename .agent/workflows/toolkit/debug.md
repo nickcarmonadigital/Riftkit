@@ -18,8 +18,8 @@ description: Debug and fix bugs using structured troubleshooting
 // turbo
 
 ```bash
-view_file .agent/skills/bug_troubleshoot/SKILL.md
-view_file .agent/skills/code_review/SKILL.md
+view_file .agent/skills/3-build/bug_troubleshoot/SKILL.md
+view_file .agent/skills/3-build/code_review/SKILL.md
 ```
 
 ---
