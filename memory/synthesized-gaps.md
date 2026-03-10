@@ -9,11 +9,11 @@
 
 ## Executive Summary
 
-ATOM analysis of Riftkit discovered **19 gaps** across 6 clusters. Of these, **3 are SHOWSTOPPERS** (RPN ≥ 200), **5 are CRITICAL** (RPN 100-199), **7 are HIGH** (RPN 50-99), and **4 are MEDIUM** (RPN 25-49). The dominant theme is **internal consistency failure** — the framework's documentation, routing, and tooling disagree with each other about what exists. A secondary theme is **missing infrastructure** — directories and features referenced in commands but never created. The framework's core content (298 skills) is solid; the scaffolding around it has not kept pace with growth.
+ATOM analysis of Riftkit discovered **21 gaps** across 6 clusters. Of these, **3 are SHOWSTOPPERS** (RPN ≥ 200), **7 are CRITICAL** (RPN 100-199), **7 are HIGH** (RPN 50-99), and **4 are MEDIUM** (RPN 25-49). The dominant theme is **internal consistency failure** — the framework's documentation, routing, and tooling disagree with each other about what exists. A secondary theme is **missing infrastructure** — directories and features referenced in commands but never created. The framework's core content (298 skills) is solid; the scaffolding around it has not kept pace with growth.
 
-**Survival Rate**: 19/24 candidate gaps survived validation (79%)
+**Survival Rate**: 21/27 candidate gaps survived validation (78%)
 **Coverage Score**: 72% of morphological grid explored
-**Constitutional Compliance**: 19/19 gaps pass all 8 articles (100%)
+**Constitutional Compliance**: 21/21 gaps pass all 8 articles (100%)
 
 ---
 
@@ -476,7 +476,54 @@ Commands reference skill directories that don't exist at the specified paths:
 
 ---
 
-### GAP-019: WORKFLOWS_README.md and WORKFLOW_ECOSYSTEM.md Are Undiscoverable
+### GAP-019: 19 Broken Skill Paths in Workflow Files
+
+**Evidence**:
+- Workflow files use phase-less paths: `skills/{name}/SKILL.md` instead of `skills/{phase}/{name}/SKILL.md`
+- Affected files: `2-design.md`, `3-build.md`, `5-ship.md`, `4-secure.md`, `0-context.md`, `toolkit/launch.md`, `toolkit/debug.md`, `toolkit/design-review.md`, `toolkit/new-project.md`
+- 19 total broken `view_file` references across 9 workflow files
+- Newer workflows (e.g., `beta-release.md`) have correct phase-prefixed paths — this is a legacy issue
+
+**FMEA Scoring**:
+
+| Dimension | Score | Justification |
+|-----------|-------|---------------|
+| Severity | 7 | AI following workflow can't load the skill, skips quality gate |
+| Occurrence | 7 | Affects core phase workflows (0, 2, 3, 4, 5) |
+| Detection | 3 | Visible when running workflow; CI could catch |
+| **RPN** | **147** | **CRITICAL** |
+
+**Bayesian P(real)**: 0.99 — verified by grep + ls
+
+**Resolution**: Update all 19 `view_file` references to include phase prefix in path.
+
+**Cross-Impact**: Same root cause as GAP-004 (skill directory restructuring without updating references). Cascade: skipped quality gates → defects reach production.
+
+---
+
+### GAP-020: 20 Phantom Commands Referenced but Non-Existent
+
+**Evidence**:
+- Workflows and docs reference commands that have no `.md` file in `.agent/commands/`:
+  `/0-context`, `/1-brainstorm`, `/2-design`, `/3-build`, `/4-secure`, `/5-ship`, `/6-handoff`, `/audit`, `/build`, `/client_handoff`, `/debug`, `/design-review`, `/gate-check`, `/handoff`, `/health`, `/idea-to-spec`, `/launch`, `/new-project`, `/observability`, `/post-task`, `/ship`
+- `phase-gates.md:5` references `/gate-check [from-phase] [to-phase]` — makes the entire phase gate system unenforceable
+
+**FMEA Scoring**:
+
+| Dimension | Score | Justification |
+|-----------|-------|---------------|
+| Severity | 6 | Users hit dead ends when trying to use referenced commands |
+| Occurrence | 6 | Referenced throughout workflows and phase-gates |
+| Detection | 3 | Visible when user tries to invoke |
+| **RPN** | **108** | **CRITICAL** |
+
+**Bayesian P(real)**: 0.99 — verified by checking each command file
+
+**Resolution**: Either create the missing command files, or remove references and use skill paths instead. Priority: `/gate-check` (enables phase gate enforcement).
+
+---
+
+### GAP-021: WORKFLOWS_README.md and WORKFLOW_ECOSYSTEM.md Are Undiscoverable
 
 **Evidence**:
 - Both exist in `.agent/workflows/` but are not referenced from CLAUDE.md, README.md, or any command
@@ -612,12 +659,14 @@ GAP-014 (no search interface)
 3. **GAP-001**: Update framework-router.md with correct counts and complete agent list
 
 ### This Cycle (CRITICAL — do this week)
-4. **GAP-004**: Fix all 12 broken skill path references in commands
-5. **GAP-005**: Create or remove continuous-learning-v2 references
-6. **GAP-006**: Create `.agent/skills/learned/` directory
-7. **GAP-010**: Fix validate-skills.js to skip phase directories
-8. **GAP-002**: Update .agent/README.md phase counts
-9. **GAP-013**: Add structured triggers to skill frontmatter (start with top 50 skills)
+4. **GAP-019**: Fix all 19 broken skill paths in workflow files
+5. **GAP-004**: Fix all 12 broken skill path references in commands
+6. **GAP-020**: Address 20 phantom commands (create or remove references)
+7. **GAP-005**: Create or remove continuous-learning-v2 references
+8. **GAP-006**: Create `.agent/skills/learned/` directory
+9. **GAP-010**: Fix validate-skills.js to skip phase directories
+10. **GAP-002**: Update .agent/README.md phase counts
+11. **GAP-013**: Add structured triggers to skill frontmatter (start with top 50 skills)
 
 ### Soon (HIGH — do this month)
 10. **GAP-003**: Fix workflow count in CLAUDE.md header
@@ -628,13 +677,13 @@ GAP-014 (no search interface)
 15. **GAP-015**: Create structural skill validation
 
 ### When Convenient (MEDIUM)
-16. **GAP-016**: Standardize memory directory
-17. **GAP-017**: Remove homunculus reference
-18. **GAP-018**: Disambiguate duplicate feature_flags skill
-19. **GAP-019**: Add workflow README references to CLAUDE.md
+18. **GAP-016**: Standardize memory directory
+19. **GAP-017**: Remove homunculus reference
+20. **GAP-018**: Disambiguate duplicate feature_flags skill
+21. **GAP-021**: Add workflow README references to CLAUDE.md
 
 ---
 
 *ATOM v2 Protocol — First deployment complete*
-*19 gaps identified, 3 showstoppers, 5 critical*
+*21 gaps identified, 3 showstoppers, 7 critical*
 *Bottleneck: GAP-009 (No CI validation) — fix this first*
