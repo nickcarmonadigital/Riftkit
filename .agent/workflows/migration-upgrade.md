@@ -21,7 +21,7 @@ description: Migration and upgrade workflow — structured process for upgrading
 Catalog what needs to change and what might break.
 
 ```bash
-view_file .agent/skills/7-maintenance/tech_debt_assessment/SKILL.md
+view_file .agent/skills/0-context/tech_debt_assessment/SKILL.md
 view_file .agent/skills/7-maintenance/dependency_management/SKILL.md
 ```
 
@@ -58,7 +58,7 @@ view_file .agent/skills/3-build/backward_compatibility/SKILL.md
 Apply schema and data changes with tested rollback.
 
 ```bash
-view_file .agent/skills/3-build/db_migrations/SKILL.md
+view_file .agent/skills/5-ship/db_migrations/SKILL.md
 ```
 
 - [ ] Migration scripts written (up and down)
@@ -94,9 +94,9 @@ view_file .agent/skills/3-build/refactoring/SKILL.md
 Verify nothing is broken across all test levels.
 
 ```bash
-view_file .agent/skills/3-build/integration_testing/SKILL.md
-view_file .agent/skills/3-build/e2e_testing/SKILL.md
-view_file .agent/skills/3-build/verification_loop/SKILL.md
+view_file .agent/skills/4-secure/integration_testing/SKILL.md
+view_file .agent/skills/4-secure/e2e_testing/SKILL.md
+view_file .agent/skills/4-secure/verification_loop/SKILL.md
 ```
 
 - [ ] Unit tests passing (100% of pre-migration tests)

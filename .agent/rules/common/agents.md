@@ -8,13 +8,23 @@ Located in `.agent/agents/`:
 |-------|---------|-------------|
 | planner | Implementation planning | Complex features, refactoring |
 | architect | System design | Architectural decisions |
+| brainstorm-agent | Ideation and specification | Idea-to-spec, PRDs, competitive analysis |
 | tdd-guide | Test-driven development | New features, bug fixes |
 | code-reviewer | Code review | After writing code |
+| compliance-agent | Compliance verification | Audit logging, PII, HIPAA/SOC2/PCI/GDPR |
 | security-reviewer | Security analysis | Before commits |
+| security-agent | Full security audit | OWASP Top 10, secrets, supply chain |
 | build-error-resolver | Fix build errors | When build fails |
 | e2e-runner | E2E testing | Critical user flows |
+| framework-router | Skill/agent routing | Navigating the framework, finding tools |
 | refactor-cleaner | Dead code cleanup | Code maintenance |
 | doc-updater | Documentation | Updating docs |
+| database-reviewer | Database optimization | Schema design, query tuning, migrations |
+| go-reviewer | Go code review | Go projects, idiomatic patterns |
+| go-build-resolver | Go build error resolution | Go build/vet failures |
+| python-reviewer | Python code review | Python projects, PEP 8, type hints |
+| ship-agent | Deployment orchestration | CI/CD, Docker, IaC, deployment gates |
+| sre-agent | SRE and observability | Monitoring, SLOs, incidents, capacity |
 
 ## Immediate Agent Usage
 

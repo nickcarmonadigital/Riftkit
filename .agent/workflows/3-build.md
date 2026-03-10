@@ -126,7 +126,7 @@ If schema changes needed:
 **MANDATORY**: Run post-task workflow before notifying user
 
 ```bash
-view_file .agent/workflows/post-task.md
+view_file .agent/workflows/toolkit/post-task.md
 ```
 
 ---

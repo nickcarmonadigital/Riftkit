@@ -88,7 +88,7 @@ view_file .agent/skills/5-ship/deployment_patterns/SKILL.md
 Keep stakeholders informed throughout.
 
 ```bash
-view_file .agent/skills/6-handoff/stakeholder_communication/SKILL.md
+view_file .agent/skills/3-build/stakeholder_communication/SKILL.md
 view_file .agent/skills/5.5-alpha/alpha_incident_communication/SKILL.md
 ```
 
@@ -104,8 +104,8 @@ view_file .agent/skills/5.5-alpha/alpha_incident_communication/SKILL.md
 Apply the permanent fix with proper testing.
 
 ```bash
-view_file .agent/skills/4-secure/code_review/SKILL.md
-view_file .agent/skills/3-build/tdd_workflow/SKILL.md
+view_file .agent/skills/3-build/code_review/SKILL.md
+view_file .agent/skills/4-secure/tdd_workflow/SKILL.md
 ```
 
 - [ ] Root cause confirmed (not just symptoms)

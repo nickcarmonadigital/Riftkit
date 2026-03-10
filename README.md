@@ -1,6 +1,6 @@
 # riftkit
 
-> **298 Skills** | **19 Agents** | **39 Commands** | **39 Rules** | **61 Docs** | **26 Workflows** | **Zero Fluff**
+> **298 Skills** | **19 Agents** | **39 Commands** | **39 Rules** | **60+ Docs** | **25 Workflows** | **Zero Fluff**
 
 AI assistants write great code but lack process discipline -- they skip architecture reviews, forget security audits, and never write migration runbooks. This framework gives them structured skills, automated agents, and slash commands for every phase of development, from first brainstorm through production maintenance.
 
@@ -12,7 +12,7 @@ Every AI coding assistant shares the same blind spot: it optimizes for the task 
 
 riftkit fills the gap with 298 skills that encode real engineering process -- architecture decomposition, test strategies, compliance checklists, deployment runbooks, post-launch observability, and everything in between. Each skill is a standalone Markdown file the AI reads on demand, so it knows not just *what* to build but *how* to build it responsibly.
 
-On top of the skills sits an automation layer: 19 specialized agents that handle code review, security scanning, documentation updates, and build-error resolution; 39 slash commands that invoke those agents and skills from the CLI; and 9 event-driven hooks that enforce formatting, type-checking, and changelog discipline without you lifting a finger.
+On top of the skills sits an automation layer: 19 specialized agents that handle code review, security scanning, documentation updates, and build-error resolution; 39 slash commands that invoke those agents and skills from the CLI; and 6 event-driven hooks that enforce formatting, type-checking, and changelog discipline without you lifting a finger.
 
 ---
 
@@ -83,16 +83,16 @@ The skill library covers the entire development lifecycle. Each skill is a self-
 
 | Category | Representative Skills |
 |----------|----------------------|
-| **Context (15)** | `new_project`, `project_context`, `codebase_navigation`, `architecture_recovery` |
-| **Brainstorm (9)** | `idea_to_spec`, `client_discovery`, `proposal_generator`, `competitive_analysis` |
-| **Design (4)** | `atomic_reverse_architecture`, `feature_architecture`, `deployment_modes`, `schema_standards` |
-| **Build (50)** | `spec_build`, `code_review`, `ui_polish`, `observability`, `api_design`, `docker_development` |
-| **Secure (21)** | `security_audit`, `e2e_testing`, `unit_testing`, `performance_testing`, `tdd_workflow` |
-| **Ship (11)** | `infrastructure_as_code`, `db_migrations`, `ci_cd_pipeline`, `legal_compliance` |
-| **Alpha / Beta (11)** | `error_tracking`, `health_checks`, `qa_playbook`, `product_analytics`, `feedback_system` |
-| **Handoff (6)** | `feature_walkthrough`, `api_reference`, `user_documentation`, `disaster_recovery` |
-| **Maintenance (6)** | `ssot_update`, `documentation_standards`, `dependency_management`, `continuous_learning` |
-| **Toolkit (9)** | `content_waterfall`, `personal_brand`, `ceo_brain`, `ai_tool_orchestration`, `strategic_compact` |
+| **Context (23)** | `new_project`, `project_context`, `codebase_navigation`, `architecture_recovery` |
+| **Brainstorm (14)** | `idea_to_spec`, `client_discovery`, `proposal_generator`, `competitive_analysis` |
+| **Design (24)** | `atomic_reverse_architecture`, `feature_architecture`, `deployment_modes`, `schema_standards` |
+| **Build (93)** | `spec_build`, `code_review`, `ui_polish`, `observability`, `api_design`, `docker_development` |
+| **Secure (40)** | `security_audit`, `e2e_testing`, `unit_testing`, `performance_testing`, `tdd_workflow` |
+| **Ship (23)** | `infrastructure_as_code`, `db_migrations`, `ci_cd_pipeline`, `legal_compliance` |
+| **Alpha (10) / Beta (13)** | `error_tracking`, `health_checks`, `qa_playbook`, `product_analytics`, `feedback_system` |
+| **Handoff (14)** | `feature_walkthrough`, `api_reference`, `user_documentation`, `disaster_recovery` |
+| **Maintenance (13)** | `ssot_update`, `documentation_standards`, `dependency_management`, `continuous_learning` |
+| **Toolkit (31)** | `content_waterfall`, `personal_brand`, `ceo_brain`, `ai_tool_orchestration`, `strategic_compact` |
 
 ### Agents (19)
 
@@ -151,9 +151,9 @@ The blueprint library provides starter context and architecture decisions for co
 
 Full catalog: [BLUEPRINT_GUIDE.md](BLUEPRINT_GUIDE.md)
 
-### Rules (25) + Hooks (9)
+### Rules (39) + Hooks (6)
 
-Twenty-five always-on coding rules enforce consistent style and safety across four language tracks: common (9), TypeScript (5), Python (5), Go (5), and Swift (5). Nine event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically.
+Thirty-nine always-on coding rules enforce consistent style and safety across seven language tracks: common (9), TypeScript (5), Python (5), Go (5), Java (5), Rust (5), and Swift (5). Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically.
 
 ---
 
@@ -174,21 +174,21 @@ The framework ships with focused guides for different workflows and audiences.
 ## Example Usage
 
 ```
-You: /idea-to-spec I need a user dashboard with analytics
+You: /plan I need a user dashboard with analytics
 
-AI: [Creates structured spec with user stories, tech requirements, and implementation plan]
+AI: [Creates structured implementation plan with architecture, milestones, and task breakdown]
 
-You: /architecture dashboard
+You: /tdd dashboard-api
 
-AI: [Generates comprehensive architecture doc with data flow, APIs, and component design]
+AI: [Drives test-first development for the dashboard API endpoints]
 
-You: Build it
+You: /build-fix
 
-AI: [Implements the feature following the spec]
+AI: [Diagnoses and fixes any build errors encountered]
 
-You: /walkthrough dashboard
+You: /code-review
 
-AI: [Creates documentation explaining how it works]
+AI: [Reviews the implementation for quality, patterns, and potential issues]
 ```
 
 ---
@@ -208,7 +208,7 @@ AI: [Creates documentation explaining how it works]
     ├── skills/                # 298 skill folders (organized by phase)
     ├── agents/                # 19 specialized AI subagents
     ├── commands/              # 39 slash commands
-    ├── rules/                 # 25 coding rules (common + 4 languages)
+    ├── rules/                 # 39 coding rules (common + 6 languages)
     ├── hooks/                 # Event-driven automations
     ├── blueprints/            # 50+ project type starter templates
     ├── contexts/              # Dynamic system prompts (dev/review/research)
@@ -216,8 +216,8 @@ AI: [Creates documentation explaining how it works]
     ├── schemas/               # JSON validation schemas
     ├── examples/              # 6 CLAUDE.md project templates
     ├── mcp-configs/           # MCP server integration configs
-    ├── workflows/             # 18 workflow definitions
-    └── docs/                  # 70+ reference guides + templates
+    ├── workflows/             # 25 workflow definitions
+    └── docs/                  # 60+ reference guides + templates
 ```
 
 ---
@@ -252,7 +252,7 @@ description: What this skill does
 ## Contributing
 
 1. Fork the repo
-2. Create a skill folder: `.agent/skills/[phase]/[skill-name]/SKILL.md`
+2. Create a skill folder: `.agent/skills/{phase}/{skill_name}/SKILL.md` (choose the correct phase directory for your skill)
 3. Follow the skill format above
 4. Submit a PR
 

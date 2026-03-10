@@ -6,13 +6,15 @@ description: Start the NanoClaw agent REPL — a persistent, session-aware AI as
 
 Start an interactive AI agent session that persists conversation history to disk and optionally loads ECC skill context.
 
-## Usage
+> **Note**: The `scripts/claw.js` script has not been implemented yet. This command documents the intended design for NanoClaw. To implement it, create `scripts/claw.js` following the specification below.
+
+## Usage (once implemented)
 
 ```bash
 node scripts/claw.js
 ```
 
-Or via npm:
+Or via npm (add `"claw": "node scripts/claw.js"` to package.json scripts):
 
 ```bash
 npm run claw

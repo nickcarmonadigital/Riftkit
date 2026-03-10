@@ -55,7 +55,7 @@ view_file .agent/skills/3-build/bug_troubleshoot/SKILL.md
 Prove the fix works and prevent recurrence.
 
 ```bash
-view_file .agent/skills/3-build/tdd_workflow/SKILL.md
+view_file .agent/skills/4-secure/tdd_workflow/SKILL.md
 ```
 
 - [ ] Test reproduces the original bug (fails without fix)
@@ -85,7 +85,7 @@ view_file .agent/skills/4-secure/security_audit/SKILL.md
 Expedited review — 1 reviewer, not the standard 2.
 
 ```bash
-view_file .agent/skills/4-secure/code_review/SKILL.md
+view_file .agent/skills/3-build/code_review/SKILL.md
 ```
 
 - [ ] Single senior reviewer assigned
@@ -151,7 +151,7 @@ view_file .agent/skills/3-build/git_workflow/SKILL.md
 Document what happened for the team and users.
 
 ```bash
-view_file .agent/skills/6-handoff/code_changelog/SKILL.md
+view_file .agent/skills/3-build/code_changelog/SKILL.md
 ```
 
 - [ ] Changelog entry added with fix description
