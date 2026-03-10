@@ -41,10 +41,10 @@ description: Build a feature from an approved implementation plan
 // turbo
 
 ```bash
-view_file .agent/skills/feature_architecture/SKILL.md
-view_file .agent/skills/code_changelog/SKILL.md
-view_file .agent/skills/schema_standards/SKILL.md  # if DB changes
-view_file .agent/skills/website_build/SKILL.md     # if frontend
+view_file .agent/skills/2-design/feature_architecture/SKILL.md
+view_file .agent/skills/3-build/code_changelog/SKILL.md
+view_file .agent/skills/2-design/schema_standards/SKILL.md  # if DB changes
+view_file .agent/skills/3-build/website_build/SKILL.md     # if frontend
 ```
 
 ---

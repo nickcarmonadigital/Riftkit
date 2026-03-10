@@ -10,16 +10,10 @@ Shows all learned instincts with their confidence scores, grouped by domain.
 
 ## Implementation
 
-Run the instinct CLI using the plugin root path:
+Run the instinct CLI using the continuous learning skill:
 
 ```bash
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/scripts/instinct-cli.py" status
-```
-
-Or if `CLAUDE_PLUGIN_ROOT` is not set (manual installation), use:
-
-```bash
-python3 .agent/skills/continuous-learning-v2/scripts/instinct-cli.py status
+python3 .agent/skills/7-maintenance/continuous_learning/scripts/instinct-cli.py status
 ```
 
 ## Usage
@@ -32,8 +26,8 @@ python3 .agent/skills/continuous-learning-v2/scripts/instinct-cli.py status
 
 ## What to Do
 
-1. Read all instinct files from `.agent/homunculus/instincts/personal/`
-2. Read inherited instincts from `.agent/homunculus/instincts/inherited/`
+1. Read all instinct files from `.agent/skills/learned/instincts/personal/`
+2. Read inherited instincts from `.agent/skills/learned/instincts/inherited/`
 3. Display them grouped by domain with confidence bars
 
 ## Output Format

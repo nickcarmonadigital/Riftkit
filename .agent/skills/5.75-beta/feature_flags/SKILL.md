@@ -1,5 +1,5 @@
 ---
-name: Feature Flags
+name: Feature Flag Management
 description: Gradual rollouts, A/B testing, kill switches, and flag management for safe feature releases
 ---
 

@@ -19,8 +19,8 @@ description: Complete website launch checklist including DNS, analytics, and go-
 // turbo
 
 ```bash
-view_file .agent/skills/website_launch/SKILL.md
-view_file .agent/skills/ip_protection/SKILL.md
+view_file .agent/skills/5-ship/website_launch/SKILL.md
+view_file .agent/skills/4-secure/ip_protection/SKILL.md
 ```
 
 ---

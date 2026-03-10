@@ -1,0 +1,36 @@
+name: Validate Framework
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.agent/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - '.agent/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Validate agents
+        run: node .agent/scripts/ci/validate-agents.js
+
+      - name: Validate commands
+        run: node .agent/scripts/ci/validate-commands.js
+
+      - name: Validate skills
+        run: node .agent/scripts/ci/validate-skills.js
+
+      - name: Validate rules
+        run: node .agent/scripts/ci/validate-rules.js
+
+      - name: Validate hooks
+        run: node .agent/scripts/ci/validate-hooks.js

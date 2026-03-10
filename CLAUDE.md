@@ -1,6 +1,6 @@
 # riftkit
 
-A phase-based software development framework with 298 skills, 19 agents, 39 commands, 26 workflows, and 39 rules.
+A phase-based software development framework with 298 skills, 19 agents, 39 commands, 25 workflows, and 39 rules.
 Skills live in `.agent/skills/{phase}/`, agents in `.agent/agents/`, commands in `.agent/commands/`.
 
 ---
@@ -508,7 +508,7 @@ Agents are specialized AI personas. Read full docs at `.agent/agents/{name}.md`.
 
 ## Workflows (25)
 
-Multi-step orchestrated processes at `.agent/workflows/`.
+Multi-step orchestrated processes at `.agent/workflows/`. See also [WORKFLOWS_README.md](.agent/workflows/WORKFLOWS_README.md) for orchestration guidance and [WORKFLOW_ECOSYSTEM.md](.agent/workflows/WORKFLOW_ECOSYSTEM.md) for workflow relationships.
 
 | Workflow | File | What it does |
 |---|---|---|

@@ -19,8 +19,8 @@ description: Prepare for deployment with security and quality checks
 // turbo
 
 ```bash
-view_file .agent/skills/security_audit/SKILL.md
-view_file .agent/skills/website_launch/SKILL.md
+view_file .agent/skills/4-secure/security_audit/SKILL.md
+view_file .agent/skills/5-ship/website_launch/SKILL.md
 ```
 
 ---

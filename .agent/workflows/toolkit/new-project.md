@@ -19,8 +19,8 @@ description: Start a brand new project from scratch with proper structure and do
 // turbo
 
 ```bash
-view_file .agent/skills/new_project/SKILL.md
-view_file .agent/skills/ssot_structure/SKILL.md
+view_file .agent/skills/0-context/new_project/SKILL.md
+view_file .agent/skills/0-context/ssot_structure/SKILL.md
 ```
 
 ---

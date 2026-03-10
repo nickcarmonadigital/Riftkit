@@ -8,16 +8,10 @@ command: true
 
 ## Implementation
 
-Run the instinct CLI using the plugin root path:
+Run the instinct CLI using the continuous learning skill:
 
 ```bash
-python3 "${CLAUDE_PLUGIN_ROOT}/skills/continuous-learning-v2/scripts/instinct-cli.py" import <file-or-url> [--dry-run] [--force] [--min-confidence 0.7]
-```
-
-Or if `CLAUDE_PLUGIN_ROOT` is not set (manual installation):
-
-```bash
-python3 .agent/skills/continuous-learning-v2/scripts/instinct-cli.py import <file-or-url>
+python3 .agent/skills/7-maintenance/continuous_learning/scripts/instinct-cli.py import <file-or-url> [--dry-run] [--force] [--min-confidence 0.7]
 ```
 
 Import instincts from:
@@ -40,7 +34,7 @@ Import instincts from:
 2. Parse and validate the format
 3. Check for duplicates with existing instincts
 4. Merge or add new instincts
-5. Save to `.agent/homunculus/instincts/inherited/`
+5. Save to `.agent/skills/learned/instincts/inherited/`
 
 ## Import Process
 
@@ -136,7 +130,7 @@ Added: 8 instincts
 Updated: 1 instinct
 Skipped: 3 instincts (2 duplicates, 1 conflict)
 
-New instincts saved to: .agent/homunculus/instincts/inherited/
+New instincts saved to: .agent/skills/learned/instincts/inherited/
 
 Run /instinct-status to see all instincts.
 ```

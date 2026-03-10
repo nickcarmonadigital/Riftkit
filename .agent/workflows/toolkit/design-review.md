@@ -20,7 +20,7 @@ description: Review UI/UX designs before implementation, integrate with external
 // turbo
 
 ```bash
-view_file .agent/skills/website_build/SKILL.md
+view_file .agent/skills/3-build/website_build/SKILL.md
 view_file .agent/docs/2-design/frontend-architect-standards.md
 ```
 
