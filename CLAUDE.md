@@ -14,44 +14,55 @@ Skills live in `.agent/skills/{phase}/`, agents in `.agent/agents/`, commands in
 
 ---
 
+## How It All Fits Together
+
+**Skills** are the knowledge -- step-by-step guides for specific tasks (298 total).
+**Agents** are the specialists -- AI personas that apply skills with domain expertise (19 total).
+**Commands** are the shortcuts -- `/slash-commands` that invoke agents with the right skills (39 total).
+
+When you run `/code-review`, it activates the `code-reviewer` agent, which follows the `code_review` skill.
+You can also reference skills directly: "Follow the `code_review` skill to review this PR."
+
+---
+
 ## Common Tasks -- Intent to Skill Router
 
 | What you want to do | Skills to read | Command |
 |---|---|---|
 | Start a new project | `0-context/new_project` + `0-context/phase_0_playbook` | `/plan` |
 | Write a PRD | `1-brainstorm/idea_to_spec` + `1-brainstorm/prd_generator` | `/plan` |
-| Design architecture | `2-design/atomic_reverse_architecture` + `2-design/feature_architecture` + `2-design/c4_architecture_diagrams` | -- |
+| Design architecture | `2-design/atomic_reverse_architecture` + `2-design/feature_architecture` + `2-design/c4_architecture_diagrams` | Use skill directly |
 | Build a feature | `3-build/spec_build` (master build loop) | `/plan` then `/tdd` |
 | Fix a bug | `3-build/bug_troubleshoot` | `/build-fix` |
 | Write tests | `4-secure/tdd_workflow` + `4-secure/unit_testing` | `/tdd` |
 | Do a code review | `3-build/code_review` + `3-build/code_review_response` | `/code-review` |
 | Run security audit | `4-secure/security_audit` + `4-secure/sast_scanning` + `4-secure/secrets_scanning` | `/verify` |
-| Deploy to production | `5-ship/deployment_patterns` + `5-ship/ci_cd_pipeline` + `5-ship/deployment_verification` | -- |
-| Set up monitoring | `3-build/observability` + `5.5-alpha/error_tracking` + `5.5-alpha/health_checks` | -- |
+| Deploy to production | `5-ship/deployment_patterns` + `5-ship/ci_cd_pipeline` + `5-ship/deployment_verification` | `/deploy` |
+| Set up monitoring | `3-build/observability` + `5.5-alpha/error_tracking` + `5.5-alpha/health_checks` | Use skill directly |
 | Prepare for launch | `7-maintenance/operational_readiness_gate` + `5.75-beta/beta_graduation_criteria` | `/verify` |
-| Handle an incident | `7-maintenance/incident_response_operations` + `6-handoff/disaster_recovery` | -- |
+| Handle an incident | `7-maintenance/incident_response_operations` + `6-handoff/disaster_recovery` | `/incident` |
 | Update documentation | `7-maintenance/documentation_standards` | `/update-docs` |
 | Refactor code | `3-build/refactoring` | `/refactor-clean` |
 | Plan a sprint | `3-build/sprint_planning` + `1-brainstorm/prioritization_frameworks` | `/plan` |
-| Build a website | `3-build/website_build` + `5-ship/website_launch` | -- |
-| Client project intake | `1-brainstorm/client_discovery` + `1-brainstorm/proposal_generator` | -- |
-| Database review | `3-build/database_optimization` | -- |
-| Set up CI/CD | `5-ship/ci_cd_pipeline` | -- |
+| Build a website | `3-build/website_build` + `5-ship/website_launch` | Use skill directly |
+| Client project intake | `1-brainstorm/client_discovery` + `1-brainstorm/proposal_generator` | Use skill directly |
+| Database review | `3-build/database_optimization` | Use skill directly |
+| Set up CI/CD | `5-ship/ci_cd_pipeline` | Use skill directly |
 | Go language review | -- | `/go-review` |
 | Python code review | -- | `/python-review` |
 | E2E testing | `4-secure/e2e_testing` | `/e2e` |
-| Manage tech debt | `0-context/tech_debt_assessment` + `3-build/refactoring` | -- |
+| Manage tech debt | `0-context/tech_debt_assessment` + `3-build/refactoring` | Use skill directly |
 | Run gap analysis / ATOM | `toolkit/age` (37-loop discovery engine) | `/atom` or `/age` |
 | Run adversarial audit | `toolkit/age` + `toolkit/age_to_skill_pipeline` | `/adversarial-audit` |
-| Fine-tune an LLM | `3-build/lora_finetuning_workflow` + `4-secure/llm_evaluation_benchmarking` | -- |
-| Build a RAG system | `3-build/rag_advanced_patterns` + `3-build/vector_database_operations` | -- |
-| Build an AI agent | `3-build/ai_agent_development` + `4-secure/ai_safety_guardrails` | -- |
-| Deploy ML models | `5-ship/model_serving_deployment` + `5-ship/mlops_pipeline` | -- |
-| Set up Kubernetes | `3-build/kubernetes_operations` + `3-build/helm_chart_development` | -- |
-| Build mobile app | `3-build/react_native_patterns` or `3-build/flutter_development` | -- |
-| Set up GitOps | `5-ship/gitops_workflow` + `5-ship/ci_cd_pipeline` | -- |
-| Event streaming | `3-build/kafka_event_streaming` + `3-build/message_queue_patterns` | -- |
-| Accessibility | `3-build/accessibility_implementation` + `2-design/inclusive_design_patterns` | -- |
+| Fine-tune an LLM | `3-build/lora_finetuning_workflow` + `4-secure/llm_evaluation_benchmarking` | Use skill directly |
+| Build a RAG system | `3-build/rag_advanced_patterns` + `3-build/vector_database_operations` | Use skill directly |
+| Build an AI agent | `3-build/ai_agent_development` + `4-secure/ai_safety_guardrails` | Use skill directly |
+| Deploy ML models | `5-ship/model_serving_deployment` + `5-ship/mlops_pipeline` | Use skill directly |
+| Set up Kubernetes | `3-build/kubernetes_operations` + `3-build/helm_chart_development` | Use skill directly |
+| Build mobile app | `3-build/react_native_patterns` or `3-build/flutter_development` | Use skill directly |
+| Set up GitOps | `5-ship/gitops_workflow` + `5-ship/ci_cd_pipeline` | Use skill directly |
+| Event streaming | `3-build/kafka_event_streaming` + `3-build/message_queue_patterns` | Use skill directly |
+| Accessibility | `3-build/accessibility_implementation` + `2-design/inclusive_design_patterns` | Use skill directly |
 
 **Skill path pattern:** `.agent/skills/{phase}/{skill_name}/SKILL.md`
 

@@ -37,11 +37,11 @@ Each skill is a step-by-step instruction set:
 
 ```
 .agent/skills/
-├── idea_to_spec/SKILL.md         ← Convert ideas to specs
-├── bug_troubleshoot/SKILL.md     ← Structured debugging
-├── security_audit/SKILL.md       ← Security checklist
-├── tdd_workflow/SKILL.md         ← Test-driven development
-├── golang_patterns/SKILL.md      ← Go best practices
+├── 1-brainstorm/idea_to_spec/SKILL.md   ← Convert ideas to specs
+├── 3-build/bug_troubleshoot/SKILL.md    ← Structured debugging
+├── 4-secure/security_audit/SKILL.md     ← Security checklist
+├── 4-secure/tdd_workflow/SKILL.md       ← Test-driven development
+├── 3-build/golang_patterns/SKILL.md     ← Go best practices
 └── ... (298 total, organized by lifecycle phase)
 ```
 
@@ -71,7 +71,7 @@ Invoke agents and workflows from Claude Code:
 └── ... (39 total)
 ```
 
-### Rules (25 Coding Guidelines)
+### Rules (39 Coding Guidelines)
 
 Always-follow rules organized by language:
 
@@ -81,7 +81,9 @@ Always-follow rules organized by language:
 ├── typescript/          ← 5 TypeScript rules
 ├── python/              ← 5 Python rules
 ├── golang/              ← 5 Go rules
-└── swift/               ← 5 Swift rules
+├── swift/               ← 5 Swift rules
+├── java/                ← 5 Java rules
+└── rust/                ← 5 Rust rules
 ```
 
 ### Docs (70+ Templates & References)
@@ -107,9 +109,9 @@ Ready-to-use templates and reference guides:
 to help me structure this idea."
 ```
 
-### Option B: Read the Skill First
+### Option B: Read the Skill First (Recommended)
 
-1. Open `.agent/skills/idea_to_spec/SKILL.md`
+1. Open `.agent/skills/1-brainstorm/idea_to_spec/SKILL.md`
 2. Read the trigger commands and process
 3. Follow the steps with your AI
 
@@ -186,7 +188,7 @@ Use the project_context skill pattern to help me continue."
 |---------|--------|
 | Researching | `video_research` |
 | Writing scripts | `content_creation` |
-| Repurposing | `content_cascade` |
+| Repurposing | `content_waterfall` |
 
 ---
 
@@ -215,7 +217,7 @@ Use the project_context skill pattern to help me continue."
 │  ───────                           ─────────                     │
 │  git_workflow                      content_creation              │
 │  docker_development                video_research                │
-│  environment_setup                 content_cascade               │
+│  environment_setup                 content_waterfall               │
 │  db_migrations                                                   │
 │  infrastructure_as_code                                          │
 │                                                                  │

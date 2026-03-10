@@ -176,7 +176,7 @@ These workflows are used on-demand for specific tasks.
 
 ## 🤖 Agents & Commands
 
-The framework includes **13 specialized agents** and **32 slash commands** that integrate with these workflows. Agents automate specific tasks (code review, testing, security analysis) while commands provide the interface to invoke them.
+The framework includes **19 specialized agents** and **39 slash commands** that integrate with these workflows. Agents automate specific tasks (code review, testing, security analysis) while commands provide the interface to invoke them.
 
 - **Agents**: See [../agents/README.md](../agents/README.md)
 - **Commands**: See [../commands/README.md](../commands/README.md)

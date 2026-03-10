@@ -95,7 +95,7 @@ view_file .agent/skills/3-build/content_hash_cache/SKILL.md
 Verify improvements hold under realistic and peak load.
 
 ```bash
-view_file .agent/skills/4-secure/load_testing/SKILL.md
+view_file .agent/skills/5.75-beta/load_testing/SKILL.md
 ```
 
 - [ ] Load test scenarios match real user patterns

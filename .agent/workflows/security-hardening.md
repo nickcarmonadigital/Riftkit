@@ -20,7 +20,7 @@ description: Security hardening workflow — systematic process to identify and 
 Identify what you're protecting and from whom.
 
 ```bash
-view_file .agent/skills/4-secure/security_threat_modeling/SKILL.md
+view_file .agent/skills/2-design/security_threat_modeling/SKILL.md
 ```
 
 - [ ] Assets cataloged (data, services, infrastructure)
@@ -140,7 +140,7 @@ view_file .agent/skills/4-secure/ssrf_testing_harness/SKILL.md
 Detect attacks and anomalies in production.
 
 ```bash
-view_file .agent/skills/4-secure/runtime_security_monitoring/SKILL.md
+view_file .agent/skills/3-build/runtime_security_monitoring/SKILL.md
 ```
 
 - [ ] Intrusion detection rules configured

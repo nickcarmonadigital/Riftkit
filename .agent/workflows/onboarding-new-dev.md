@@ -38,7 +38,7 @@ view_file .agent/skills/0-context/codebase_navigation/SKILL.md
 Set up a working development environment.
 
 ```bash
-view_file .agent/skills/3-build/dev_environment_setup/SKILL.md
+view_file .agent/skills/0-context/dev_environment_setup/SKILL.md
 ```
 
 - [ ] Repository cloned and dependencies installed
@@ -58,8 +58,8 @@ view_file .agent/skills/3-build/dev_environment_setup/SKILL.md
 Learn how the system is structured and why decisions were made.
 
 ```bash
-view_file .agent/skills/2-design/architecture_recovery/SKILL.md
-view_file .agent/skills/2-design/system_design_review/SKILL.md
+view_file .agent/skills/0-context/architecture_recovery/SKILL.md
+view_file .agent/skills/0-context/system_design_review/SKILL.md
 ```
 
 - [ ] High-level architecture diagram reviewed (or created if missing)
@@ -111,7 +111,7 @@ view_file .agent/skills/3-build/bug_troubleshoot/SKILL.md
 Submit work for review and learn from feedback.
 
 ```bash
-view_file .agent/skills/4-secure/code_review_response/SKILL.md
+view_file .agent/skills/3-build/code_review_response/SKILL.md
 ```
 
 - [ ] PR submitted following team template
@@ -128,7 +128,7 @@ view_file .agent/skills/4-secure/code_review_response/SKILL.md
 Understand how the team tests and write tests for your code.
 
 ```bash
-view_file .agent/skills/3-build/tdd_workflow/SKILL.md
+view_file .agent/skills/4-secure/tdd_workflow/SKILL.md
 ```
 
 - [ ] Test structure understood (file organization, naming conventions)

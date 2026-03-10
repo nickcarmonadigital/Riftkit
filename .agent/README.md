@@ -70,12 +70,12 @@ Slash commands for Claude Code automation. See [commands/README.md](./commands/R
 
 Key commands: `/plan` `/tdd` `/code-review` `/build-fix` `/e2e` `/verify` `/checkpoint` `/eval` `/learn` `/evolve` `/orchestrate` `/multi-execute` `/refactor-clean` `/test-coverage`
 
-### Rules (25)
+### Rules (39)
 
 Always-follow coding guidelines by language. See [rules/README.md](./rules/README.md).
 
 - **Common** (9): coding-style, git-workflow, testing, performance, patterns, hooks, agents, security, development-workflow
-- **TypeScript** (5) | **Python** (5) | **Go** (5) | **Swift** (5)
+- **TypeScript** (5) | **Python** (5) | **Go** (5) | **Swift** (5) | **Java** (5) | **Rust** (5)
 
 ### Hooks & Automation
 
@@ -105,21 +105,21 @@ Plus: onboarding templates, compliance guides, proposal templates, and more.
 ## 🚀 Example Usage
 
 ```
-You: /brain-dump I need a user dashboard with analytics
+You: /plan I need a user dashboard with analytics
 
 AI: [Creates structured spec with user stories, tech requirements, and implementation plan]
 
-You: /architecture dashboard
+You: /tdd dashboard
 
-AI: [Generates comprehensive architecture doc with data flow, APIs, and component design]
+AI: [Implements the feature with test-driven development, writing tests first]
 
-You: Build it
+You: /build-fix
 
-AI: [Implements the feature following the spec]
+AI: [Diagnoses and fixes any build errors]
 
-You: /walkthrough dashboard
+You: /code-review
 
-AI: [Creates documentation explaining how it works]
+AI: [Reviews code for quality, patterns, and best practices]
 ```
 
 ---
@@ -166,7 +166,7 @@ description: What this skill does
 │   └── ...
 ├── agents/                # 19 specialized AI subagents
 ├── commands/              # 39 slash commands
-├── rules/                 # 25 coding rule files (common + 4 languages)
+├── rules/                 # 39 coding rule files (common + 6 languages)
 ├── hooks/                 # Event-driven automations
 ├── contexts/              # Dynamic system prompts (dev/review/research)
 ├── scripts/               # Node.js utilities (hooks, CI, lib)
@@ -182,7 +182,7 @@ description: What this skill does
 ## 🤝 Contributing
 
 1. Fork the repo
-2. Create a skill folder: `.agent/skills/[skill-name]/SKILL.md`
+2. Create a skill folder: `.agent/skills/{phase}/{skill_name}/SKILL.md`
 3. Follow the skill format above
 4. Submit a PR
 

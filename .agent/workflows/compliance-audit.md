@@ -20,7 +20,7 @@ description: Compliance audit workflow — structured process for preparing and 
 Determine which regulations and controls apply.
 
 ```bash
-view_file .agent/skills/4-secure/regulated_industry_context/SKILL.md
+view_file .agent/skills/0-context/regulated_industry_context/SKILL.md
 ```
 
 - [ ] Industry and data types cataloged (PII, PHI, PCI, financial)
@@ -36,7 +36,7 @@ view_file .agent/skills/4-secure/regulated_industry_context/SKILL.md
 Collect compliance evidence programmatically where possible.
 
 ```bash
-view_file .agent/skills/4-secure/compliance_as_code/SKILL.md
+view_file .agent/skills/3-build/compliance_as_code/SKILL.md
 ```
 
 - [ ] Infrastructure-as-code reviewed for compliance controls
@@ -72,7 +72,7 @@ view_file .agent/skills/4-secure/pci_dss_compliance_testing/SKILL.md
 Verify audit trail completeness and integrity.
 
 ```bash
-view_file .agent/skills/4-secure/audit_logging_architecture/SKILL.md
+view_file .agent/skills/3-build/audit_logging_architecture/SKILL.md
 ```
 
 - [ ] All authentication events logged (login, logout, failed attempts)
@@ -89,8 +89,8 @@ view_file .agent/skills/4-secure/audit_logging_architecture/SKILL.md
 Verify authorization and secret management.
 
 ```bash
-view_file .agent/skills/4-secure/authorization_patterns/SKILL.md
-view_file .agent/skills/4-secure/secret_management/SKILL.md
+view_file .agent/skills/3-build/authorization_patterns/SKILL.md
+view_file .agent/skills/3-build/secret_management/SKILL.md
 ```
 
 - [ ] Principle of least privilege verified across roles
@@ -148,8 +148,8 @@ Assemble everything the auditor needs.
 Incorporate audit findings into ongoing compliance program.
 
 ```bash
-view_file .agent/skills/4-secure/risk_register/SKILL.md
-view_file .agent/skills/4-secure/compliance_program/SKILL.md
+view_file .agent/skills/0-context/risk_register/SKILL.md
+view_file .agent/skills/toolkit/compliance_program/SKILL.md
 ```
 
 - [ ] Audit findings received and reviewed
