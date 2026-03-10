@@ -9,11 +9,11 @@
 
 ## Executive Summary
 
-ATOM analysis of Riftkit discovered **18 gaps** across 6 clusters. Of these, **3 are SHOWSTOPPERS** (RPN ≥ 200), **5 are CRITICAL** (RPN 100-199), **6 are HIGH** (RPN 50-99), and **4 are MEDIUM** (RPN 25-49). The dominant theme is **internal consistency failure** — the framework's documentation, routing, and tooling disagree with each other about what exists. A secondary theme is **missing infrastructure** — directories and features referenced in commands but never created. The framework's core content (298 skills) is solid; the scaffolding around it has not kept pace with growth.
+ATOM analysis of Riftkit discovered **19 gaps** across 6 clusters. Of these, **3 are SHOWSTOPPERS** (RPN ≥ 200), **5 are CRITICAL** (RPN 100-199), **7 are HIGH** (RPN 50-99), and **4 are MEDIUM** (RPN 25-49). The dominant theme is **internal consistency failure** — the framework's documentation, routing, and tooling disagree with each other about what exists. A secondary theme is **missing infrastructure** — directories and features referenced in commands but never created. The framework's core content (298 skills) is solid; the scaffolding around it has not kept pace with growth.
 
-**Survival Rate**: 18/23 candidate gaps survived validation (78%)
+**Survival Rate**: 19/24 candidate gaps survived validation (79%)
 **Coverage Score**: 72% of morphological grid explored
-**Constitutional Compliance**: 18/18 gaps pass all 8 articles (100%)
+**Constitutional Compliance**: 19/19 gaps pass all 8 articles (100%)
 
 ---
 
@@ -450,7 +450,33 @@ Commands reference skill directories that don't exist at the specified paths:
 
 ---
 
-### GAP-018: WORKFLOWS_README.md and WORKFLOW_ECOSYSTEM.md Are Undiscoverable
+### GAP-018: Duplicate `feature_flags` Skill in Two Phases
+
+**Evidence**:
+- `.agent/skills/3-build/feature_flags/SKILL.md` — "Comprehensive feature flag lifecycle from creation through rollout to cleanup"
+- `.agent/skills/5.75-beta/feature_flags/SKILL.md` — "Gradual rollouts, A/B testing, kill switches, and flag management for safe feature releases"
+- Same `name: Feature Flags` in both frontmatters
+- Skills-trigger-index.md, CLAUDE.md, and framework-router cannot disambiguate
+- Violates ATOM Article 5 (Uniqueness) — two skills with same name, overlapping scope
+
+**FMEA Scoring**:
+
+| Dimension | Score | Justification |
+|-----------|-------|---------------|
+| Severity | 5 | Users or AI may read wrong skill; conflicting advice possible |
+| Occurrence | 5 | Triggered when anyone asks about feature flags |
+| Detection | 4 | Not obvious without searching both phases |
+| **RPN** | **100** | **HIGH** |
+
+**Bayesian P(real)**: 0.99 — directly verified by reading both files
+
+**Resolution**: Either merge into a single skill, or rename to distinguish scope: `feature_flag_implementation` (3-build) vs `feature_flag_management` (5.75-beta). Update all indexes.
+
+**Cross-Impact**: Causes confusion in framework-router routing. Related to GAP-013 (no structured triggers — with triggers, disambiguation would be clearer).
+
+---
+
+### GAP-019: WORKFLOWS_README.md and WORKFLOW_ECOSYSTEM.md Are Undiscoverable
 
 **Evidence**:
 - Both exist in `.agent/workflows/` but are not referenced from CLAUDE.md, README.md, or any command
@@ -604,10 +630,11 @@ GAP-014 (no search interface)
 ### When Convenient (MEDIUM)
 16. **GAP-016**: Standardize memory directory
 17. **GAP-017**: Remove homunculus reference
-18. **GAP-018**: Add workflow README references to CLAUDE.md
+18. **GAP-018**: Disambiguate duplicate feature_flags skill
+19. **GAP-019**: Add workflow README references to CLAUDE.md
 
 ---
 
 *ATOM v2 Protocol — First deployment complete*
-*18 gaps identified, 3 showstoppers, 5 critical*
+*19 gaps identified, 3 showstoppers, 5 critical*
 *Bottleneck: GAP-009 (No CI validation) — fix this first*
