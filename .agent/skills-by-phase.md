@@ -448,7 +448,7 @@
 
 | Skill | Description | Typical Phases |
 |-------|-------------|----------------|
-| age | 25-loop adversarial gap analysis | Any |
+| age | 53-loop adversarial gap analysis | Any |
 | age_to_skill_pipeline | Convert AGE findings into new skills | Any |
 | ai_cost_optimization | AI infrastructure cost management and optimization | 3, 5 |
 | ai_security_hardening | Security patterns for AI-assisted development | 3, 4 |

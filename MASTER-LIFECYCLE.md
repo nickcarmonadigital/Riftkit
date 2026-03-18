@@ -383,12 +383,12 @@ graph LR
 
 ## Toolkit (Cross-Phase)
 
-Toolkit skills are phase-independent utilities that support the lifecycle without belonging to a single phase. The Adversarial Gap Engine runs 25-loop analysis cycles to find what the framework itself is missing. Content production skills turn one piece of content into thirty. The `strategic_compact` and `iterative_retrieval` skills manage context windows during long sessions. The `cost_aware_llm_pipeline` skill optimizes token spend across multi-model workflows.
+Toolkit skills are phase-independent utilities that support the lifecycle without belonging to a single phase. The Adversarial Gap Engine runs 53-loop analysis cycles to find what the framework itself is missing. Content production skills turn one piece of content into thirty. The `strategic_compact` and `iterative_retrieval` skills manage context windows during long sessions. The `cost_aware_llm_pipeline` skill optimizes token spend across multi-model workflows.
 
 | Skill | What It Does | Trigger |
 |-------|-------------|---------|
 | `ceo_brain` | Strategic decision-making framework | Executive planning |
-| `adversarial_gap_engine` | 25-loop framework gap analysis | Framework audits |
+| `adversarial_gap_engine` | 53-loop framework gap analysis | Framework audits |
 | `video_research` | Video content research and analysis | Content planning |
 | `content_creation` | Long-form content production | Marketing |
 | `content_waterfall` | 1 video to 30 clips pipeline | Content repurposing |
@@ -469,7 +469,7 @@ riftkit/
 │   ├── skills-index.md
 │   ├── install.sh
 │   ├── agents/                  (19 agents)
-│   ├── commands/                (39 commands)
+│   ├── commands/                (44 commands)
 │   ├── rules/                   (39 rules)
 │   │   ├── common/              (9 rules)
 │   │   ├── typescript/          (5 rules)
@@ -513,4 +513,4 @@ riftkit/
 
 ---
 
-*riftkit — 298 Skills | 19 Agents | 39 Commands | 39 Rules | 26 Workflows | 61 Docs*
+*riftkit — 298 Skills | 19 Agents | 44 Commands | 40 Rules | 27 Workflows | 61 Docs*

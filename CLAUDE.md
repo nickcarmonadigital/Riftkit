@@ -1,6 +1,6 @@
 # riftkit
 
-A phase-based software development framework with 298 skills, 19 agents, 39 commands, 25 workflows, and 39 rules.
+A phase-based software development framework with 298 skills, 19 agents, 44 commands, 27 workflows, and 40 rules.
 Skills live in `.agent/skills/{phase}/`, agents in `.agent/agents/`, commands in `.agent/commands/`.
 
 ---
@@ -18,7 +18,7 @@ Skills live in `.agent/skills/{phase}/`, agents in `.agent/agents/`, commands in
 
 **Skills** are the knowledge -- step-by-step guides for specific tasks (298 total).
 **Agents** are the specialists -- AI personas that apply skills with domain expertise (19 total).
-**Commands** are the shortcuts -- `/slash-commands` that invoke agents with the right skills (39 total).
+**Commands** are the shortcuts -- `/slash-commands` that invoke agents with the right skills (44 total).
 
 When you run `/code-review`, it activates the `code-reviewer` agent, which follows the `code_review` skill.
 You can also reference skills directly: "Follow the `code_review` skill to review this PR."
@@ -52,7 +52,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | Python code review | -- | `/python-review` |
 | E2E testing | `4-secure/e2e_testing` | `/e2e` |
 | Manage tech debt | `0-context/tech_debt_assessment` + `3-build/refactoring` | Use skill directly |
-| Run gap analysis / ATOM | `toolkit/age` (37-loop discovery engine) | `/atom` or `/age` |
+| Run gap analysis / ATOM | `toolkit/age` (53-loop discovery engine) | `/atom` or `/age` |
 | Run adversarial audit | `toolkit/age` + `toolkit/age_to_skill_pipeline` | `/adversarial-audit` |
 | Fine-tune an LLM | `3-build/lora_finetuning_workflow` + `4-secure/llm_evaluation_benchmarking` | Use skill directly |
 | Build a RAG system | `3-build/rag_advanced_patterns` + `3-build/vector_database_operations` | Use skill directly |
@@ -407,7 +407,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 
 | Skill | What it does |
 |---|---|
-| `age` | ATOM (Axiomatic Thinking for Omnidirectional Meta-analysis) — 37-loop, 35-method universal discovery engine |
+| `age` | ATOM (Axiomatic Thinking for Omnidirectional Meta-analysis) — 53-loop, 51-method universal discovery engine |
 | `age_to_skill_pipeline` | Convert ATOM gap findings to framework skills |
 | `ai_cost_optimization` | AI infrastructure cost management and optimization |
 | `ai_security_hardening` | AI/LLM security hardening |
@@ -441,7 +441,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 
 ---
 
-## Commands (39)
+## Commands (44)
 
 Invoke with `/command-name`. Read full docs at `.agent/commands/{name}.md`.
 
@@ -517,7 +517,7 @@ Agents are specialized AI personas. Read full docs at `.agent/agents/{name}.md`.
 
 ---
 
-## Workflows (25)
+## Workflows (27)
 
 Multi-step orchestrated processes at `.agent/workflows/`. See also [WORKFLOWS_README.md](.agent/workflows/WORKFLOWS_README.md) for orchestration guidance and [WORKFLOW_ECOSYSTEM.md](.agent/workflows/WORKFLOW_ECOSYSTEM.md) for workflow relationships.
 

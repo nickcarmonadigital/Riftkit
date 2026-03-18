@@ -1,6 +1,11 @@
 ---
 name: Proposal Generator
 description: Quick proposal creation for client projects
+triggers:
+  - "/proposal"
+  - "/proposal-generator"
+  - "/create-proposal"
+  - "/generate-proposal"
 ---
 
 # Proposal Generator Skill

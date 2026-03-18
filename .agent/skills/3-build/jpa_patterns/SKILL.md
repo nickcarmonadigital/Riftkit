@@ -2,6 +2,11 @@
 name: jpa-patterns
 description: JPA/Hibernate patterns for entity design, relationships, query optimization, transactions, auditing, indexing, pagination, and pooling in Spring Boot.
 origin: ECC
+triggers:
+  - "/jpa"
+  - "/jpa-patterns"
+  - "/hibernate"
+  - "/hibernate-patterns"
 ---
 
 # JPA/Hibernate Patterns

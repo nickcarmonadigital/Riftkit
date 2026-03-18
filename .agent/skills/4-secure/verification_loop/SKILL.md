@@ -2,6 +2,11 @@
 name: verification-loop
 description: "A comprehensive verification system for Claude Code sessions."
 origin: ECC
+triggers:
+  - "/verification-loop"
+  - "/verify"
+  - "/verification"
+  - "/verify-session"
 ---
 
 # Verification Loop Skill

@@ -1,1 +1,3 @@
 course/
+# Real MCP config with credentials — copy from mcp-servers.example.json and fill in secrets
+.agent/mcp-configs/mcp-servers.json

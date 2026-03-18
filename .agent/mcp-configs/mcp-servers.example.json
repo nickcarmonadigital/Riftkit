@@ -1,4 +1,5 @@
 {
+  "_template_notice": "COPY THIS FILE to mcp-servers.json and fill in your real credentials. mcp-servers.json is gitignored to prevent committing secrets.",
   "mcpServers": {
     "github": {
       "command": "npx",

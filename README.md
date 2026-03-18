@@ -1,6 +1,6 @@
 # riftkit
 
-> **298 Skills** | **19 Agents** | **39 Commands** | **39 Rules** | **60+ Docs** | **25 Workflows** | **Zero Fluff**
+> **298 Skills** | **19 Agents** | **44 Commands** | **40 Rules** | **60+ Docs** | **27 Workflows** | **Zero Fluff**
 
 AI assistants write great code but lack process discipline -- they skip architecture reviews, forget security audits, and never write migration runbooks. This framework gives them structured skills, automated agents, and slash commands for every phase of development, from first brainstorm through production maintenance.
 
@@ -12,7 +12,7 @@ Every AI coding assistant shares the same blind spot: it optimizes for the task 
 
 riftkit fills the gap with 298 skills that encode real engineering process -- architecture decomposition, test strategies, compliance checklists, deployment runbooks, post-launch observability, and everything in between. Each skill is a standalone Markdown file the AI reads on demand, so it knows not just *what* to build but *how* to build it responsibly.
 
-On top of the skills sits an automation layer: 19 specialized agents that handle code review, security scanning, documentation updates, and build-error resolution; 39 slash commands that invoke those agents and skills from the CLI; and 6 event-driven hooks that enforce formatting, type-checking, and changelog discipline without you lifting a finger.
+On top of the skills sits an automation layer: 19 specialized agents that handle code review, security scanning, documentation updates, and build-error resolution; 44 slash commands that invoke those agents and skills from the CLI; and 6 event-driven hooks that enforce formatting, type-checking, and changelog discipline without you lifting a finger.
 
 ---
 
@@ -120,7 +120,7 @@ Specialized AI subagents that handle focused tasks autonomously. See [.agent/age
 | `ship-agent` | Deployment and shipping operations | `/deploy` |
 | `sre-agent` | SRE practices and reliability engineering | manual |
 
-### Commands (39)
+### Commands (44)
 
 Slash commands give you one-step access to skills and agents from the Claude Code CLI. See [.agent/commands/README.md](.agent/commands/README.md).
 
@@ -151,9 +151,9 @@ The blueprint library provides starter context and architecture decisions for co
 
 Full catalog: [BLUEPRINT_GUIDE.md](BLUEPRINT_GUIDE.md)
 
-### Rules (39) + Hooks (6)
+### Rules (40) + Hooks (6)
 
-Thirty-nine always-on coding rules enforce consistent style and safety across seven language tracks: common (9), TypeScript (5), Python (5), Go (5), Java (5), Rust (5), and Swift (5). Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically.
+Forty always-on coding rules enforce consistent style and safety across seven language tracks: common (9), TypeScript (5), Python (5), Go (5), Java (5), Rust (5), and Swift (5). Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically. Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically.
 
 ---
 
@@ -207,8 +207,8 @@ AI: [Reviews the implementation for quality, patterns, and potential issues]
     ├── install.sh             # Global installer (copies to ~/.claude/)
     ├── skills/                # 298 skill folders (organized by phase)
     ├── agents/                # 19 specialized AI subagents
-    ├── commands/              # 39 slash commands
-    ├── rules/                 # 39 coding rules (common + 6 languages)
+    ├── commands/              # 44 slash commands
+    ├── rules/                 # 40 coding rules (common + 6 languages)
     ├── hooks/                 # Event-driven automations
     ├── blueprints/            # 50+ project type starter templates
     ├── contexts/              # Dynamic system prompts (dev/review/research)
@@ -216,7 +216,7 @@ AI: [Reviews the implementation for quality, patterns, and potential issues]
     ├── schemas/               # JSON validation schemas
     ├── examples/              # 6 CLAUDE.md project templates
     ├── mcp-configs/           # MCP server integration configs
-    ├── workflows/             # 25 workflow definitions
+    ├── workflows/             # 27 workflow definitions
     └── docs/                  # 60+ reference guides + templates
 ```
 

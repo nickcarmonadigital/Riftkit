@@ -1,6 +1,11 @@
 ---
 name: User Story Standards
 description: Write clear user stories with acceptance criteria using proven formats and quality checks
+triggers:
+  - "/user-stories"
+  - "/user-story-standards"
+  - "/write-stories"
+  - "/acceptance-criteria"
 ---
 
 # User Story Standards Skill

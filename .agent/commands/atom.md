@@ -1,5 +1,5 @@
 ---
-description: Run the ATOM protocol — a 37-loop, 35-method universal discovery engine for systematic gap analysis.
+description: Run the ATOM protocol — a 53-loop, 51-method universal discovery engine for systematic gap analysis.
 ---
 
 # ATOM Command

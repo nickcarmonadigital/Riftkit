@@ -2,6 +2,10 @@
 name: java-coding-standards
 description: "Java coding standards for Spring Boot services: naming, immutability, Optional usage, streams, exceptions, generics, and project layout."
 origin: ECC
+triggers:
+  - "/java-standards"
+  - "/java-coding-standards"
+  - "/java"
 ---
 
 # Java Coding Standards

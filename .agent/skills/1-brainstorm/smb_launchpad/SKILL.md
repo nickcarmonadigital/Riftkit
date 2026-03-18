@@ -1,6 +1,11 @@
 ---
 name: SMB Launchpad
 description: Complete service delivery workflow for SMB website + consulting clients
+triggers:
+  - "/smb-launchpad"
+  - "/smb"
+  - "/smb-project"
+  - "/client-project"
 ---
 
 # SMB Launchpad Skill

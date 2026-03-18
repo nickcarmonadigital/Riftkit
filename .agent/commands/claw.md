@@ -77,5 +77,5 @@ node scripts/claw.js
 CLAW_SESSION=my-project node scripts/claw.js
 
 # With skill context
-CLAW_SKILLS=tdd-workflow,security-review node scripts/claw.js
+CLAW_SKILLS=tdd_workflow,security_audit node scripts/claw.js
 ```

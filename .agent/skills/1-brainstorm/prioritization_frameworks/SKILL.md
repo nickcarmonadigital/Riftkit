@@ -1,6 +1,12 @@
 ---
 name: Prioritization Frameworks
 description: Score and rank features using RICE, MoSCoW, and Kano to build the right things first
+triggers:
+  - "/prioritization"
+  - "/prioritization-frameworks"
+  - "/rice"
+  - "/moscow"
+  - "/rank-features"
 ---
 
 # Prioritization Frameworks Skill

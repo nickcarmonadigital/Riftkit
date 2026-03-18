@@ -1,6 +1,12 @@
 ---
 name: Product Metrics
 description: Choose the right metrics to measure product success from North Star down to feature level
+triggers:
+  - "/product-metrics"
+  - "/metrics"
+  - "/north-star"
+  - "/kpis"
+  - "/define-metrics"
 ---
 
 # Product Metrics Skill

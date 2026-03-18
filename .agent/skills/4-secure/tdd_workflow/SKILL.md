@@ -2,6 +2,11 @@
 name: tdd-workflow
 description: Use this skill when writing new features, fixing bugs, or refactoring code. Enforces test-driven development with 80%+ coverage including unit, integration, and E2E tests.
 origin: ECC
+triggers:
+  - "/tdd-workflow"
+  - "/tdd"
+  - "/test-driven"
+  - "/test-driven-development"
 ---
 
 # Test-Driven Development Workflow

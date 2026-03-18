@@ -1,6 +1,6 @@
 # riftkit
 
-> **298 Skills** | **19 Agents** | **39 Commands** | **39 Rules** | **61 Docs** | **25 Workflows** | **Zero Fluff**
+> **298 Skills** | **19 Agents** | **44 Commands** | **40 Rules** | **61 Docs** | **27 Workflows** | **Zero Fluff**
 
 A battle-tested toolkit for AI-assisted development. Drop the `.agent` folder into any project and supercharge your workflow — now with automated agents, slash commands, coding rules, and hooks from [Everything Claude Code](https://github.com/affaan-m/everything-claude-code).
 
@@ -64,13 +64,13 @@ Specialized AI subagents for automated workflows. See [agents/README.md](./agent
 | `ship-agent` | Sonnet | 5-ship |
 | `sre-agent` | Sonnet | 7-maintenance |
 
-### Commands (39)
+### Commands (44)
 
 Slash commands for Claude Code automation. See [commands/README.md](./commands/README.md).
 
 Key commands: `/plan` `/tdd` `/code-review` `/build-fix` `/e2e` `/verify` `/checkpoint` `/eval` `/learn` `/evolve` `/orchestrate` `/multi-execute` `/refactor-clean` `/test-coverage`
 
-### Rules (39)
+### Rules (40)
 
 Always-follow coding guidelines by language. See [rules/README.md](./rules/README.md).
 
@@ -89,14 +89,14 @@ Event-driven automations for Claude Code. See [hooks/README.md](./hooks/README.m
 
 | Guide | What You Get |
 |-------|--------------|
-| [**Prompt Library**](./docs/prompt-library.md) | 50+ ready-to-use prompts |
-| [**Code Snippets**](./docs/code-snippets.md) | Copy-paste solutions |
-| [**Skill Combos**](./docs/skill-combos.md) | Power workflows |
-| [**Common Mistakes**](./docs/common-mistakes.md) | Avoid pitfalls |
-| [**Project Templates**](./docs/project-templates.md) | Starter structures |
-| [**Tech Stack Guide**](./docs/tech-stack-guide.md) | Decision framework |
+| [**Prompt Library**](./docs/3-build/prompt-library.md) | 50+ ready-to-use prompts |
+| [**Code Snippets**](./docs/3-build/code-snippets.md) | Copy-paste solutions |
+| [**Skill Combos**](./docs/3-build/skill-combos.md) | Power workflows |
+| [**Common Mistakes**](./docs/3-build/common-mistakes.md) | Avoid pitfalls |
+| [**Project Templates**](./docs/3-build/project-templates.md) | Starter structures |
+| [**Tech Stack Guide**](./docs/2-design/tech-stack-guide.md) | Decision framework |
 | [**Development Workflow**](./docs/development-workflow.md) | Complete process map |
-| [**Glossary**](./docs/glossary.md) | Quick term reference |
+| [**Glossary**](./docs/0-context/glossary.md) | Quick term reference |
 
 Plus: onboarding templates, compliance guides, proposal templates, and more.
 
@@ -165,15 +165,15 @@ description: What this skill does
 │   ├── 5-ship/            #   23 skills
 │   └── ...
 ├── agents/                # 19 specialized AI subagents
-├── commands/              # 39 slash commands
-├── rules/                 # 39 coding rule files (common + 6 languages)
+├── commands/              # 44 slash commands
+├── rules/                 # 40 coding rule files (common + 6 languages)
 ├── hooks/                 # Event-driven automations
 ├── contexts/              # Dynamic system prompts (dev/review/research)
 ├── scripts/               # Node.js utilities (hooks, CI, lib)
 ├── schemas/               # JSON validation schemas
 ├── examples/              # 6 CLAUDE.md project templates
 ├── mcp-configs/           # MCP server integration configs
-├── workflows/             # 25 workflow definitions
+├── workflows/             # 27 workflow definitions
 └── docs/                  # 70+ reference guides + templates
 ```
 

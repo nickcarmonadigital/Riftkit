@@ -1,6 +1,6 @@
 # Specialized Agents
 
-13 AI subagents for automated development workflows. Each agent is optimized for a specific role with appropriate model selection and tool access.
+19 AI subagents for automated development workflows. Each agent is optimized for a specific role with appropriate model selection and tool access.
 
 ## Usage
 
@@ -27,6 +27,12 @@ Use the code-reviewer agent to review my changes
 | go-reviewer | Sonnet | Read, Grep, Glob, Bash | 3-build |
 | go-build-resolver | Sonnet | All | 3-build |
 | python-reviewer | Sonnet | Read, Grep, Glob, Bash | 3-build |
+| brainstorm-agent | Sonnet | Read, Grep, Glob | 1-brainstorm |
+| compliance-agent | Sonnet | Read, Grep, Glob, Bash | 4-secure |
+| security-agent | Sonnet | Read, Grep, Glob, Bash | 4-secure |
+| sre-agent | Sonnet | All | 7-maintenance |
+| ship-agent | Sonnet | All | 5-ship |
+| framework-router | Sonnet | Read, Grep, Glob | All phases |
 
 ## Model Selection Guide
 

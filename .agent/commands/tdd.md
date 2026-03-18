@@ -322,5 +322,5 @@ Never skip the RED phase. Never write code before tests.
 This command invokes the `tdd-guide` agent located at:
 `.agent/agents/tdd-guide.md`
 
-And can reference the `tdd-workflow` skill at:
+And can reference the `tdd_workflow` skill at:
 `.agent/skills/4-secure/tdd_workflow/`

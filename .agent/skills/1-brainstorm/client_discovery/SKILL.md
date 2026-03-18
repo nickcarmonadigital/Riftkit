@@ -1,6 +1,11 @@
 ---
 name: Client Discovery
 description: Simplified client intake process for service projects
+triggers:
+  - "/client-discovery"
+  - "/discovery"
+  - "/intake"
+  - "/qualify-client"
 ---
 
 # Client Discovery Skill

@@ -4,7 +4,7 @@ description: Commission an ATOM (Axiomatic Thinking for Omnidirectional Meta-ana
 
 # WORKFLOW: Commission ATOM Analysis
 
-**Purpose**: Launch a 37-loop, 35-method deep-dive discovery analysis on any complex topic using the ATOM protocol.
+**Purpose**: Launch a 53-loop, 51-method deep-dive discovery analysis on any complex topic using the ATOM protocol.
 
 ## 1. Prerequisites
 
@@ -20,7 +20,7 @@ description: Commission an ATOM (Axiomatic Thinking for Omnidirectional Meta-ana
 Run the following prompt:
 
 ```
-Using the ATOM protocol (age skill): Commission a 37-loop study on [Topic].
+Using the ATOM protocol (age skill): Commission a 53-loop study on [Topic].
 
 Execute all 7 phases:
 - Phase 1 (AXIOMS): First Principles decomposition, Step-Back abstraction, Self-Discover module selection, Morphological space enumeration

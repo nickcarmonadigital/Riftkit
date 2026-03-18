@@ -2,9 +2,9 @@
 
 ## From Confused to Confident: A Structured Approach to Inheriting Code You Did Not Write
 
-> **Part of riftkit** (`298 Skills | 19 Agents | 39 Commands | 39 Rules | 61 Docs | 26 Workflows`)
+> **Part of riftkit** (`298 Skills | 19 Agents | 44 Commands | 40 Rules | 61 Docs | 27 Workflows`)
 >
-> Developed through a 25-loop AGE (Adversarial Gap Engine) analysis that identified 8 critical skill gaps in the "existing project onboarding" use case.
+> Developed through a 53-loop AGE (Adversarial Gap Engine) analysis that identified 8 critical skill gaps in the "existing project onboarding" use case.
 
 You just got access to a codebase you have never seen before. Maybe you are a new hire onboarding to a mature product. Maybe you are a freelancer who just inherited a half-finished client project with no handoff notes. Maybe you are an architect evaluating a codebase for acquisition due diligence. Or maybe the original developer quit six months ago and the code has been sitting untouched, and now it is your problem.
 

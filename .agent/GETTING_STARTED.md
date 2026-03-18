@@ -58,7 +58,7 @@ Specialized agents that automate development tasks:
 └── ... (19 total)
 ```
 
-### Commands (39 Slash Commands)
+### Commands (44 Slash Commands)
 
 Invoke agents and workflows from Claude Code:
 
@@ -68,7 +68,7 @@ Invoke agents and workflows from Claude Code:
 ├── tdd.md               ← /tdd — Test-driven development
 ├── code-review.md       ← /code-review — Automated review
 ├── build-fix.md         ← /build-fix — Fix build errors
-└── ... (39 total)
+└── ... (44 total)
 ```
 
 ### Rules (39 Coding Guidelines)
@@ -266,12 +266,6 @@ cp -r .agent/commands/*.md ~/.claude/commands/
 8. ✅ Explore [agents](./agents/README.md) and [commands](./commands/README.md) for automation
 
 ---
-
-## Tutorials
-
-**🎬 Watch the video tutorials**: [Your YouTube Channel]
-
-Each skill was developed during live coding sessions. Watch how they're used in real projects.
 
 ---
 

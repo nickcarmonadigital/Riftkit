@@ -12,7 +12,7 @@ See `/atom` (`.agent/commands/atom.md`) for full documentation.
 
 - **Full name**: ATOM Gap Engine
 - **Skill**: `.agent/skills/toolkit/age/SKILL.md`
-- **Purpose**: 37-loop, 35-method universal discovery engine
+- **Purpose**: 53-loop, 51-method universal discovery engine
 - **Aliases**: `/atom`, `/age`, `/gap-analysis`, `/adversarial-audit`, `/discovery`
 
 ## When to Use

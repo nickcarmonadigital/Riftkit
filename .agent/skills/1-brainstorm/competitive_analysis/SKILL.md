@@ -1,6 +1,11 @@
 ---
 name: Competitive Analysis
 description: Systematically evaluate competitors to find market gaps and build your differentiator strategy
+triggers:
+  - "/competitive-analysis"
+  - "/competitor-analysis"
+  - "/market-gaps"
+  - "/analyze-competitors"
 ---
 
 # Competitive Analysis Skill
