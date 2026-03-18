@@ -36,7 +36,7 @@ function validateAgents() {
     process.exit(0);
   }
 
-  const files = fs.readdirSync(AGENTS_DIR).filter(f => f.endsWith('.md'));
+  const files = fs.readdirSync(AGENTS_DIR).filter(f => f.endsWith('.md') && f !== 'README.md');
   let hasErrors = false;
 
   for (const file of files) {
