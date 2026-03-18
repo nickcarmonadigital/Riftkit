@@ -413,3 +413,7 @@ npm test && npm run lint
 ---
 
 **Remember**: Tests are not optional. They are the safety net that enables confident refactoring, rapid development, and production reliability.
+
+
+## Related Skills
+- [`unit_testing`](../unit_testing/SKILL.md)

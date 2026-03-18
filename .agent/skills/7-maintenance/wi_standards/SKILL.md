@@ -198,3 +198,7 @@ description: Template and guide for creating click-level, granular Work Instruct
 - [ ] Troubleshooting section has 2-3 common issues
 - [ ] Revision history started
 - [ ] Status set to LOCKED after approval
+
+
+## Related Skills
+- [`sop_standards`](../sop_standards/SKILL.md)

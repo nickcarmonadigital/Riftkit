@@ -179,3 +179,7 @@ Based on which metric is weakest:
 ---
 
 *Skill Version: 1.0 | Created: February 2026*
+
+
+## Related Skills
+- [`dora_metrics_tracking`](../dora_metrics_tracking/SKILL.md)

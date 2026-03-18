@@ -335,3 +335,7 @@ Identify:
 ---
 
 *Skill Version: 1.0 | Created: February 14, 2026*
+
+
+## Related Skills
+- [`assumption_testing`](../assumption_testing/SKILL.md)

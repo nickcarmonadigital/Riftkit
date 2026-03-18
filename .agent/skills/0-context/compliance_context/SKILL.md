@@ -138,3 +138,7 @@ Save the combined output to:
 ---
 
 *Skill Version: 1.0 | Phase: 0-Context | Priority: P1*
+
+
+## Related Skills
+- [`regulated_industry_context`](../regulated_industry_context/SKILL.md)

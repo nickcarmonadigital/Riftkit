@@ -182,3 +182,7 @@ Based on the report, identify the lowest-performing metric and target improvemen
 ---
 
 *Skill Version: 1.0 | Cross-Phase: 5 (collection), 7 (reporting) | Priority: P1*
+
+
+## Related Skills
+- [`delivery_metrics`](../delivery_metrics/SKILL.md)

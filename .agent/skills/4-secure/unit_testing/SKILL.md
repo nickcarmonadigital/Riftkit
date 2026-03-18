@@ -497,3 +497,7 @@ npm test && npm run lint
 - [ ] Coverage thresholds configured and enforced in CI
 
 *Skill Version: 1.1 | Updated: February 2026 | Merged with ECC tdd-workflow*
+
+
+## Related Skills
+- [`tdd_workflow`](../tdd_workflow/SKILL.md)

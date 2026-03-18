@@ -223,3 +223,11 @@ Use these standard domain codes for SOP naming:
 | `FIN` | Finance | SOP-FIN-001 |
 | `CS` | Customer Success | SOP-CS-001 |
 | `AI` | AI/Automation | SOP-AI-001 |
+
+
+## Related Skills
+- [`documentation_standards`](../documentation_standards/SKILL.md)
+
+
+## Related Skills
+- [`wi_standards`](../wi_standards/SKILL.md)

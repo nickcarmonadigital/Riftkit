@@ -172,3 +172,7 @@ This document feeds directly into `go_no_go_gate` and `prd_generator`.
 ---
 
 *Skill Version: 1.0 | Phase: 1-Brainstorm | Priority: P1*
+
+
+## Related Skills
+- [`user_research`](../user_research/SKILL.md)

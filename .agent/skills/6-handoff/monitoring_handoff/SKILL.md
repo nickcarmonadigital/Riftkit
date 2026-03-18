@@ -214,3 +214,7 @@ Runbooks stored at: [location, e.g., /docs/runbooks/ or Notion/Confluence URL]
 ---
 
 *Skill Version: 1.0 | Created: February 2026*
+
+
+## Related Skills
+- [`observability_handoff`](../observability_handoff/SKILL.md)

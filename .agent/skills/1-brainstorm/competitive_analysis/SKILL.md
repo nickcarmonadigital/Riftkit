@@ -243,3 +243,7 @@ After completing the analysis, summarize your findings in one table:
 - [ ] At least one clear differentiator defined
 - [ ] Pricing landscape documented
 - [ ] Market gaps summarized with evidence
+
+
+## Related Skills
+- [`market_sizing`](../market_sizing/SKILL.md)
