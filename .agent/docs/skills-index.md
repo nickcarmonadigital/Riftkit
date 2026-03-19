@@ -1,6 +1,6 @@
 # Skills Quick Reference
 
-> **Note:** This is a curated quick-reference covering commonly used skills, not a complete index. The framework contains 298 skills total. For the full listing of all skills organized by phase, see [CLAUDE.md](../../CLAUDE.md).
+> **Note:** This is a curated quick-reference covering commonly used skills, not a complete index. The framework contains 339 skills total. For the full listing of all skills organized by phase, see [CLAUDE.md](../../CLAUDE.md).
 
 ---
 

@@ -1,6 +1,6 @@
 # riftkit
 
-> **298 Skills** | **19 Agents** | **44 Commands** | **40 Rules** | **61 Docs** | **27 Workflows** | **Zero Fluff**
+> **339 Skills** | **19 Agents** | **44 Commands** | **45 Rules** | **61 Docs** | **27 Workflows** | **Zero Fluff**
 
 A battle-tested toolkit for AI-assisted development. Drop the `.agent` folder into any project and supercharge your workflow — now with automated agents, slash commands, coding rules, and hooks from [Everything Claude Code](https://github.com/affaan-m/everything-claude-code).
 
@@ -22,7 +22,7 @@ Your AI assistant will automatically detect and use these skills.
 
 ## 📚 What's Included
 
-### Skills (298)
+### Skills (339)
 
 | Category | Count | Examples |
 |----------|-------|---------|
@@ -156,12 +156,12 @@ description: What this skill does
 ├── README.md              # You are here
 ├── GETTING_STARTED.md     # 5-minute setup guide
 ├── install.sh             # Global installer (copies to ~/.claude/)
-├── skills/                # 298 skill folders (organized by phase)
+├── skills/                # 339 skill folders (organized by phase)
 │   ├── 0-context/         #   23 skills
 │   ├── 1-brainstorm/      #   14 skills
 │   ├── 2-design/          #   24 skills
-│   ├── 3-build/           #   93 skills
-│   ├── 4-secure/          #   40 skills
+│   ├── 3-build/           #   123 skills
+│   ├── 4-secure/          #   47 skills
 │   ├── 5-ship/            #   23 skills
 │   └── ...
 ├── agents/                # 19 specialized AI subagents

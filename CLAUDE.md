@@ -1,6 +1,6 @@
 # riftkit
 
-A phase-based software development framework with 298 skills, 19 agents, 44 commands, 27 workflows, and 40 rules.
+A phase-based software development framework with 339 skills, 19 agents, 44 commands, 27 workflows, and 45 rules.
 Skills live in `.agent/skills/{phase}/`, agents in `.agent/agents/`, commands in `.agent/commands/`.
 
 ---
@@ -16,7 +16,7 @@ Skills live in `.agent/skills/{phase}/`, agents in `.agent/agents/`, commands in
 
 ## How It All Fits Together
 
-**Skills** are the knowledge -- step-by-step guides for specific tasks (298 total).
+**Skills** are the knowledge -- step-by-step guides for specific tasks (339 total).
 **Agents** are the specialists -- AI personas that apply skills with domain expertise (19 total).
 **Commands** are the shortcuts -- `/slash-commands` that invoke agents with the right skills (44 total).
 
@@ -75,14 +75,14 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | 0 | Context | Understand the project, codebase, risks, team | 23 |
 | 1 | Brainstorm | Ideas, research, requirements, PRDs | 14 |
 | 2 | Design | Architecture, schemas, threat models, ADRs | 24 |
-| 3 | Build | Implementation, patterns, tools, workflows | 93 |
-| 4 | Secure | Testing, security audits, compliance | 40 |
-| 5 | Ship | CI/CD, deployment, publishing, migrations | 23 |
+| 3 | Build | Implementation, patterns, tools, workflows | 123 |
+| 4 | Secure | Testing, security audits, compliance | 47 |
+| 5 | Ship | CI/CD, deployment, publishing, migrations | 25 |
 | 5.5 | Alpha | Error tracking, health checks, QA, backups | 10 |
 | 5.75 | Beta | Analytics, feedback, rate limiting, billing | 13 |
 | 6 | Handoff | Docs, DR, monitoring handoff, access handoff | 14 |
 | 7 | Maintenance | SLOs, incidents, dependencies, capacity | 13 |
-| -- | Toolkit | Cross-cutting: AGE, content, governance, SRE | 31 |
+| -- | Toolkit | Cross-cutting: AGE, content, governance, SRE | 33 |
 
 ---
 
@@ -162,7 +162,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `security_threat_modeling` | STRIDE-based threat modeling |
 | `slo_sla_design` | SLO/SLA design and error budget planning |
 
-## Phase 3 -- Build (93 skills)
+## Phase 3 -- Build (123 skills)
 
 | Skill | What it does |
 |---|---|
@@ -260,7 +260,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `vector_database_operations` | Vector DB operations with pgvector, Pinecone, Qdrant |
 | `website_build` | Full website build workflow |
 
-## Phase 4 -- Secure (40 skills)
+## Phase 4 -- Secure (47 skills)
 
 | Skill | What it does |
 |---|---|
@@ -305,7 +305,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `verification_loop` | Iterative verification cycle |
 | `web3_security` | Web3/blockchain security |
 
-## Phase 5 -- Ship (23 skills)
+## Phase 5 -- Ship (25 skills)
 
 | Skill | What it does |
 |---|---|
@@ -403,7 +403,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `ssot_update` | SSoT document updates |
 | `wi_standards` | Work instruction standards |
 
-## Toolkit (31 cross-cutting skills)
+## Toolkit (33 cross-cutting skills)
 
 | Skill | What it does |
 |---|---|
@@ -517,7 +517,7 @@ Agents are specialized AI personas. Read full docs at `.agent/agents/{name}.md`.
 
 ---
 
-## Workflows (27)
+## Workflows (25)
 
 Multi-step orchestrated processes at `.agent/workflows/`. See also [WORKFLOWS_README.md](.agent/workflows/WORKFLOWS_README.md) for orchestration guidance and [WORKFLOW_ECOSYSTEM.md](.agent/workflows/WORKFLOW_ECOSYSTEM.md) for workflow relationships.
 

@@ -31,7 +31,7 @@ your-project/
 
 ## Step 2: Understand the Structure
 
-### Skills (298 Reusable Workflows)
+### Skills (339 Reusable Workflows)
 
 Each skill is a step-by-step instruction set:
 
@@ -42,7 +42,7 @@ Each skill is a step-by-step instruction set:
 ├── 4-secure/security_audit/SKILL.md     ← Security checklist
 ├── 4-secure/tdd_workflow/SKILL.md       ← Test-driven development
 ├── 3-build/golang_patterns/SKILL.md     ← Go best practices
-└── ... (298 total, organized by lifecycle phase)
+└── ... (339 total, organized by lifecycle phase)
 ```
 
 ### Agents (19 AI Subagents)
@@ -257,7 +257,7 @@ cp -r .agent/commands/*.md ~/.claude/commands/
 ## Next Steps
 
 1. ✅ Read [full-stack-developer-foundation.md](./docs/0-context/full-stack-developer-foundation.md) to understand the WHY
-2. ✅ Explore the [skills-index.md](./skills-index.md) for the full list of 298 skills
+2. ✅ Explore the [skills-index.md](./skills-index.md) for the full list of 339 skills
 3. ✅ Try `idea_to_spec` on your next feature idea
 4. ✅ Try `/plan` and `/tdd` slash commands
 5. ✅ Set up `project_context` for your codebase

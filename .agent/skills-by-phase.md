@@ -1,11 +1,11 @@
 # Skills by Phase Reference
 
 > **Loadable registry** -- When you need skills for a specific phase, read this file.
-> 298 skills across 10 phases + 1 cross-phase toolkit.
+> 339 skills across 10 phases + 1 cross-phase toolkit.
 
 ---
 
-## Phase 0 -- Context (23 skills)
+## Phase 0 -- Context (25 skills)
 
 **Purpose:** Understand the project before changing anything.
 **Entry criteria:** Project initiated or inherited.
@@ -105,7 +105,7 @@
 
 ---
 
-## Phase 3 -- Build (93 skills)
+## Phase 3 -- Build (125 skills)
 
 **Purpose:** Implement the solution according to design specs.
 **Entry criteria:** `design_handoff` approved.
@@ -225,7 +225,7 @@
 
 ---
 
-## Phase 4 -- Secure (40 skills)
+## Phase 4 -- Secure (47 skills)
 
 **Purpose:** Test, verify, and harden the build.
 **Entry criteria:** Phase 3 build complete, feature branch ready.
@@ -302,7 +302,7 @@
 
 ---
 
-## Phase 5 -- Ship (23 skills)
+## Phase 5 -- Ship (25 skills)
 
 **Purpose:** Deploy to production.
 **Entry criteria:** Phase 4 verification complete.
@@ -442,7 +442,7 @@
 
 ---
 
-## Toolkit -- Cross-Phase (31 skills)
+## Toolkit -- Cross-Phase (33 skills)
 
 **Purpose:** Skills that apply across multiple phases or outside the main lifecycle.
 

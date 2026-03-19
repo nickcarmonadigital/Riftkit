@@ -41,19 +41,19 @@ Use glob patterns to check quickly:
 
 ## Framework Inventory
 
-### Skills (298 total)
+### Skills (339 total)
 Located at `.agent/skills/{phase}/{skill}/SKILL.md` across 11 phase directories:
 - `0-context` (23 skills) - Project understanding, audits, setup
 - `1-brainstorm` (14 skills) - Ideas, specs, PRDs, research
 - `2-design` (24 skills) - Architecture, API contracts, schemas
-- `3-build` (93 skills) - Implementation, patterns, debugging
-- `4-secure` (40 skills) - Security, testing, compliance
+- `3-build` (123 skills) - Implementation, patterns, debugging
+- `4-secure` (47 skills) - Security, testing, compliance
 - `5-ship` (23 skills) - CI/CD, deployment, release
 - `5.5-alpha` (10 skills) - Error tracking, health checks, QA
 - `5.75-beta` (13 skills) - Analytics, feedback, rate limiting
 - `6-handoff` (14 skills) - Documentation, knowledge transfer
 - `7-maintenance` (13 skills) - Updates, monitoring, incident response
-- `toolkit` (31 skills) - Cross-phase utility skills
+- `toolkit` (33 skills) - Cross-phase utility skills
 
 Read `CLAUDE.md` for the authoritative skill list organized by phase.
 
@@ -153,7 +153,7 @@ Always respond in this structure:
 **Quick start**: {single actionable sentence to get started}
 ```
 
-Only include sections that are relevant. Do not list all 298 skills. Recommend 1-3 skills maximum.
+Only include sections that are relevant. Do not list all 339 skills. Recommend 1-3 skills maximum.
 
 ## Rules
 

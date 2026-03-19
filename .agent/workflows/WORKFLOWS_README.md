@@ -185,4 +185,4 @@ The framework includes **19 specialized agents** and **39 slash commands** that 
 
 ---
 
-*riftkit — 298 Skills | 19 Agents | 44 Commands | 40 Rules | 27 Workflows | 61 Docs*
+*riftkit — 339 Skills | 19 Agents | 44 Commands | 45 Rules | 25 Workflows | 61 Docs*
