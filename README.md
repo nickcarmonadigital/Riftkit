@@ -205,7 +205,7 @@ AI: [Reviews the implementation for quality, patterns, and potential issues]
 └── .agent/
     ├── GETTING_STARTED.md     # 5-minute setup guide
     ├── install.sh             # Global installer (copies to ~/.claude/)
-    ├── skills/                # 298 skill folders (organized by phase)
+    ├── skills/                # 339 skill folders (organized by phase)
     ├── agents/                # 19 specialized AI subagents
     ├── commands/              # 44 slash commands
     ├── rules/                 # 40 coding rules (common + 6 languages)

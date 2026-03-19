@@ -13,7 +13,7 @@
 | `0-context/ai-onboarding-starter-template.md` | Single source of truth - onboards any AI to your project |
 | `0-context/master-workflow-guide.md` | This file - explains how everything works |
 
-### 27 Workflows
+### 25 Workflows
 
 | Workflow | Purpose |
 |----------|---------|

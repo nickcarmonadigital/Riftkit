@@ -470,7 +470,7 @@ riftkit/
 │   ├── install.sh
 │   ├── agents/                  (19 agents)
 │   ├── commands/                (44 commands)
-│   ├── rules/                   (39 rules)
+│   ├── rules/                   (45 rules)
 │   │   ├── common/              (9 rules)
 │   │   ├── typescript/          (5 rules)
 │   │   ├── python/              (5 rules)
