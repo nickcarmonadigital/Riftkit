@@ -470,13 +470,13 @@ riftkit/
 │   ├── install.sh
 │   ├── agents/                  (19 agents)
 │   ├── commands/                (44 commands)
-│   ├── rules/                   (45 rules)
+│   ├── rules/                   (44 rules)
 │   │   ├── common/              (9 rules)
 │   │   ├── typescript/          (5 rules)
 │   │   ├── python/              (5 rules)
 │   │   ├── golang/              (5 rules)
-│   │   ├── java/                (5 rules)
-│   │   ├── rust/                (5 rules)
+│   │   ├── java/                    (9 rules))
+│   │   ├── rust/                    (6 rules))
 │   │   └── swift/               (5 rules)
 │   ├── hooks/                   (hooks.json + scripts)
 │   ├── contexts/                (3 dynamic contexts)
@@ -513,4 +513,4 @@ riftkit/
 
 ---
 
-*riftkit — 339 Skills | 19 Agents | 44 Commands | 45 Rules | 25 Workflows | 61 Docs*
+*riftkit — 339 Skills | 19 Agents | 44 Commands | 44 Rules | 25 Workflows | 64 Docs*

@@ -1,6 +1,6 @@
 # riftkit
 
-> **339 Skills** | **19 Agents** | **44 Commands** | **45 Rules** | **60+ Docs** | **25 Workflows** | **Zero Fluff**
+> **339 Skills** | **19 Agents** | **44 Commands** | **44 Rules** | **64 Docs** | **25 Workflows** | **Zero Fluff**
 
 AI assistants write great code but lack process discipline -- they skip architecture reviews, forget security audits, and never write migration runbooks. This framework gives them structured skills, automated agents, and slash commands for every phase of development, from first brainstorm through production maintenance.
 
@@ -151,9 +151,9 @@ The blueprint library provides starter context and architecture decisions for co
 
 Full catalog: [BLUEPRINT_GUIDE.md](BLUEPRINT_GUIDE.md)
 
-### Rules (40) + Hooks (6)
+### Rules (44) + Hooks (6)
 
-Forty always-on coding rules enforce consistent style and safety across seven language tracks: common (9), TypeScript (5), Python (5), Go (5), Java (5), Rust (5), and Swift (5). Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically. Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically.
+Forty-four always-on coding rules enforce consistent style and safety across seven language tracks: common (9), TypeScript (5), Python (5), Go (5), Java (5), Rust (5), and Swift (5). Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically. Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically.
 
 ---
 
@@ -216,7 +216,7 @@ AI: [Reviews the implementation for quality, patterns, and potential issues]
     ├── schemas/               # JSON validation schemas
     ├── examples/              # 6 CLAUDE.md project templates
     ├── mcp-configs/           # MCP server integration configs
-    ├── workflows/             # 27 workflow definitions
+    ├── workflows/                # 25 workflow definitions
     └── docs/                  # 60+ reference guides + templates
 ```
 
