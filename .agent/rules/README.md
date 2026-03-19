@@ -1,6 +1,6 @@
 # Coding Rules
 
-Always-follow coding guidelines organized by language. Rules are automatically applied when working in the corresponding language context.
+45 always-follow coding guidelines organized by language. Rules are automatically applied when working in the corresponding language context.
 
 ## Structure
 
@@ -19,6 +19,8 @@ rules/
 ├── typescript/      # 5 TypeScript-specific rules
 ├── python/          # 5 Python-specific rules
 ├── golang/          # 5 Go-specific rules
+├── java/            # 9 Java-specific rules
+├── rust/            # 7 Rust-specific rules
 └── swift/           # 5 Swift-specific rules
 ```
 
@@ -53,9 +55,9 @@ Language-specific rule files reference relevant skills where appropriate. Rules 
 
 ## Adding a New Language
 
-To add support for a new language (e.g., `rust/`):
+To add support for a new language (e.g., `csharp/`):
 
-1. Create a `rules/rust/` directory
+1. Create a `rules/csharp/` directory
 2. Add files that extend the common rules:
    - `coding-style.md` — formatting tools, idioms, error handling patterns
    - `testing.md` — test framework, coverage tools, test organization

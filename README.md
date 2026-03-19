@@ -151,7 +151,7 @@ The blueprint library provides starter context and architecture decisions for co
 
 Full catalog: [BLUEPRINT_GUIDE.md](BLUEPRINT_GUIDE.md)
 
-### Rules (44) + Hooks (6)
+### Rules (45) + Hooks (6)
 
 Forty-five always-on coding rules enforce consistent style and safety across seven language tracks: common (9), TypeScript (5), Python (5), Go (5), Java (9), Rust (7), and Swift (5). Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically. Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically.
 

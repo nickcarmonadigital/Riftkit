@@ -71,17 +71,20 @@ says something that either reveals a new truth or confirms an old one.
 
 ### Why 51 Methods from 5 Domains
 
-ATOM draws from four distinct intellectual traditions:
+ATOM draws from five distinct intellectual traditions:
 
-- **AI/ML Research (~35%)**: 15 methods from peer-reviewed papers (NeurIPS, ICML, ICLR,
+- **AI/ML Research (~29%)**: 15 methods from peer-reviewed papers (NeurIPS, ICML, ICLR,
   ACL, EMNLP). These are the sharpest tools — chain-of-thought variants, self-consistency,
   multi-agent debate, reflexion, and self-play bootstrapping.
-- **Philosophical Reasoning (~23%)**: 10 methods rooted in 2,400 years of systematic
+- **Philosophical Reasoning (~20%)**: 10 methods rooted in 2,400 years of systematic
   thought — from Aristotle's first principles to Popper's falsification to Pearl's causal
   calculus. These catch the failures that pure computation misses.
-- **Engineering Frameworks (~19%)**: 8 methods drawn from systems engineering, quality
+- **Engineering Frameworks (~16%)**: 8 methods drawn from systems engineering, quality
   assurance, and industrial design — FMEA, TRIZ, Theory of Constraints, morphological
   analysis. These ensure practical completeness.
+- **Universal Operations (~16%)**: 8 methods covering supply chain, error propagation,
+  configuration entropy, data lifecycle, graceful degradation, temporal assumptions,
+  onboarding, and rollback recovery. These catch operational gaps every system has.
 - **Safety, Security & Systems Science (~23%)**: 10 methods from safety engineering
   (STAMP, Swiss Cheese), resilience engineering (Drift Into Failure), organizational theory
   (Normal Accidents), decision theory (Antifragility), complex systems (Emergent Behavior),
@@ -116,7 +119,7 @@ survive attack are not real gaps — they are artifacts of the discovery process
 
 ### Self-Improvement
 
-ATOM is not static. Loops 35-37 (Phase 7: EVOLVE) turn the protocol on itself. Reflexion
+ATOM is not static. Loops 51-53 (Phase 7: EVOLVE) turn the protocol on itself. Reflexion
 extracts lessons from the current run. CRITIC evaluates quantitative metrics. Absolute Zero
 generates adversarial challenges the protocol failed to anticipate. Each run makes the
 next run better.
@@ -127,11 +130,11 @@ The 51 methods are not applied randomly. They follow a deliberate sequence:
 
 1. AXIOMS (Loops 1-4): Establish irreducible foundations
 2. HUNT (Loops 5-30): Discover gaps using 26 diverse methods
-3. VALIDATE (Loops 23-32): Verify gaps using 10 adversarial methods
-4. SOLVE (Loops 33-38): Architect solutions
-5. SYNTHESIZE (Loops 39-41): Merge, deduplicate, report
-6. CACHE (Loop 42): Extract reusable knowledge
-7. EVOLVE (Loops 43-45): Self-improve the protocol
+3. VALIDATE (Loops 31-40): Verify gaps using 10 adversarial methods
+4. SOLVE (Loops 41-46): Architect solutions
+5. SYNTHESIZE (Loops 47-49): Merge, deduplicate, report
+6. CACHE (Loop 50): Extract reusable knowledge
+7. EVOLVE (Loops 51-53): Self-improve the protocol
 
 ---
 
