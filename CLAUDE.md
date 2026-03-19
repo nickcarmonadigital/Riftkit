@@ -63,6 +63,13 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | Set up GitOps | `5-ship/gitops_workflow` + `5-ship/ci_cd_pipeline` | Use skill directly |
 | Event streaming | `3-build/kafka_event_streaming` + `3-build/message_queue_patterns` | Use skill directly |
 | Accessibility | `3-build/accessibility_implementation` + `2-design/inclusive_design_patterns` | Use skill directly |
+| Build multi-agent system | `3-build/agent_communication_protocols` + `3-build/agent_memory_systems` | Use skill directly |
+| Manage AI agent fleet | `3-build/ai_agent_fleet_management` + `3-build/llm_provider_management` | `/fleet` |
+| Build voice AI | `3-build/voice_ai_patterns` + `3-build/websocket_patterns` | Use skill directly |
+| Quant trading | `3-build/quantitative_trading_strategies` + `3-build/ml_trading_signals` + `4-secure/backtesting_methodology` | Use skill directly |
+| Run AI red team | `4-secure/ai_red_teaming` + `4-secure/prompt_injection_hardening` | Use skill directly |
+| Deploy with NVIDIA NIM | `5-ship/nvidia_nim_deployment` + `5-ship/model_serving_deployment` | Use skill directly |
+| Quantum computing | `3-build/quantum_computing_fundamentals` + `3-build/quantum_optimization_algorithms` | Use skill directly |
 
 **Skill path pattern:** `.agent/skills/{phase}/{skill_name}/SKILL.md`
 
@@ -167,33 +174,43 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | Skill | What it does |
 |---|---|
 | `accessibility_implementation` | WCAG 2.2 implementation with ARIA and focus management |
+| `agent_communication_protocols` | Standardized protocols for agent-to-agent communication — A2A, ACP, MCP integration, message schemas, and authentication |
+| `agent_conflict_resolution` | Mutex/lock patterns for shared resources, optimistic concurrency, consensus protocols, deadlock detection, and conflict merge strategies for multi-agent systems |
+| `agent_memory_systems` | Persistent memory for AI agents — short-term, long-term, episodic, and semantic memory with Mem0, Zep, and custom stores |
+| `agent_registry_discovery` | Service registry for AI agents — capability advertisement, dynamic routing, health-aware load balancing |
 | `ai_agent_development` | AI agent building with LangChain, CrewAI, multi-agent |
+| `ai_agent_fleet_management` | Managing multiple AI agent instances across machines — provisioning, monitoring, coordination, and cost control |
 | `airflow_orchestration` | Apache Airflow DAG development and orchestration |
 | `api_design` | API endpoint design patterns |
 | `api_gateway_patterns` | API gateway patterns with Kong, AWS API Gateway |
 | `audit_logging_architecture` | Audit logging architecture design |
 | `auth_implementation` | Authentication implementation |
 | `authorization_patterns` | Authorization and RBAC/ABAC patterns |
+| `autonomous_systems` | Build autonomous vehicles and robotics using perception (cameras, LiDAR, sensor fusion), planning, control (PID, MPC), simulation (CARLA, AirSim), and safety validation with V2X |
 | `backend_patterns` | Backend architecture patterns |
 | `backward_compatibility` | Backward compatibility strategies |
 | `bug_troubleshoot` | Systematic bug diagnosis and fix |
 | `caching_strategies` | Caching with Redis, CDN, invalidation strategies |
+| `causal_inference_production` | Move beyond correlation with DoWhy, EconML, and CausalML — A/B testing beyond averages, uplift modeling, instrumental variables, regression discontinuity, and causal discovery (PC, NOTEARS) |
 | `clickhouse_io` | ClickHouse database patterns |
 | `code_changelog` | Generate changelogs from commits |
 | `code_review` | Code review checklist and process |
 | `code_review_response` | Respond to code review feedback |
 | `compliance_as_code` | Compliance as code patterns |
+| `computational_physics` | Simulate physical systems using PDE/ODE solvers, FEniCS, OpenFOAM, PyBullet, and JAX for GPU-accelerated physics including fluid dynamics, molecular dynamics, and N-body problems |
 | `computer_vision_pipeline` | CV pipelines with YOLO, Detectron2, torchvision |
 | `content_hash_cache` | Content-addressable caching |
 | `cost_estimation` | Development effort estimation |
 | `cpp_coding_standards` | C++ coding standards |
 | `dapp_development` | Decentralized application development |
 | `dashboard_development` | Dashboard and data visualization |
+| `data_mesh_architecture` | Design domain-oriented decentralized data platforms — data as a product, self-serve infrastructure, federated governance, data contracts, using Dataplex, Unity Catalog, and open standards |
 | `data_warehouse` | Data warehouse design |
 | `database_migration_patterns` | Zero-downtime schema migrations |
 | `database_optimization` | Database query and schema optimization |
 | `dependency_hygiene` | Dependency management best practices |
 | `design_system_development` | Design system components, tokens, Storybook |
+| `digital_twin_development` | Build real-time virtual replicas of physical systems using NVIDIA Omniverse, Azure Digital Twins, and AWS IoT TwinMaker — sensor integration, simulation, and predictive maintenance |
 | `distributed_training` | Distributed ML training with DDP, FSDP, DeepSpeed |
 | `django_patterns` | Django-specific patterns |
 | `docker_development` | Docker containerization |
@@ -204,47 +221,64 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `experiment_tracking` | ML experiment tracking with MLflow, W&B |
 | `extension_development` | Browser/IDE extension development |
 | `feature_flags` | Feature flag implementation |
+| `federated_learning` | Train ML models across decentralized data sources without sharing raw data — FedAvg, secure aggregation, differential privacy using PySyft, Flower, TFF, and NVIDIA FLARE |
 | `firmware_development` | Embedded/firmware development |
 | `flutter_development` | Flutter development with Riverpod/BLoC |
 | `frontend_patterns` | Frontend architecture patterns |
 | `game_development` | Game development patterns |
 | `git_workflow` | Git branching and workflow strategies |
 | `golang_patterns` | Go language patterns |
+| `graphql_patterns` | GraphQL API design, schema-first development, resolvers, federation, and performance optimization |
 | `helm_chart_development` | Helm chart creation and templating |
+| `hft_infrastructure` | Build ultra-low-latency trading systems using kernel bypass (DPDK), lock-free data structures, FPGA order routing, co-location strategies, and tick-to-trade measurement |
 | `i18n_implementation` | Internationalization implementation |
 | `internal_developer_portal` | Internal developer portal with Backstage |
 | `iot_platform` | IoT platform development |
 | `java_coding_standards` | Java coding standards |
 | `jpa_patterns` | JPA/Hibernate patterns |
 | `kafka_event_streaming` | Apache Kafka event streaming pipelines |
+| `knowledge_graph_patterns` | Graph database design, ontology modeling (RDF/OWL), GraphRAG retrieval, and graph-enhanced LLM pipelines using Neo4j, Neptune, and ArangoDB |
 | `kubernetes_operations` | Kubernetes workload management and operations |
 | `liquid_glass_design` | Apple Liquid Glass UI design |
+| `llm_provider_management` | Managing multiple LLM providers — routing, failover, cost optimization, rate limiting, and model selection |
 | `log_aggregation_pipeline` | Log aggregation with ELK, Loki, structured logging |
 | `lora_finetuning_workflow` | LoRA/QLoRA fine-tuning workflows |
 | `message_queue_patterns` | Message queue patterns with RabbitMQ, SQS, NATS |
 | `ml_pipeline` | Machine learning pipeline development |
+| `ml_trading_signals` | Feature engineering for financial data, time series models (LSTM, Transformer, N-BEATS), reinforcement learning for portfolio management (PPO, SAC), alternative data integration, regime detection, ML-based risk models |
 | `monorepo_tooling` | Monorepo management with Nx, Turborepo, Bazel |
 | `multi_stack_observability` | Multi-stack observability patterns |
 | `multiplayer_systems` | Real-time multiplayer systems |
+| `nemo_data_curation` | NeMo Curator for training data filtering, deduplication, quality scoring, PII removal, language classification, and dataset preparation pipelines |
+| `nemo_guardrails` | Colang 2.0 rail definitions, topical rails, fact-checking, jailbreak detection, LangChain/LlamaIndex integration, custom actions, and guardrail testing |
+| `nl_to_structured_output` | Convert natural language to structured outputs including SQL, code, and validated JSON using constrained generation, schema-aware prompting, and AST validation |
 | `nlp_text_pipeline` | NLP text pipelines with spaCy, Transformers |
 | `notification_systems` | Notification system design |
 | `observability` | Logging, metrics, and tracing |
 | `opentelemetry_implementation` | OpenTelemetry implementation |
+| `portfolio_risk_management` | Portfolio construction and risk management using Modern Portfolio Theory, Black-Litterman, risk parity, VaR/CVaR, Kelly criterion sizing, and stress testing |
 | `privacy_by_design` | Privacy-first development |
 | `progressive_web_app` | Progressive web app with service workers |
 | `prompt_engineering` | LLM prompt engineering |
+| `prompt_ops` | DevOps for prompts — versioning, testing pipelines, A/B comparison, performance metrics, review workflows, template engines, registries, and rollback procedures |
 | `python_patterns` | Python-specific patterns |
+| `quantitative_trading_strategies` | Factor models (Fama-French, momentum, mean reversion), statistical arbitrage, pairs trading, alpha research methodology, signal combination, transaction cost modeling, slippage estimation |
+| `quantum_computing_fundamentals` | Build and simulate quantum circuits using Qiskit, Cirq, and PennyLane — covers qubit types, gates, measurement, and key algorithms (Grover, Shor, VQE, QAOA) on simulators and real hardware |
+| `quantum_machine_learning` | Build hybrid quantum-classical ML models using variational circuits, quantum kernels, and NISQ-compatible architectures with PennyLane and PyTorch |
+| `quantum_optimization_algorithms` | Implement QAOA, VQE, and quantum annealing for combinatorial and continuous optimization — QUBO formulation, D-Wave hybrid solvers, and quantum-vs-classical benchmarking |
 | `rag_advanced_patterns` | Advanced RAG: re-ranking, hybrid search, CRAG |
 | `react_native_patterns` | React Native cross-platform development |
 | `refactoring` | Code refactoring techniques |
 | `regex_vs_llm` | When to use regex vs LLM |
 | `resiliency_patterns` | Circuit breaker, retry, bulkhead |
 | `retrospective` | Sprint retrospective facilitation |
+| `robotics_ros2` | Build robotic systems with ROS 2 — node architecture, Nav2 navigation, MoveIt manipulation, SLAM, sensor fusion, Gazebo/Isaac Sim simulation, and real-time control with ISO 13849 safety |
 | `runtime_security_monitoring` | Runtime security monitoring |
 | `secret_management` | Secrets and credential management |
 | `service_mesh_patterns` | Service mesh with Istio/Linkerd |
 | `smart_contract_dev` | Smart contract development |
 | `spark_data_processing` | Apache Spark data processing and Delta Lake |
+| `spatial_computing` | Build AR/VR/MR experiences with ARKit, ARCore, WebXR, and visionOS — spatial anchors, hand/eye tracking, multi-user shared spaces, and 3D asset pipelines in Unity and Unreal |
 | `spec_build` | Master build loop: spec to implementation |
 | `springboot_patterns` | Spring Boot patterns |
 | `sprint_planning` | Sprint planning and estimation |
@@ -258,20 +292,28 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `trading_systems` | Trading system development |
 | `ui_polish` | UI polish and micro-interactions |
 | `vector_database_operations` | Vector DB operations with pgvector, Pinecone, Qdrant |
+| `voice_ai_patterns` | Voice AI development — STT, TTS, real-time audio streaming, barge-in detection, and conversational AI |
 | `website_build` | Full website build workflow |
+| `websocket_patterns` | WebSocket implementation, real-time communication, Socket.IO, SSE, and pub/sub patterns |
+| `zero_knowledge_applications` | Build ZK-SNARK and ZK-STARK applications using Circom, Noir, and SP1 for identity verification, private voting, ZK-rollups, and proof generation optimization |
 
 ## Phase 4 -- Secure (47 skills)
 
 | Skill | What it does |
 |---|---|
 | `accessibility_testing` | Accessibility compliance testing |
+| `agent_evaluation_framework` | Task completion metrics, tool call accuracy, multi-step trajectory eval, cost-per-task analysis, regression testing, A/B testing configs, and benchmarks (AgentBench, SWE-bench) |
+| `ai_red_teaming` | Systematic adversarial testing of AI systems using MITRE ATLAS, automated tools (Garak, PyRIT, ART), prompt injection campaigns, jailbreak taxonomies, and remediation reporting |
 | `ai_safety_guardrails` | AI safety: content filtering, prompt injection defense |
 | `api_security_testing` | API security testing |
+| `backtesting_methodology` | Rigorous backtesting with walk-forward optimization, Monte Carlo simulation, out-of-sample testing, bias detection (lookahead, survivorship, selection), performance metrics (Sharpe, Sortino, Calmar, max drawdown), statistical significance |
 | `build_reproducibility_testing` | Build reproducibility testing |
 | `chaos_engineering` | Chaos experiments and resilience testing |
 | `compliance_testing_framework` | Compliance test automation |
+| `confidential_computing` | Protect data in use with TEEs (Intel SGX, AMD SEV, ARM TrustZone), remote attestation, Confidential VMs, Gramine, and EGo for secure enclave development |
 | `container_security` | Container and Kubernetes security |
 | `cpp_testing` | C++ testing patterns |
+| `dast_scanning` | Dynamic Application Security Testing — runtime vulnerability scanning with OWASP ZAP, Burp Suite, and Nuclei |
 | `django_security` | Django security hardening |
 | `django_tdd` | Django TDD workflow |
 | `django_verification` | Django verification checklist |
@@ -280,6 +322,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `financial_compliance` | Financial regulation compliance |
 | `golang_testing` | Go testing patterns |
 | `hipaa_compliance_testing` | HIPAA compliance testing |
+| `homomorphic_encryption` | Implement fully homomorphic encryption using TFHE, BFV, CKKS schemes with Microsoft SEAL, concrete-ml, and Zama for encrypted inference, private set intersection, and secure computation |
 | `infrastructure_testing` | IaC testing with Terratest, Checkov, tfsec |
 | `integration_testing` | Integration test strategies |
 | `ip_protection` | Intellectual property protection |
@@ -290,6 +333,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `pci_dss_compliance_testing` | PCI-DSS compliance testing |
 | `performance_testing` | Load and performance testing |
 | `privacy_by_design_testing` | Privacy compliance testing |
+| `prompt_injection_hardening` | Production defense-in-depth against prompt injection — input sanitization, output filtering, instruction hierarchy, canary tokens, sandwich defense, system prompt isolation, indirect injection via tools, and detection pipelines |
 | `python_testing` | Python testing patterns |
 | `rlhf_alignment` | RLHF, DPO, ORPO alignment methods |
 | `sast_scanning` | Static application security testing |
@@ -319,6 +363,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `deployment_patterns` | Blue-green, rolling, canary patterns |
 | `deployment_verification` | Post-deployment verification |
 | `desktop_publishing` | Desktop app publishing |
+| `edge_ai_deployment` | Deploy optimized ML models to edge devices using quantization, pruning, distillation, ONNX Runtime, TFLite, and edge orchestration platforms |
 | `game_publishing` | Game store publishing |
 | `gitops_workflow` | GitOps with ArgoCD/Flux |
 | `infrastructure_as_code` | IaC with Terraform/Pulumi |
@@ -328,6 +373,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `model_registry_management` | Model versioning, staging, promotion |
 | `model_serving_deployment` | Model serving with vLLM, TGI, Triton |
 | `multi_stack_deployment` | Multi-stack deployment patterns |
+| `nvidia_nim_deployment` | Deploy pre-built optimized inference containers for LLMs, vision, and embeddings using NVIDIA NIM with TensorRT-LLM optimization, GPU allocation, and Kubernetes scaling |
 | `oss_publishing` | Open source publishing |
 | `release_signing` | Release artifact signing |
 | `seed_data` | Seed data management |
@@ -410,6 +456,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `age` | ATOM (Axiomatic Thinking for Omnidirectional Meta-analysis) — 53-loop, 51-method universal discovery engine |
 | `age_to_skill_pipeline` | Convert ATOM gap findings to framework skills |
 | `ai_cost_optimization` | AI infrastructure cost management and optimization |
+| `ai_model_governance` | Model cards, registry governance, approval workflows, bias auditing, drift monitoring, EU AI Act risk tiers, deprecation lifecycle, and audit trails |
 | `ai_security_hardening` | AI/LLM security hardening |
 | `ai_tool_orchestration` | Multi-AI tool orchestration |
 | `ceo-brain` | CEO-level strategic thinking |
@@ -427,6 +474,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `iso_27001_implementation` | ISO 27001 implementation |
 | `iterative_retrieval` | Iterative retrieval patterns |
 | `observability_maturity_model` | Observability maturity assessment |
+| `openclaw_platform_patterns` | Architecture conventions for the OpenClaw AI agent platform — agent schemas, provider plugins, channel adapters, Riftkit-to-OpenClaw deployment, and fleet management with PM2/Ansible |
 | `personal_brand` | Personal brand building |
 | `phase_gate_contracts` | Phase gate contract definitions |
 | `progressive_rollout_playbook` | Progressive rollout strategies |

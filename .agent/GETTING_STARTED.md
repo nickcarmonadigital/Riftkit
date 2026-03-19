@@ -71,7 +71,7 @@ Invoke agents and workflows from Claude Code:
 └── ... (44 total)
 ```
 
-### Rules (39 Coding Guidelines)
+### Rules (45 Coding Guidelines)
 
 Always-follow rules organized by language:
 
@@ -163,6 +163,30 @@ Use the project_context skill pattern to help me continue."
 | Database changes | `db_migrations`, `database_optimization` |
 | After building | `feature_walkthrough`, `api_reference` |
 | Improving code | `refactoring`, `observability` |
+
+### For AI Agent Developers
+
+| When... | Use... |
+|---------|--------|
+| Building an agent | `ai_agent_development`, `agent_memory_systems` |
+| Multi-agent systems | `agent_communication_protocols`, `agent_conflict_resolution` |
+| Managing agent fleet | `ai_agent_fleet_management`, `llm_provider_management` |
+| Voice AI | `voice_ai_patterns`, `websocket_patterns` |
+| Agent security | `ai_red_teaming`, `prompt_injection_hardening`, `nemo_guardrails` |
+| Agent evaluation | `agent_evaluation_framework` |
+| OpenClaw platform | `openclaw_platform_patterns` |
+| Prompt management | `prompt_ops`, `prompt_engineering` |
+| NVIDIA deployment | `nvidia_nim_deployment`, `edge_ai_deployment` |
+
+### For Quant / Trading Developers
+
+| When... | Use... |
+|---------|--------|
+| Strategy research | `quantitative_trading_strategies` |
+| ML signals | `ml_trading_signals` |
+| Validating strategy | `backtesting_methodology` |
+| Risk management | `portfolio_risk_management` |
+| HFT infrastructure | `hft_infrastructure` |
 
 ### For Solo Developers
 

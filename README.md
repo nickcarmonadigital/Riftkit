@@ -77,7 +77,7 @@ Full phase-by-phase reference with every skill mapped to its phase: [MASTER-LIFE
 
 ## What's Inside
 
-### Skills (298)
+### Skills (339)
 
 The skill library covers the entire development lifecycle. Each skill is a self-contained Markdown file with trigger commands, step-by-step process, and a completion checklist.
 
@@ -86,13 +86,13 @@ The skill library covers the entire development lifecycle. Each skill is a self-
 | **Context (23)** | `new_project`, `project_context`, `codebase_navigation`, `architecture_recovery` |
 | **Brainstorm (14)** | `idea_to_spec`, `client_discovery`, `proposal_generator`, `competitive_analysis` |
 | **Design (24)** | `atomic_reverse_architecture`, `feature_architecture`, `deployment_modes`, `schema_standards` |
-| **Build (93)** | `spec_build`, `code_review`, `ui_polish`, `observability`, `api_design`, `docker_development` |
-| **Secure (40)** | `security_audit`, `e2e_testing`, `unit_testing`, `performance_testing`, `tdd_workflow` |
-| **Ship (23)** | `infrastructure_as_code`, `db_migrations`, `ci_cd_pipeline`, `legal_compliance` |
+| **Build (123)** | `spec_build`, `code_review`, `ai_agent_development`, `agent_communication_protocols`, `agent_memory_systems`, `voice_ai_patterns`, `graphql_patterns`, `websocket_patterns`, `nemo_guardrails`, `quantum_computing_fundamentals`, `quantitative_trading_strategies` |
+| **Secure (47)** | `security_audit`, `e2e_testing`, `ai_red_teaming`, `prompt_injection_hardening`, `agent_evaluation_framework`, `backtesting_methodology`, `dast_scanning`, `confidential_computing`, `homomorphic_encryption` |
+| **Ship (25)** | `infrastructure_as_code`, `ci_cd_pipeline`, `nvidia_nim_deployment`, `edge_ai_deployment`, `db_migrations` |
 | **Alpha (10) / Beta (13)** | `error_tracking`, `health_checks`, `qa_playbook`, `product_analytics`, `feedback_system` |
 | **Handoff (14)** | `feature_walkthrough`, `api_reference`, `user_documentation`, `disaster_recovery` |
 | **Maintenance (13)** | `ssot_update`, `documentation_standards`, `dependency_management`, `continuous_learning` |
-| **Toolkit (31)** | `content_waterfall`, `personal_brand`, `ceo_brain`, `ai_tool_orchestration`, `strategic_compact` |
+| **Toolkit (33)** | `age` (ATOM v3), `openclaw_platform_patterns`, `ai_model_governance`, `content_waterfall`, `personal_brand`, `ceo-brain`, `strategic_compact` |
 
 ### Agents (19)
 
