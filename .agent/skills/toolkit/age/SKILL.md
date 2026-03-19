@@ -190,6 +190,32 @@ The 51 methods are not applied randomly. They follow a deliberate sequence:
 | 34 | Self-Consistency Decoding | Wang et al. (ICLR 2023), arXiv:2203.11171 | Sample multiple interpretations, majority vote for consensus |
 | 35 | CRITIC Tool-Interactive | Gou et al. (2023), arXiv:2305.11738 | External tool validation — verify claims against real data |
 
+### Tier 4 — Safety, Security & Systems Science (10)
+
+| # | Method | Source | What It Does |
+|---|--------|--------|--------------|
+| 36 | STAMP/STPA | Leveson (MIT), "Engineering a Safer World" (2011); NASA, FAA, JAXA | Maps control hierarchies, finds unsafe control actions FMEA misses |
+| 37 | Swiss Cheese Model | Reason, "Human Error" (1990), "Managing Organizational Accidents" (1997) | Models defense layer holes and their temporal alignment probability |
+| 38 | Drift Into Failure | Dekker, "Drift into Failure" (2011) | Detects incremental boundary migration under normal operational pressure |
+| 39 | Normal Accidents Theory | Perrow, "Normal Accidents" (1984) | Identifies architecturally inevitable failures in tightly coupled + complex systems |
+| 40 | Antifragility Analysis | Taleb, "Antifragile" (2012) | Classifies components as fragile/robust/antifragile, finds hidden downside exposure |
+| 41 | Emergent Behavior Detection | Holland, "Emergence" (1998); Bar-Yam, "Dynamics of Complex Systems" (1997) | Deep analysis of feedback loops, non-linear amplification, scale-dependent emergence |
+| 42 | STRIDE + Attack Trees | Howard & Lipner (Microsoft 2006); Schneier, "Attack Trees" (1999) | Systematic threat enumeration across 6 categories at every trust boundary |
+| 43 | Cognitive Bias Audit | Kahneman, "Thinking, Fast and Slow" (2011); Tversky & Kahneman (1974) | Audits design decisions for systematic cognitive biases that produce hidden gaps |
+
+### Tier 5 — Universal Operations (8)
+
+| # | Method | Source | What It Does |
+|---|--------|--------|--------------|
+| 44 | Dependency Supply Chain Audit | SLSA Framework (Google), OpenSSF Scorecard, xz-utils/Log4Shell post-mortems | Maps dependency tree, finds abandonment risk, compromise vectors, license conflicts |
+| 45 | Error Propagation & Recovery | Resilience Engineering; Allspaw, "Fault Injection in Production" (2012) | Traces errors from origin to user, finds swallowed errors and missing recovery paths |
+| 46 | Configuration Entropy Analysis | Xu et al. (SOSP 2013); Yin et al. (SOSP 2011) | Enumerates config surface, finds untested combos and unsafe defaults |
+| 47 | Data Lifecycle & Retention | GDPR Art. 5(1)(e); NIST SP 800-188; CCPA §1798.105 | Maps data flows, finds PII in logs, unbounded growth, missing retention policies |
+| 48 | Graceful Degradation Mapping | Netflix Hystrix; Nygard, "Release It!" (2007, 2018) | Maps fallbacks, circuit breakers, and all-or-nothing failure modes |
+| 49 | Time & Temporal Assumption Audit | Zaitsev, "Falsehoods About Time"; Lamport (1978) | Finds clock assumptions, timezone bugs, DST issues, race conditions |
+| 50 | Onboarding & First-Run Audit | Nielsen, "Usability Engineering" (1993); Cognitive Walkthrough | Simulates first-time use, finds missing prerequisites and cryptic errors |
+| 51 | Rollback & Recovery Completeness | Allspaw, "Web Operations" (2010); Google SRE Book Ch. 8 | Checks deploy reversibility, irreversible migrations, recovery time |
+
 ---
 
 ## Architecture Overview
