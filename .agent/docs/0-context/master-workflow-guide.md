@@ -52,7 +52,7 @@ Specialized AI agents that automate development tasks. Each has an optimal model
 
 See `.agent/agents/README.md` for full details.
 
-### 39 Slash Commands
+### 44 Slash Commands
 
 Commands for Claude Code automation — planning, testing, reviewing, learning, and multi-agent orchestration.
 
@@ -60,7 +60,7 @@ Commands for Claude Code automation — planning, testing, reviewing, learning, 
 
 See `.agent/commands/README.md` for the complete list.
 
-### 39 Coding Rules
+### 45 Coding Rules
 
 Always-follow guidelines organized by language:
 - **Common** (9): coding-style, git-workflow, testing, performance, patterns, hooks, agents, security, development-workflow
@@ -319,9 +319,9 @@ For games, replace "Frontend Pages" with:
 your-project/
 └── .agent/
     ├── install.sh             ← Global installer (copies to ~/.claude/)
-    ├── agents/                ← 13 specialized AI subagents
-    ├── commands/              ← 32 slash commands
-    ├── rules/                 ← 25 coding rules (common + 4 languages)
+    ├── agents/                ← 19 specialized AI subagents
+    ├── commands/              ← 44 slash commands
+    ├── rules/                 ← 45 coding rules (common + 6 languages)
     ├── hooks/                 ← Event-driven automations
     ├── contexts/              ← Dynamic system prompts (dev/review/research)
     ├── scripts/               ← Node.js utilities (hooks, CI, lib)
@@ -338,16 +338,16 @@ your-project/
     │   ├── 6-handoff/             ← Manuals & Handbooks
     │   └── toolkit/               ← Protocols + Token Optimization
     ├── skills/
-    │   ├── 0-context/             ← Project setup & context (7)
-    │   ├── 1-brainstorm/          ← Requirements & Planning (9)
-    │   ├── 2-design/              ← Architecture & Schemas (4)
-    │   ├── 3-build/               ← Construction & Code (50)
-    │   ├── 4-secure/              ← Verification & Security (21)
-    │   ├── 5-ship/                ← Delivery (11)
-    │   ├── 6-handoff/             ← Final Docs (6)
-    │   ├── 7-maintenance/         ← Updates & Standards (6)
-    │   └── toolkit/               ← Content, Growth & Optimization (9)
-    └── workflows/             ← 18 workflow definitions
+    │   ├── 0-context/         <- Project setup & context (23)
+    │   ├── 1-brainstorm/      <- Requirements & Planning (14)
+    │   ├── 2-design/          <- Architecture & Schemas (24)
+    │   ├── 3-build/           <- Construction & Code (123)
+    │   ├── 4-secure/          <- Verification & Security (47)
+    │   ├── 5-ship/            <- Delivery (25)
+    │   ├── 6-handoff/         <- Final Docs (14)
+    │   ├── 7-maintenance/     <- Updates & Standards (13)
+    │   └── toolkit/           <- Cross-cutting tools (33)
+    └── workflows/             ← 25 workflow definitions
 ```
 
 ---

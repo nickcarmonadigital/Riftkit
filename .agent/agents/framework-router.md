@@ -48,7 +48,7 @@ Located at `.agent/skills/{phase}/{skill}/SKILL.md` across 11 phase directories:
 - `2-design` (24 skills) - Architecture, API contracts, schemas
 - `3-build` (123 skills) - Implementation, patterns, debugging
 - `4-secure` (47 skills) - Security, testing, compliance
-- `5-ship` (23 skills) - CI/CD, deployment, release
+- ``5-ship` (25 skills)) - CI/CD, deployment, release
 - `5.5-alpha` (10 skills) - Error tracking, health checks, QA
 - `5.75-beta` (13 skills) - Analytics, feedback, rate limiting
 - `6-handoff` (14 skills) - Documentation, knowledge transfer
@@ -79,7 +79,7 @@ Located at `.agent/agents/*.md`:
 - `ship-agent` - Deployment and shipping operations
 - `sre-agent` - SRE practices and reliability engineering
 
-### Commands (39 total)
+### Commands (44 total)
 Located at `.agent/commands/*.md`. Key commands:
 - `/build-fix` - Fix build errors
 - `/code-review` - Run code review

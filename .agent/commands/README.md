@@ -1,6 +1,6 @@
 # Slash Commands
 
-32 slash commands for Claude Code automation. Commands are the primary interface for invoking agents, workflows, and development tools.
+44 slash commands for Claude Code automation. Commands are the primary interface for invoking agents, workflows, and development tools.
 
 ## Usage
 

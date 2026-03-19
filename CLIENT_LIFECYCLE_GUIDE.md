@@ -6,7 +6,7 @@ This guide is for freelancers, agencies, and consultancies. Client projects have
 approval gates, and handoff requirements that change how you use the framework. Where internal
 projects can iterate indefinitely, client work demands a clear sequence of deliverables — each
 one signed off before the next stage begins. The six stages below map every relevant command,
-agent, and skill (339 Skills | 19 Agents | 44 Commands | 44 Rules | 64 Docs | 25 Workflows)
+agent, and skill (339 Skills | 19 Agents | 44 Commands | 45 Rules | 64 Docs | 25 Workflows)
 to the specific artifacts your client expects at each gate. Every stage ends with a concrete
 deliverable. Miss one, and you create ambiguity about what was agreed, what was delivered, and
 what happens next.

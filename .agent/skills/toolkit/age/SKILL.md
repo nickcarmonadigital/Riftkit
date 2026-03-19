@@ -69,7 +69,7 @@ They confirm their own hypotheses. They build elaborate structures on unverified
 foundations. Ralph Wiggum does none of this. He walks into the room fresh every time and
 says something that either reveals a new truth or confirms an old one.
 
-### Why 43 Methods from 4 Domains
+### Why 51 Methods from 5 Domains
 
 ATOM draws from four distinct intellectual traditions:
 
@@ -193,16 +193,16 @@ The 51 methods are not applied randomly. They follow a deliberate sequence:
 
 ```
 ============================================================================
-  ATOM PROTOCOL — 37 Loops, 7 Phases, 35 Methods
+  ATOM PROTOCOL — 53 Loops, 7 Phases, 51 Methods
 ============================================================================
 
   PHASE 1: AXIOMS     (Loops 1-4)    -- First Principles Foundation
-  PHASE 2: HUNT       (Loops 5-16)   -- Multi-Method Gap Discovery
-  PHASE 3: VALIDATE   (Loops 17-24)  -- Adversarial Verification
-  PHASE 4: SOLVE      (Loops 25-30)  -- Solution Architecture
-  PHASE 5: SYNTHESIZE (Loops 31-33)  -- Merge, Deduplicate, Report
-  PHASE 6: CACHE      (Loop 34)      -- Knowledge Extraction
-  PHASE 7: EVOLVE     (Loops 35-37)  -- Self-Improvement
+  PHASE 2: HUNT       (Loops 5-30)   -- Multi-Method Gap Discovery
+  PHASE 3: VALIDATE   (Loops 31-40)  -- Adversarial Verification
+  PHASE 4: SOLVE      (Loops 41-46)  -- Solution Architecture
+  PHASE 5: SYNTHESIZE (Loops 47-49)  -- Merge, Deduplicate, Report
+  PHASE 6: CACHE      (Loop 50)      -- Knowledge Extraction
+  PHASE 7: EVOLVE     (Loops 51-53)  -- Self-Improvement
 
 ============================================================================
 
@@ -2106,9 +2106,9 @@ Bayesian probabilities, or causal DAGs in the gap output. Use simple severity la
 (Critical/High/Medium/Low) and the structured format defined in the "Gap Report Format"
 section of this protocol.
 
-7. COVERAGE REPORT: MAP-Elites grid from Loop 32.
+7. COVERAGE REPORT: MAP-Elites grid from Loop 48.
 
-8. DEPENDENCY MAP: Critical path from Loop 30.
+8. DEPENDENCY MAP: Critical path from Loop 46.
 
 9. EPISTEMIC HUMILITY: Known unknowns and unexplored areas.
 

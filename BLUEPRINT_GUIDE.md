@@ -1,6 +1,6 @@
 # Blueprint Library Guide
 
-> **339 Skills | 19 Agents | 44 Commands | 44 Rules | 64 Docs | 25 Workflows**
+> **339 Skills | 19 Agents | 44 Commands | 45 Rules | 64 Docs | 25 Workflows**
 
 Every project type has different needs. A trading bot demands financial compliance from day one; a mobile game cares deeply about frame rates and store submission but will never think about GDPR cookie banners. Blueprints give you a head start by encoding those domain differences into ready-made starter templates so your AI assistant understands the terrain before writing a single line of code.
 

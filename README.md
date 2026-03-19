@@ -1,6 +1,6 @@
 # riftkit
 
-> **339 Skills** | **19 Agents** | **44 Commands** | **44 Rules** | **64 Docs** | **25 Workflows** | **Zero Fluff**
+> **339 Skills** | **19 Agents** | **44 Commands** | **45 Rules** | **64 Docs** | **25 Workflows** | **Zero Fluff**
 
 AI assistants write great code but lack process discipline -- they skip architecture reviews, forget security audits, and never write migration runbooks. This framework gives them structured skills, automated agents, and slash commands for every phase of development, from first brainstorm through production maintenance.
 
@@ -153,7 +153,7 @@ Full catalog: [BLUEPRINT_GUIDE.md](BLUEPRINT_GUIDE.md)
 
 ### Rules (44) + Hooks (6)
 
-Forty-four always-on coding rules enforce consistent style and safety across seven language tracks: common (9), TypeScript (5), Python (5), Go (5), Java (5), Rust (5), and Swift (5). Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically. Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically.
+Forty-five always-on coding rules enforce consistent style and safety across seven language tracks: common (9), TypeScript (5), Python (5), Go (5), Java (9), Rust (7), and Swift (5). Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically. Six event-driven hooks handle session lifecycle, post-edit formatting, type-checking, and console.log detection automatically.
 
 ---
 
@@ -208,7 +208,7 @@ AI: [Reviews the implementation for quality, patterns, and potential issues]
     ├── skills/                # 339 skill folders (organized by phase)
     ├── agents/                # 19 specialized AI subagents
     ├── commands/              # 44 slash commands
-    ├── rules/                 # 40 coding rules (common + 6 languages)
+    ├── rules/                 # 45 coding rules (common + 6 languages)
     ├── hooks/                 # Event-driven automations
     ├── blueprints/            # 50+ project type starter templates
     ├── contexts/              # Dynamic system prompts (dev/review/research)
