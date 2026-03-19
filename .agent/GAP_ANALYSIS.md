@@ -1,7 +1,7 @@
 # Riftkit Domain Gap Analysis
 
 **Date**: 2026-03-18
-**Current Skills**: 304 (298 indexed + 6 unindexed)
+**Current Skills**: 339
 **Analyst**: Claude Code gap analysis against user priority domains
 
 ---
@@ -16,7 +16,7 @@
 - `graphql_patterns` (3-build)
 - `dast_scanning` (4-secure)
 
-These should be added to the index. Actual skill count is **304**.
+These should be added to the index. Actual skill count is **339**.
 
 ---
 

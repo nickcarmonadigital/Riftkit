@@ -104,7 +104,7 @@ loop builds on — and challenges — these axioms.
 ### Multi-Method as Insurance
 
 The protocol is deliberately redundant. If method A misses a gap, methods B through Z will
-catch it. If a gap survives all 35 methods, it is real. If it does not survive, it was
+catch it. If a gap survives all 51 methods, it is real. If it does not survive, it was
 noise. This is not efficiency — it is thoroughness weaponized.
 
 ### Adversarial Verification
@@ -123,7 +123,7 @@ next run better.
 
 ### Method Composition
 
-The 35 methods are not applied randomly. They follow a deliberate sequence:
+The 51 methods are not applied randomly. They follow a deliberate sequence:
 
 1. AXIOMS (Loops 1-4): Establish irreducible foundations
 2. HUNT (Loops 5-30): Discover gaps using 26 diverse methods
@@ -2255,7 +2255,7 @@ Self-play bootstrapping. The protocol generates adversarial challenges for itsel
 
 Step 1 — GENERATE CHALLENGES: Create 5 scenarios that this ATOM run would have
 FAILED to detect:
-- "What type of gap would be invisible to ALL 35 methods?"
+- "What type of gap would be invisible to ALL 51 methods?"
 - "What assumption does the protocol itself make that could be wrong?"
 - "What if the gap log itself was corrupted or incomplete?"
 - "What if two individually-valid gaps combine to create a third, undetected gap?"
@@ -2672,7 +2672,7 @@ Before declaring an ATOM analysis complete, verify ALL of the following:
 
 ## Research Citations
 
-Brief citation list for all 35 methods:
+Brief citation list for all 51 methods:
 
 1. Zhou et al. "Self-Discover: Large Language Models Self-Compose Reasoning Structures." NeurIPS 2024. arXiv:2402.03620
 2. Zheng et al. "Take a Step Back: Evoking Reasoning via Abstraction." arXiv:2310.06117 (2023)

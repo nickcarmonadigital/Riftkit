@@ -162,7 +162,7 @@ description: What this skill does
 │   ├── 2-design/          #   24 skills
 │   ├── 3-build/           #   123 skills
 │   ├── 4-secure/          #   47 skills
-│   ├── 5-ship/            #   23 skills
+│   ├── 5-ship/            #   25 skills
 │   └── ...
 ├── agents/                # 19 specialized AI subagents
 ├── commands/              # 44 slash commands
@@ -173,7 +173,7 @@ description: What this skill does
 ├── schemas/               # JSON validation schemas
 ├── examples/              # 6 CLAUDE.md project templates
 ├── mcp-configs/           # MCP server integration configs
-├── workflows/             # 27 workflow definitions
+├── workflows/             # 25 workflow definitions
 └── docs/                  # 70+ reference guides + templates
 ```
 
