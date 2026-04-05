@@ -140,6 +140,14 @@
 | SLO SLA design, error budget planning, service level design | 2 | slo_sla_design | — |
 | security threat model, threat modeling, identify security threats | 2 | security_threat_modeling | — |
 | STRIDE analysis, attack surface, threat assessment | 2 | security_threat_modeling | — |
+| improve microcopy, fix button labels, write error messages, ux writing | 2 | ux_writing_microcopy | — |
+| fix empty states, tooltip text, loading copy, tone of voice | 2 | ux_writing_microcopy | — |
+| design user flows, create sitemap, information architecture, card sorting | 2 | user_flows_information_architecture | — |
+| plan navigation, IA audit, content hierarchy, labeling system | 2 | user_flows_information_architecture | — |
+| fix navigation, improve search, add autocomplete, filtering UX | 2 | navigation_search_ux | — |
+| breadcrumbs, wayfinding, pagination vs infinite scroll, search patterns | 2 | navigation_search_ux | — |
+| premium web design, halo effect, cognitive load, make it feel premium | 2 | premium_web_design_psychology | — |
+| visual hierarchy, typography mastery, spacing system, color theory | 2 | visual_hierarchy_mastery | — |
 
 ## Phase 3 — Build
 
@@ -327,6 +335,20 @@
 | vector index, HNSW, hybrid search vectors, Qdrant Weaviate | 3 | vector_database_operations | — |
 | build website, create website, website development | 3 | website_build | — |
 | static site, landing page, web app | 3 | website_build | — |
+| design onboarding, first-run experience, activation funnel, aha moment | 3 | onboarding_activation_ux | — |
+| product tour, progressive disclosure, onboarding checklist, time to value | 3 | onboarding_activation_ux | — |
+| fix form UX, form validation, multi-step form, mobile forms | 3 | form_ux_mastery | — |
+| smart defaults, autofill, accessible forms, form conversion | 3 | form_ux_mastery | — |
+| improve conversion, CTA design, trust signals, reduce friction | 3 | conversion_engagement_ux | — |
+| pricing page UX, social proof, retention loops, ethical persuasion | 3 | conversion_engagement_ux | — |
+| AI chat UX, conversational UI, streaming responses, agent flows | 3 | ai_conversational_ux | — |
+| tool approval UX, AI transparency, AI error handling, chat interface | 3 | ai_conversational_ux | — |
+| design first workflow, stitch to code, AI design workflow | 3 | design_first_ai_workflow | — |
+| shadcn stack, vercel AI SDK, AI elements, v0 prototyping | 3 | shadcn_vercel_ai_stack | — |
+| pick UI library, component library selector, choose CSS framework | 3 | ui_ux_library_selector | — |
+| design system map, figma kits, component ecosystem, mobile frameworks | 3 | ui_ux_component_ecosystem | — |
+| enhance UI visuals, UI audit, visual polish | 3 | — | ui-enhance |
+| enhance UX behavior, UX audit, user experience review | 3 | — | ux-enhance |
 
 ## Phase 4 — Secure
 

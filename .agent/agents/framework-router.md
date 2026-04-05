@@ -41,7 +41,7 @@ Use glob patterns to check quickly:
 
 ## Framework Inventory
 
-### Skills (339 total)
+### Skills (352 total)
 Located at `.agent/skills/{phase}/{skill}/SKILL.md` across 11 phase directories:
 - `0-context` (23 skills) - Project understanding, audits, setup
 - `1-brainstorm` (14 skills) - Ideas, specs, PRDs, research
@@ -79,7 +79,7 @@ Located at `.agent/agents/*.md`:
 - `ship-agent` - Deployment and shipping operations
 - `sre-agent` - SRE practices and reliability engineering
 
-### Commands (44 total)
+### Commands (46 total)
 Located at `.agent/commands/*.md`. Key commands:
 - `/build-fix` - Fix build errors
 - `/code-review` - Run code review
@@ -153,7 +153,7 @@ Always respond in this structure:
 **Quick start**: {single actionable sentence to get started}
 ```
 
-Only include sections that are relevant. Do not list all 339 skills. Recommend 1-3 skills maximum.
+Only include sections that are relevant. Do not list all 352 skills. Recommend 1-3 skills maximum.
 
 ## Rules
 

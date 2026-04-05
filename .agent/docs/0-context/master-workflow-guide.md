@@ -52,7 +52,7 @@ Specialized AI agents that automate development tasks. Each has an optimal model
 
 See `.agent/agents/README.md` for full details.
 
-### 44 Slash Commands
+### 46 Slash Commands
 
 Commands for Claude Code automation — planning, testing, reviewing, learning, and multi-agent orchestration.
 
@@ -74,7 +74,7 @@ Event-driven automations: session lifecycle management, post-edit formatting/typ
 
 See `.agent/hooks/README.md` for details.
 
-### 339 Skills
+### 352 Skills
 
 | Category | Skills |
 |----------|--------|
@@ -320,7 +320,7 @@ your-project/
 └── .agent/
     ├── install.sh             ← Global installer (copies to ~/.claude/)
     ├── agents/                ← 19 specialized AI subagents
-    ├── commands/              ← 44 slash commands
+    ├── commands/              ← 46 slash commands
     ├── rules/                 ← 45 coding rules (common + 6 languages)
     ├── hooks/                 ← Event-driven automations
     ├── contexts/              ← Dynamic system prompts (dev/review/research)

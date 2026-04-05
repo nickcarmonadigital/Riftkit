@@ -1,14 +1,14 @@
 # Skills Guide
 
-**339 skills** across 11 phases covering the complete software development lifecycle plus cross-cutting domains.
+**352 skills** across 11 phases covering the complete software development lifecycle plus cross-cutting domains.
 
 ## Lifecycle Flow
 
 ```mermaid
 graph LR
     P0[Phase 0\nContext\n23 skills] --> P1[Phase 1\nBrainstorm\n14 skills]
-    P1 --> P2[Phase 2\nDesign\n24 skills]
-    P2 --> P3[Phase 3\nBuild\n123 skills]
+    P1 --> P2[Phase 2\nDesign\n29 skills]
+    P2 --> P3[Phase 3\nBuild\n131 skills]
     P3 --> P4[Phase 4\nSecure\n47 skills]
     P4 --> P5[Phase 5\nShip\n25 skills]
     P5 --> P55[Phase 5.5\nAlpha\n10 skills]
@@ -36,11 +36,11 @@ graph LR
 
 ## Phase 3 — Build Domain Coverage
 
-The Build phase covers 123 skills across these domains:
+The Build phase covers 131 skills across these domains:
 
 ```mermaid
 graph TD
-    Build[Phase 3: Build\n123 skills] --> Web[Web & API\napi_design, frontend_patterns\nbackend_patterns, graphql_patterns]
+    Build[Phase 3: Build\n131 skills] --> Web[Web & API\napi_design, frontend_patterns\nbackend_patterns, graphql_patterns]
     Build --> AI[AI & Agents\nai_agent_development\nagent_communication_protocols\nagent_memory_systems\nvoice_ai_patterns]
     Build --> ML[ML & Data\nml_pipeline, rag_advanced_patterns\nlora_finetuning_workflow\nnemo_guardrails]
     Build --> Trading[Trading & Finance\nquantitative_trading_strategies\nml_trading_signals\nportfolio_risk_management]
@@ -62,8 +62,8 @@ graph TD
 |-------|-------|-------|------------|
 | [0-context](./0-context/) | 23 | Project understanding | `new_project`, `codebase_navigation` |
 | [1-brainstorm](./1-brainstorm/) | 14 | Ideas to specs | `idea_to_spec`, `prd_generator` |
-| [2-design](./2-design/) | 24 | Architecture | `atomic_reverse_architecture`, `feature_architecture` |
-| [3-build](./3-build/) | 123 | Implementation | `spec_build`, `ai_agent_development`, `api_design` |
+| [2-design](./2-design/) | 29 | Architecture | `atomic_reverse_architecture`, `feature_architecture` |
+| [3-build](./3-build/) | 131 | Implementation | `spec_build`, `ai_agent_development`, `api_design` |
 | [4-secure](./4-secure/) | 47 | Testing + security | `security_audit`, `tdd_workflow`, `ai_red_teaming` |
 | [5-ship](./5-ship/) | 25 | Deployment | `ci_cd_pipeline`, `deployment_patterns`, `nvidia_nim_deployment` |
 | [5.5-alpha](./5.5-alpha/) | 10 | Early ops | `error_tracking`, `health_checks` |
@@ -92,4 +92,4 @@ triggers:
 ## Related Skills
 ```
 
-For the complete 339-skill index, see [skills-index.md](../skills-index.md) or [CLAUDE.md](../../CLAUDE.md).
+For the complete 352-skill index, see [skills-index.md](../skills-index.md) or [CLAUDE.md](../../CLAUDE.md).

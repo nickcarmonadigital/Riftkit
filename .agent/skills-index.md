@@ -1,6 +1,6 @@
 # Skills Index
 
-Complete list of all 339 skills in this framework, organized by lifecycle phase.
+Complete list of all 352 skills in this framework, organized by lifecycle phase.
 
 ## Quick Reference
 
@@ -59,6 +59,15 @@ Complete list of all 339 skills in this framework, organized by lifecycle phase.
 | 51 | `feature_architecture` | 2-design | Create comprehensive architecture documentation for any feature - includes data  |
 | 52 | `feature_store_design` | 2-design | Design and implement feature stores with Feast, Tecton, and Hopsworks for online |
 | 53 | `inclusive_design_patterns` | 2-design | Inclusive design covering cognitive accessibility, multilingual UX, color contra |
+| 53a | `premium_web_design_psychology` | 2-design | Apply halo effect, cognitive load reduction, and peak-end rule to make websites feel premium |
+| 53b | `visual_hierarchy_mastery` | 2-design | Master visual hierarchy, typography, spacing, color theory, shadows, and signifiers for professional UI |
+| 53c | `ux_writing_microcopy` | 2-design | Button labels, error messages, empty states, tooltips, tone — every word is a UX decision |
+| 53d | `user_flows_information_architecture` | 2-design | User flows, task flows, sitemaps, IA validation, labeling, card sorting |
+| 53e | `onboarding_activation_ux` | 2-design | First-run experience, activation funnels, progressive disclosure, aha moment design |
+| 53f | `form_ux_mastery` | 2-design | Field design, inline validation, multi-step forms, smart defaults, mobile forms |
+| 53g | `conversion_engagement_ux` | 2-design | CTAs, trust signals, social proof, friction reduction, retention mechanics |
+| 53h | `navigation_search_ux` | 2-design | Nav patterns, search UX, autocomplete, filtering, breadcrumbs, wayfinding |
+| 53i | `ai_conversational_ux` | 2-design | Chat UX, AI agent workflows, tool approval, transparency, hybrid GUI+conversation |
 | 54 | `internationalization_design` | 2-design | Phase 2 i18n architecture decisions covering string externalization, locale-awar |
 | 55 | `multi_tenancy_architecture` | 2-design | Tenancy model selection framework with isolation patterns, tenant resolution, cr |
 | 56 | `nfr_specification` | 2-design | Produces measurable Non-Functional Requirements across 7 dimensions with SLO tar |
@@ -185,6 +194,10 @@ Complete list of all 339 skills in this framework, organized by lifecycle phase.
 | 177 | `test_driven_build` | 3-build | Embed red-green-refactor into the Phase 3 implementation loop with minimum cover |
 | 178 | `trading_systems` | 3-build | Building trading bots, backtesting engines, and financial data pipelines |
 | 179 | `ui_polish` | 3-build | Debug and polish user interfaces for professional, production-ready quality |
+| 179a | `design_first_ai_workflow` | 3-build | Use Stitch 2.0 for design direction + Claude Code for execution to avoid generic AI websites |
+| 179d | `shadcn_vercel_ai_stack` | 3-build | The definitive guide to building with shadcn/ui, Vercel AI SDK 6, AI Elements, and v0 |
+| 179b | `ui_ux_library_selector` | 3-build | Choose the right UI component library, CSS framework, animation library, icons, and tools for any project |
+| 179c | `ui_ux_component_ecosystem` | 3-build | Complete reference map of design systems, Figma kits, drag-and-drop builders, and mobile frameworks |
 | 180 | `vector_database_operations` | 3-build | Vector DB operations with pgvector, Pinecone, Weaviate, Qdrant, ChromaDB, and Mi |
 | 181 | `voice_ai_patterns` | 3-build | Voice AI development — STT, TTS, real-time audio streaming, barge-in detection |
 | 182 | `website_build` | 3-build | Standards and checklist for building premium, high-converting websites (Anti-AI- |
@@ -354,8 +367,8 @@ Complete list of all 339 skills in this framework, organized by lifecycle phase.
 |-------|-------|
 | 0-context | 23 |
 | 1-brainstorm | 14 |
-| 2-design | 24 |
-| 3-build | 123 |
+| 2-design | 29 |
+| 3-build | 131 |
 | 4-secure | 47 |
 | 5-ship | 25 |
 | 5.5-alpha | 10 |
@@ -363,4 +376,4 @@ Complete list of all 339 skills in this framework, organized by lifecycle phase.
 | 6-handoff | 14 |
 | 7-maintenance | 13 |
 | toolkit | 33 |
-| **Total** | **339** |
+| **Total** | **352** |

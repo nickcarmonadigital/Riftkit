@@ -1,7 +1,7 @@
 # Skills by Phase Reference
 
 > **Loadable registry** -- When you need skills for a specific phase, read this file.
-> 339 skills across 10 phases + 1 cross-phase toolkit.
+> 352 skills across 10 phases + 1 cross-phase toolkit.
 
 ---
 
@@ -68,7 +68,7 @@
 
 ---
 
-## Phase 2 -- Design (24 skills)
+## Phase 2 -- Design (29 skills)
 
 **Purpose:** Architect the solution before writing code.
 **Entry criteria:** `design_intake` validates Phase 1 artifacts.
@@ -100,12 +100,17 @@
 | schema_standards | Rigorous data schema templates | -- | -- |
 | security_threat_modeling | STRIDE-based threat modeling | -- | -- |
 | slo_sla_design | SLO/SLA design and error budget planning | architect | -- |
+| visual_hierarchy_mastery | Visual hierarchy, typography, spacing, color theory, shadows, signifiers | -- | -- |
+| premium_web_design_psychology | Psychology of premium websites: halo effect, cognitive load, micro interactions | -- | -- |
+| ux_writing_microcopy | Button labels, error messages, empty states, tooltips, tone | -- | -- |
+| user_flows_information_architecture | User flows, task flows, sitemaps, IA validation, card sorting | -- | -- |
+| onboarding_activation_ux | First-run experience, activation funnels, progressive disclosure | -- | -- |
 
 **Related workflows:** `phase-2-workflow`
 
 ---
 
-## Phase 3 -- Build (123 skills)
+## Phase 3 -- Build (131 skills)
 
 **Purpose:** Implement the solution according to design specs.
 **Entry criteria:** `design_handoff` approved.
@@ -218,6 +223,14 @@
 | synthetic_data_generation | Synthetic training data generation (LLM, CTGAN) | -- | -- |
 | trading_systems | Trading system development | -- | -- |
 | vector_database_operations | Vector DB operations (pgvector, Pinecone, Qdrant) | -- | -- |
+| design_first_ai_workflow | Stitch 2.0 + Claude Code design-first workflow for premium websites | -- | -- |
+| shadcn_vercel_ai_stack | shadcn/ui + AI SDK 6 + AI Elements + v0 for AI-native apps | -- | -- |
+| ui_ux_library_selector | Choose the right UI/UX libraries for any project | -- | -- |
+| ui_ux_component_ecosystem | Complete map of design systems, Figma kits, builders, mobile frameworks | -- | -- |
+| navigation_search_ux | Nav patterns, search UX, autocomplete, filtering, breadcrumbs | -- | -- |
+| form_ux_mastery | Field design, inline validation, multi-step forms, smart defaults | -- | -- |
+| conversion_engagement_ux | CTAs, trust signals, social proof, friction reduction, retention | -- | -- |
+| ai_conversational_ux | Chat UX, AI agent workflows, tool approval, transparency | -- | -- |
 
 **Related agents:** code-reviewer, build-error-resolver, tdd-guide, database-reviewer, go-reviewer, python-reviewer
 **Related commands:** /build-fix, /code-review, /tdd, /go-build, /go-review, /python-review, /refactor-clean

@@ -1,6 +1,6 @@
 # riftkit
 
-A phase-based software development framework with 339 skills, 19 agents, 44 commands, 25 workflows, and 45 rules.
+A phase-based software development framework with 352 skills, 19 agents, 46 commands, 25 workflows, and 45 rules.
 Skills live in `.agent/skills/{phase}/`, agents in `.agent/agents/`, commands in `.agent/commands/`.
 
 ---
@@ -16,9 +16,9 @@ Skills live in `.agent/skills/{phase}/`, agents in `.agent/agents/`, commands in
 
 ## How It All Fits Together
 
-**Skills** are the knowledge -- step-by-step guides for specific tasks (339 total).
+**Skills** are the knowledge -- step-by-step guides for specific tasks (352 total).
 **Agents** are the specialists -- AI personas that apply skills with domain expertise (19 total).
-**Commands** are the shortcuts -- `/slash-commands` that invoke agents with the right skills (44 total).
+**Commands** are the shortcuts -- `/slash-commands` that invoke agents with the right skills (46 total).
 
 When you run `/code-review`, it activates the `code-reviewer` agent, which follows the `code_review` skill.
 You can also reference skills directly: "Follow the `code_review` skill to review this PR."
@@ -45,6 +45,14 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | Refactor code | `3-build/refactoring` | `/refactor-clean` |
 | Plan a sprint | `3-build/sprint_planning` + `1-brainstorm/prioritization_frameworks` | `/plan` |
 | Build a website | `3-build/website_build` + `5-ship/website_launch` | Use skill directly |
+| Design a premium website | `2-design/premium_web_design_psychology` + `3-build/design_first_ai_workflow` | Use skill directly |
+| Pick UI libraries | `3-build/ui_ux_library_selector` + `3-build/ui_ux_component_ecosystem` | Use skill directly |
+| Polish visual hierarchy | `2-design/visual_hierarchy_mastery` + `3-build/ui_polish` | Use skill directly |
+| Enhance UI visuals | `2-design/visual_hierarchy_mastery` + `2-design/premium_web_design_psychology` | `/ui-enhance` |
+| Enhance UX behavior | `2-design/ux_writing_microcopy` + `3-build/form_ux_mastery` | `/ux-enhance` |
+| Design onboarding flow | `3-build/onboarding_activation_ux` + `3-build/form_ux_mastery` | Use skill directly |
+| Improve form UX | `3-build/form_ux_mastery` + `2-design/ux_writing_microcopy` | Use skill directly |
+| Design AI chat UX | `3-build/ai_conversational_ux` + `3-build/form_ux_mastery` | Use skill directly |
 | Client project intake | `1-brainstorm/client_discovery` + `1-brainstorm/proposal_generator` | Use skill directly |
 | Database review | `3-build/database_optimization` | Use skill directly |
 | Set up CI/CD | `5-ship/ci_cd_pipeline` | Use skill directly |
@@ -81,8 +89,8 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 |---|---|---|---|
 | 0 | Context | Understand the project, codebase, risks, team | 23 |
 | 1 | Brainstorm | Ideas, research, requirements, PRDs | 14 |
-| 2 | Design | Architecture, schemas, threat models, ADRs | 24 |
-| 3 | Build | Implementation, patterns, tools, workflows | 123 |
+| 2 | Design | Architecture, schemas, threat models, ADRs | 29 |
+| 3 | Build | Implementation, patterns, tools, workflows | 131 |
 | 4 | Secure | Testing, security audits, compliance | 47 |
 | 5 | Ship | CI/CD, deployment, publishing, migrations | 25 |
 | 5.5 | Alpha | Error tracking, health checks, QA, backups | 10 |
@@ -140,7 +148,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `user_research` | User interviews and usability testing |
 | `user_story_standards` | User stories with acceptance criteria |
 
-## Phase 2 -- Design (24 skills)
+## Phase 2 -- Design (29 skills)
 
 | Skill | What it does |
 |---|---|
@@ -160,20 +168,26 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `feature_architecture` | Comprehensive feature architecture documents |
 | `feature_store_design` | Feature store architecture for ML systems |
 | `inclusive_design_patterns` | Inclusive and accessible design patterns |
+| `premium_web_design_psychology` | Psychology of premium websites: halo effect, cognitive load, micro interactions |
+| `visual_hierarchy_mastery` | Visual hierarchy, typography, spacing, color theory, dark mode, shadows, signifiers |
 | `internationalization_design` | i18n architecture decisions |
 | `multi_tenancy_architecture` | Tenancy model selection guide |
+| `navigation_search_ux` | Nav patterns, search, autocomplete, filtering, wayfinding |
 | `nfr_specification` | Non-Functional Requirements with SLO targets |
 | `observability_architecture_design` | Observability architecture design |
 | `rto_rpo_design` | Recovery Time/Point Objective design |
 | `schema_standards` | Rigorous data schema templates |
 | `security_threat_modeling` | STRIDE-based threat modeling |
 | `slo_sla_design` | SLO/SLA design and error budget planning |
+| `user_flows_information_architecture` | User flows, sitemaps, IA, labeling, card sorting |
+| `ux_writing_microcopy` | UX writing: button labels, error messages, empty states, tooltips, tone |
 
-## Phase 3 -- Build (123 skills)
+## Phase 3 -- Build (131 skills)
 
 | Skill | What it does |
 |---|---|
 | `accessibility_implementation` | WCAG 2.2 implementation with ARIA and focus management |
+| `ai_conversational_ux` | Chat UX, AI agent flows, tool approval, streaming responses, transparency |
 | `agent_communication_protocols` | Standardized protocols for agent-to-agent communication — A2A, ACP, MCP integration, message schemas, and authentication |
 | `agent_conflict_resolution` | Mutex/lock patterns for shared resources, optimistic concurrency, consensus protocols, deadlock detection, and conflict merge strategies for multi-agent systems |
 | `agent_memory_systems` | Persistent memory for AI agents — short-term, long-term, episodic, and semantic memory with Mem0, Zep, and custom stores |
@@ -200,6 +214,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `computational_physics` | Simulate physical systems using PDE/ODE solvers, FEniCS, OpenFOAM, PyBullet, and JAX for GPU-accelerated physics including fluid dynamics, molecular dynamics, and N-body problems |
 | `computer_vision_pipeline` | CV pipelines with YOLO, Detectron2, torchvision |
 | `content_hash_cache` | Content-addressable caching |
+| `conversion_engagement_ux` | CTAs, trust signals, friction reduction, social proof, pricing UX, retention |
 | `cost_estimation` | Development effort estimation |
 | `cpp_coding_standards` | C++ coding standards |
 | `dapp_development` | Decentralized application development |
@@ -209,6 +224,8 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `database_migration_patterns` | Zero-downtime schema migrations |
 | `database_optimization` | Database query and schema optimization |
 | `dependency_hygiene` | Dependency management best practices |
+| `design_first_ai_workflow` | Stitch 2.0 + Claude Code design-first workflow for premium websites |
+| `shadcn_vercel_ai_stack` | **PRIMARY STACK** — shadcn/ui + AI SDK 6 + AI Elements + v0 for AI-native apps |
 | `design_system_development` | Design system components, tokens, Storybook |
 | `digital_twin_development` | Build real-time virtual replicas of physical systems using NVIDIA Omniverse, Azure Digital Twins, and AWS IoT TwinMaker — sensor integration, simulation, and predictive maintenance |
 | `distributed_training` | Distributed ML training with DDP, FSDP, DeepSpeed |
@@ -224,6 +241,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `federated_learning` | Train ML models across decentralized data sources without sharing raw data — FedAvg, secure aggregation, differential privacy using PySyft, Flower, TFF, and NVIDIA FLARE |
 | `firmware_development` | Embedded/firmware development |
 | `flutter_development` | Flutter development with Riverpod/BLoC |
+| `form_ux_mastery` | Form fields, validation, multi-step, smart defaults, mobile, accessible error handling |
 | `frontend_patterns` | Frontend architecture patterns |
 | `game_development` | Game development patterns |
 | `git_workflow` | Git branching and workflow strategies |
@@ -255,6 +273,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `nlp_text_pipeline` | NLP text pipelines with spaCy, Transformers |
 | `notification_systems` | Notification system design |
 | `observability` | Logging, metrics, and tracing |
+| `onboarding_activation_ux` | First-run experience, activation funnels, progressive disclosure, product tours |
 | `opentelemetry_implementation` | OpenTelemetry implementation |
 | `portfolio_risk_management` | Portfolio construction and risk management using Modern Portfolio Theory, Black-Litterman, risk parity, VaR/CVaR, Kelly criterion sizing, and stress testing |
 | `privacy_by_design` | Privacy-first development |
@@ -291,6 +310,8 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 | `test_driven_build` | TDD-first feature building |
 | `trading_systems` | Trading system development |
 | `ui_polish` | UI polish and micro-interactions |
+| `ui_ux_library_selector` | Choose the right UI/UX libraries for any project (200+ libraries covered) |
+| `ui_ux_component_ecosystem` | Complete map of design systems, Figma kits, builders, mobile frameworks |
 | `vector_database_operations` | Vector DB operations with pgvector, Pinecone, Qdrant |
 | `voice_ai_patterns` | Voice AI development — STT, TTS, real-time audio streaming, barge-in detection, and conversational AI |
 | `website_build` | Full website build workflow |
@@ -489,7 +510,7 @@ You can also reference skills directly: "Follow the `code_review` skill to revie
 
 ---
 
-## Commands (44)
+## Commands (46)
 
 Invoke with `/command-name`. Read full docs at `.agent/commands/{name}.md`.
 
@@ -531,8 +552,10 @@ Invoke with `/command-name`. Read full docs at `.agent/commands/{name}.md`.
 | `/skill-create` | Create a new framework skill |
 | `/tdd` | Test-driven development workflow |
 | `/test-coverage` | Analyze test coverage |
+| `/ui-enhance` | Comprehensive UI visual enhancement workflow |
 | `/update-codemaps` | Update code maps |
 | `/update-docs` | Update project documentation |
+| `/ux-enhance` | Comprehensive UX behavior enhancement workflow |
 | `/verify` | Run verification checks |
 
 ---
